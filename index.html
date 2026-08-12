@@ -911,20 +911,19 @@ const QuoteModal = () => {
       display: 'flex', alignItems: 'center', justifyContent: 'center',
     }}>
       <div onClick={() => setOpen(false)} style={{
-        position: 'absolute', inset: 0, background: 'rgba(0,0,0,.7)',
-        backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)',
+        position: 'absolute', inset: 0, background: 'rgba(0,0,0,.5)',
       }} />
       <div style={{
         position: 'relative', width: '90vw', maxWidth: 640, maxHeight: '90vh',
-        background: '#000', border: '1px solid #FFF', overflow: 'hidden',
+        overflow: 'auto',
       }}>
         <button onClick={() => setOpen(false)} style={{
-          position: 'absolute', top: 16, right: 16, zIndex: 2,
-          background: 'none', border: 'none', color: '#FFF', cursor: 'pointer',
-          fontFamily: 'Geist Mono', fontSize: 20, lineHeight: 1, padding: 4,
+          position: 'fixed', top: 20, right: 24, zIndex: 2,
+          background: 'none', border: '1px solid #000', color: '#000', cursor: 'pointer',
+          fontFamily: 'Geist Mono', fontSize: 16, lineHeight: 1, padding: '6px 10px',
         }}>✕</button>
         <iframe src="quote-v1.html" title="Get a Quote" style={{
-          width: '100%', height: '80vh', border: 'none',
+          width: '100%', height: '85vh', border: 'none',
         }} />
       </div>
     </div>

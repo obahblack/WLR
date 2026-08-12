@@ -659,6 +659,74 @@ const MPSCase = () => {
   );
 };
 
+/* ═══ CASE 03 · FLAT BID MOVING ═══ */
+const FlatBidCase = () => {
+  const [ref, seen] = useReveal(0.15);
+  return (
+    <section ref={ref} style={{ display: 'flex', position: 'relative', borderTop: '1px solid #FFF', minHeight: '90vh' }}>
+      <div style={{
+        flex: 1, background: '#FFF', color: '#000',
+        padding: 'clamp(50px, 7vw, 100px)',
+        display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 40,
+      }}>
+        <div>
+          <Kick>Case 03 · Flat Bid Moving · 2024</Kick>
+          <h2 style={{
+            margin: 0, fontFamily: 'Geist',
+            fontSize: 'clamp(36px, 4.5vw, 68px)',
+            fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 0.95,
+          }}>A premium rebuild for a <i style={{ fontWeight: 300 }}>premium mover.</i></h2>
+          <p style={{ margin: '24px 0 0', fontSize: 15, lineHeight: 1.6, opacity: 0.75, maxWidth: 420 }}>
+            Complete website redesign built around the customization story that separates Flat Bid from commodity movers — then a disciplined paid + organic system on top.
+          </p>
+        </div>
+        <div style={{ display: 'flex', gap: 32 }}>
+          {[['1,000', 'seo articles'], ['60', 'day redesign']].map(([n, l]) => (
+            <div key={l}>
+              <div style={{ fontFamily: 'Geist', fontSize: 'clamp(36px, 4vw, 60px)', fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 1 }}>{n}</div>
+              <div style={{ marginTop: 8, fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', opacity: 0.6 }}>{l}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div style={{
+        flex: 1, background: '#000', color: '#FFF',
+        padding: 'clamp(50px, 7vw, 100px)',
+        display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 40,
+      }}>
+        <div>
+          <Kick>The exclusivity clause</Kick>
+          <div style={{ fontFamily: 'Geist', fontSize: 'clamp(80px, 12vw, 200px)', fontWeight: 500, letterSpacing: '-0.05em', lineHeight: 0.85 }}>10</div>
+          <div style={{ marginTop: 12, fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase', opacity: 0.7 }}>
+            ppc ad groups · san diego only
+          </div>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'flex-end', gap: 8, height: 'clamp(140px, 20vh, 220px)' }}>
+          {Array.from({ length: 10 }).map((_, i) => (
+            <div key={i} style={{
+              flex: 1,
+              height: seen ? `${45 + ((i * 37) % 55)}%` : 0,
+              background: '#FFF',
+              transition: `height .8s cubic-bezier(.2,.8,.2,1) ${i * 70}ms`,
+            }} />
+          ))}
+        </div>
+        <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, opacity: 0.7, maxWidth: 380 }}>
+          We don't run paid search for any other mover in San Diego county. Flat Bid owns the market with us.
+        </p>
+      </div>
+      <div style={{
+        position: 'absolute', left: '50%', top: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 64, height: 64, background: '#FFF', border: '1px solid #000',
+        display: 'grid', placeItems: 'center',
+      }}>
+        <ThreeBar size={32} color="#000" />
+      </div>
+    </section>
+  );
+};
+
 const WorkPhilosophy = () => {
   const [ref, seen] = useReveal(0.2);
   return (
@@ -776,20 +844,19 @@ const QuoteModal = () => {
       display: 'flex', alignItems: 'center', justifyContent: 'center',
     }}>
       <div onClick={() => setOpen(false)} style={{
-        position: 'absolute', inset: 0, background: 'rgba(0,0,0,.7)',
-        backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)',
+        position: 'absolute', inset: 0, background: 'rgba(0,0,0,.5)',
       }} />
       <div style={{
         position: 'relative', width: '90vw', maxWidth: 640, maxHeight: '90vh',
-        background: '#000', border: '1px solid #FFF', overflow: 'hidden',
+        overflow: 'auto',
       }}>
         <button onClick={() => setOpen(false)} style={{
-          position: 'absolute', top: 16, right: 16, zIndex: 2,
-          background: 'none', border: 'none', color: '#FFF', cursor: 'pointer',
-          fontFamily: 'Geist Mono', fontSize: 20, lineHeight: 1, padding: 4,
+          position: 'fixed', top: 20, right: 24, zIndex: 2,
+          background: 'none', border: '1px solid #000', color: '#000', cursor: 'pointer',
+          fontFamily: 'Geist Mono', fontSize: 16, lineHeight: 1, padding: '6px 10px',
         }}>&#x2715;</button>
         <iframe src="../quote-v1.html" title="Get a Quote" style={{
-          width: '100%', height: '80vh', border: 'none',
+          width: '100%', height: '85vh', border: 'none',
         }} />
       </div>
     </div>
@@ -805,6 +872,7 @@ const App = () => (
     <CaseStudiesIntro />
     <GaltCase />
     <MPSCase />
+    <FlatBidCase />
     <WorkPhilosophy />
     <CTA />
     <Footer />
