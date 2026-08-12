@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>About — White Label Resell</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #000; color: #FFF; }
+  body { font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  ::selection { background: #FFF; color: #000; }
+  i, em { font-style: italic; }
+  a { color: inherit; }
+  body::-webkit-scrollbar { width: 0; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="v7-shared.jsx"></script>
+<script type="text/babel">
+const { useState, useEffect } = React;
+const { ThreeBar, HUD, useInView, Kick, Footer } = window.V7;
+
+// HERO — typographic inversion statement
+const Hero = () => (
+  <section style={{
+    minHeight: '90vh', background: '#000', color: '#FFF',
+    padding: '160px 6vw 100px',
+    display: 'flex', flexDirection: 'column', justifyContent: 'center',
+  }}>
+    <Kick>About · more than a web agency</Kick>
+    <h1 style={{
+      margin: 0,
+      fontFamily: 'Geist',
+      fontSize: 'clamp(44px, 7vw, 116px)',
+      fontWeight: 500, letterSpacing: '-0.035em', lineHeight: 1.02,
+    }}>
+      A group of dedicated people <span style={{
+        background: '#FFF', color: '#000', padding: '0 20px',
+        display: 'inline-block', fontStyle: 'italic', fontWeight: 300,
+      }}>driven&nbsp;by</span><br />
+      one purpose — turning digital dreams into <span style={{
+        background: '#FFF', color: '#000', padding: '0 20px',
+        display: 'inline-block', fontStyle: 'italic', fontWeight: 300,
+      }}>vibrant&nbsp;realities.</span>
+    </h1>
+  </section>
+);
+
+// STATS — real numbers from the live site
+const Stats = () => {
+  const [ref, seen] = useInView(0.4);
+  const stats = [
+    ['100M', 'Words generated'],
+    ['$175K', 'Revenue generated'],
+    ['25', 'Projects completed'],
+  ];
+  return (
+    <section ref={ref} style={{
+      background: '#FFF', color: '#000',
+      borderTop: '1px solid #000',
+      display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',
+    }}>
+      {stats.map(([n, l], i) => (
+        <div key={l} style={{
+          padding: 'clamp(40px, 6vw, 90px) 32px',
+          borderRight: i < 2 ? '1px solid #000' : 'none',
+          opacity: seen ? 1 : 0,
+          transform: seen ? 'translateY(0)' : 'translateY(20px)',
+          transition: `all .7s cubic-bezier(.2,.8,.2,1) ${i * 140}ms`,
+        }}>
+          <div style={{
+            fontFamily: 'Geist',
+            fontSize: 'clamp(56px, 8vw, 132px)',
+            fontWeight: 500, letterSpacing: '-0.045em', lineHeight: 0.9,
+          }}>{n}</div>
+          <div style={{
+            marginTop: 16,
+            fontFamily: 'Geist Mono', fontSize: 11,
+            letterSpacing: '0.22em', textTransform: 'uppercase',
+            opacity: 0.65,
+          }}>{l}</div>
+        </div>
+      ))}
+    </section>
+  );
+};
+
+// WHAT WE DO — 4 cells, checkered
+const WhatWeDo = () => {
+  const [ref, seen] = useInView(0.2);
+  const items = [
+    ['Design & Development', 'We carefully design user-friendly websites.'],
+    ['SEO', 'We help you maximize your online presence.'],
+    ['Content Strategy', 'We create quality content to build brand authority.'],
+    ['Analytics Tracking', 'We help you monitor data to make informed decisions.'],
+  ];
+  return (
+    <section ref={ref} style={{
+      background: '#000', color: '#FFF',
+      padding: '120px 6vw 100px',
+      borderTop: '1px solid #FFF',
+    }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 50, flexWrap: 'wrap', gap: 24 }}>
+        <div>
+          <Kick>What we do</Kick>
+          <h2 style={{
+            margin: 0, fontFamily: 'Geist',
+            fontSize: 'clamp(40px, 5.5vw, 80px)',
+            fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 0.95,
+          }}>Your success is <i style={{ fontWeight: 300 }}>our mission.</i></h2>
+        </div>
+        <p style={{
+          margin: 0, maxWidth: 420, fontSize: 16, lineHeight: 1.55, opacity: 0.75,
+        }}>We provide affordable, custom SEO and content marketing to help your business get found online — and we love nothing more than seeing you thrive.</p>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10 }}>
+        {items.map(([t, b], i) => {
+          const inverted = i % 2 === 0;
+          return (
+            <div key={t} style={{
+              background: inverted ? '#FFF' : 'transparent',
+              color: inverted ? '#000' : '#FFF',
+              border: '1px solid #FFF',
+              padding: 26, minHeight: 260,
+              display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+              opacity: seen ? 1 : 0,
+              transform: seen ? 'translateY(0)' : 'translateY(20px)',
+              transition: `all .6s ease ${i * 90}ms`,
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '0.22em', opacity: 0.6 }}>/{String(i + 1).padStart(2, '0')}</span>
+                <ThreeBar size={20} color="currentColor" />
+              </div>
+              <div>
+                <div style={{ fontFamily: 'Geist', fontSize: 'clamp(20px, 1.8vw, 26px)', fontWeight: 500, letterSpacing: '-0.02em', lineHeight: 1.1 }}>{t}</div>
+                <p style={{ margin: '12px 0 0', fontSize: 14, lineHeight: 1.5, opacity: 0.75 }}>{b}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+};
+
+// WHY — 3 horizontal bars grow (funnel style)
+const Why = () => {
+  const [ref, seen] = useInView(0.3);
+  const rows = [
+    ['We stay at the forefront of industry trends', 1.0],
+    ['Solutions tailored to your unique needs', 0.8],
+    ['Focused on measurable results', 0.62],
+  ];
+  return (
+    <section ref={ref} style={{
+      background: '#FFF', color: '#000',
+      padding: '120px 6vw 100px',
+      borderTop: '1px solid #000',
+      display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: '5vw', alignItems: 'center',
+    }}>
+      <div>
+        <Kick>Why partner with us</Kick>
+        <h2 style={{
+          margin: 0, fontFamily: 'Geist',
+          fontSize: 'clamp(40px, 5.5vw, 80px)',
+          fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 0.95,
+        }}>A track record that <i style={{ fontWeight: 300 }}>speaks for itself.</i></h2>
+        <p style={{ marginTop: 28, marginBottom: 0, fontSize: 16, lineHeight: 1.55, opacity: 0.75, maxWidth: 380 }}>
+          With a portfolio of successful campaigns and satisfied clients, we've helped businesses of all sizes and industries.
+        </p>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        {rows.map(([label, v], i) => (
+          <div key={label} style={{
+            height: 'clamp(70px, 10vw, 120px)',
+            border: '1px solid #000',
+            position: 'relative', overflow: 'hidden',
+          }}>
+            <div style={{
+              position: 'absolute', inset: 0, background: '#000',
+              transformOrigin: 'left',
+              transform: `scaleX(${seen ? v : 0})`,
+              transition: `transform 1.2s cubic-bezier(.2,.85,.2,1) ${i * 180}ms`,
+            }} />
+            <span style={{
+              position: 'absolute', left: 24, top: '50%', transform: 'translateY(-50%)',
+              fontFamily: 'Geist Mono', fontSize: 12,
+              letterSpacing: '0.2em', textTransform: 'uppercase',
+              mixBlendMode: 'difference', color: '#FFF',
+            }}>0{i + 1} · {label}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+// JOURNEY — editorial split
+const Journey = () => (
+  <section style={{
+    background: '#000', color: '#FFF',
+    padding: '120px 6vw',
+    borderTop: '1px solid #FFF',
+    display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: '5vw',
+  }}>
+    <div>
+      <Kick>Our journey</Kick>
+      <h2 style={{
+        margin: 0, fontFamily: 'Geist',
+        fontSize: 'clamp(40px, 5.5vw, 80px)',
+        fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 0.95,
+      }}>What's stayed<br /><i style={{ fontWeight: 300 }}>the same.</i></h2>
+    </div>
+    <div style={{ fontSize: 'clamp(16px, 1.3vw, 20px)', lineHeight: 1.7, opacity: 0.85, alignSelf: 'center' }}>
+      <p style={{ marginTop: 0 }}>As we've grown, one thing has remained constant: our unwavering commitment to excellence.</p>
+      <p style={{ marginBottom: 0 }}>With each project we undertake, we're driven by the genuine desire to bring you success. Every deliverable ships under your brand, every result belongs to you — and our partners stay because it works.</p>
+    </div>
+  </section>
+);
+
+// TEAM TEASER + CTA
+const Teaser = () => (
+  <section style={{
+    background: '#FFF', color: '#000',
+    borderTop: '1px solid #000',
+    display: 'grid', gridTemplateColumns: '1fr 1fr',
+  }}>
+    <a href="team.html" style={{
+      padding: 'clamp(60px, 8vw, 110px) 6vw',
+      textDecoration: 'none', color: '#000',
+      borderRight: '1px solid #000',
+      display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 40,
+    }}>
+      <ThreeBar size={28} color="#000" gap={4} />
+      <div>
+        <h3 style={{ margin: 0, fontFamily: 'Geist', fontSize: 'clamp(32px, 4vw, 60px)', fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 0.95 }}>
+          Meet the team <span aria-hidden>→</span>
+        </h3>
+        <p style={{ margin: '16px 0 0', fontSize: 15, lineHeight: 1.55, opacity: 0.7, maxWidth: 380 }}>
+          A diverse team of passionate experts combining technical prowess and creative finesse.
+        </p>
+      </div>
+    </a>
+    <a href="contact.html" style={{
+      padding: 'clamp(60px, 8vw, 110px) 6vw',
+      textDecoration: 'none',
+      background: '#000', color: '#FFF',
+      display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 40,
+    }}>
+      <ThreeBar size={28} color="#FFF" gap={4} animate />
+      <div>
+        <h3 style={{ margin: 0, fontFamily: 'Geist', fontSize: 'clamp(32px, 4vw, 60px)', fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 0.95 }}>
+          Get a quote <span aria-hidden>→</span>
+        </h3>
+        <p style={{ margin: '16px 0 0', fontSize: 15, lineHeight: 1.55, opacity: 0.7, maxWidth: 380 }}>
+          Let us help you attract more visitors and grow your business.
+        </p>
+      </div>
+    </a>
+  </section>
+);
+
+const App = () => (
+  <React.Fragment>
+    <HUD active="about" />
+    <Hero />
+    <Stats />
+    <WhatWeDo />
+    <Why />
+    <Journey />
+    <Teaser />
+    <Footer />
+  </React.Fragment>
+);
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

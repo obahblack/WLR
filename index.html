@@ -1,0 +1,954 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>White Label Resell — White-label SEO, content, web &amp; analytics for agencies</title>
+<meta name="description" content="White Label Resell is the production bench behind agencies. SEO, content, web development, paid media and analytics delivered under your brand." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html { overflow-x: clip; }
+  html, body { margin: 0; padding: 0; background: #000; color: #FFF; }
+  body { font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: clip; }
+  h1, h2, h3 { text-wrap: pretty; }
+  ::selection { background: #FFF; color: #000; }
+  i, em { font-style: italic; }
+  a { color: inherit; }
+  a:hover { opacity: .7; }
+  body::-webkit-scrollbar { width: 0; }
+  @keyframes pulseDot { 0%,100% { opacity:1; transform: scale(1); } 50% { opacity:.3; transform: scale(.7); } }
+  @keyframes marqueeFwd { from { transform: translateX(0); } to { transform: translateX(-33.333%); } }
+  @keyframes marqueeRev { from { transform: translateX(-33.333%); } to { transform: translateX(0); } }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition-duration: .01ms !important; } }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel">
+const { useState, useEffect, useRef, useCallback } = React;
+
+/* ── mark ─────────────────────────────────────────── */
+const ThreeBar = ({ size = 16, color = 'currentColor', gap = 2 }) => (
+  <span style={{ display: 'inline-flex', alignItems: 'flex-end', gap, height: size }}>
+    {[0.66, 1, 0.82].map((h, i) => (
+      <span key={i} style={{ width: size * 0.22, height: `${h * 100}%`, background: color }} />
+    ))}
+  </span>
+);
+
+/* ── scroll hooks ─────────────────────────────────────
+   useReveal: fires once, only when the element is genuinely
+   on screen (15% inset), so nothing animates off-viewport.
+   useProgress: 0→1 as the element travels through the viewport,
+   so any motion driven by it is locked to the scrollbar.       */
+const useReveal = (amount = 0.2) => {
+  const ref = useRef(null);
+  const [seen, setSeen] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setSeen(true); io.disconnect(); } },
+      { threshold: amount, rootMargin: '0px 0px -12% 0px' }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [amount]);
+  return [ref, seen];
+};
+
+const useProgress = () => {
+  const ref = useRef(null);
+  const [p, setP] = useState(0);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    let raf = 0, trail = 0;
+    const measure = () => {
+      raf = 0;
+      const r = el.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const span = r.height - vh;
+      setP(span <= 0
+        ? Math.max(0, Math.min(1, (vh - r.top) / (vh + r.height)))
+        : Math.max(0, Math.min(1, -r.top / span)));
+    };
+    const onScroll = () => {
+      // measure on a rAF tick, then always re-measure on the trailing edge
+      // so the final coalesced scroll event is never dropped
+      if (!raf) raf = requestAnimationFrame(measure);
+      clearTimeout(trail);
+      trail = setTimeout(measure, 90);
+    };
+    measure();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      if (raf) cancelAnimationFrame(raf);
+      clearTimeout(trail);
+    };
+  }, []);
+  return [ref, p];
+};
+
+/* ── chrome ───────────────────────────────────────── */
+const HUD = () => (
+  <div style={{
+    position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+    mixBlendMode: 'difference', pointerEvents: 'none',
+    padding: '20px 32px', display: 'flex', justifyContent: 'space-between',
+    alignItems: 'center', color: '#FFF',
+    fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase',
+  }}>
+    <a href="index.html" style={{ pointerEvents: 'auto', display: 'inline-flex', alignItems: 'center', gap: 12, color: '#FFF', textDecoration: 'none' }}>
+      <ThreeBar size={14} color="#FFF" gap={3} />White Label Resell
+    </a>
+    <span style={{ pointerEvents: 'auto', display: 'flex', gap: 24 }}>
+      <a href="work-variations/work-v6.html" style={{ color: '#FFF', textDecoration: 'none' }}>Work</a>
+      <a href="about-variations/about-v1.html" style={{ color: '#FFF', textDecoration: 'none' }}>About</a>
+      <a href="team-v2.html" style={{ color: '#FFF', textDecoration: 'none' }}>Team</a>
+      <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{ color: '#FFF', textDecoration: 'none', cursor: 'pointer' }}>Get a Quote</a>
+    </span>
+  </div>
+);
+
+const Kick = ({ children, style = {} }) => (
+  <div style={{
+    fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.22em',
+    textTransform: 'uppercase', opacity: .6, marginBottom: 16, ...style,
+  }}>{children}</div>
+);
+
+/* ═══ 01 · HERO — hover inverts the whole frame ═══ */
+const Hero = () => {
+  const [hover, setHover] = useState(false);
+  const [lit, setLit] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setLit(true), 60); return () => clearTimeout(t); }, []);
+  return (
+    <section
+      onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
+      style={{
+        minHeight: '100vh', background: hover ? '#FFF' : '#000', color: hover ? '#000' : '#FFF',
+        transition: 'background .6s cubic-bezier(.2,.8,.2,1), color .6s',
+        display: 'grid', gridTemplateColumns: '1fr 1fr', alignItems: 'center',
+        padding: '140px 6vw 80px', gap: '4vw',
+      }}>
+      <div style={{ display: 'flex', alignItems: 'flex-end', gap: 32, height: '64vh' }}>
+        {[0.7, 1, 0.85].map((h, i) => (
+          <div key={i} style={{
+            width: 'clamp(70px, 9vw, 140px)',
+            height: lit ? `${h * (hover ? 100 : 92)}%` : '0%',
+            background: 'currentColor',
+            transition: `height .9s cubic-bezier(.2,.8,.2,1) ${i * 90}ms`,
+          }} />
+        ))}
+      </div>
+      <div>
+        <Kick style={{ opacity: .6 }}>White-label production · est. 2018</Kick>
+        <h1 style={{
+          margin: 0, fontFamily: 'Geist',
+          fontSize: 'clamp(48px, 6.6vw, 112px)',
+          fontWeight: 500, letterSpacing: '-.04em', lineHeight: 1.04,
+        }}>
+          Your clients see you.<br />
+          <i style={{ fontWeight: 300 }}>We do the work.</i>
+        </h1>
+        <p style={{
+          margin: '32px 0 0', maxWidth: 480,
+          fontSize: 'clamp(16px, 1.25vw, 19px)', lineHeight: 1.6, opacity: .8,
+        }}>
+          SEO, content, web development, paid media and analytics — built and shipped
+          under your agency&apos;s brand. You keep the client, the credit and the margin.
+        </p>
+        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 40 }}>
+          <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{
+            display: 'inline-flex', alignItems: 'center', gap: 12, padding: '18px 26px',
+            background: 'currentColor', textDecoration: 'none',
+            fontFamily: 'Geist Mono', fontSize: 12, letterSpacing: '.22em',
+            textTransform: 'uppercase', fontWeight: 600, cursor: 'pointer',
+          }}>
+            <span style={{ color: hover ? '#FFF' : '#000', display: 'inline-flex', alignItems: 'center', gap: 12 }}>
+              <ThreeBar size={12} color={hover ? '#FFF' : '#000'} />Get a quote
+            </span>
+          </a>
+          <a href="work-variations/work-v6.html" style={{
+            display: 'inline-flex', alignItems: 'center', padding: '18px 26px',
+            border: '1px solid currentColor', textDecoration: 'none',
+            fontFamily: 'Geist Mono', fontSize: 12, letterSpacing: '.22em', textTransform: 'uppercase',
+          }}>See the work →</a>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ═══ 02+04 · SELL/DELIVER + SERVICES — unified horizontal track ═══
+   SellDeliver (left) and Services heading (right, off-screen) sit on the
+   same horizontal plane. Scroll drives: wipe → horizontal slide → black
+   wipe → heading shrink → cards. No vertical scroll until cards.          */
+const SellDeliver = () => {
+  const sectionRef = useRef(null);
+  const trackRef = useRef(null);
+  const sdStageRef = useRef(null);
+  const barRefs = [useRef(null), useRef(null), useRef(null)];
+  const sdHeadingRef = useRef(null);
+  const pctRef = useRef(null);
+  const svcHeadingRef = useRef(null);
+  const wipeRef = useRef(null);
+  const cardsRef = useRef([]);
+  const cardsSectionRef = useRef(null);
+  const cardsWrapRef = useRef(null);
+
+  const items = [
+    ['Technical SEO', 'Audits, site speed, schema'],
+    ['Content production', 'Up to 1M words a year'],
+    ['WordPress development', 'Custom themes, Elementor'],
+    ['eCommerce builds', 'Shopify, WooCommerce, payments'],
+    ['Paid search', 'Google, Shopping, YouTube'],
+    ['Paid social', 'Meta, Instagram, retargeting'],
+    ['Local SEO', '80+ citations a month, GMB'],
+    ['Link acquisition', 'Digital PR and outreach'],
+    ['Email marketing', 'Campaigns, flows, A/B testing'],
+    ['GA4 & Tag Manager', 'Event design, QA, migration'],
+    ['Looker Studio reporting', 'White-labeled dashboards'],
+    ['Hosting & maintenance', 'LiteSpeed, backups, SSL'],
+  ];
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    let raf = 0, lastFlip = null, lastPct = null;
+
+    const measure = () => {
+      raf = 0;
+      const r = section.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const span = r.height - vh;
+      const p = span <= 0 ? 0 : Math.max(0, Math.min(1, -r.top / span));
+
+      /* ─── Phase 1 (0→0.45): SellDeliver wipe bars + flip ─── */
+      const sdP = Math.min(1, p / 0.45);
+      for (let i = 0; i < 3; i++) {
+        const start = .10 + i * .12, end = start + .34;
+        const w = Math.max(0, Math.min(1, (sdP - start) / (end - start)));
+        const el = barRefs[i].current;
+        if (el) el.style.transform = `scaleX(${w})`;
+      }
+      const flip = sdP > .5;
+      if (flip !== lastFlip) {
+        lastFlip = flip;
+        if (sdStageRef.current) {
+          sdStageRef.current.style.backgroundColor = flip ? '#FFFFFF' : '#000000';
+          sdStageRef.current.style.color = flip ? '#000000' : '#FFFFFF';
+        }
+        if (sdHeadingRef.current) {
+          sdHeadingRef.current.style.transition = 'opacity .25s ease, transform .25s ease';
+          sdHeadingRef.current.style.opacity = '0';
+          sdHeadingRef.current.style.transform = 'scale(0.95) translateY(-12px)';
+          setTimeout(() => {
+            if (sdHeadingRef.current) {
+              sdHeadingRef.current.textContent = flip ? 'We deliver.' : 'You sell.';
+              sdHeadingRef.current.style.opacity = '1';
+              sdHeadingRef.current.style.transform = 'scale(1) translateY(0)';
+            }
+          }, 260);
+        }
+      }
+      const pct = String(Math.round(sdP * 100)).padStart(3, '0') + '%';
+      if (pct !== lastPct && pctRef.current) { lastPct = pct; pctRef.current.textContent = pct; }
+
+      /* ─── Phase 2 (0.45→0.65): horizontal slide — track moves left ─── */
+      const slideP = Math.max(0, Math.min(1, (p - 0.45) / 0.20));
+      const eased = 1 - Math.pow(1 - slideP, 3);
+      if (trackRef.current) trackRef.current.style.transform = `translateX(${-eased * 100}vw)`;
+
+      /* ─── Phase 3 (0.60→0.80): black wipe on services — right → left ─── */
+      const wipeP = Math.max(0, Math.min(1, (p - 0.60) / 0.20));
+      if (wipeRef.current) wipeRef.current.style.clipPath = `inset(0 ${(1 - wipeP) * 100}% 0 0)`;
+
+      /* ─── Phase 4 (0.72→0.84): heading shrinks + moves to top ─── */
+      const shrinkP = Math.max(0, Math.min(1, (p - 0.72) / 0.12));
+      if (svcHeadingRef.current) {
+        const s = 1 - shrinkP * 0.55;
+        svcHeadingRef.current.style.transform = `translateY(${shrinkP * -7}vh) scale(${s})`;
+        svcHeadingRef.current.style.transformOrigin = 'left top';
+      }
+
+      /* ─── Phase 5 (0.76→0.92): cards rise ─── */
+      const cardP = Math.max(0, Math.min(1, (p - 0.76) / 0.16));
+      if (cardsWrapRef.current) {
+        cardsWrapRef.current.style.opacity = String(cardP);
+        cardsWrapRef.current.style.transform = `translateY(${(1 - cardP) * 60}px)`;
+      }
+      cardsRef.current.filter(Boolean).forEach((card, i) => {
+        const delay = i * 0.02;
+        const local = Math.max(0, Math.min(1, (cardP - delay) / (0.65 - delay)));
+        card.style.opacity = String(local);
+        card.style.transform = `translateY(${(1 - local) * 24}px)`;
+      });
+
+    };
+
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(measure); };
+    measure();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', measure);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', measure);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  return (
+    <section ref={sectionRef} style={{ height: '500vh', position: 'relative' }}>
+      <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden' }}>
+
+        {/* ── Horizontal track: SellDeliver | Services side by side ── */}
+        <div ref={trackRef} style={{
+          display: 'flex', width: '200vw', height: '100vh',
+          willChange: 'transform',
+        }}>
+          {/* LEFT: SellDeliver */}
+          <div ref={sdStageRef} style={{
+            width: '100vw', height: '100vh', position: 'relative',
+            backgroundColor: '#000', color: '#FFF',
+            transition: 'background-color .45s ease, color .45s ease',
+            flexShrink: 0,
+          }}>
+            {/* Wipe bars */}
+            <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+              {[0, 1, 2].map(i => (
+                <div key={i} ref={barRefs[i]} style={{
+                  position: 'absolute', left: 0, right: 0,
+                  top: `${19 + i * 23}%`, height: '13%',
+                  backgroundColor: '#FFF',
+                  transformOrigin: 'left center',
+                  transform: 'scaleX(0)',
+                  willChange: 'transform',
+                  mixBlendMode: 'difference',
+                }} />
+              ))}
+            </div>
+            <div style={{
+              position: 'absolute', top: 90, left: 32, right: 32,
+              display: 'flex', justifyContent: 'space-between',
+              fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.22em',
+              textTransform: 'uppercase', opacity: .6, mixBlendMode: 'difference', color: '#FFF',
+            }}>
+              <span>The partnership, in two words</span>
+              <span ref={pctRef}>000%</span>
+            </div>
+            <div style={{
+              position: 'absolute', inset: 0,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              pointerEvents: 'none',
+            }}>
+              <h2 ref={sdHeadingRef} style={{
+                margin: 0, textAlign: 'center', fontFamily: 'Geist',
+                fontSize: 'clamp(72px, 15vw, 220px)', fontWeight: 500,
+                letterSpacing: '-.045em', lineHeight: 1.08,
+                color: '#FFF', mixBlendMode: 'difference',
+              }}>You sell.</h2>
+            </div>
+            <p style={{
+              position: 'absolute', bottom: 90, left: 32, right: 32, margin: 0,
+              maxWidth: 620, fontSize: 'clamp(15px, 1.15vw, 18px)', lineHeight: 1.6, opacity: .75,
+            }}>
+              You own the relationship, the pitch and the invoice. We run production behind
+              the scenes — on your templates, in your voice, to your deadlines. Your clients
+              never learn our name, and that is the entire point.
+            </p>
+          </div>
+
+          {/* RIGHT: Services heading — white bg, heading + wipe outside for blend mode */}
+          <div style={{
+            width: '100vw', height: '100vh', position: 'relative',
+            flexShrink: 0,
+          }}>
+            {/* White background layer */}
+            <div style={{
+              position: 'absolute', inset: 0,
+              background: '#FFF',
+              display: 'flex', flexDirection: 'column', justifyContent: 'center',
+              padding: '0 6vw',
+            }}>
+              <div style={{
+                fontFamily: 'Geist Mono', fontSize: 11,
+                letterSpacing: '0.22em', textTransform: 'uppercase',
+                opacity: 0.55, marginBottom: 20,
+              }}>What we deliver</div>
+              <div style={{
+                fontSize: 'clamp(16px, 1.2vw, 20px)', lineHeight: 1.6, opacity: 0.7,
+                maxWidth: 420,
+              }}>
+                Take the whole stack or the two pieces you are missing. Scope is set in a
+                simple statement of work, and work begins the day it is signed.
+              </div>
+            </div>
+
+            {/* Heading — OUTSIDE white panel, above both layers */}
+            <h2 ref={svcHeadingRef} style={{
+              position: 'absolute', inset: 0,
+              display: 'flex', flexDirection: 'column', justifyContent: 'center',
+              padding: '0 6vw',
+              margin: 0, fontFamily: 'Geist',
+              fontSize: 'clamp(52px, 8.5vw, 148px)',
+              fontWeight: 600, letterSpacing: '-.045em', lineHeight: 0.92,
+              mixBlendMode: 'difference', color: '#FFF',
+              zIndex: 3, pointerEvents: 'none',
+              willChange: 'transform',
+            }}>
+              Twelve services,<br /><i style={{ fontWeight: 300 }}>one contract.</i>
+            </h2>
+
+            {/* Black wipe — clips right → left, between white bg and heading */}
+            <div ref={wipeRef} style={{
+              position: 'absolute', inset: 0, background: '#000',
+              clipPath: 'inset(0 100% 0 0)',
+              willChange: 'clip-path',
+              zIndex: 1,
+            }} />
+          </div>
+        </div>
+
+        {/* ── Cards — inside sticky, rise to meet heading during shrink ── */}
+        <div ref={cardsWrapRef} style={{
+          position: 'absolute', bottom: 0, left: 0, right: 0,
+          background: '#000', color: '#FFF',
+          padding: '0 6vw 60px',
+          opacity: 0, transform: 'translateY(60px)',
+          willChange: 'transform, opacity',
+          zIndex: 2,
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 24 }}>
+            <p style={{
+              margin: 0, maxWidth: 420, fontSize: 16, lineHeight: 1.6, opacity: 0.7,
+            }}>
+              Take the whole stack or the two pieces you are missing. Scope is set in a
+              simple statement of work, and work begins the day it is signed.
+            </p>
+            <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{
+              display: 'inline-block', padding: '14px 32px',
+              background: '#FFF', color: '#000',
+              fontFamily: 'Geist', fontSize: 14, fontWeight: 500,
+              letterSpacing: '-.02em', textDecoration: 'none',
+              whiteSpace: 'nowrap', flexShrink: 0, cursor: 'pointer',
+            }}>Get a quote</a>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10 }}>
+          {items.map(([t, sub], i) => {
+            const inverted = (i + Math.floor(i / 4)) % 2 === 0;
+            return (
+              <div key={t}
+                ref={el => cardsRef.current[i] = el}
+                style={{
+                  background: inverted ? '#FFF' : 'transparent',
+                  color: inverted ? '#000' : '#FFF',
+                  border: '1px solid #FFF', padding: 22, minHeight: 190,
+                  display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+                  opacity: 0, willChange: 'transform, opacity',
+                }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '.22em', opacity: .6 }}>/{String(i + 1).padStart(2, '0')}</span>
+                  <ThreeBar size={20} color="currentColor" />
+                </div>
+                <div>
+                  <div style={{ fontFamily: 'Geist', fontSize: 'clamp(18px,1.6vw,24px)', fontWeight: 500, letterSpacing: '-.02em', lineHeight: 1.1 }}>{t}</div>
+                  <div style={{ marginTop: 8, fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '.16em', textTransform: 'uppercase', opacity: .6 }}>{sub}</div>
+                </div>
+              </div>
+            );
+          })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ═══ 03 · POSITIONING — scroll-linked word reveal ═══ */
+const Positioning = () => {
+  const sectionRef = useRef(null);
+  const wordRefs = useRef([]);
+  const [entered, setEntered] = useState(false);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const words = wordRefs.current.filter(Boolean);
+    if (!words.length) return;
+
+    let raf = 0;
+    const measure = () => {
+      raf = 0;
+      const vh = window.innerHeight;
+      for (let i = 0; i < words.length; i++) {
+        const r = words[i].getBoundingClientRect();
+        const center = r.top + r.height / 2;
+        const p = Math.max(0, Math.min(1, 1 - (center - vh * 0.25) / (vh * 0.5)));
+        words[i].style.opacity = 0.15 + p * 0.85;
+        words[i].style.filter = `blur(${(1 - p) * 3}px)`;
+      }
+    };
+
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(measure); };
+
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { setEntered(true); measure(); }
+    }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
+    io.observe(section);
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      if (raf) cancelAnimationFrame(raf);
+      io.disconnect();
+    };
+  }, []);
+
+  const headingLine1 = 'Hiring a specialist for every discipline is';
+  const headingLine2 = 'Renting a full bench is';
+
+  return (
+    <section ref={sectionRef} style={{ background: '#000', color: '#FFF', padding: '140px 6vw 120px', borderTop: '1px solid #FFF' }}>
+      <Kick>Why agencies partner with us</Kick>
+      <div style={{
+        fontFamily: 'Geist', fontSize: 'clamp(38px, 6.4vw, 104px)',
+        fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1.05,
+      }}>
+        <div>
+          {headingLine1.split(' ').map((w, i) => (
+            <span key={i} ref={el => wordRefs.current[i] = el} style={{
+              display: 'inline-block', opacity: 0.15, transition: 'none',
+              marginRight: '0.3em',
+            }}>{w}{' '}</span>
+          ))}
+          <span style={{
+            background: '#FFF', color: '#000', padding: '0 20px', display: 'inline-block',
+            fontStyle: 'italic', fontWeight: 300,
+          }}>slow&nbsp;and&nbsp;expensive.</span>
+        </div>
+        <div style={{ marginTop: 14 }}>
+          {headingLine2.split(' ').map((w, i) => (
+            <span key={i} ref={el => wordRefs.current[headingLine1.split(' ').length + i] = el} style={{
+              display: 'inline-block', opacity: 0.15, transition: 'none',
+              marginRight: '0.3em',
+            }}>{w}{' '}</span>
+          ))}
+          <span style={{
+            background: '#FFF', color: '#000', padding: '0 20px', display: 'inline-block',
+            fontStyle: 'italic', fontWeight: 300,
+          }}>neither.</span>
+        </div>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 40, marginTop: 80, maxWidth: 1200 }}>
+        {[
+          ['Capacity without headcount', 'Add SEO, content, development or analytics to your offering this month — no recruiting, no salaries, no bench risk.'],
+          ['Delivered under your brand', 'Reports, decks, builds and dashboards ship in your identity. We sign mutual NDAs as standard.'],
+          ['Built on results, not retainers', 'Every engagement is measured in leads, rankings and revenue your client can see.'],
+        ].map(([t, b], i) => (
+          <div key={t} style={{
+            opacity: entered ? 1 : 0, transform: entered ? 'none' : 'translateY(18px)',
+            transition: `all .6s ease ${300 + i * 110}ms`,
+          }}>
+            <ThreeBar size={18} color="#FFF" gap={3} />
+            <h3 style={{ margin: '18px 0 10px', fontSize: 'clamp(19px,1.6vw,24px)', fontWeight: 500, letterSpacing: '-.02em' }}>{t}</h3>
+            <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, opacity: .72 }}>{b}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+/* ═══ 05 · CASE — the chart is the logo, wider ═══ */
+const CaseChart = () => {
+  const [ref, seen] = useReveal(.2);
+  const data = [66,147,140,156,193,210,227,198,213,193,133,138,
+                197,215,315,337,367,444,427,395,320,254,203,149,
+                202,224,274];
+  const max = 460, peak = data.indexOf(444);
+  return (
+    <section ref={ref} style={{ background: '#FFF', color: '#000', padding: '120px 6vw', borderTop: '1px solid #000' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: '5vw', alignItems: 'flex-end' }}>
+        <div>
+          <Kick>Client results · Guild Golf Carts</Kick>
+          <h2 style={{ margin: 0, fontFamily: 'Geist', fontSize: 'clamp(38px, 5vw, 76px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1.06 }}>
+            66 to 444 leads<br /><i style={{ fontWeight: 300 }}>a month.</i>
+          </h2>
+          <p style={{ margin: '28px 0 0', maxWidth: 400, fontSize: 16, lineHeight: 1.6, opacity: .75 }}>
+            A five-location dealer group across Nevada, Oregon, Washington and Utah.
+            We rebuilt the site on WordPress, ran geo-targeted paid search per city,
+            published continuously and wired GA4, Tag Manager and CallRail into one
+            Looker Studio dashboard.
+          </p>
+          <a href="work-variations/work-v6.html" style={{
+            display: 'inline-block', marginTop: 28, paddingBottom: 4,
+            borderBottom: '1px solid #000', textDecoration: 'none',
+            fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase',
+          }}>Read the case study →</a>
+        </div>
+        <div style={{ height: '52vh', display: 'flex', alignItems: 'flex-end', gap: 4, position: 'relative' }}>
+          {data.map((v, i) => (
+            <div key={i} style={{ flex: 1, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', position: 'relative' }}>
+              <div style={{
+                width: '100%', height: seen ? `${(v / max) * 100}%` : 0, background: '#000',
+                transition: `height .7s cubic-bezier(.2,.8,.2,1) ${i * 26}ms`,
+                outline: i === peak ? '2px solid #000' : 'none', outlineOffset: i === peak ? 4 : 0,
+              }} />
+              {i === peak && (
+                <div style={{
+                  position: 'absolute', bottom: `${(v / max) * 100 + 4}%`, left: '50%',
+                  transform: 'translateX(-50%)', whiteSpace: 'nowrap',
+                  fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '.18em', textTransform: 'uppercase',
+                  opacity: seen ? .85 : 0, transition: 'opacity .5s ease 1.1s',
+                }}>▲ peak · jun 2025 · 444</div>
+              )}
+            </div>
+          ))}
+          <div style={{
+            position: 'absolute', bottom: -26, left: 0, right: 0, display: 'flex',
+            justifyContent: 'space-between', fontFamily: 'Geist Mono', fontSize: 10,
+            letterSpacing: '.22em', textTransform: 'uppercase', opacity: .55,
+          }}><span>jan 2024</span><span>jun 2025</span><span>mar 2026</span></div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ═══ 06 · PROCESS — console rows, real 90-day plan ═══ */
+const Process = () => {
+  const [ref, seen] = useReveal(.15);
+  const rows = [
+    ['DAY 00', 'Discovery call and statement of work', 'Sales · Client Success', 'SIGNED'],
+    ['WEEK 01', 'Wireframes and brand direction in Figma', 'Design', 'ACTIVE'],
+    ['WEEK 04', 'Sprint review — 10 to 20 pages approved', 'Design · Partner', 'REVIEW'],
+    ['WEEK 05', 'WordPress build, theme and integrations', 'Development', 'BUILD'],
+    ['WEEK 08', 'QA pass, page speed and accessibility', 'Development · QA', 'QA'],
+    ['WEEK 09', 'On-page SEO, keyword map, content live', 'SEO', 'RUNNING'],
+    ['WEEK 12', 'GA4 events, GTM and Looker dashboard', 'Analytics', 'LIVE'],
+    ['MONTH 04', 'Campaigns scale, monthly reporting begins', 'All teams', 'ONGOING'],
+  ];
+  return (
+    <section ref={ref} style={{ background: '#000', color: '#FFF', padding: '120px 6vw', borderTop: '1px solid #FFF' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 24, marginBottom: 40 }}>
+        <div>
+          <Kick>How an engagement runs</Kick>
+          <h2 style={{ margin: 0, fontFamily: 'Geist', fontSize: 'clamp(40px, 5.4vw, 84px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1.06 }}>
+            Signed to live<br /><i style={{ fontWeight: 300 }}>in ninety days.</i>
+          </h2>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, fontFamily: 'Geist Mono', fontSize: 12, letterSpacing: '.22em', textTransform: 'uppercase' }}>
+          <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#FFF', animation: 'pulseDot 1.4s ease-in-out infinite' }} />
+          sprint reviews every 14 days
+        </div>
+      </div>
+      <div style={{ border: '1px solid rgba(255,255,255,.25)', padding: '4px 28px' }}>
+        {rows.map((r, i) => (
+          <div key={i} style={{
+            display: 'grid', gridTemplateColumns: '110px 1fr 260px 110px', gap: 24,
+            padding: '18px 0',
+            borderBottom: i < rows.length - 1 ? '1px solid rgba(255,255,255,.12)' : 'none',
+            fontFamily: 'Geist Mono', fontSize: 13, letterSpacing: '.04em',
+            opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateX(-14px)',
+            transition: `opacity .45s ease ${i * 80}ms, transform .45s ease ${i * 80}ms`,
+          }}>
+            <span style={{ opacity: .6 }}>{r[0]}</span>
+            <span>{r[1]}</span>
+            <span style={{ opacity: .6 }}>{r[2]}</span>
+            <span style={{
+              background: i < 3 ? '#FFF' : 'transparent', color: i < 3 ? '#000' : '#FFF',
+              border: i < 3 ? 'none' : '1px solid #FFF', padding: '4px 10px',
+              fontSize: 10, textAlign: 'center', letterSpacing: '.18em',
+            }}>{r[3]}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+/* ═══ 07 · BEFORE / AFTER ═══ */
+const BeforeAfter = () => {
+  const [ref, seen] = useReveal(.3);
+  return (
+    <section ref={ref} style={{ display: 'flex', position: 'relative', borderTop: '1px solid #FFF', minHeight: '92vh' }}>
+      <div style={{ flex: 1, background: '#FFF', color: '#000', padding: 'clamp(56px,7vw,110px)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <div>
+          <Kick style={{ opacity: .65 }}>Before we started</Kick>
+          <div style={{ fontFamily: 'Geist', fontSize: 'clamp(80px,11vw,160px)', fontWeight: 500, letterSpacing: '-.04em', lineHeight: 1 }}>66</div>
+          <div style={{ marginTop: 12, fontFamily: 'Geist Mono', fontSize: 12, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .7 }}>
+            leads per month · january 2024
+          </div>
+          <p style={{ margin: '24px 0 0', maxWidth: 360, fontSize: 15, lineHeight: 1.6, opacity: .7 }}>
+            Five showrooms, strong walk-in traffic, almost no organic visibility and no
+            tracking on the phone lines.
+          </p>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'flex-end', gap: 8, height: 110 }}>
+          {[.4, .55, .5].map((h, i) => (
+            <div key={i} style={{ width: 38, height: seen ? `${h * 100}%` : 0, background: '#000', transition: `height .8s cubic-bezier(.2,.8,.2,1) ${i * 90}ms` }} />
+          ))}
+        </div>
+      </div>
+      <div style={{ flex: 1, background: '#000', color: '#FFF', padding: 'clamp(56px,7vw,110px)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <div>
+          <Kick style={{ opacity: .65 }}>Eighteen months later</Kick>
+          <div style={{ fontFamily: 'Geist', fontSize: 'clamp(120px,17vw,250px)', fontWeight: 500, letterSpacing: '-.045em', lineHeight: .95 }}>444</div>
+          <div style={{ marginTop: 12, fontFamily: 'Geist Mono', fontSize: 12, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .7 }}>
+            leads per month · june 2025
+          </div>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'flex-end', gap: 18, height: 'clamp(200px,28vh,330px)' }}>
+          {[.66, 1, .84].map((h, i) => (
+            <div key={i} style={{
+              width: 'clamp(60px,7vw,100px)', height: seen ? `${h * 100}%` : 0,
+              background: '#FFF', transition: `height 1s cubic-bezier(.2,.8,.2,1) ${240 + i * 130}ms`,
+            }} />
+          ))}
+        </div>
+      </div>
+      <div style={{
+        position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%,-50%)',
+        width: 72, height: 72, background: '#FFF', border: '1px solid #000', display: 'grid', placeItems: 'center',
+      }}><ThreeBar size={36} color="#000" /></div>
+    </section>
+  );
+};
+
+/* ═══ 08 · DISCIPLINES MARQUEE — only animates in view ═══ */
+const Marquee = () => {
+  const [ref, seen] = useReveal(.15);
+  const items = ['SEO', 'Content', 'Web development', 'Paid search', 'Paid social', 'Email', 'Analytics', 'Hosting', 'Reporting'];
+  const list = [...items, ...items, ...items];
+  return (
+    <section ref={ref} style={{
+      background: '#000', color: '#FFF', borderTop: '1px solid #FFF',
+      display: 'flex', flexDirection: 'column', justifyContent: 'center',
+      position: 'relative', padding: '110px 0 90px', overflow: 'hidden',
+    }}>
+      <div style={{
+        position: 'absolute', top: 46, left: 32, right: 32, display: 'flex',
+        justifyContent: 'space-between', mixBlendMode: 'difference', color: '#FFF',
+        fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase', opacity: .6,
+      }}>
+        <span>The bench, always on</span><span>20 specialists · 4 time zones</span>
+      </div>
+      {[0, 1, 2, 3].map(row => {
+        const inv = row % 2 === 1;
+        return (
+          <div key={row} style={{
+            background: inv ? '#FFF' : '#000', color: inv ? '#000' : '#FFF',
+            padding: '22px 0', overflow: 'hidden',
+            borderTop: '1px solid currentColor',
+            borderBottom: row === 3 ? '1px solid currentColor' : 'none',
+          }}>
+            <div style={{
+              display: 'flex', gap: 56, whiteSpace: 'nowrap',
+              animation: seen ? `${inv ? 'marqueeRev' : 'marqueeFwd'} ${34 + row * 6}s linear infinite` : 'none',
+              fontFamily: 'Geist', fontSize: 'clamp(36px,5vw,72px)', fontWeight: 500, letterSpacing: '-.025em',
+            }}>
+              {list.map((it, i) => (
+                <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: 56 }}>
+                  {it}<ThreeBar size={34} color="currentColor" gap={4} />
+                </span>
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </section>
+  );
+};
+
+/* ═══ 09 · THE NUMBER ═══ */
+const BigNumber = () => {
+  const [ref, seen] = useReveal(.4);
+  return (
+    <section ref={ref} style={{
+      minHeight: '92vh', background: '#FFF', color: '#000', padding: '130px 6vw',
+      position: 'relative', display: 'grid', placeItems: 'center', borderTop: '1px solid #000',
+    }}>
+      <div style={{ position: 'absolute', top: 70, left: 32, fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase', opacity: .6 }}>
+        Measured, not claimed
+      </div>
+      <div style={{ textAlign: 'center' }}>
+        <div style={{
+          fontFamily: 'Geist', fontSize: 'clamp(200px,32vw,520px)', fontWeight: 500,
+          letterSpacing: '-.06em', lineHeight: .95,
+          opacity: seen ? 1 : 0, transform: seen ? 'scale(1)' : 'scale(.94)',
+          transition: 'opacity .9s ease, transform .9s cubic-bezier(.2,.8,.2,1)',
+        }}>6.7×</div>
+        <div style={{ marginTop: 18, fontFamily: 'Geist Mono', fontSize: 14, letterSpacing: '.22em', textTransform: 'uppercase' }}>
+          more leads in eighteen months
+        </div>
+        <p style={{ margin: '20px auto 0', maxWidth: 520, fontSize: 16, lineHeight: 1.6, opacity: .7 }}>
+          Across our partner accounts we have generated more than 100 million words of
+          published content and helped agencies deliver over 25,000 completed projects.
+        </p>
+      </div>
+      <div style={{ position: 'absolute', left: 32, bottom: 70, display: 'flex', alignItems: 'flex-end', gap: 8 }}>
+        {[40, 64, 50].map((h, i) => <div key={i} style={{ width: 18, height: h, background: '#000' }} />)}
+      </div>
+      <div style={{ position: 'absolute', right: 32, bottom: 70, textAlign: 'right', fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase' }}>
+        guild golf carts<br /><span style={{ opacity: .55 }}>jan 2024 → jun 2025</span>
+      </div>
+    </section>
+  );
+};
+
+/* ═══ 10 · CLOSE ═══ */
+const Close = () => {
+  const [ref, seen] = useReveal(.2);
+  const steps = [
+    ['SELL', 'You win the client'],
+    ['SCOPE', 'We write the SOW'],
+    ['SHIP', 'Our bench produces'],
+    ['SCALE', 'You keep the margin'],
+  ];
+  return (
+    <section ref={ref} style={{ background: '#000', color: '#FFF', padding: '120px 6vw 90px', borderTop: '1px solid #FFF' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 24, marginBottom: 44 }}>
+        <div>
+          <Kick>Working with us</Kick>
+          <h2 style={{ margin: 0, fontFamily: 'Geist', fontSize: 'clamp(44px,6.4vw,104px)', fontWeight: 500, letterSpacing: '-.04em', lineHeight: 1.06 }}>
+            Four steps,<br /><i style={{ fontWeight: 300 }}>then it just runs.</i>
+          </h2>
+        </div>
+        <p style={{ margin: 0, maxWidth: 380, fontSize: 16, lineHeight: 1.6, opacity: .72 }}>
+          Most partners start with one client and one discipline. Within a quarter they
+          have moved their whole roster onto the bench.
+        </p>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
+        {steps.map(([w, sub], i) => {
+          const inv = i % 2 === 1;
+          return (
+            <div key={w} style={{
+              background: inv ? '#FFF' : '#000', color: inv ? '#000' : '#FFF',
+              border: inv ? 'none' : '1px solid #FFF', padding: 26, aspectRatio: '3 / 4',
+              display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+              opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(20px)',
+              transition: `all .55s ease ${i * 100}ms`,
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '.22em', opacity: .7 }}>
+                <span>/0{i + 1}</span><ThreeBar size={16} color="currentColor" />
+              </div>
+              <div>
+                <div style={{ fontFamily: 'Geist', fontSize: 'clamp(40px,5.2vw,84px)', fontWeight: 500, letterSpacing: '-.05em', lineHeight: 1 }}>{w}</div>
+                <div style={{ marginTop: 12, fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '.2em', textTransform: 'uppercase', opacity: .65 }}>{sub}</div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <div style={{ marginTop: 72, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 28 }}>
+        <div style={{ maxWidth: 520 }}>
+          <h3 style={{ margin: 0, fontFamily: 'Geist', fontSize: 'clamp(28px,3.4vw,52px)', fontWeight: 500, letterSpacing: '-.03em', lineHeight: 1.1 }}>
+            Tell us about your next project.
+          </h3>
+          <p style={{ margin: '14px 0 0', fontSize: 15, opacity: .7 }}>We reply to every enquiry within one business day.</p>
+        </div>
+        <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{
+          display: 'inline-flex', alignItems: 'center', gap: 14, padding: '20px 28px',
+          background: '#FFF', color: '#000', textDecoration: 'none', cursor: 'pointer',
+          fontFamily: 'Geist Mono', fontSize: 13, letterSpacing: '.22em', textTransform: 'uppercase', fontWeight: 600,
+        }}><ThreeBar size={13} color="#000" />Get a quote →</a>
+      </div>
+    </section>
+  );
+};
+
+const Footer = () => (
+  <footer style={{ background: '#000', color: '#FFF', borderTop: '1px solid #FFF', padding: '44px 6vw 32px' }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 28 }}>
+      <div>
+        <ThreeBar size={20} color="#FFF" gap={3} />
+        <div style={{ marginTop: 14, fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '.22em', textTransform: 'uppercase', opacity: .55 }}>
+          © 2026 White Label Resell · est. 2018
+        </div>
+      </div>
+      <div style={{ display: 'flex', gap: 22, flexWrap: 'wrap', fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '.22em', textTransform: 'uppercase' }}>
+        <a href="work-variations/work-v6.html" style={{ textDecoration: 'none', opacity: .8 }}>Work</a>
+        <a href="about-variations/about-v1.html" style={{ textDecoration: 'none', opacity: .8 }}>About</a>
+        <a href="team-v2.html" style={{ textDecoration: 'none', opacity: .8 }}>Team</a>
+        <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{ textDecoration: 'none', opacity: .8, cursor: 'pointer' }}>Get a Quote</a>
+        <a href="mailto:partners@whitelabelresell.com" style={{ textDecoration: 'none', opacity: .8 }}>partners@whitelabelresell.com</a>
+      </div>
+    </div>
+  </footer>
+);
+
+const QuoteModal = () => {
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    window.openQuoteModal = () => setOpen(true);
+    window.closeQuoteModal = () => setOpen(false);
+    const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => { delete window.openQuoteModal; delete window.closeQuoteModal; window.removeEventListener('keydown', onKey); };
+  }, []);
+
+  if (!open) return null;
+  return (
+    <div style={{
+      position: 'fixed', inset: 0, zIndex: 9999,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+    }}>
+      <div onClick={() => setOpen(false)} style={{
+        position: 'absolute', inset: 0, background: 'rgba(0,0,0,.7)',
+        backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)',
+      }} />
+      <div style={{
+        position: 'relative', width: '90vw', maxWidth: 640, maxHeight: '90vh',
+        background: '#000', border: '1px solid #FFF', overflow: 'hidden',
+      }}>
+        <button onClick={() => setOpen(false)} style={{
+          position: 'absolute', top: 16, right: 16, zIndex: 2,
+          background: 'none', border: 'none', color: '#FFF', cursor: 'pointer',
+          fontFamily: 'Geist Mono', fontSize: 20, lineHeight: 1, padding: 4,
+        }}>✕</button>
+        <iframe src="quote-v1.html" title="Get a Quote" style={{
+          width: '100%', height: '80vh', border: 'none',
+        }} />
+      </div>
+    </div>
+  );
+};
+
+const App = () => (
+  <React.Fragment>
+    <QuoteModal />
+    <HUD />
+    <Hero />
+    <SellDeliver />
+    <Positioning />
+    <CaseChart />
+    <Process />
+    <BeforeAfter />
+    <Marquee />
+    <BigNumber />
+    <Close />
+    <Footer />
+  </React.Fragment>
+);
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

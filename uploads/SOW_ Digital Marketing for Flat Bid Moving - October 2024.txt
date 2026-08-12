@@ -1,0 +1,101 @@
+﻿Digital Marketing Strategy for Flat Bid Moving
+
+  
+
+Statement of Work (SOW)
+Digital Marketing Services for Flat Bid Movingd
+Company: White Label Resell
+Client: Flat Bid Moving
+Date: 10/23/2024
+Version: 1.2
+________________
+
+
+1. PROJECT OBJECTIVE
+The objective is to enhance Flat Bid Moving's digital presence over a 6-month period through a phased approach that includes a complete website redesign followed by a comprehensive digital marketing strategy including SEO, PPC via Google Ads, and advanced website functionality improvements.
+________________
+
+
+2. SCOPE OF SERVICES
+White Label Resell will provide digital marketing and website redesign services tailored to Flat Bid Moving's needs, as agreed upon in the Essential Package with phased pricing.
+Phased Approach Overview:
+Phase 1 – Website Redesign ($4,999/month):
+In the first phase, the primary focus will be the complete redesign of Flat Bid Moving's website. The redesign is expected to be completed within 60 days, depending on the number of revision requests. Unlimited revisions will be accommodated to ensure the final design fully aligns with Flat Bid's brand vision before the project is considered complete.
+Phase 2 – Marketing Activation ($4,999/month):
+Once the website redesign is completed, the marketing strategy will be activated at Flat Bid’s request. This includes SEO, PPC campaigns, and ongoing website functionality enhancements. The price will increase to $4,999/month once the paid marketing services are activated.
+________________
+
+
+3. SCOPE OF SERVICES – ESSENTIAL PACKAGE
+The following services are included within the Essential Package, as part of the overall engagement:
+Website Development and Redesign:
+* Redesign and optimization of the website, emphasizing Flat Bid Moving's customization capabilities and aligning with their premium market positioning.
+* The redesigned website will feature responsive design, SEO-optimized structure, and strategic call-to-actions to drive conversions.
+* Collaboration with the client to ensure the website aligns with Flat Bid’s vision, and includes any requested revisions during the design process.
+* The focus will be on improving user experience, enhancing navigation, and showcasing the Flat Bid brand through interactive elements and visual storytelling.
+Hosting and Maintenance:
+* 6 months of hosting with regular website updates, backups, and security patches. Maintenance will also include revisions to the website based on evolving requirements.
+________________
+
+
+Search Engine Optimization (SEO):
+* In-depth keyword research, on-page and technical SEO optimizations to improve search rankings for targeted keywords.
+* Content marketing: Up to 1000 additional SEO-optimized articles will be written and published to enhance organic reach and establish authority on relevant search queries.
+* Monthly SEO reports to track performance, along with ongoing audits to ensure optimal site health and technical improvements.
+________________
+
+
+Search Engine Marketing (SEM) - PPC via Google Ads:
+* Setup and management of 10 PPC ad groups to drive traffic to the newly redesigned website through Google Ads.
+* Continuous monitoring of ad performance to maximize ROI through adjustments based on analytics and market trends.
+* Deliverables include monthly performance reports with detailed metrics such as conversion rates, click-through rates, and cost-per-click.
+________________
+
+
+Advanced Analytics and Reporting:
+* Implementation of tracking and analytics tools for real-time monitoring of marketing performance, including Looker Studio dashboards integrated with GA4, GSC, Google Ads.
+* Bi-weekly strategy reviews to ensure campaigns are aligned with the business objectives.
+* Custom performance reports to inform ongoing decisions and optimize marketing strategies.
+________________
+
+
+4. CLIENT SPECIFICATIONS AND REQUESTS
+* Primary Communication: Communication will occur through Discord, Google Meet and Email for clarity and responsiveness.
+* Bi-Weekly Meetings: Meetings will be held every two weeks, starting from the date of the SOW signing. These meetings will include status updates on work completed and client requests, ensuring that all progress aligns with the client’s vision.
+   * Status Documents: A document will be maintained to track all client requests and status updates, ensuring that all work is reviewed and progresses in line with Flat Bid Moving's priorities.
+* Creative Approvals: All creative assets, including website designs and marketing collateral, must be approved by Flat Bid Moving before they are finalized.
+* Website Management: The website will receive continuous updates and improvements in line with evolving marketing strategies and client feedback.
+* San Diego Competition Restriction: Flat Bid Moving will be the only moving company client that White Label Resell provides services to within the city of San Diego, California whilst during the length of the contract.
+________________
+
+
+5. PROJECT ASSUMPTIONS & EXCLUSIONS
+* Marketing Budget Allocation: During the paid marketing phase (starting at $4,999/month), roughly 28% of the budget will be allocated toward marketing efforts:
+   * $1,399 per month allocated for PPC campaigns and other digital marketing efforts as outlined in the Essential Package.
+* Project Duration: The project will run for a 6-month period as per the agreed contract. Should there be a need to extend or modify the scope, both parties will engage in discussions and agree upon necessary adjustments.
+* Formal Requests: Any changes or clarifications to the scope of work must be made through formal channels, with written documentation provided via email, bi-weekly meetings on Google Meet or Discord’s direct chat.
+* Change Requests: Any changes to the scope of work will be managed through a formal change request process, ensuring that all modifications are mutually agreed upon and well-documented.
+________________
+
+
+6. SIGNATURE ACCEPTANCE
+This Statement of Work (SOW) is agreed upon and accepted by the undersigned as a binding agreement between White Label Resell and Flat Bid Moving.
+
+
+CLIENT
+Signature: ________________________
+Name: ___________________________
+Title: ___________________________
+Date: ___________________________
+CLIENT
+Signature: ________________________
+Name: ___________________________
+Title: ___________________________
+Date: ___________________________
+
+
+WHITE LABEL RESELL
+Signature: ________________________
+Name: Christian Clark
+Title: Owner
+Date: ___________________________

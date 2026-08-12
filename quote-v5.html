@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Get a Quote — Split Content/Form</title>
+  <style>
+    @font-face{font-family:'Geist';src:url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-Regular.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+    @font-face{font-family:'Geist';src:url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-Medium.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
+    @font-face{font-family:'Geist';src:url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-SemiBold.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
+    @font-face{font-family:'Geist Mono';src:url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/GeistMono-Regular.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+    @font-face{font-family:'Geist Mono';src:url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/GeistMono-Medium.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
+    @font-face{font-family:'Geist Mono';src:url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/GeistMono-SemiBold.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Geist',-apple-system,BlinkMacSystemFont,sans-serif;background:#000;color:#FFF;min-height:100vh;overflow:hidden}
+
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.82);display:flex;align-items:center;justify-content:center;padding:24px;z-index:9999;opacity:0;animation:fadeUp .35s cubic-bezier(.2,.8,.2,1) forwards}
+    @keyframes fadeUp{from{opacity:0}to{opacity:1}}
+
+    .modal{background:#FFF;color:#000;width:100%;max-width:920px;max-height:90vh;overflow-y:auto;position:relative;opacity:0;transform:translateY(24px);animation:modalIn .4s cubic-bezier(.2,.8,.2,1) .06s forwards;display:grid;grid-template-columns:1fr 1.6fr}
+    @keyframes modalIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+    @media(prefers-reduced-motion:reduce){.overlay,.modal{animation:none;opacity:1;transform:none}}
+
+    .close{position:absolute;top:20px;right:20px;width:40px;height:40px;background:transparent;border:1px solid rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .12s;color:#000;z-index:2}
+    .close:hover{background:#000;color:#FFF;border-color:#000}
+    .close svg{width:14px;height:14px}
+
+    /* Left panel */
+    .left{padding:clamp(36px,5vw,60px);display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid rgba(0,0,0,.08)}
+    .left-top .kick{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;opacity:.5;margin-bottom:14px;font-weight:500}
+    .left-top h2{font-weight:500;font-size:clamp(28px,4vw,44px);line-height:1.06;letter-spacing:-.035em;margin-bottom:12px}
+    .left-top p{font-size:15px;line-height:1.6;opacity:.6;max-width:320px}
+    .left-bottom{margin-top:40px}
+    .left-bottom .submit{font-family:'Geist Mono',monospace;font-size:13px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;padding:18px 32px;background:#000;color:#FFF;border:1px solid #000;cursor:pointer;transition:background .15s,color .15s;width:100%}
+    .left-bottom .submit:hover{background:#FFF;color:#000}
+    .left-bottom .submit:disabled{opacity:.5;cursor:not-allowed}
+
+    /* Right panel */
+    .right{padding:clamp(36px,5vw,60px);overflow-y:auto}
+    .form{display:flex;flex-direction:column}
+    .field{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+    .field:last-of-type{margin-bottom:0}
+    .field label{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;opacity:.72;font-weight:600}
+    .field input,.field select,.field textarea{font-family:'Geist',sans-serif;font-size:16px;padding:14px 16px;background:transparent;border:1px solid #ccc;color:#111;outline:none;transition:border-color .15s;width:100%;-webkit-appearance:none;appearance:none;border-radius:0}
+    .field input:focus,.field select:focus,.field textarea:focus{border-color:#000}
+    .field input.error,.field select.error,.field textarea.error{border-color:#b00}
+    .field .error-msg{font-size:13px;color:#b00;display:none;line-height:1.4}
+    .field.has-error .error-msg{display:block}
+    .field textarea{resize:vertical;min-height:90px}
+    .field select{background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px}
+
+    .row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    @media(max-width:520px){.row2{grid-template-columns:1fr}}
+
+    /* Success */
+    .success-state{display:none;text-align:center;padding:40px 0}
+    .success-state.visible{display:block}
+    .success-state .check{width:56px;height:56px;border:1.5px solid #000;display:flex;align-items:center;justify-content:center;margin:0 auto 24px}
+    .success-state .check svg{width:24px;height:24px}
+    .success-state h3{font-weight:500;font-size:clamp(24px,3vw,32px);letter-spacing:-.035em;margin-bottom:12px}
+    .success-state p{font-size:16px;line-height:1.6;opacity:.65}
+
+    .form-error{font-size:14px;color:#b00;text-align:center;display:none;padding:12px;border:1px solid rgba(176,0,0,.15);margin-bottom:4px}
+    .form-error.visible{display:block}
+
+    /* Mobile stack */
+    @media(max-width:768px){
+      .modal{grid-template-columns:1fr;max-height:92svh}
+      .left{border-right:none;border-bottom:1px solid rgba(0,0,0,.08);padding:28px 24px}
+      .left-top h2{font-size:24px}
+      .left-bottom{margin-top:24px}
+      .right{padding:24px}
+      .close{top:12px;right:12px}
+    }
+
+    @media(max-width:640px){.overlay{padding:12px}}
+  </style>
+</head>
+<body>
+  <div class="overlay" id="overlay">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="qTitle">
+      <button class="close" id="closeBtn" aria-label="Close">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="1" y1="1" x2="13" y2="13"/><line x1="13" y1="1" x2="1" y2="13"/></svg>
+      </button>
+
+      <div id="formView" style="display:contents">
+        <div class="left">
+          <div class="left-top">
+            <div class="kick">Get a quote</div>
+            <h2 id="qTitle">Let's start with your goals.</h2>
+            <p>Fill in the details on the right and we'll match you with the right people.</p>
+          </div>
+          <div class="left-bottom">
+            <button type="submit" class="submit" form="quoteForm">Submit request</button>
+          </div>
+        </div>
+
+        <div class="right">
+          <div class="form-error" id="formError">Something went wrong. Please try again.</div>
+
+          <form id="quoteForm" novalidate>
+            <div class="field" data-field="name">
+              <label for="fName">Full name</label>
+              <input type="text" id="fName" name="name" autocomplete="name" required />
+              <div class="error-msg">Please enter your name.</div>
+            </div>
+            <div class="field" data-field="email">
+              <label for="fEmail">Work email</label>
+              <input type="email" id="fEmail" name="email" autocomplete="email" required />
+              <div class="error-msg">Please enter a valid work email.</div>
+            </div>
+            <div class="field" data-field="website">
+              <label for="fWebsite">Website / Company</label>
+              <input type="text" id="fWebsite" name="website" autocomplete="organization" required />
+              <div class="error-msg">Please enter your website or company.</div>
+            </div>
+            <div class="field" data-field="service">
+              <label for="fService">Service</label>
+              <select id="fService" name="service" required>
+                <option value="" disabled selected>Select a service</option>
+                <option>Design &amp; Development</option>
+                <option>SEO</option>
+                <option>Marketing</option>
+                <option>Content Strategy</option>
+                <option>Analytics &amp; Tracking</option>
+                <option>Multiple / Not sure</option>
+              </select>
+              <div class="error-msg">Please select a service.</div>
+            </div>
+            <div class="field" data-field="details">
+              <label for="fDetails">Project details</label>
+              <textarea id="fDetails" name="details" rows="4" required placeholder="What are you looking to achieve?"></textarea>
+              <div class="error-msg">Please describe your project.</div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="success-state" id="successView">
+        <div class="check">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 10 18 20 6"/></svg>
+        </div>
+        <h3>We've got it.</h3>
+        <p>We'll review your project details and be in touch within one business day.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const form=document.getElementById('quoteForm'),formView=document.getElementById('formView'),successView=document.getElementById('successView'),formError=document.getElementById('formError'),closeBtn=document.getElementById('closeBtn');
+    function isValidEmail(e){return/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)}
+    function clearErrors(){form.querySelectorAll('.field').forEach(f=>{f.classList.remove('has-error');const i=f.querySelector('input,select,textarea');if(i)i.classList.remove('error')});formError.classList.remove('visible')}
+    function validate(){clearErrors();let v=true;const n=form.querySelector('[name="name"]'),e=form.querySelector('[name="email"]'),w=form.querySelector('[name="website"]'),s=form.querySelector('[name="service"]'),d=form.querySelector('[name="details"]');if(!n.value.trim()){markError(n);v=false}if(!e.value.trim()||!isValidEmail(e.value)){markError(e);v=false}if(!w.value.trim()){markError(w);v=false}if(!s.value){markError(s);v=false}if(!d.value.trim()){markError(d);v=false}return v}
+    function markError(el){const f=el.closest('.field');if(f)f.classList.add('has-error');el.classList.add('error')}
+    form.addEventListener('submit',function(e){e.preventDefault();if(!validate())return;const b=document.querySelector('.left-bottom .submit');b.disabled=true;b.textContent='Sending…';setTimeout(function(){formView.style.display='none';successView.classList.add('visible')},800)});
+    form.querySelectorAll('input,select,textarea').forEach(el=>{el.addEventListener('input',function(){const f=this.closest('.field');if(f)f.classList.remove('has-error');this.classList.remove('error')})});
+    closeBtn.addEventListener('click',function(){document.getElementById('overlay').style.display='none'});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')document.getElementById('overlay').style.display='none'});
+  </script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Get a Quote — Editorial</title>
+  <style>
+    @font-face{font-family:'Geist';src:url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-Regular.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+    @font-face{font-family:'Geist';src:url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-Medium.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
+    @font-face{font-family:'Geist';src:url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-SemiBold.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
+    @font-face{font-family:'Geist';src:url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-Bold.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+    @font-face{font-family:'Geist Mono';src:url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/GeistMono-Regular.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+    @font-face{font-family:'Geist Mono';src:url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/GeistMono-Medium.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
+    @font-face{font-family:'Geist Mono';src:url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/GeistMono-SemiBold.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Geist',-apple-system,BlinkMacSystemFont,sans-serif;background:#000;color:#FFF;min-height:100vh;overflow:hidden}
+
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.80);display:flex;align-items:center;justify-content:center;padding:24px;z-index:9999;opacity:0;animation:fadeUp .35s cubic-bezier(.2,.8,.2,1) forwards}
+    @keyframes fadeUp{from{opacity:0}to{opacity:1}}
+
+    .modal{background:#FFF;color:#000;width:100%;max-width:760px;max-height:90vh;overflow-y:auto;padding:clamp(40px,6vw,72px) clamp(40px,6vw,80px);position:relative;opacity:0;transform:translateY(24px);animation:modalIn .4s cubic-bezier(.2,.8,.2,1) .06s forwards}
+    @keyframes modalIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+    @media(prefers-reduced-motion:reduce){.overlay,.modal{animation:none;opacity:1;transform:none}}
+
+    .close{position:absolute;top:24px;right:24px;width:40px;height:40px;background:transparent;border:1px solid #000;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s,color .15s;color:#000;z-index:2}
+    .close:hover{background:#000;color:#FFF}
+    .close svg{width:14px;height:14px}
+
+    .editorial-header{margin-bottom:48px;padding-bottom:32px;border-bottom:1px solid rgba(0,0,0,.1)}
+    .editorial-header .kick{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;opacity:.45;margin-bottom:20px;font-weight:500}
+    .editorial-header h1{font-weight:500;font-size:clamp(28px,4vw,44px);line-height:1.06;letter-spacing:-.035em;margin-bottom:16px}
+    .editorial-header p{font-size:17px;line-height:1.65;opacity:.65;max-width:480px}
+
+    .form{display:flex;flex-direction:column}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    @media(max-width:580px){.form-row{grid-template-columns:1fr}}
+
+    .field{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+    .field:last-of-type{margin-bottom:0}
+    .field label{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;opacity:.72;font-weight:600}
+    .field input,.field select,.field textarea{font-family:'Geist',sans-serif;font-size:16px;padding:14px 16px;background:transparent;border:1px solid #ccc;color:#111;outline:none;transition:border-color .15s;width:100%;-webkit-appearance:none;appearance:none;border-radius:0}
+    .field input:focus,.field select:focus,.field textarea:focus{border-color:#000}
+    .field input.error,.field select.error,.field textarea.error{border-color:#b00}
+    .field .error-msg{font-size:13px;color:#b00;display:none;line-height:1.4;margin-top:2px}
+    .field.has-error .error-msg{display:block}
+    .field textarea{resize:vertical;min-height:90px}
+    .field select{background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 0 center;padding-right:32px}
+
+    .submit-row{margin-top:16px;padding-top:28px;border-top:1px solid rgba(0,0,0,.1)}
+    .submit{font-family:'Geist Mono',monospace;font-size:13px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;padding:18px 40px;background:#000;color:#FFF;border:1px solid #000;cursor:pointer;transition:background .15s,color .15s;width:100%}
+    .submit:hover{background:#FFF;color:#000}
+    .submit:disabled{opacity:.5;cursor:not-allowed}
+
+    .success-state{display:none;text-align:left;padding:48px 0}
+    .success-state.visible{display:block}
+    .success-state .rule{width:48px;height:1px;background:#000;margin-bottom:28px}
+    .success-state h3{font-weight:700;font-size:clamp(28px,4vw,40px);letter-spacing:-.035em;line-height:1.05;margin-bottom:16px}
+    .success-state p{font-size:16px;line-height:1.65;opacity:.65;max-width:400px}
+
+    .form-error{font-size:14px;color:#b00;text-align:center;display:none;padding:12px 0;border-bottom:1px solid rgba(176,0,0,.2);margin-bottom:4px}
+    .form-error.visible{display:block}
+
+    @media(max-width:640px){.overlay{padding:12px}.modal{padding:32px 28px;max-height:92svh}.close{top:16px;right:16px}}
+  </style>
+</head>
+<body>
+  <div class="overlay" id="overlay">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="qTitle">
+      <button class="close" id="closeBtn" aria-label="Close">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="1" y1="1" x2="13" y2="13"/><line x1="13" y1="1" x2="1" y2="13"/></svg>
+      </button>
+
+      <div id="formView">
+        <div class="editorial-header">
+          <div class="kick">Start a project</div>
+          <h1 id="qTitle">Tell us about your project.</h1>
+          <p>Tell us where you're headed. We'll bring the right people to get you there.</p>
+        </div>
+
+        <div class="form-error" id="formError">Something went wrong. Please try again.</div>
+
+        <form id="quoteForm" novalidate>
+          <div class="form-row">
+            <div class="field" data-field="name">
+              <label for="fName">Full name</label>
+              <input type="text" id="fName" name="name" autocomplete="name" required />
+              <div class="error-msg">Please enter your name.</div>
+            </div>
+            <div class="field" data-field="email">
+              <label for="fEmail">Work email</label>
+              <input type="email" id="fEmail" name="email" autocomplete="email" required />
+              <div class="error-msg">Please enter a valid work email.</div>
+            </div>
+          </div>
+
+          <div class="field" data-field="website">
+            <label for="fWebsite">Website / Company</label>
+            <input type="text" id="fWebsite" name="website" autocomplete="organization" required />
+            <div class="error-msg">Please enter your website or company.</div>
+          </div>
+
+          <div class="field" data-field="details">
+            <label for="fDetails">Project details</label>
+            <textarea id="fDetails" name="details" rows="4" required placeholder="What are you looking to achieve? Which services are you interested in?"></textarea>
+            <div class="error-msg">Please describe your project.</div>
+          </div>
+
+          <div class="submit-row">
+            <button type="submit" class="submit">Submit request</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="success-state" id="successView">
+        <div class="rule"></div>
+        <h3>Received.</h3>
+        <p>We'll review your project and be in touch within one business day.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const form=document.getElementById('quoteForm'),formView=document.getElementById('formView'),successView=document.getElementById('successView'),formError=document.getElementById('formError'),closeBtn=document.getElementById('closeBtn');
+    function isValidEmail(e){return/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)}
+    function clearErrors(){form.querySelectorAll('.field').forEach(f=>{f.classList.remove('has-error');const i=f.querySelector('input,select,textarea');if(i)i.classList.remove('error')});formError.classList.remove('visible')}
+    function validate(){clearErrors();let v=true;const n=form.querySelector('[name="name"]'),e=form.querySelector('[name="email"]'),w=form.querySelector('[name="website"]'),d=form.querySelector('[name="details"]');if(!n.value.trim()){markError(n);v=false}if(!e.value.trim()||!isValidEmail(e.value)){markError(e);v=false}if(!w.value.trim()){markError(w);v=false}if(!d.value.trim()){markError(d);v=false}return v}
+    function markError(el){const f=el.closest('.field');if(f)f.classList.add('has-error');el.classList.add('error')}
+    form.addEventListener('submit',function(e){e.preventDefault();if(!validate())return;const b=form.querySelector('.submit');b.disabled=true;b.textContent='Sending…';setTimeout(function(){formView.style.display='none';successView.classList.add('visible')},800)});
+    form.querySelectorAll('input,select,textarea').forEach(el=>{el.addEventListener('input',function(){const f=this.closest('.field');if(f)f.classList.remove('has-error');this.classList.remove('error')})});
+    closeBtn.addEventListener('click',function(){document.getElementById('overlay').style.display='none'});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')document.getElementById('overlay').style.display='none'});
+  </script>
+</body>
+</html>

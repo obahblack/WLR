@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>White Label Resell — Work / Projects</title>
+<meta name="description" content="Selected White Label Resell projects — white-label SEO, content, web development, paid media and analytics delivered under your agency's brand." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { overflow-x: clip; scroll-behavior: smooth; }
+  html, body { background: #050505; color: #FFF; }
+  body { font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: clip; }
+  ::selection { background: #FFF; color: #000; }
+  a { color: inherit; text-decoration: none; }
+  h1, h2, h3 { font-family: 'Space Grotesk', 'Geist', sans-serif; }
+  .shot-scroll::-webkit-scrollbar { width: 0; height: 0; }
+  .shot-scroll { scrollbar-width: none; }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition-duration: .01ms !important; } html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel">
+
+const { useEffect, useRef, useState } = React;
+
+/* BrandMark */
+const BrandMark = ({ size = 20, color = 'currentColor' }) => (
+  <span style={{ display: 'inline-flex', alignItems: 'flex-end', gap: Math.max(2, size * 0.15), height: size }}>
+    {[0.66, 1, 0.82].map((h, i) => (
+      <span key={i} style={{ width: size * 0.22, height: (h * 100) + '%', background: color, display: 'block' }} />
+    ))}
+  </span>
+);
+
+const ARROW = (
+  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: -2 }}>
+    <line x1="5" y1="19" x2="19" y2="5" />
+    <polyline points="8 5 19 5 19 16" />
+  </svg>
+);
+
+const useReveal = (amt = 0.15) => {
+  const ref = useRef(null);
+  const [seen, setSeen] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setSeen(true); io.disconnect(); } }, { threshold: amt, rootMargin: '0px 0px -10% 0px' });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [amt]);
+  return [ref, seen];
+};
+
+/* Nav — exact copy of home-variation-1 Nav (adaptive black/white probe) */
+const Nav = () => {
+  const [dark, setDark] = useState(false);
+  useEffect(() => {
+    const handle = () => {
+      const probe = document.elementFromPoint(window.innerWidth / 2, 40);
+      let node = probe, bg = '';
+      while (node && node !== document.body) {
+        const c = window.getComputedStyle(node).backgroundColor;
+        if (c && c !== 'rgba(0, 0, 0, 0)' && c !== 'transparent') { bg = c; break; }
+        node = node.parentElement;
+      }
+      const m = bg.match(/\d+/g);
+      const light = m && m.length >= 3 ? (0.299 * +m[0] + 0.587 * +m[1] + 0.114 * +m[2]) > 140 : false;
+      setDark(light);
+    };
+    handle();
+    window.addEventListener('scroll', handle, { passive: true });
+    window.addEventListener('resize', handle);
+    return () => { window.removeEventListener('scroll', handle); window.removeEventListener('resize', handle); };
+  }, []);
+  const label = dark ? '#000' : '#FFF';
+  return (
+    <nav style={{
+      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+      padding: '22px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+      fontFamily: 'Space Grotesk', letterSpacing: '.04em', textTransform: 'uppercase', pointerEvents: 'none',
+      background: dark ? 'linear-gradient(to bottom, rgba(255,255,255,0.92), transparent)' : 'linear-gradient(to bottom, rgba(0,0,0,0.6), transparent)',
+      transition: 'color .3s, background .3s',
+    }}>
+      <a href="home.html" style={{ pointerEvents:'auto', display:'flex', alignItems:'center', gap:10, color: label, fontSize:20, fontWeight:600, letterSpacing:'.06em', transition:'color .3s' }}>
+        <BrandMark size={16} color={label} />White Label Resell
+      </a>
+      <div style={{ pointerEvents:'auto', display:'flex', gap:28, alignItems:'center' }}>
+        {[['Work','case-studies.html'],['About','about.html'],['Team','team.html'],['Get a Quote','contact.html']].map(([t,h]) => (
+          <a key={t} href={h} style={{ display:'inline-flex', alignItems:'center', gap:5, color:label, fontSize:16, letterSpacing:'.05em', opacity:.7, transition:'color .3s, opacity .3s' }}>
+            {t} {ARROW}
+          </a>
+        ))}
+      </div>
+    </nav>
+  );
+};
+
+/* CaseBarChart — white bars on black background */
+const CaseBarChart = ({ width, height }) => {
+  const [ref, seen] = useReveal(0.2);
+  const data = [66, 147, 140, 156, 193, 210, 227, 198, 213, 193, 133, 138, 197, 215, 315, 337, 367, 444, 427, 395, 320, 254, 203, 149, 202, 224, 274];
+  const max = 460;
+  const peakIndex = 17;
+
+  return (
+    <div ref={ref} style={{ width: width || '100%', height: height || '100%', position: 'relative' }}>
+      <div style={{ position: 'absolute', top: 30, left: 0, right: 0, bottom: 30, display: 'flex', alignItems: 'flex-end', gap: 3 }}>
+        {data.map((v, i) => (
+          <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', height: '100%', position: 'relative' }}>
+            <div style={{
+              width: '100%',
+              height: seen ? `${(v / max) * 100}%` : '0%',
+              background: '#FFF',
+              borderRadius: '1px 1px 0 0',
+              transition: `height .8s cubic-bezier(.2,.8,.2,1) ${i * 30}ms`,
+            }} />
+            {i === peakIndex && (
+              <div style={{ position: 'absolute', bottom: `${(v / max) * 100 + 3}%`, left: '50%', transform: 'translateX(-50%)', whiteSpace: 'nowrap', fontFamily: 'Space Grotesk', fontSize: 10, letterSpacing: '.16em', textTransform: 'uppercase', color: '#FFF', opacity: seen ? 0.8 : 0, transition: 'opacity .5s ease 1.6s', pointerEvents: 'none' }}>
+                <span style={{ marginRight: 4, fontSize: 8 }}>▲</span> PEAK · JUN 2025 · 444
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, display: 'flex', justifyContent: 'space-between', fontFamily: 'Space Grotesk', fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase', color: '#FFF', opacity: 0.45 }}>
+        <span>JAN 2024</span>
+        <span>JUN 2025</span>
+        <span>MAR 2026</span>
+      </div>
+    </div>
+  );
+};
+
+/* CTA — centered black section */
+const CTA = () => {
+  const [ref, seen] = useReveal(.2);
+  return (
+    <section ref={ref} style={{ background:'#050505', color:'#FFF', padding:'130px 48px 140px' }}>
+      <div style={{ textAlign:'center', opacity: seen?1:0, transform: seen?'none':'translateY(24px)', transition:'opacity .8s, transform .8s cubic-bezier(.2,.8,.2,1)' }}>
+        <div style={{ fontFamily:'Space Grotesk', fontSize:13, letterSpacing:'.18em', textTransform:'uppercase', opacity:.5, marginBottom:24 }}>Let's build something</div>
+        <h2 style={{ margin:'0 auto 24px', fontFamily:'Space Grotesk', fontSize:'clamp(34px,5vw,72px)', fontWeight:500, letterSpacing:'-.03em', lineHeight:1.04, maxWidth:700 }}>Built something we can<br/>help with?</h2>
+        <p style={{ margin:'0 auto 44px', maxWidth:480, fontSize:'clamp(15px,1.2vw,18px)', lineHeight:1.7, opacity:.6 }}>Tell us the brief. Members of the senior team reply within one business day with scope, timeline and next steps.</p>
+        <a href="contact.html" style={{ display:'inline-flex', alignItems:'center', gap:12, padding:'20px 34px', background:'#FFF', color:'#000', textDecoration:'none', fontFamily:'Space Grotesk', fontWeight:600, letterSpacing:'.08em', textTransform:'uppercase', fontSize:14, transition:'transform .3s' }}>
+          Get a Quote
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="19" x2="19" y2="5" /><polyline points="8 5 19 5 19 16" /></svg>
+        </a>
+      </div>
+    </section>
+  );
+};
+
+/* Footer — exact copy of home-variation-1 Footer */
+const Footer = () => (
+  <footer style={{ background:'#000', color:'#FFF', borderTop:'1px solid rgba(255,255,255,0.1)', padding:'36px 48px 32px', display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:24 }}>
+    <div style={{ display:'flex', alignItems:'center', gap:16 }}>
+      <BrandMark size={18} color="#FFF" />
+      <div style={{ display:'flex', flexDirection:'column', gap:4 }}>
+        <span style={{ fontFamily:'Space Grotesk', fontSize:20, fontWeight:600, letterSpacing:'.06em', textTransform:'uppercase' }}>White Label Resell</span>
+        <span style={{ fontFamily:'Space Grotesk', fontSize:13, letterSpacing:'.14em', textTransform:'uppercase', opacity:.4 }}>© 2026 · est. 2018</span>
+      </div>
+    </div>
+    <div style={{ display:'flex', gap:20, flexWrap:'wrap', alignItems:'center', fontFamily:'Space Grotesk', fontSize:16, letterSpacing:'.05em', textTransform:'uppercase' }}>
+      {[['Work','case-studies.html'],['About','about.html'],['Team','team.html'],['Get a Quote','contact.html']].map(([t,h]) => (
+        <a key={t} href={h} style={{ display:'inline-flex', alignItems:'center', gap:5, opacity:.7, textDecoration:'none', transition:'opacity .3s' }}>{t} {ARROW}</a>
+      ))}
+      <a href="mailto:partners@whitelabelresell.com" style={{ opacity:.5, textDecoration:'none', letterSpacing:'.02em' }}>partners@whitelabelresell.com</a>
+    </div>
+  </footer>
+);
+
+/* PROJECTS — verified data (shared across all variations) */
+const PROJECTS = [
+  { no:'01', name:'Guild Golf Carts', tag:'Design · Web · SEO', img:'https://whitelabelresell.com/wp-content/uploads/2025/02/guildgolfcarts.com_-1-s-1-3-570x1024.png', desc:'A full digital transformation — fresh website, marketing analytics and data-driven campaigns that rejuvenated their online presence.', url:'https://whitelabelresell.com/guild-golf-carts-case-study' },
+  { no:'02', name:'Annuity Rate Info', tag:'Web · Content · SEO', img:'https://whitelabelresell.com/wp-content/uploads/2023/12/screencapture-annuityrateinfo-whitelabelresell-2023-12-25-21_41_30-670x1024.jpg', desc:'Website revamp, engaging content, SEO technique and data analytics that propelled them to the forefront of their industry.', url:'https://whitelabelresell.com/annuity-rate-info-case-study' },
+  { no:'03', name:'Wooden Wood Works', tag:'Design · Dev · SEO', img:'https://whitelabelresell.com/wp-content/uploads/2025/03/woodenwoodworks.whitelabelresell.com_copy-683x1024.png', desc:'Website redesign, compelling content and advanced analytics that helped establish a dominant industry presence.', url:'https://whitelabelresell.com/wooden-wood-works-case-study' },
+  { no:'04', name:'FlatBid Moving', tag:'Design · Dev · Marketing', img:'https://whitelabelresell.com/wp-content/uploads/2025/03/screencapture-flatbid-whitelabelresell-2025-03-12-17_08_56-791x1024.png', desc:'Digital transformation that revitalised online visibility and customer engagement through modern design and performance marketing.', url:'https://whitelabelresell.com/flatbid-moving-case-study' },
+];
+
+/* Reusable image frame — fixed 450px tall, scroll on hover */
+const Shot = ({ src, alt, light }) => {
+  const [hover, setHover] = useState(false);
+  return (
+    <div
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{ position:'relative', width:'100%', height:450, overflow:'hidden', background: light ? '#efece8' : '#141414', cursor:'grab', flexShrink:0 }}
+    >
+      <div style={{ height:450, overflow: hover ? 'auto' : 'hidden', width:'100%' }} className="shot-scroll">
+        <img src={src} alt="Website project preview" loading="lazy" style={{ width:'100%', height:'auto', display:'block' }} />
+      </div>
+      <div style={{ position:'absolute', left:12, bottom:12, fontFamily:'Space Grotesk', fontSize:10, letterSpacing:'.16em', textTransform:'uppercase', color: light ? '#000' : '#fff', padding:'5px 9px', background: light ? 'rgba(255,255,255,.75)' : 'rgba(0,0,0,.55)', opacity: hover ? 0 : 1, transition:'opacity .3s', pointerEvents:'none' }}>
+        Scroll to explore
+      </div>
+      <div style={{ position:'absolute', inset:0, boxShadow:'inset 0 0 0 1px rgba(128,128,128,.18)', pointerEvents:'none' }} />
+    </div>
+  );
+};
+
+
+const ArrowRight = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="19" x2="19" y2="5" /><polyline points="8 5 19 5 19 16" /></svg>
+);
+
+
+/* ═══ HERO — text left, bar chart illustration right ═══ */
+const Hero = () => {
+  const [ref, seen] = useReveal(.2);
+  const explore = () => { const el = document.getElementById('projects'); if (el) el.scrollIntoView({ behavior:'smooth' }); };
+  return (
+    <section ref={ref} style={{ background:'#050505', color:'#FFF', minHeight:'88vh', display:'flex', alignItems:'center', padding:'140px 48px 100px' }}>
+      <div style={{ width:'100%', display:'flex', alignItems:'center', gap:48, flexWrap:'wrap', opacity: seen?1:0, transform: seen?'none':'translateY(24px)', transition:'opacity .9s, transform .9s cubic-bezier(.2,.8,.2,1)' }}>
+        <div style={{ flex:'1 1 480px', minWidth:320 }}>
+          <div style={{ fontFamily:'Space Grotesk', fontSize:13, letterSpacing:'.18em', textTransform:'uppercase', opacity:.55, marginBottom:28, display:'inline-flex', alignItems:'center', gap:10 }}>
+            <span style={{ width:28, height:1, background:'#FFF', opacity:.6 }} />Our work
+          </div>
+          <h1 style={{ margin:0, fontFamily:'Space Grotesk', fontSize:'clamp(44px,7vw,104px)', fontWeight:500, letterSpacing:'-.04em', lineHeight:1.0 }} dangerouslySetInnerHTML={{ __html: 'The case<br/>studies.' }} />
+          <p style={{ margin:'30px 0 44px', maxWidth:520, fontSize:'clamp(16px,1.35vw,19px)', lineHeight:1.7, opacity:.68 }}>Bespoke approaches and measurable outcomes for client businesses — documented, not just shipped.</p>
+          <div style={{ display:'flex', gap:16, flexWrap:'wrap' }}>
+            <button onClick={explore} style={{ display:'inline-flex', alignItems:'center', gap:12, padding:'18px 30px', background:'#FFF', color:'#000', border:'none', cursor:'pointer', fontFamily:'Space Grotesk', fontWeight:600, letterSpacing:'.08em', textTransform:'uppercase', fontSize:14, transition:'transform .3s' }}>
+              Explore Projects <ArrowRight />
+            </button>
+            <a href="contact.html" style={{ display:'inline-flex', alignItems:'center', gap:12, padding:'18px 30px', border:'1px solid rgba(255,255,255,.4)', color:'#FFF', textDecoration:'none', fontFamily:'Space Grotesk', fontWeight:600, letterSpacing:'.08em', textTransform:'uppercase', fontSize:14, transition:'background .3s, border-color .3s' }}>
+              Get a Quote <ArrowRight />
+            </a>
+          </div>
+        </div>
+        <div style={{ flex:'1 1 400px', minWidth:280, height:'42vh', minHeight:280, position:'relative' }}>
+          <CaseBarChart width="100%" height="100%" />
+        </div>
+      </div>
+    </section>
+  );
+};
+
+
+const Frame = ({ p, dark }) => {
+  const [hover, setHover] = useState(false);
+  const c = dark ? 'rgba(255,255,255,.55)' : 'rgba(0,0,0,.5)';
+  const B = {
+    position:'absolute', width:16, height:16, borderColor:c, borderStyle:'solid', borderWidth:0,
+    zIndex:2, transition:'transform .3s',
+  };
+  return (
+    <div onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
+      style={{ position:'relative', overflow:'hidden', height:450, background: dark ? '#111' : '#eee' }}>
+      <span style={{ ...B, top:8, left:8, borderTopWidth:1.5, borderLeftWidth:1.5, transform:hover?'scale(1.15)':'scale(1)' }} />
+      <span style={{ ...B, top:8, right:8, borderTopWidth:1.5, borderRightWidth:1.5, transform:hover?'scale(1.15)':'scale(1)' }} />
+      <span style={{ ...B, bottom:8, left:8, borderBottomWidth:1.5, borderLeftWidth:1.5, transform:hover?'scale(1.15)':'scale(1)' }} />
+      <span style={{ ...B, bottom:8, right:8, borderBottomWidth:1.5, borderRightWidth:1.5, transform:hover?'scale(1.15)':'scale(1)' }} />
+      <Shot src={p.img} light={!dark} />
+    </div>
+  );
+};
+
+const Card = ({ p, i }) => {
+  const [ref, seen] = useReveal(.15);
+  const [hover, setHover] = useState(false);
+  const dark = (Math.floor(i / 2) + (i % 2)) % 2 === 0;
+  const bg = dark ? '#0A0A0A' : '#FFFFFF';
+  const fg = dark ? '#FFFFFF' : '#0A0A0A';
+  return (
+    <a href={p.url} target="_blank" rel="noopener noreferrer" ref={ref}
+      onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
+      style={{ display:'block', textDecoration:'none', color:fg, background:bg,
+        border:'1px solid ' + (dark ? 'rgba(255,255,255,.14)' : 'rgba(0,0,0,.14)'),
+        padding:'28px 28px 32px', opacity: seen?1:0, transform: seen?'none':'translateY(24px)',
+        transition:'opacity .7s cubic-bezier(.2,.8,.2,1), transform .7s cubic-bezier(.2,.8,.2,1)' }}>
+      <div style={{ display:'flex', alignItems:'baseline', gap:16, paddingBottom:22, fontFamily:'Space Grotesk' }}>
+        <span style={{ fontSize:'clamp(38px,4vw,60px)', fontWeight:500, letterSpacing:'-.02em', lineHeight:1, opacity:.25 }}>{p.no}</span>
+        <span style={{ fontSize:14, letterSpacing:'.16em', textTransform:'uppercase', opacity:.6 }}>{p.tag}</span>
+      </div>
+      <Frame p={p} dark={dark} />
+      <h3 style={{ margin:'24px 0 12px', fontFamily:'Space Grotesk', fontSize:'clamp(24px,2.6vw,36px)', fontWeight:500, letterSpacing:'-.02em', lineHeight:1.05 }}>{p.name}</h3>
+      <p style={{ margin:0, fontSize:15, lineHeight:1.6, opacity:.72 }}>{p.desc}</p>
+      <span style={{ display:'inline-flex', alignItems:'center', gap:8, marginTop:20, fontFamily:'Space Grotesk', fontSize:12, letterSpacing:'.14em', textTransform:'uppercase', opacity:hover?1:.6, transition:'opacity .3s' }}>
+        View case study {ARROW}
+      </span>
+    </a>
+  );
+};
+
+
+/* ═══ PROJECTS — white section, black/white alternating cards ═══ */
+const Projects = () => {
+  const [ref, seen] = useReveal(.15);
+  return (
+    <section id="projects" style={{ background:'#FFFFFF', color:'#0A0A0A', padding:'120px 48px 130px' }}>
+      <div ref={ref} style={{ marginBottom:72, opacity: seen?1:0, transform: seen?'none':'translateY(22px)', transition:'opacity .8s, transform .8s cubic-bezier(.2,.8,.2,1)' }}>
+        <div style={{ fontFamily:'Space Grotesk', fontSize:13, letterSpacing:'.18em', textTransform:'uppercase', opacity:.5, marginBottom:8, display:'inline-flex', alignItems:'center', gap:10 }}>
+          <span style={{ width:28, height:1, background:'#0A0A0A', opacity:.6 }} />Portfolio
+        </div>
+        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-end', flexWrap:'wrap', gap:20 }}>
+          <h2 style={{ margin:0, fontFamily:'Space Grotesk', fontSize:'clamp(30px,4.4vw,64px)', fontWeight:500, letterSpacing:'-.03em', lineHeight:1.03 }}>Case studies</h2>
+          <p style={{ maxWidth:300, fontSize:15, lineHeight:1.6, opacity:.6, margin:0 }}>Hover a row and scroll through its full-page screenshot.</p>
+        </div>
+      </div>
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'120px 120px' }}>
+        {PROJECTS.map((p, i) => <Card key={p.no} p={p} i={i} />)}
+      </div>
+    </section>
+  );
+};
+
+
+/* ═══ APP ═══ */
+const App = () => (
+  <React.Fragment>
+    <Nav />
+    <Hero />
+    <Projects />
+    <CTA />
+    <Footer />
+  </React.Fragment>
+);
+
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

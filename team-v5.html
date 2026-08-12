@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Team — White Label Resell</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html { overflow-x: clip; }
+  html, body { margin: 0; padding: 0; background: #000; color: #FFF; }
+  body { font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: clip; }
+  ::selection { background: #FFF; color: #000; }
+  i, em { font-style: italic; }
+  a { color: inherit; }
+  a:hover { opacity: .7; }
+  body::-webkit-scrollbar { width: 0; }
+  .cardgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24; }
+  @media (max-width: 1024px) { .cardgrid { grid-template-columns: repeat(2, 1fr) !important; } }
+  @media (max-width: 640px) { .cardgrid { grid-template-columns: 1fr !important; } .cardrow { flex-direction: column !important; } }
+  .cta5grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: stretch; }
+  @media (max-width: 900px) { .cta5grid { grid-template-columns: 1fr !important; gap: 40px !important; align-items: flex-start !important; } }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition-duration: .01ms !important; } }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script>
+const { useState, useEffect, useRef } = React;
+const h = React.createElement;
+
+const useReveal = (amount = 0.15) => {
+  const ref = useRef(null);
+  const [seen, setSeen] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setSeen(true); io.disconnect(); } }, { threshold: amount, rootMargin: '0px 0px -12% 0px' });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [amount]);
+  return [ref, seen];
+};
+
+const ThreeBar = ({ size = 16, color = 'currentColor', gap = 2, animate = false }) => {
+  const [t, setT] = useState(0);
+  useEffect(() => {
+    if (!animate) return;
+    let r;
+    const tick = () => { setT(x => x + 0.016); r = requestAnimationFrame(tick); };
+    r = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(r);
+  }, [animate]);
+  const base = [0.66, 1, 0.82];
+  const heights = animate ? base.map((hh, i) => 0.4 + 0.55 * (0.5 + 0.5 * Math.sin(t * 2.6 + i * 0.7))) : base;
+  return h('span', { style: { display: 'inline-flex', alignItems: 'flex-end', gap, height: size } },
+    heights.map((hh, i) => h('span', { key: i, style: { width: size * 0.22, height: (hh * 100) + '%', background: color } }))
+  );
+};
+
+const Kick = ({ children, style = {} }) =>
+  h('div', { style: Object.assign({ fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase', opacity: 0.6, marginBottom: 16 }, style) }, children);
+
+const LinkedInIcon = ({ size = 22 }) =>
+  h('svg', { width: size, height: size, viewBox: '0 0 24 24', fill: 'currentColor', 'aria-hidden': 'true' },
+    h('path', { d: 'M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z' })
+  );
+
+const LinkedInIconBtn = ({ linkedin, size = 22 }) =>
+  linkedin
+    ? h('a', { href: linkedin, target: '_blank', rel: 'noopener noreferrer', title: 'LinkedIn profile', 'aria-label': 'LinkedIn profile', style: { display: 'inline-flex', color: 'currentColor', opacity: 1, transition: 'opacity .2s' }, onMouseEnter: (e) => e.currentTarget.style.opacity = 0.55, onMouseLeave: (e) => e.currentTarget.style.opacity = 1 },
+        h(LinkedInIcon, { size })
+      )
+    : h('span', { title: 'LinkedIn profile unavailable', 'aria-label': 'LinkedIn profile unavailable', style: { display: 'inline-flex', color: 'currentColor', opacity: 1 } },
+        h(LinkedInIcon, { size })
+      );
+
+const QuoteButton = ({ dark = false, label = 'Get a quote', style = {} }) =>
+  h('a', { href: 'contact.html', style: Object.assign({ display: 'inline-flex', alignItems: 'center', gap: 14, padding: '20px 28px', background: dark ? '#000' : '#FFF', color: dark ? '#FFF' : '#000', textDecoration: 'none', fontFamily: 'Geist Mono, monospace', fontSize: 13, letterSpacing: '0.22em', textTransform: 'uppercase', fontWeight: 600 }, style) },
+    h(ThreeBar, { size: 13, color: dark ? '#FFF' : '#000' }),
+    label + ' →'
+  );
+
+const HUD = ({ active = '' }) => {
+  const links = [['Home','home.html','home'],['Work','case-studies.html','work'],['About','about.html','about'],['Team','team.html','team'],['Get a Quote','contact.html','contact']];
+  return h('div', { style: { position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, mixBlendMode: 'difference', pointerEvents: 'none', padding: '20px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#FFF', fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase' } },
+    h('a', { href: 'home.html', style: { pointerEvents: 'auto', display: 'inline-flex', alignItems: 'center', gap: 12, color: '#FFF', textDecoration: 'none' } },
+      h(ThreeBar, { size: 14, color: '#FFF', gap: 3 }),
+      'White Label Resell'
+    ),
+    h('span', { style: { pointerEvents: 'auto', display: 'flex', gap: 24 } },
+      links.map(([label, href, key]) =>
+        h('a', { key, href, style: { color: '#FFF', textDecoration: 'none', opacity: active === key ? 1 : 0.6, borderBottom: active === key ? '1px solid #FFF' : '1px solid transparent', paddingBottom: 2 } }, label)
+      )
+    )
+  );
+};
+
+const Footer = () =>
+  h('footer', { style: { background: '#000', color: '#FFF', borderTop: '1px solid #FFF', padding: '44px 6vw 32px' } },
+    h('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 28 } },
+      h('div', null,
+        h(ThreeBar, { size: 20, color: '#FFF', gap: 3 }),
+        h('div', { style: { marginTop: 14, fontFamily: 'Geist Mono, monospace', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', opacity: 0.55 } }, '© 2026 White Label Resell · est. 2018')
+      ),
+      h('div', { style: { display: 'flex', gap: 22, flexWrap: 'wrap', fontFamily: 'Geist Mono, monospace', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase' } },
+        [['Home','home.html'],['Work','case-studies.html'],['About','about.html'],['Blogs','blog.html'],['Team','team.html'],['Get a Quote','contact.html'],['partners@whitelabelresell.com','mailto:partners@whitelabelresell.com']].map(([label, href]) =>
+          h('a', { key: label, href, style: { color: '#FFF', textDecoration: 'none', opacity: 0.8 } }, label)
+        )
+      )
+    )
+  );
+
+const team = [
+  { name: "Christian Clark", role: "Founder", image: "https://whitelabelresell.com/wp-content/uploads/2025/01/1697726084291.jpeg", linkedin: "https://www.linkedin.com/in/christian-clark-9a352b179/", alt: "Christian Clark — Founder", width: 562, height: 562 },
+  { name: "Himanshu Raikwar", role: "Lead Digital Designer", image: "https://whitelabelresell.com/wp-content/uploads/2025/01/Himanshu-Raikwar-1024x1024.png", linkedin: "https://www.linkedin.com/in/himanshuraikwar/", alt: "Himanshu Raikwar — Lead Digital Designer", width: 1024, height: 1024 },
+  { name: "Mohammad Muneeb", role: "Lead SEO Specialist", image: "https://whitelabelresell.com/wp-content/uploads/2025/01/Mohammad-Muneeb-1024x1024.png", linkedin: "https://www.linkedin.com/in/mohammad-muneeb-204418215/", alt: "Mohammad Muneeb — Lead SEO Specialist", width: 1024, height: 1024 },
+  { name: "Anil Raikwar", role: "Analytics Engineer", image: "https://whitelabelresell.com/wp-content/uploads/2025/01/Anil-Raikwar.png", linkedin: "https://www.linkedin.com/in/anil-raikwar/", alt: "Anil Raikwar — Analytics Engineer", width: 651, height: 649 },
+  { name: "Haider Ali", role: "SEO Specialist", image: "https://whitelabelresell.com/wp-content/uploads/elementor/thumbs/Haider-Ali-rqg7xs8a0bnqe844b332hjurrpz1a11ezafcq7nbb4.png", linkedin: "https://www.linkedin.com/in/haider-naeem-888378249/", alt: "Haider Ali — SEO Specialist", width: 1024, height: 1024 },
+  { name: "Brandon Carroll", role: "Acquisition Specialist", image: "https://whitelabelresell.com/wp-content/uploads/elementor/thumbs/Brandon-Carroll-rqg7xs8a0bnqe844b332hjurrpz1a11ezafcq7nbb4.png", linkedin: null, alt: "Brandon Carroll — Acquisition Specialist", width: 1024, height: 1024 },
+  { name: "Taofeek Abdulrauf", role: "Cloud Engineer", image: "https://whitelabelresell.com/wp-content/uploads/2025/01/Taofeek-Abdulrauf-1024x1024.png", linkedin: "https://www.linkedin.com/in/taofeek-abdulrauf-a95815226/", alt: "Taofeek Abdulrauf — Cloud Engineer", width: 1024, height: 1024 },
+  { name: "Munir Nadayako", role: "Web Developer", image: "https://whitelabelresell.com/wp-content/uploads/2025/01/Munir-Nadayako-1024x1022.png", linkedin: null, alt: "Munir Nadayako — Web Developer", width: 1024, height: 1022 },
+  { name: "Mcjethro Kalu", role: "Frontend Developer", image: "https://whitelabelresell.com/wp-content/uploads/2025/01/Mcjethro-Kalu-1.png", linkedin: "https://www.linkedin.com/in/mcjethro-kalu-96270a237/", alt: "Mcjethro Kalu — Frontend Developer", width: 732, height: 733 },
+  { name: "Asad Ehsan", role: "Administrator", image: "https://whitelabelresell.com/wp-content/uploads/2025/01/Asad-Ehsan-1021x1024.png", linkedin: null, alt: "Asad Ehsan — Administrator", width: 1021, height: 1024 },
+  { name: "Zubair Tayyib", role: "Jr UI/UX Designer", image: "https://whitelabelresell.com/wp-content/uploads/2025/01/Zubair-Muhammad-Tayyib.png", linkedin: null, alt: "Zubair Tayyib — Jr UI/UX Designer", width: 528, height: 530 },
+  { name: "Sochima Chukwu", role: "Jr Web Developer", image: "https://whitelabelresell.com/wp-content/uploads/2025/01/Sochi-1024x1016.png", linkedin: "https://www.linkedin.com/in/sochukwuma-chukwu/", alt: "Sochima Chukwu — Jr Web Developer", width: 1024, height: 1016 },
+  { name: "Nathaniel Duku", role: "Jr Client Success Manager", image: "https://whitelabelresell.com/wp-content/uploads/2025/01/Nathaniel-Abiodun-Duku-1019x1024.png", linkedin: null, alt: "Nathaniel Duku — Jr Client Success Manager", width: 1019, height: 1024 },
+];
+
+/* HERO — text left, brand mark right, black with hover inversion */
+const BigMark = ({ color = '#FFF' }) => {
+  const [ref, seen] = useReveal(0.2);
+  const [lit, setLit] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setLit(true), 60); return () => clearTimeout(t); }, []);
+  return h('div', { ref, style: { height: 'min(50vh, 408px)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', gap: '1.2vw' } },
+    [0.7, 1, 0.85].map((hh, i) =>
+      h('div', { key: i, style: { width: 'clamp(48px, 6.7vw, 126px)', height: (seen && lit) ? (hh * 100) + '%' : '0%', background: color, transition: 'height 1s cubic-bezier(.2,.8,.2,1) ' + (i * 120) + 'ms' } })
+    )
+  );
+};
+
+const Hero = ({ kick, heading, sub }) => {
+  const [ref, seen] = useReveal(0.2);
+  const [hover, setHover] = useState(false);
+  const bg = hover ? '#FFF' : '#000';
+  const fg = hover ? '#000' : '#FFF';
+  return h('section', { ref, onMouseEnter: () => setHover(true), onMouseLeave: () => setHover(false), style: { minHeight: '600px', background: bg, color: fg, transition: 'background .6s cubic-bezier(.2,.8,.2,1), color .6s', padding: '100px 6vw 60px', display: 'grid', gridTemplateColumns: '1fr 1fr', alignItems: 'center', gap: '4vw' } },
+    h('div', { style: { opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(24px)', transition: 'all .8s cubic-bezier(.2,.8,.2,1)' } },
+      h(Kick, { style: { opacity: 0.6 } }, kick),
+      h('h1', { style: { margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(48px, 6.6vw, 112px)', fontWeight: 500, letterSpacing: '-0.04em', lineHeight: 1.04 } }, heading),
+      h('p', { style: { margin: '32px 0 0', maxWidth: 480, fontSize: 'clamp(16px, 1.25vw, 19px)', lineHeight: 1.6, opacity: 0.8 } }, sub),
+      h('div', { style: { marginTop: 40 } }, h(QuoteButton, { dark: hover }))
+    ),
+    h(BigMark, { color: fg })
+  );
+};
+
+/* CARDS — vertical white cards, image top / text bottom, role + icon on one row, white section */
+const Card = ({ member, index }) => {
+  const [ref, seen] = useReveal(0.1);
+  return h('div', { ref, style: { background: '#FFF', color: '#000', border: '1px solid #000', display: 'flex', flexDirection: 'column', transition: 'opacity .5s, transform .5s', opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(16px)', transitionDelay: seen ? ((index % 4) * 50 + Math.floor(index / 4) * 40) + 'ms' : '0ms' } },
+    h('div', { style: { position: 'relative', overflow: 'hidden', aspectRatio: '4 / 5', background: '#e9e9e9' } },
+      h('img', { src: member.image, alt: member.alt, width: member.width, height: member.height, loading: index < 4 ? 'eager' : 'lazy', style: { width: '100%', height: '100%', objectFit: 'cover', display: 'block', filter: 'grayscale(100%)' } }),
+    ),
+    h('div', { style: { padding: 16 } },
+      h('div', { style: { fontFamily: 'Geist, sans-serif', fontSize: 'clamp(17px, 1.4vw, 22px)', fontWeight: 500, letterSpacing: '-0.015em', lineHeight: 1.15 } }, member.name),
+      h('div', { style: { marginTop: 8, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12 } },
+        h('div', { style: { fontFamily: 'Geist Mono, monospace', fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase', opacity: 0.5 } }, member.role),
+        h(LinkedInIconBtn, { linkedin: member.linkedin, size: 20 })
+      )
+    )
+  );
+};
+
+const Cards = () =>
+  h('section', { style: { background: '#FFF', color: '#000', padding: 'clamp(70px, 8vw, 110px) 6vw', borderTop: '1px solid #000' } },
+    h('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 48 } },
+      h(Kick, { style: { opacity: 0.5, marginBottom: 0 } }, 'The people')
+    ),
+    h('div', { className: 'cardgrid', style: { gap: 24 } },
+      team.map((member, i) => h(Card, { key: member.name, member, index: i }))
+    )
+  );
+
+/* CTA — monitor frame with heading, subtext and button inside, black section */
+/* Website mockup filling the frame height: browser bar, hero image + copy, bars, text lines, cards */
+const WebsiteMock = () =>
+  h('div', { style: { height: '100%', border: '1px solid rgba(255,255,255,.4)', background: 'rgba(255,255,255,.06)', padding: 16, display: 'flex', flexDirection: 'column', gap: 12 } },
+    h('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' } },
+      h('div', { style: { width: 44, height: 8, background: 'rgba(255,255,255,.45)' } }),
+      h('div', { style: { display: 'flex', gap: 8 } },
+        [0, 1, 2, 3].map((i) => h('span', { key: i, style: { width: 18, height: 6, background: 'rgba(255,255,255,.22)' } }))
+      )
+    ),
+    h('div', { style: { display: 'flex', gap: 12, flex: 1, minHeight: 96 } },
+      h('div', { style: { flex: 1.35, minHeight: 96, background: 'rgba(255,255,255,.16)' } }),
+      h('div', { style: { flex: 1, display: 'flex', flexDirection: 'column', gap: 8, justifyContent: 'center' } },
+        h('div', { style: { width: '92%', height: 11, background: 'rgba(255,255,255,.5)' } }),
+        h('div', { style: { width: '72%', height: 8, background: 'rgba(255,255,255,.28)' } }),
+        h('div', { style: { width: '55%', height: 8, background: 'rgba(255,255,255,.22)' } })
+      )
+    ),
+    h('div', { style: { display: 'flex', alignItems: 'flex-end', gap: 8, height: 46 } },
+      [0.55, 0.85, 0.7, 1, 0.62, 0.9].map((hh, i) => h('div', { key: i, style: { flex: 1, height: (hh * 100) + '%', background: 'rgba(255,255,255,.34)' } }))
+    ),
+    [0, 1, 2].map((i) => h('div', { key: i, style: { height: 7, background: 'rgba(255,255,255,.16)' } })),
+    h('div', { style: { display: 'flex', gap: 8 } },
+      [0, 1, 2].map((i) => h('div', { key: i, style: { flex: 1, border: '1px solid rgba(255,255,255,.25)', padding: 8, display: 'flex', flexDirection: 'column', gap: 6 } },
+        [0, 1, 2].map((j) => h('div', { key: j, style: { height: 5, background: 'rgba(255,255,255,.2)' } }))
+      ))
+    )
+  );
+
+const CTA = () => {
+  const [ref, seen] = useReveal(0.15);
+  return h('section', { ref, style: { background: '#000', color: '#FFF', padding: 'clamp(80px, 9vw, 130px) 6vw', borderTop: '1px solid #FFF', display: 'flex', justifyContent: 'center' } },
+    h('div', { style: { width: '100%', maxWidth: 1100, border: '2px solid #FFF', background: '#000', boxShadow: '0 30px 80px rgba(255,255,255,.08)', opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(24px)', transition: 'all .8s cubic-bezier(.2,.8,.2,1)' } },
+      h('div', { style: { borderBottom: '1px solid rgba(255,255,255,.3)', padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 8 } },
+        [0, 1, 2].map((d) => h('span', { key: d, style: { width: 10, height: 10, borderRadius: '50%', background: '#FFF' } })),
+        h('span', { style: { flex: 1, height: 6, background: 'rgba(255,255,255,.15)', marginLeft: 8 } })
+      ),
+      h('div', { style: { padding: 'clamp(40px, 6vw, 72px)' } },
+        h('div', { className: 'cta5grid', style: {} },
+          h('div', null,
+            h(Kick, { style: { opacity: 0.5 } }, 'Work with the bench'),
+            h('h2', { style: { margin: 0, maxWidth: 480, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(30px, 4vw, 62px)', fontWeight: 500, letterSpacing: '-0.04em', lineHeight: 1.05 } },
+              'Tell us about your ', h('i', { style: { fontWeight: 300 } }, 'next project.')
+            ),
+            h('p', { style: { margin: '14px 0 0', maxWidth: 460, fontSize: 14, lineHeight: 1.6, opacity: 0.7 } }, 'We reply to every enquiry within one business day.'),
+            h('div', { style: { marginTop: 28 } }, h(QuoteButton, { dark: false }))
+          ),
+          h('div', { style: { width: '100%' } },
+            h(WebsiteMock)
+          )
+        )
+      )
+    )
+  );
+};
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  h(React.Fragment, null,
+    h(HUD, { active: 'team' }),
+    h(Hero, { kick: 'white label resell · the people', heading: h('span', null, 'Meet the ', h('i', { style: { fontWeight: 300 } }, 'team.')), sub: 'The face and the names behind your white-label delivery.' }),
+    h(Cards),
+    h(CTA),
+    h(Footer)
+  )
+);
+</script>
+</body>
+</html>

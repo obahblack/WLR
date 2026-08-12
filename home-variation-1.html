@@ -1,0 +1,2628 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>White Label Resell — White-label SEO, content, web &amp; analytics for agencies</title>
+<meta name="description" content="White Label Resell is the production bench behind agencies. SEO, content, web development, paid media and analytics delivered under your brand." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;900&family=Geist+Mono:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { overflow-x: clip; }
+  html, body { background: #000; color: #FFF; }
+  body {
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+  }
+  ::selection { background: #FFF; color: #000; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { opacity: 0.7; }
+  body::-webkit-scrollbar { width: 0; }
+  @keyframes pulseDot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.3; transform: scale(0.7); }
+  }
+
+  /* ── Brands marquee ── */
+  .brands-marquee { overflow: hidden; background: #000; }
+  .brands-track {
+    display: flex;
+    width: max-content;
+    animation: brandsScroll 32s linear infinite;
+    will-change: transform;
+  }
+  .brands-group {
+    display: flex;
+    align-items: center;
+    gap: 96px;
+    padding: 0 48px;
+  }
+  @keyframes brandsScroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── Testimonials marquee ── */
+  .testi-marquee { overflow: hidden; }
+  .testi-track {
+    display: flex;
+    width: max-content;
+    animation: testiScroll 45s linear infinite;
+    will-change: transform;
+  }
+  .testi-track:hover { animation-play-state: paused; }
+  .testi-group {
+    display: flex;
+    align-items: stretch;
+    gap: 16px;
+    padding: 0 8px;
+  }
+  @keyframes testiScroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── Hero · wireframe canvas ── */
+  .wf-wrap { position: absolute; inset: 0; background: #050505; z-index: 0; }
+  .wf-inner { position: absolute; inset: 0; }
+  .wf { position: absolute; inset: 0; }
+  .b-fig { position: absolute; z-index: 1; }
+  .fig-scene { position: relative; width: 100%; height: 100%; }
+  .fig-walk { will-change: transform; }
+  .fig-body { width: 100%; height: 100%; will-change: transform; }
+  .limb { transform-box: fill-box; }
+  .cta-primary, .cta-secondary { pointer-events: auto; cursor: pointer; }
+  .cta-primary:hover { background: #050505 !important; color: #FFF !important; transform: translateY(-2px); box-shadow: 0 0 0 1px rgba(255,255,255,.3), 0 14px 28px rgba(0,0,0,.5); }
+  .cta-primary:hover .cta-arrow { transform: translateX(4px); }
+  .cta-secondary:hover { background: #FFF !important; color: #111 !important; border-color: #FFF !important; transform: translateY(-2px); }
+  .cta-secondary:hover .cta-arrow { transform: translateX(4px); }
+  .bf-1 { top: 24%; left: 5%; }
+  .bf-2 { top: 22%; right: 4%; }
+  .bf-3 { top: 50%; left: 6%; }
+  .bf-4 { top: 50%; right: 6%; }
+  .bf-5 { bottom: 10%; left: 13%; }
+  .bf-6 { bottom: 10%; right: 13%; }
+
+  /* ── Hero · builder figure choreography ── */
+  @keyframes hWalkIn { 0% { transform: translateX(-180px); } 20% { transform: translateX(0); } 40% { transform: translateX(0); } 80% { transform: translateX(180px); } 100% { transform: translateX(180px); } }
+  @keyframes hStepL { 0%,100% { transform: rotate(0deg); } 6% { transform: rotate(16deg); } 12% { transform: rotate(-16deg); } 18%,22% { transform: rotate(0deg); } 46% { transform: rotate(16deg); } 52% { transform: rotate(-16deg); } 58%,62% { transform: rotate(0deg); } 80%,100% { transform: rotate(0deg); } }
+  @keyframes hStepR { 0%,100% { transform: rotate(0deg); } 6% { transform: rotate(-16deg); } 12% { transform: rotate(16deg); } 18%,22% { transform: rotate(0deg); } 46% { transform: rotate(-16deg); } 52% { transform: rotate(16deg); } 58%,62% { transform: rotate(0deg); } 80%,100% { transform: rotate(0deg); } }
+  @keyframes hHammer { 0%,100% { transform: rotate(0deg); } 20% { transform: rotate(0deg); } 26% { transform: rotate(-95deg); } 30% { transform: rotate(-8deg); } 34% { transform: rotate(-95deg); } 38% { transform: rotate(-8deg); } 42% { transform: rotate(-95deg); } 46% { transform: rotate(-8deg); } 70%,100% { transform: rotate(0deg); } }
+  @keyframes hBodyPound { 0%,100% { transform: translateY(0); } 20% { transform: translateY(0); } 26% { transform: translateY(-6px) rotate(-5deg); } 30% { transform: translateY(3px) rotate(3deg); } 34% { transform: translateY(-6px) rotate(-5deg); } 38% { transform: translateY(3px) rotate(3deg); } 42% { transform: translateY(-6px) rotate(-5deg); } 46% { transform: translateY(3px) rotate(3deg); } 70%,100% { transform: translateY(0); } }
+  @keyframes hNailShake { 0%,100% { transform: translate(0,0); } 27% { transform: translate(0,0); } 30% { transform: translate(1px,-1px); } 33% { transform: translate(-1px,0); } 36% { transform: translate(0,0); } 38% { transform: translate(1px,1px); } 41% { transform: translate(-1px,0); } 46% { transform: translate(1px,-1px); } 49% { transform: translate(0,0); } 70%,100% { transform: translate(0,0); } }
+  @keyframes hPull { 0%,100% { transform: translateY(0) rotate(0deg); } 18% { transform: translateY(-10px) rotate(-9deg); } 30% { transform: translateY(0) rotate(-4deg); } 40% { transform: translateY(-10px) rotate(-9deg); } 52% { transform: translateY(0) rotate(-4deg); } 100% { transform: translateY(0) rotate(0deg); } }
+  @keyframes hPullArm { 0%,100% { transform: rotate(0deg); } 18% { transform: rotate(-45deg); } 30% { transform: rotate(-18deg); } 40% { transform: rotate(-45deg); } 52% { transform: rotate(-18deg); } 100% { transform: rotate(0deg); } }
+  @keyframes hStretch2 { 0%,100% { transform: scaleX(1); } 18% { transform: scaleX(1.35); } 30% { transform: scaleX(1.1); } 40% { transform: scaleX(1.35); } 52% { transform: scaleX(1.1); } 100% { transform: scaleX(1); } }
+  @keyframes hPendulum { 0%,100% { transform: rotate(-26deg); } 50% { transform: rotate(26deg); } }
+  @keyframes hPendBody { 0%,100% { transform: translateX(2px) rotate(3deg); } 50% { transform: translateX(-2px) rotate(-3deg); } }
+  @keyframes hPendHead { 0%,100% { transform: rotate(-7deg); } 50% { transform: rotate(7deg); } }
+  @keyframes hPendArm { 0%,100% { transform: rotate(-8deg); } 50% { transform: rotate(8deg); } }
+  @keyframes hLift { 0%,100% { transform: translateY(3px); } 25% { transform: translateY(-6px); } 50% { transform: translateY(3px); } 75% { transform: translateY(-6px); } }
+  @keyframes hLiftArm { 0%,100% { transform: rotate(18deg); } 25% { transform: rotate(-68deg); } 50% { transform: rotate(18deg); } 75% { transform: rotate(-68deg); } }
+  @keyframes hLiftBlock { 0%,100% { transform: translateY(0); } 25% { transform: translateY(-28px); } 50% { transform: translateY(0); } 75% { transform: translateY(-28px); } }
+  @keyframes hLiftHead { 0%,100% { transform: rotate(6deg); } 25% { transform: rotate(-3deg); } 50% { transform: rotate(6deg); } 75% { transform: rotate(-3deg); } }
+  @keyframes hFixWalk { 0% { transform: translateX(240px); } 25% { transform: translateX(0); } 45% { transform: translateX(0); } 85% { transform: translateX(-240px); } 100% { transform: translateX(-240px); } }
+  @keyframes hFixLegL { 0%,100% { transform: rotate(0deg); } 7% { transform: rotate(16deg); } 15% { transform: rotate(-16deg); } 25%,30% { transform: rotate(0deg); } 50% { transform: rotate(16deg); } 58% { transform: rotate(-16deg); } 65%,70% { transform: rotate(0deg); } 85%,100% { transform: rotate(0deg); } }
+  @keyframes hFixLegR { 0%,100% { transform: rotate(0deg); } 7% { transform: rotate(-16deg); } 15% { transform: rotate(16deg); } 25%,30% { transform: rotate(0deg); } 50% { transform: rotate(-16deg); } 58% { transform: rotate(16deg); } 65%,70% { transform: rotate(0deg); } 85%,100% { transform: rotate(0deg); } }
+  @keyframes hFixArm { 0%,100% { transform: rotate(0deg); } 30% { transform: rotate(-30deg); } 40% { transform: rotate(-18deg); } 50% { transform: rotate(-30deg); } 58%,100% { transform: rotate(0deg); } }
+  @keyframes hFixHead { 0%,100% { transform: rotate(0deg); } 30% { transform: rotate(10deg); } 50% { transform: rotate(-2deg); } 58%,100% { transform: rotate(0deg); } }
+  @keyframes hFixBob { 0%,100% { transform: translateY(0); } 7% { transform: translateY(-3px); } 15% { transform: translateY(0); } 25%,30% { transform: translateY(0); } 50% { transform: translateY(-3px); } 58% { transform: translateY(0); } 65%,70% { transform: translateY(0); } 85%,100% { transform: translateY(0); } }
+  @keyframes hFixChart { 0%,100% { transform: rotate(0deg); } 35% { transform: rotate(-8deg) translateX(2px); } 45% { transform: rotate(6deg); } 55% { transform: rotate(-4deg); } 60%,100% { transform: rotate(0deg); } }
+  @keyframes hChartA { 0%,100% { transform: scaleY(1); } 25% { transform: scaleY(0.6); } 50% { transform: scaleY(1.15); } 75% { transform: scaleY(0.8); } }
+  @keyframes hChartB { 0%,100% { transform: scaleY(1); } 25% { transform: scaleY(1.2); } 50% { transform: scaleY(0.7); } 75% { transform: scaleY(1.1); } }
+  @keyframes hChartC { 0%,100% { transform: scaleY(1); } 25% { transform: scaleY(0.7); } 50% { transform: scaleY(1.1); } 75% { transform: scaleY(0.9); } }
+
+  @media (max-width: 1024px) {
+    .wf-hide-tablet { display: none !important; }
+    .bf-5 { left: 8%; }
+    .bf-6 { right: 8%; }
+  }
+  @media (max-width: 768px) {
+    .hero { min-height: 760px !important; }
+    .wf-hide-mobile { display: none !important; }
+    .b-fig[data-hide="mobile"] { display: none; }
+    .bf-1 { top: 16%; left: 3%; }
+    .bf-3 { top: 46%; left: 3%; }
+    .bf-5 { left: 6%; bottom: 6%; }
+    .bf-6 { right: 6%; bottom: 6%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation: none !important;
+      transition-duration: 0.01ms !important;
+      animation-delay: 0ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://unpkg.com/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+<script type="text/babel">
+const { useState, useEffect, useRef, useCallback } = React;
+
+/* ── Hooks ────────────────────────────────────────── */
+
+const useReveal = (amount = 0.2) => {
+  const ref = useRef(null);
+  const [seen, setSeen] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setSeen(true);
+          io.disconnect();
+        }
+      },
+      { threshold: amount, rootMargin: '0px 0px -10% 0px' }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [amount]);
+  return [ref, seen];
+};
+
+const useParallax = (factor = -50) => {
+  const ref = useRef(null);
+  const [offset, setOffset] = useState(0);
+  useEffect(() => {
+    const onScroll = () => {
+      const el = ref.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const center = r.top + r.height / 2;
+      const normalised = (center - vh / 2) / vh;
+      setOffset(normalised * factor);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, [factor]);
+  return [ref, offset];
+};
+
+const useCountUp = (end, duration = 2000, decimals = 0) => {
+  const [val, setVal] = useState(0);
+  const [active, setActive] = useState(false);
+  const startTime = useRef(null);
+  const raf = useRef(null);
+  useEffect(() => {
+    if (!active) return;
+    startTime.current = performance.now();
+    const step = (now) => {
+      const elapsed = now - startTime.current;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setVal(eased * end);
+      if (progress < 1) {
+        raf.current = requestAnimationFrame(step);
+      }
+    };
+    raf.current = requestAnimationFrame(step);
+    return () => {
+      if (raf.current) cancelAnimationFrame(raf.current);
+    };
+  }, [active, end, duration]);
+  return [val, () => setActive(true)];
+};
+
+/* ── Reusable Components ──────────────────────────── */
+
+const BrandMark = ({ size = 20, color = '#FFF' }) => (
+  <span style={{
+    display: 'inline-flex',
+    alignItems: 'flex-end',
+    gap: Math.max(2, size * 0.15),
+    height: size,
+  }}>
+    {[0.66, 1, 0.82].map((h, i) => (
+      <span key={i} style={{
+        width: size * 0.22,
+        height: `${h * 100}%`,
+        background: color,
+        display: 'block',
+      }} />
+    ))}
+  </span>
+);
+
+const Kick = ({ children, style = {} }) => (
+  <div style={{
+    fontFamily: 'Space Grotesk',
+    fontSize: 11,
+    letterSpacing: '.22em',
+    textTransform: 'uppercase',
+    opacity: 0.45,
+    marginBottom: 18,
+    ...style,
+  }}>
+    {children}
+  </div>
+);
+
+/* ═══════════════════════════════════════════════════
+   NAV — fixed top bar.
+   Links ≥16px, brand ≥20px. Switches to black content
+   when sitting over a light section.
+   ═══════════════════════════════════════════════════ */
+const Nav = () => {
+  const [dark, setDark] = React.useState(false);
+
+  React.useEffect(() => {
+    const handle = () => {
+      const probe = document.elementFromPoint(window.innerWidth / 2, 60);
+      let node = probe;
+      let bg = '';
+      while (node && node !== document.body) {
+        const c = window.getComputedStyle(node).backgroundColor;
+        if (c && c !== 'rgba(0, 0, 0, 0)' && c !== 'transparent') {
+          bg = c;
+          break;
+        }
+        node = node.parentElement;
+      }
+      const m = bg.match(/\d+/g);
+      const light = m && m.length >= 3
+        ? (0.299 * Number(m[0]) + 0.587 * Number(m[1]) + 0.114 * Number(m[2])) > 140
+        : false;
+      setDark(light);
+    };
+    handle();
+    window.addEventListener('scroll', handle, { passive: true });
+    window.addEventListener('resize', handle);
+    return () => {
+      window.removeEventListener('scroll', handle);
+      window.removeEventListener('resize', handle);
+    };
+  }, []);
+
+  const label = dark ? '#000' : '#FFF';
+
+  return (
+    <nav style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      zIndex: 100,
+      padding: '22px 48px',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      fontFamily: 'Space Grotesk',
+      letterSpacing: '.04em',
+      textTransform: 'uppercase',
+      pointerEvents: 'none',
+      background: dark
+        ? 'linear-gradient(to bottom, rgba(255,255,255,0.92) 0%, transparent 100%)'
+        : 'linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, transparent 100%)',
+      transition: 'color .3s ease, background .3s ease',
+    }}>
+      <a
+        href="home.html"
+        style={{
+          pointerEvents: 'auto',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 10,
+          color: label,
+          fontSize: 20,
+          fontWeight: 600,
+          letterSpacing: '.06em',
+          transition: 'color .3s ease',
+        }}
+      >
+        <BrandMark size={16} color={label} />
+        White Label Resell
+      </a>
+      <div style={{ pointerEvents: 'auto', display: 'flex', gap: 28, alignItems: 'center' }}>
+        {[['Work', 'case-studies.html'], ['About', 'about.html'], ['Team', 'team.html'], ['Get a Quote', 'contact.html']].map(([t, h]) => (
+          <a
+            key={t}
+            href={h}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 5,
+              color: label,
+              fontSize: 16,
+              letterSpacing: '.05em',
+              opacity: 0.7,
+              transition: 'color .3s ease, opacity .3s',
+            }}
+          >
+            {t}
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: -3 }}>
+              <line x1="5" y1="19" x2="19" y2="5" />
+              <polyline points="8 5 19 5 19 16" />
+            </svg>
+          </a>
+        ))}
+      </div>
+    </nav>
+  );
+};
+
+/* ═══════════════════════════════════════════════════
+   01 · HERO — a digital team actively building a website.
+   Full-bleed dark wireframe canvas, six moving builder
+   figures, real hero copy centred on top. Black / white.
+   ═══════════════════════════════════════════════════ */
+const EASE_HERO = 'cubic-bezier(.45,.05,.55,.95)';
+const heroLoop = (name, dur, delay) => `${name} ${dur}s ${EASE_HERO} ${delay}s infinite`;
+const heroSwing = (name, dur, delay) => `${name} ${dur}s ease-in-out ${delay}s infinite`;
+
+/* ── reusable wireframe pieces ── */
+const WFBar = ({ w, h = 6, bg = '#4A4A4A', radius = 3, className = '', style = {} }) => (
+  <div className={className} style={{ width: w, height: h, background: bg, borderRadius: radius, ...style }} />
+);
+
+const WFImg = ({ top, left, width, height, className = '', style = {} }) => (
+  <div className={className} style={{ position: 'absolute', top, left, width, height, background: '#151515', border: '1px solid #2A2A2A', borderRadius: 12, display: 'grid', placeItems: 'center', overflow: 'hidden', ...style }}>
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#4A4A4A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="3" y="3" width="18" height="18" rx="3" />
+      <circle cx="8.6" cy="8.6" r="2.1" />
+      <path d="M3 17l5.2-4.4 3.6 3L17 11l4 4" />
+    </svg>
+  </div>
+);
+
+/* ── the dark website wireframe ── */
+const WebsiteWireframe = ({ ready }) => (
+  <div className="wf-wrap" aria-hidden="true">
+    <div className="wf-inner" style={{
+      opacity: ready ? 1 : 0,
+      transform: ready ? 'none' : 'translateY(24px)',
+      transition: 'opacity .8s cubic-bezier(.2,.7,.2,1) .08s, transform .8s cubic-bezier(.2,.7,.2,1) .08s',
+    }}>
+      <div className="wf">
+        {/* faint grid hairlines */}
+        <div style={{ position: 'absolute', top: 0, bottom: 0, left: '33.33%', width: 1, background: 'rgba(255,255,255,0.05)' }} />
+        <div style={{ position: 'absolute', top: 0, bottom: 0, left: '66.66%', width: 1, background: 'rgba(255,255,255,0.05)' }} />
+
+        {/* nav bar */}
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '9%', display: 'flex', alignItems: 'center', padding: '0 3%', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+          <div style={{ width: 14, height: 14, background: '#F2F2EE', borderRadius: 4, flexShrink: 0 }} />
+          <div style={{ width: 72, height: 5, background: 'rgba(255,255,255,0.55)', borderRadius: 3, marginLeft: 10 }} />
+          <div style={{ display: 'flex', gap: 16, marginLeft: 'auto' }}>
+            {[38, 48, 34, 42].map((w, i) => (
+              <div key={i} style={{ width: w, height: 5, background: 'rgba(255,255,255,0.22)', borderRadius: 3 }} />
+            ))}
+          </div>
+        </div>
+
+        {/* left — image placeholder */}
+        <WFImg top="12%" left="3.5%" width="29%" height="23%" className="wf-hide-mobile" />
+
+        {/* right — text block */}
+        <div className="wf-hide-tablet" style={{ position: 'absolute', top: '13%', right: '4%', width: '26%', display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <WFBar w="72%" h={10} bg="#2A2A2A" radius={4} />
+          <WFBar w="96%" h={6} />
+          <WFBar w="84%" h={6} />
+          <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>
+            <div style={{ width: 56, height: 16, border: '1px solid rgba(255,255,255,0.3)', borderRadius: 6 }} />
+            <div style={{ width: 56, height: 16, border: '1px solid rgba(255,255,255,0.3)', borderRadius: 6 }} />
+          </div>
+        </div>
+
+        {/* left — mini feature rows */}
+        <div className="wf-hide-tablet" style={{ position: 'absolute', top: '39%', left: '3.5%', width: '24%', display: 'flex', flexDirection: 'column', gap: 12 }}>
+          {[0, 1, 2].map((i) => (
+            <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+              <div style={{ width: 18, height: 18, borderRadius: 6, border: '1px solid rgba(255,255,255,0.28)', background: '#151515', flexShrink: 0 }} />
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 5 }}>
+                <div style={{ height: 5, width: '82%', background: '#4A4A4A', borderRadius: 2 }} />
+                <div style={{ height: 4, width: '58%', background: 'rgba(255,255,255,0.12)', borderRadius: 2 }} />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* right — mini card grid */}
+        <div className="wf-hide-tablet" style={{ position: 'absolute', top: '34%', right: '4%', width: '24%', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+          {[0, 1, 2, 3].map((i) => (
+            <div key={i} style={{ height: 52, background: '#151515', border: '1px solid #262626', borderRadius: 8, display: 'flex', flexDirection: 'column', gap: 5, padding: 8 }}>
+              <div style={{ flex: 1, background: '#3A3A3A', borderRadius: 4, opacity: .7 }} />
+              <div style={{ height: 4, width: '70%', background: 'rgba(255,255,255,0.12)', borderRadius: 2 }} />
+            </div>
+          ))}
+        </div>
+
+        {/* stats row */}
+        <div className="wf-hide-mobile" style={{ position: 'absolute', top: '63%', left: '3.5%', right: '3.5%', height: '8%', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr' }}>
+          {[0, 1, 2].map((i) => (
+            <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, borderLeft: i ? '1px solid rgba(255,255,255,0.08)' : 'none' }}>
+              <div style={{ width: 26, height: 9, background: 'rgba(255,255,255,0.85)', borderRadius: 2 }} />
+              <div style={{ width: 56, height: 4, background: '#4A4A4A', borderRadius: 2 }} />
+            </div>
+          ))}
+        </div>
+
+        {/* cards grid */}
+        <div className="wf-hide-mobile" style={{ position: 'absolute', top: '75%', left: '3.5%', right: '3.5%', height: '17%', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10, opacity: 0.45 }}>
+          {[0, 1, 2].map((i) => (
+            <div key={i} style={{ background: '#0E0E0E', border: i === 1 ? '1px solid rgba(255,255,255,0.12)' : '1px solid rgba(255,255,255,0.08)', borderRadius: 10, display: 'flex', gap: 10, padding: 10, alignItems: 'center', overflow: 'hidden', position: 'relative' }}>
+              {i === 1 && <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(5,5,5,0.7) 0%, transparent 50%)', borderRadius: 10, pointerEvents: 'none' }} />}
+              <div style={{ width: 34, height: 34, borderRadius: 8, background: '#2A2A2A', flexShrink: 0 }} />
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 5 }}>
+                <div style={{ height: 5, width: '80%', background: 'rgba(255,255,255,0.18)', borderRadius: 2 }} />
+                <div style={{ height: 4, width: '55%', background: 'rgba(255,255,255,0.08)', borderRadius: 2 }} />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* footer strip */}
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '6%', borderTop: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', padding: '0 3%', gap: 12 }}>
+          <div style={{ width: 12, height: 12, background: 'rgba(255,255,255,0.5)', borderRadius: 3 }} />
+          <div style={{ width: 80, height: 4, background: '#4A4A4A', borderRadius: 2 }} />
+          <div style={{ marginLeft: 'auto', width: 90, height: 4, background: '#4A4A4A', borderRadius: 2 }} />
+        </div>
+
+        {/* readability wash behind hero copy */}
+        <div style={{
+          position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 2,
+          background: 'radial-gradient(58% 46% at 50% 50%, rgba(5,5,5,0.92), rgba(5,5,5,0.55) 54%, rgba(5,5,5,0) 78%)',
+        }} />
+      </div>
+    </div>
+  </div>
+);
+
+/* ── CTA actions ── */
+const Arrow = () => (
+  <span className="cta-arrow" style={{ display: 'inline-flex', marginLeft: 2, transition: 'transform .3s cubic-bezier(.2,.8,.2,1)' }}>
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M1 7h11M8 3l4 4-4 4" />
+    </svg>
+  </span>
+);
+
+const HeroActions = ({ ready }) => (
+  <div style={{
+    display: 'flex', justifyContent: 'center', gap: 14, flexWrap: 'wrap', marginTop: 40,
+    pointerEvents: 'auto',
+    opacity: ready ? 1 : 0, transform: ready ? 'none' : 'translateY(12px)',
+    transition: 'opacity .5s ease .8s, transform .5s cubic-bezier(.2,.8,.2,1) .8s',
+  }}>
+    <a href="contact.html" className="cta-primary" style={{
+      display: 'inline-flex', alignItems: 'center', gap: 10, padding: '17px 30px', background: '#FFF', color: '#111',
+      borderRadius: 10, fontFamily: 'Space Grotesk', fontSize: 13, letterSpacing: '.14em', textTransform: 'uppercase',
+      fontWeight: 600, transition: 'background .25s ease, color .25s ease, transform .25s ease, box-shadow .25s ease',
+    }}>
+      <BrandMark size={14} color="#111" /> Get a Quote
+    </a>
+    <a href="case-studies.html" className="cta-secondary" style={{
+      display: 'inline-flex', alignItems: 'center', gap: 10, padding: '17px 30px', background: '#111', color: '#FFF',
+      border: '1px solid rgba(255,255,255,0.35)', borderRadius: 10, fontFamily: 'Space Grotesk', fontSize: 13, letterSpacing: '.14em',
+      textTransform: 'uppercase', fontWeight: 600, transition: 'background .25s ease, color .25s ease, transform .25s ease',
+    }}>
+      View Our Work <Arrow />
+    </a>
+  </div>
+);
+
+/* ── the real hero copy, centred over the wireframe ── */
+const HeroContent = ({ ready }) => {
+  const lines = ['We Build Digital', 'Experiences That Move Businesses.'];
+  return (
+    <div style={{
+      position: 'absolute', top: '50%', left: '50%', width: 'min(960px, 90%)',
+      transform: 'translate(-50%,-50%)', textAlign: 'center', zIndex: 3, pointerEvents: 'none',
+    }}>
+
+      <h1 style={{
+        margin: '26px 0 0', fontFamily: 'Geist', fontWeight: 700,
+        fontSize: 'clamp(52px, 5.7vw, 80px)', lineHeight: 1.1, letterSpacing: '-.02em', color: '#FFF',
+      }}>
+        {lines.map((line, i) => (
+          <span key={line} style={{ display: 'block', overflow: 'hidden' }}>
+            <span style={{
+              display: 'block',
+              transform: ready ? 'none' : 'translateY(112%)',
+              transition: `transform .62s cubic-bezier(.2,.8,.2,1) ${(.42 + i * .09).toFixed(2)}s`,
+            }}>{line}</span>
+          </span>
+        ))}
+      </h1>
+
+      <p style={{
+        margin: '22px auto 0', maxWidth: 620, fontSize: 'clamp(15px, 1.15vw, 17px)', lineHeight: 1.7,
+        color: 'rgba(255,255,255,.66)', opacity: ready ? 1 : 0, transform: ready ? 'none' : 'translateY(10px)',
+        transition: 'opacity .55s ease .7s, transform .55s cubic-bezier(.2,.8,.2,1) .7s',
+      }}>
+        Strategy, design, development and marketing brought together to build brands that perform.
+      </p>
+
+      <HeroActions ready={ready} />
+    </div>
+  );
+};
+
+/* ── simplified editorial builder figure (SVG, animatable limbs) ── */
+const BuilderFigure = ({
+  className = '', size = 150, ready = true, enterDelay = 0, hideMobile = false, flip = false,
+  arms = {}, legs = {}, head = false, body = false, walk = false, color = '#F2F2EE', children,
+}) => (
+  <div
+    className={`b-fig ${className}`}
+    data-hide={hideMobile ? 'mobile' : null}
+    aria-hidden="true"
+    style={{
+      height: size, aspectRatio: '3 / 5',
+      opacity: ready ? 1 : 0,
+      transform: ready ? 'none' : 'translateY(14px)',
+      transition: `opacity .5s ease ${enterDelay}s, transform .5s cubic-bezier(.2,.8,.2,1) ${enterDelay}s`,
+    }}
+  >
+    <div className="fig-scene">
+      <div className="fig-walk" style={{ position: 'absolute', inset: 0, animation: walk || 'none' }}>
+        <div className="fig-body" style={{ width: '100%', height: '100%', animation: body || 'none' }}>
+          <svg viewBox="0 0 120 200" width="100%" height="100%" style={{ display: 'block', overflow: 'visible', transform: flip ? 'scaleX(-1)' : 'none' }}>
+            <g className="limb" style={{ transformOrigin: '50% 100%', ...(head ? { animation: head } : {}) }}>
+              <circle cx="60" cy="26" r="15" fill={color} />
+            </g>
+            <path d="M60 45 L60 108" stroke={color} strokeWidth="8" strokeLinecap="round" fill="none" />
+            <g className="limb" style={{ transformOrigin: '100% 0%', ...(arms.l ? { animation: arms.l } : {}) }}>
+              <path d="M60 52 L34 74 L30 100" stroke={color} strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+            </g>
+            <g className="limb" style={{ transformOrigin: '0% 0%', ...(arms.r ? { animation: arms.r } : {}) }}>
+              <path d="M60 52 L86 72 L90 98" stroke={color} strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+            </g>
+            <g className="limb" style={{ transformOrigin: '100% 0%', ...(legs.l ? { animation: legs.l } : {}) }}>
+              <path d="M60 108 L48 146 L45 182" stroke={color} strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+            </g>
+            <g className="limb" style={{ transformOrigin: '0% 0%', ...(legs.r ? { animation: legs.r } : {}) }}>
+              <path d="M60 108 L72 146 L75 182" stroke={color} strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+            </g>
+          </svg>
+        </div>
+        {children}
+      </div>
+    </div>
+  </div>
+);
+
+/* ── HERO — six builders, one wireframe ── */
+const Hero = () => {
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => setReady(true), 80);
+    return () => clearTimeout(t);
+  }, []);
+
+  const figH = 'clamp(84px, 12vw, 150px)';
+
+  return (
+    <section className="hero" aria-label="White Label Resell — full-service digital agency" style={{
+      position: 'relative', minHeight: 'max(850px, 100svh)', background: '#050505',
+      color: '#FFF', overflow: 'hidden',
+      opacity: ready ? 1 : 0, transition: 'opacity .4s ease',
+    }}>
+      <WebsiteWireframe ready={ready} />
+      <HeroContent ready={ready} />
+
+      {/* 1 — top left: walks in, hammers a block onto the nav, continues forward off-screen */}
+      <BuilderFigure className="bf-1" size={figH} ready={ready} enterDelay={0.9}
+        walk={heroLoop('hWalkIn', 9, 2.0)}
+        body={heroLoop('hBodyPound', 9, 2.0)}
+        arms={{ r: heroLoop('hHammer', 9, 2.0) }}
+        legs={{ l: heroLoop('hStepL', 9, 2.0), r: heroLoop('hStepR', 9, 2.0) }}>
+        <div className="fig-loop" style={{
+          position: 'absolute', top: '49%', left: '75%', width: 36, height: 15, background: '#1A1A1A',
+          border: '1px solid rgba(255,255,255,0.28)', borderRadius: 3, display: 'flex', alignItems: 'center', padding: '0 6px',
+          animation: heroLoop('hNailShake', 9, 2.0),
+        }}>
+          <div style={{ width: 12, height: 3, background: 'rgba(255,255,255,0.5)', borderRadius: 2 }} />
+        </div>
+      </BuilderFigure>
+
+      {/* 2 — top right: leans back and pulls the section wider */}
+      <BuilderFigure className="bf-2" size={figH} ready={ready} enterDelay={1.0} hideMobile flip
+        body={heroLoop('hPull', 6.5, 2.4)}
+        arms={{ r: heroLoop('hPullArm', 6.5, 2.4) }}>
+        <div className="fig-loop" style={{
+          position: 'absolute', top: '26%', left: '-82%', width: 96, height: 36, background: '#1A1A1A',
+          border: '1px solid rgba(255,255,255,0.22)', borderRadius: 8, transformOrigin: '0% 50%',
+          display: 'flex', gap: 8, alignItems: 'center', padding: '0 12px',
+          animation: heroLoop('hStretch2', 6.5, 2.4),
+        }}>
+          <div style={{ width: 14, height: 14, background: '#3A3A3A', borderRadius: 4, flexShrink: 0 }} />
+          <div style={{ flex: 1, height: 5, background: 'rgba(255,255,255,0.4)', borderRadius: 3 }} />
+        </div>
+      </BuilderFigure>
+
+      {/* 3 — middle right: holding a swinging pendulum */}
+      <BuilderFigure className="bf-3" size={figH} ready={ready} enterDelay={1.2} hideMobile
+        body={heroSwing('hPendBody', 7, 2.6)}
+        head={heroSwing('hPendHead', 7, 2.6)}
+        arms={{ r: heroSwing('hPendArm', 7, 2.6) }}>
+        <div className="fig-loop" style={{
+          position: 'absolute', top: '49%', left: '75%', width: 4, height: 62, background: 'rgba(255,255,255,0.7)',
+          borderRadius: 2, transformOrigin: '50% 0%',
+          animation: heroSwing('hPendulum', 7, 2.6),
+        }}>
+          <div style={{ position: 'absolute', left: '50%', bottom: -8, width: 16, height: 16, transform: 'translateX(-50%)', borderRadius: '50%', background: '#F2F2EE' }} />
+        </div>
+      </BuilderFigure>
+
+      {/* 4 — bottom left: hoists a content block up and down */}
+      <BuilderFigure className="bf-4" size={figH} ready={ready} enterDelay={1.3}
+        body={heroLoop('hLift', 6, 2.2)}
+        head={heroLoop('hLiftHead', 6, 2.2)}
+        arms={{ r: heroLoop('hLiftArm', 6, 2.2) }}>
+        <div className="fig-loop" style={{ position: 'absolute', top: '49%', left: '75%', animation: heroLoop('hLiftBlock', 6, 2.2) }}>
+          <div style={{
+            width: 96, height: 52, background: '#1A1A1A', border: '1px solid rgba(255,255,255,0.22)', borderRadius: 10,
+            display: 'flex', gap: 10, alignItems: 'center', padding: '0 12px',
+          }}>
+            <div style={{ width: 30, height: 20, background: '#3A3A3A', borderRadius: 6, flexShrink: 0 }} />
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 5 }}>
+              <div style={{ height: 5, background: 'rgba(255,255,255,0.35)', borderRadius: 2 }} />
+              <div style={{ height: 5, width: '60%', background: 'rgba(255,255,255,0.2)', borderRadius: 2 }} />
+            </div>
+          </div>
+        </div>
+      </BuilderFigure>
+
+      {/* 5 — bottom right: walks in, fixes the chart, continues forward off-screen */}
+      <BuilderFigure className="bf-5" size={figH} ready={ready} enterDelay={1.4} flip
+        walk={heroLoop('hFixWalk', 10, 2.3)}
+        body={heroLoop('hFixBob', 10, 2.3)}
+        head={heroLoop('hFixHead', 10, 2.3)}
+        arms={{ r: heroLoop('hFixArm', 10, 2.3) }}
+        legs={{ l: heroLoop('hFixLegL', 10, 2.3), r: heroLoop('hFixLegR', 10, 2.3) }}>
+        <div className="fig-loop" style={{
+          position: 'absolute', top: '49%', left: '25%', width: 58, height: 44, background: '#1A1A1A',
+          border: '1px solid rgba(255,255,255,0.22)', borderRadius: 8, display: 'flex', alignItems: 'flex-end', gap: 5,
+          padding: '8px', animation: heroLoop('hFixChart', 10, 2.3),
+        }}>
+          <div style={{ flex: 1, height: '45%', background: '#F2F2EE', opacity: .5, borderRadius: 2, transformOrigin: 'bottom', animation: heroLoop('hChartA', 10, 2.3) }} />
+          <div style={{ flex: 1, height: '70%', background: '#F2F2EE', opacity: .35, borderRadius: 2, transformOrigin: 'bottom', animation: heroLoop('hChartB', 10, 2.3) }} />
+          <div style={{ flex: 1, height: '30%', background: '#F2F2EE', opacity: .3, borderRadius: 2, transformOrigin: 'bottom', animation: heroLoop('hChartC', 10, 2.3) }} />
+        </div>
+      </BuilderFigure>
+    </section>
+  );
+};
+
+/* ═══════════════════════════════════════════════════
+   02 · SCROLL REVEAL — GSAP ScrollTrigger
+   Pinned section with split heading and vertical card flow.
+   ═══════════════════════════════════════════════════ */
+const ScrollReveal = () => {
+  const sectionRef = React.useRef(null);
+  const pinRef = React.useRef(null);
+  const leftTextRef = React.useRef(null);
+  const rightTextRef = React.useRef(null);
+  const cardTrackRef = React.useRef(null);
+  const eybrowRef = React.useRef(null);
+
+  const cards = [
+    { title: 'Discover & Define', desc: 'We dive deep into your goals, audience, and brand to uncover insights and define a clear direction.', stars: 1 },
+    { title: 'Design & Build', desc: 'With strategy in place, we craft stunning visuals and high-performing digital solutions tailored to your needs.', stars: 2 },
+    { title: 'Launch & Grow', desc: 'We bring your vision to life, optimize for performance, and support your ongoing success post-launch.', stars: 3 },
+  ];
+
+  const StarRow = React.memo(({ n }) => (
+    <span style={{ display: 'inline-flex', gap: 6 }}>
+      {[0,1,2].map(i => (
+        <svg key={i} width="18" height="18" viewBox="0 0 24 24" fill={i < n ? '#000' : 'none'} stroke="#000" strokeWidth="1.5">
+          <path d="M12 2L14.5 9.5L22 10L16.5 15L18 22L12 18.5L6 22L7.5 15L2 10L9.5 9.5L12 2Z" />
+        </svg>
+      ))}
+    </span>
+  ));
+
+  const hs = {
+    fontFamily: "'Inter', sans-serif",
+    fontSize: 'clamp(36px, 5vw, 64px)',
+    fontWeight: 600,
+    lineHeight: 1.15,
+    letterSpacing: '-.03em',
+    color: '#000',
+  };
+
+  React.useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const section = sectionRef.current;
+    const pin = pinRef.current;
+    const leftText = leftTextRef.current;
+    const rightText = rightTextRef.current;
+    const cardTrack = cardTrackRef.current;
+    const eyebrow = eybrowRef.current;
+    if (!section || !pin || !leftText || !rightText || !cardTrack || !eyebrow) return;
+
+    const dropDist = () => {
+      const pinH = pin.offsetHeight;
+      return pinH * 0.42 - pinH * 0.14 - 16;
+    };
+
+    const calcEndY = () => {
+      const card3 = cardTrack.children[2];
+      if (!card3) return 0;
+      const card3H = card3.offsetHeight;
+      const gap = 32;
+      const card1H = cardTrack.children[0]?.offsetHeight || 0;
+      const card2H = cardTrack.children[1]?.offsetHeight || 0;
+      const card3CenterOffset = card1H + gap + card2H + gap + card3H / 2;
+      const trackTop = cardTrack.offsetTop || pin.offsetHeight * 0.42;
+      return (window.innerHeight / 2) - (trackTop + card3CenterOffset);
+    };
+
+    const mm = gsap.matchMedia();
+
+    mm.add('(min-width: 769px)', () => {
+      gsap.set([leftText, rightText], { y: () => -dropDist() });
+      gsap.set(cardTrack, { y: '100vh' });
+
+      const dropTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 50%',
+          end: 'top top',
+          scrub: 0.5,
+          invalidateOnRefresh: true,
+        },
+      });
+      dropTl.to(leftText, { y: 0, duration: 1, ease: 'none' }, 0);
+      dropTl.to(rightText, { y: 0, duration: 1, ease: 'none' }, 0);
+      dropTl.to(cardTrack, { y: '55vh', duration: 1, ease: 'none' }, 0);
+
+      const splitTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end: 'bottom bottom',
+          pin: pin,
+          scrub: 0.5,
+          invalidateOnRefresh: true,
+        },
+      });
+      splitTl.to(leftText, { x: -220, duration: 0.15, ease: 'none' }, 0);
+      splitTl.to(rightText, { x: 220, duration: 0.15, ease: 'none' }, 0);
+      splitTl.to(cardTrack, { y: '46vh', duration: 0.15, ease: 'none' }, 0);
+      splitTl.to(cardTrack, { y: calcEndY, duration: 0.5, ease: 'none' }, 0.15);
+
+      return () => { dropTl.kill(); splitTl.kill(); };
+    });
+
+    mm.add('(max-width: 768px)', () => {
+      gsap.set([leftText, rightText], { y: () => -dropDist() });
+      gsap.set(cardTrack, { y: '100vh' });
+
+      const dropTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 50%',
+          end: 'top top',
+          scrub: 0.5,
+          invalidateOnRefresh: true,
+        },
+      });
+      dropTl.to(leftText, { y: 0, duration: 1, ease: 'none' }, 0);
+      dropTl.to(rightText, { y: 0, duration: 1, ease: 'none' }, 0);
+      dropTl.to(cardTrack, { y: '55vh', duration: 1, ease: 'none' }, 0);
+
+      const splitTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end: 'bottom bottom',
+          pin: pin,
+          scrub: 0.5,
+          invalidateOnRefresh: true,
+        },
+      });
+      splitTl.to(leftText, { x: -100, duration: 0.15, ease: 'none' }, 0);
+      splitTl.to(rightText, { x: 100, duration: 0.15, ease: 'none' }, 0);
+      splitTl.to(cardTrack, { y: '46vh', duration: 0.15, ease: 'none' }, 0);
+      splitTl.to(cardTrack, { y: calcEndY, duration: 0.5, ease: 'none' }, 0.15);
+
+      return () => { dropTl.kill(); splitTl.kill(); };
+    });
+
+    return () => {
+      mm.revert();
+      ScrollTrigger.getAll().forEach(t => t.kill());
+    };
+  }, []);
+
+  /* Reduced motion: plain layout */
+  const isReducedMotion = typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  return (
+    <section
+      ref={sectionRef}
+      style={{ background: '#F5F5F5', color: '#000', position: 'relative', minHeight: '300vh' }}
+    >
+      {/* Pinned viewport */}
+      <div
+        ref={pinRef}
+        style={{
+          width: '100%',
+          height: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflow: 'hidden',
+        }}
+      >
+        {/* Eyebrow */}
+        <div
+          ref={eybrowRef}
+          style={{
+            position: 'absolute',
+            top: '14%',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            fontFamily: 'Space Grotesk',
+            fontSize: 12,
+            letterSpacing: '.2em',
+            textTransform: 'uppercase',
+            whiteSpace: 'nowrap',
+            zIndex: 1,
+          }}
+        >
+          <BrandMark size={12} color="#000" /> From concept to launch
+        </div>
+
+        {/* Left heading */}
+        <div
+          ref={leftTextRef}
+          style={{
+            position: 'absolute',
+            right: '50%',
+            top: '42%',
+            textAlign: 'left',
+            paddingRight: 10,
+            whiteSpace: 'nowrap',
+            zIndex: 2,
+          }}
+        >
+          <div style={hs}>Pathway</div>
+          <div style={{ ...hs, marginTop: 2, textAlign: 'right' }}>
+            and Lead
+          </div>
+        </div>
+
+        {/* Right heading */}
+        <div
+          ref={rightTextRef}
+          style={{
+            position: 'absolute',
+            left: '50%',
+            top: '42%',
+            textAlign: 'left',
+            paddingLeft: 10,
+            whiteSpace: 'nowrap',
+            zIndex: 2,
+          }}
+        >
+          <div style={hs}>to <em style={{ fontFamily: 'Geist', fontWeight: 400, fontStyle: 'italic' }}>growth,</em></div>
+          <div style={{ ...hs, marginTop: 2 }}>generation</div>
+        </div>
+
+        {/* Card track — vertical column, moves upward */}
+        <div
+          ref={cardTrackRef}
+          style={{
+            position: 'absolute',
+            left: '50%',
+            top: '42%',
+            transform: 'translateX(-50%)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 32,
+            width: 'min(420px, 78vw)',
+            zIndex: 3,
+          }}
+        >
+          {cards.map((card, i) => (
+            <div key={i} style={{ flexShrink: 0 }}>
+              <div style={{ border: '2px solid rgba(0,0,0,0.06)', borderRadius: 18, padding: 8 }}>
+                <div style={{ background: '#FFF', borderRadius: 12, padding: '28px 32px 32px', border: '1px solid rgba(0,0,0,0.04)' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20 }}>
+                    <h3 style={{ fontFamily: "'Inter', sans-serif", fontSize: 20, fontWeight: 600, margin: 0, letterSpacing: '-.02em', color: '#000' }}>
+                      {card.title}
+                    </h3>
+                    <StarRow n={card.stars} />
+                  </div>
+                  <div style={{ height: 180, marginBottom: 24, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <svg viewBox="0 0 200 200" width="60%" height="auto" fill="none" stroke="#000" strokeWidth="1.5">
+                      {i === 0 && (
+                        <>
+                          <circle cx="100" cy="100" r="88" fill="none" />
+                          <circle cx="100" cy="100" r="80" fill="none" strokeDasharray="4 6" />
+                          <circle cx="100" cy="100" r="8" fill="#000" />
+                          <circle cx="100" cy="100" r="3" fill="#FFF" />
+                          <line x1="100" y1="100" x2="100" y2="30" stroke="#000" strokeWidth="2" strokeLinecap="round" />
+                          <line x1="100" y1="100" x2="140" y2="80" stroke="#000" strokeWidth="1.5" strokeLinecap="round" />
+                          {[0,30,60,90,120,150,180,210,240,270,300,330].map(a => {
+                            const r = 85;
+                            const rad = (a * Math.PI) / 180;
+                            const x1 = 100 + r * Math.sin(rad);
+                            const y1 = 100 - r * Math.cos(rad);
+                            const x2 = 100 + (r - 5) * Math.sin(rad);
+                            const y2 = 100 - (r - 5) * Math.cos(rad);
+                            return <line key={a} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#000" strokeWidth={a % 90 === 0 ? 2 : 1} />;
+                          })}
+                          <text x="100" y="18" textAnchor="middle" fontSize="13" fontWeight="600" fontFamily="Inter,sans-serif" fill="#000" stroke="none">N</text>
+                          <text x="100" y="196" textAnchor="middle" fontSize="13" fontWeight="600" fontFamily="Inter,sans-serif" fill="#000" stroke="none">S</text>
+                          <text x="10" y="104" textAnchor="middle" fontSize="13" fontWeight="600" fontFamily="Inter,sans-serif" fill="#000" stroke="none">W</text>
+                          <text x="190" y="104" textAnchor="middle" fontSize="13" fontWeight="600" fontFamily="Inter,sans-serif" fill="#000" stroke="none">E</text>
+                        </>
+                      )}
+                      {i === 1 && (
+                        <>
+                          <rect x="12" y="8" width="130" height="100" rx="6" fill="none" />
+                          <rect x="20" y="16" width="114" height="76" rx="3" fill="#F9F9F9" />
+                          <line x1="20" y1="36" x2="134" y2="36" stroke="#EEE" strokeWidth="0.5" />
+                          <rect x="24" y="42" width="40" height="6" rx="2" fill="#DDD" stroke="none" />
+                          <rect x="24" y="52" width="60" height="6" rx="2" fill="#EEE" stroke="none" />
+                          <rect x="24" y="62" width="30" height="6" rx="2" fill="#DDD" stroke="none" />
+                          <rect x="55" y="108" width="44" height="6" rx="3" fill="#000" stroke="none" />
+                          <rect x="42" y="118" width="70" height="5" rx="2.5" fill="#000" stroke="none" />
+                          <rect x="122" y="40" width="56" height="86" rx="6" fill="none" />
+                          <rect x="128" y="48" width="44" height="66" rx="3" fill="#F9F9F9" />
+                          <line x1="128" y1="68" x2="172" y2="68" stroke="#EEE" strokeWidth="0.5" />
+                          <rect x="132" y="74" width="30" height="5" rx="2" fill="#DDD" stroke="none" />
+                          <rect x="132" y="83" width="24" height="5" rx="2" fill="#EEE" stroke="none" />
+                          <rect x="148" y="108" width="18" height="4" rx="2" fill="#000" stroke="none" />
+                          <circle cx="157" cy="108" r="2" fill="#FFF" stroke="none" />
+                          <path d="M152 70 L157 65 L162 70" fill="none" stroke="#000" strokeWidth="1.5" strokeLinecap="round" />
+                        </>
+                      )}
+                      {i === 2 && (
+                        <>
+                          <path d="M100 20 C100 20 140 60 140 110 L140 145 L120 155 L120 125 L80 125 L80 155 L60 145 L60 110 C60 60 100 20 100 20Z" fill="none" />
+                          <path d="M100 20 C100 20 120 50 125 80 L75 80 C80 50 100 20 100 20Z" fill="#000" stroke="none" />
+                          <circle cx="100" cy="95" r="14" fill="none" />
+                          <circle cx="100" cy="95" r="10" fill="#000" />
+                          <circle cx="98" cy="93" r="3" fill="#FFF" stroke="none" />
+                          <path d="M80 130 L55 155 L80 145 Z" fill="#000" stroke="none" />
+                          <path d="M120 130 L145 155 L120 145 Z" fill="#000" stroke="none" />
+                          {[{x:30,y:40},{x:170,y:35},{x:25,y:120},{x:175,y:115},{x:45,y:170},{x:155,y:168}].map((s,idx) => (
+                            <circle key={idx} cx={s.x} cy={s.y} r="2" fill="#000" stroke="none" />
+                          ))}
+                          <path d="M35 55 L40 50 L45 55 L40 60 Z" fill="none" stroke="#000" strokeWidth="1" />
+                          <path d="M155 50 L160 45 L165 50 L160 55 Z" fill="none" stroke="#000" strokeWidth="1" />
+                        </>
+                      )}
+                    </svg>
+                  </div>
+                  <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 16, lineHeight: 1.65, color: '#666', margin: 0 }}>
+                    {card.desc}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ═══════════════════════════════════════════════════
+   03 · SERVICES — grid layout from home.html
+   ═══════════════════════════════════════════════════ */
+const ThreeBar = ({ size = 16, color = 'currentColor', gap = 2 }) => (
+  <span style={{ display: 'inline-flex', alignItems: 'flex-end', gap, height: size }}>
+    {[0.66, 1, 0.82].map((h, i) => (
+      <span key={i} style={{ width: size * 0.22, height: `${h * 100}%`, background: color }} />
+    ))}
+  </span>
+);
+
+const Services = () => {
+  const [ref, seen] = useReveal(.12);
+  const items = [
+    ['Technical SEO', 'Audits, site speed, schema'],
+    ['Content production', 'Up to 1M words a year'],
+    ['WordPress development', 'Custom themes, Elementor'],
+    ['eCommerce builds', 'Shopify, WooCommerce, payments'],
+    ['Paid search', 'Google, Shopping, YouTube'],
+    ['Paid social', 'Meta, Instagram, retargeting'],
+    ['Local SEO', '80+ citations a month, GMB'],
+    ['Link acquisition', 'Digital PR and outreach'],
+    ['Email marketing', 'Campaigns, flows, A/B testing'],
+    ['GA4 & Tag Manager', 'Event design, QA, migration'],
+    ['Looker Studio reporting', 'White-labeled dashboards'],
+    ['Hosting & maintenance', 'LiteSpeed, backups, SSL'],
+  ];
+  return (
+    <section ref={ref} style={{ background: '#000', color: '#FFF', padding: '120px 6vw', borderTop: '1px solid #FFF' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 24, marginBottom: 48 }}>
+        <div>
+          <Kick>What we deliver</Kick>
+          <h2 style={{ margin: 0, fontFamily: 'Geist', fontSize: 'clamp(40px, 5.4vw, 84px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1.06 }}>
+            Twelve services,<br /><i style={{ fontWeight: 300 }}>one contract.</i>
+          </h2>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16, maxWidth: 420 }}>
+          <p style={{ margin: 0, fontSize: 16, lineHeight: 1.6, opacity: .72 }}>
+            Take the whole stack or the two pieces you are missing. Scope is set in a
+            simple statement of work, and work begins the day it is signed.
+          </p>
+          <a href="contact.html" style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 10,
+            alignSelf: 'flex-start',
+            padding: '14px 32px',
+            background: '#FFF',
+            color: '#000',
+            fontFamily: 'Space Grotesk',
+            fontSize: 12,
+            letterSpacing: '.18em',
+            textTransform: 'uppercase',
+            fontWeight: 600,
+            textDecoration: 'none',
+          }}>
+            <BrandMark size={12} color="#000" /> Get a Quote
+          </a>
+        </div>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10 }}>
+        {items.map(([t, sub], i) => {
+          const inverted = (i + Math.floor(i / 4)) % 2 === 0;
+          return (
+            <div key={t} style={{
+              background: inverted ? '#FFF' : 'transparent', color: inverted ? '#000' : '#FFF',
+              border: '1px solid #FFF', padding: 22, minHeight: 190,
+              display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+              opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(18px)',
+              transition: `opacity .5s ease ${i * 45}ms, transform .5s ease ${i * 45}ms`,
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '.22em', opacity: .6 }}>/{String(i + 1).padStart(2, '0')}</span>
+                <ThreeBar size={20} color="currentColor" />
+              </div>
+              <div>
+                <div style={{ fontFamily: 'Geist', fontSize: 'clamp(18px,1.6vw,24px)', fontWeight: 500, letterSpacing: '-.02em', lineHeight: 1.1 }}>{t}</div>
+                <div style={{ marginTop: 8, fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '.16em', textTransform: 'uppercase', opacity: .6 }}>{sub}</div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+};
+
+/* ═══════════════════════════════════════════════════
+   04 · VIDEO BANNER
+   Full-width black banner with centered brand mark,
+   custom play button, and embedded Vimeo video.
+   ═══════════════════════════════════════════════════ */
+const LampEffect = () => {
+  const rootRef = React.useRef(null);
+  const lampRef = React.useRef(null);
+  const lineRef = React.useRef(null);
+  const leftConeRef = React.useRef(null);
+  const rightConeRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (!window.gsap) return;
+    gsap.registerPlugin(ScrollTrigger);
+
+    const root = rootRef.current;
+    const lamp = lampRef.current;
+    const line = lineRef.current;
+    const lc = leftConeRef.current;
+    const rc = rightConeRef.current;
+    if (!root || !lamp || !line || !lc || !rc) return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      gsap.set(lamp, { width: '24rem' });
+      gsap.set(line, { width: '38rem' });
+      gsap.set([lc, rc], { width: '38rem', opacity: 1 });
+      return;
+    }
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: root,
+        start: 'top bottom',
+        end: 'top 25%',
+        scrub: true,
+        invalidateOnRefresh: true,
+      },
+    });
+
+    tl.to(lamp, { width: '24rem', ease: 'none' }, 0)
+      .to(line, { width: '38rem', ease: 'none' }, 0)
+      .to(lc, { width: '38rem', opacity: 1, ease: 'none' }, 0)
+      .to(rc, { width: '38rem', opacity: 1, ease: 'none' }, 0);
+
+    return () => tl.kill();
+  }, []);
+
+  return (
+    <div ref={rootRef} style={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      display: 'flex',
+      alignItems: 'flex-start',
+      justifyContent: 'center',
+      pointerEvents: 'none',
+      zIndex: 0,
+      isolation: 'isolate',
+    }}>
+      {/* Backdrop blur strip */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: '12rem',
+        background: 'transparent',
+        opacity: 0.1,
+        WebkitBackdropFilter: 'blur(12px)',
+        backdropFilter: 'blur(12px)',
+        zIndex: 50,
+      }} />
+
+      {/* Main glow — static */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: '50%',
+        transform: 'translateX(-50%) translateY(30%)',
+        height: '9rem',
+        width: '38rem',
+        borderRadius: '9999px',
+        background: 'rgba(255,255,255,0.6)',
+        opacity: 0.8,
+        filter: 'blur(64px)',
+        zIndex: 50,
+      }} />
+
+      {/* Lamp effect */}
+      <div ref={lampRef} style={{
+        position: 'absolute',
+        top: 0,
+        left: '50%',
+        transform: 'translateX(-50%) translateY(-20%)',
+        height: '9rem',
+        width: '8rem',
+        borderRadius: '9999px',
+        background: 'rgba(255,255,255,0.6)',
+        filter: 'blur(40px)',
+        zIndex: 30,
+      }} />
+
+      {/* Top line */}
+      <div ref={lineRef} style={{
+        position: 'absolute',
+        top: 0,
+        left: '50%',
+        transform: 'translateX(-50%) translateY(10%)',
+        height: 2,
+        width: '15rem',
+        background: 'rgba(255,255,255,0.6)',
+        zIndex: 50,
+      }} />
+
+      {/* Left gradient cone */}
+      <div ref={leftConeRef} style={{
+        position: 'absolute',
+        right: '50%',
+        top: 0,
+        height: '14rem',
+        width: '15rem',
+        opacity: 0.5,
+        zIndex: 30,
+        backgroundImage: 'conic-gradient(from 70deg at center top, rgba(255,255,255,0.6) 0%, transparent 50%, transparent 100%)',
+      }}>
+        <div style={{
+          position: 'absolute',
+          left: 0,
+          bottom: 0,
+          width: '100%',
+          height: '10rem',
+          background: '#000',
+          zIndex: 20,
+          WebkitMaskImage: 'linear-gradient(to top, white, transparent)',
+          maskImage: 'linear-gradient(to top, white, transparent)',
+        }} />
+        <div style={{
+          position: 'absolute',
+          left: 0,
+          bottom: 0,
+          width: '10rem',
+          height: '100%',
+          background: '#000',
+          zIndex: 20,
+          WebkitMaskImage: 'linear-gradient(to right, white, transparent)',
+          maskImage: 'linear-gradient(to right, white, transparent)',
+        }} />
+      </div>
+
+      {/* Right gradient cone */}
+      <div ref={rightConeRef} style={{
+        position: 'absolute',
+        left: '50%',
+        top: 0,
+        height: '14rem',
+        width: '15rem',
+        opacity: 0.5,
+        zIndex: 30,
+        backgroundImage: 'conic-gradient(from 290deg at center top, transparent 0%, transparent 50%, rgba(255,255,255,0.6) 100%)',
+      }}>
+        <div style={{
+          position: 'absolute',
+          right: 0,
+          bottom: 0,
+          width: '10rem',
+          height: '100%',
+          background: '#000',
+          zIndex: 20,
+          WebkitMaskImage: 'linear-gradient(to left, white, transparent)',
+          maskImage: 'linear-gradient(to left, white, transparent)',
+        }} />
+        <div style={{
+          position: 'absolute',
+          right: 0,
+          bottom: 0,
+          width: '100%',
+          height: '10rem',
+          background: '#000',
+          zIndex: 20,
+          WebkitMaskImage: 'linear-gradient(to top, white, transparent)',
+          maskImage: 'linear-gradient(to top, white, transparent)',
+        }} />
+      </div>
+    </div>
+  );
+};
+
+const VideoBanner = () => {
+  const [playing, setPlaying] = React.useState(false);
+  const sectionRef = React.useRef(null);
+  const cursorRef = React.useRef(null);
+  const [hovering, setHovering] = React.useState(false);
+
+  React.useEffect(() => {
+    if (playing) return;
+    const section = sectionRef.current;
+    const cursor = cursorRef.current;
+    if (!section || !cursor) return;
+
+    const move = (e) => {
+      const rect = section.getBoundingClientRect();
+      cursor.style.left = `${e.clientX - rect.left}px`;
+      cursor.style.top = `${e.clientY - rect.top}px`;
+    };
+
+    const enter = () => setHovering(true);
+    const leave = () => setHovering(false);
+    const click = () => setPlaying(true);
+
+    section.addEventListener('mousemove', move);
+    section.addEventListener('mouseenter', enter);
+    section.addEventListener('mouseleave', leave);
+    section.addEventListener('click', click);
+
+    return () => {
+      section.removeEventListener('mousemove', move);
+      section.removeEventListener('mouseenter', enter);
+      section.removeEventListener('mouseleave', leave);
+      section.removeEventListener('click', click);
+    };
+  }, [playing]);
+
+  const bracketStyle = (pos) => ({
+    position: 'absolute',
+    width: 14,
+    height: 14,
+    borderColor: '#000',
+    borderStyle: 'solid',
+    borderWidth: 0,
+    ...(pos === 'tl' && { top: -8, left: -8, borderTopWidth: 1.5, borderLeftWidth: 1.5 }),
+    ...(pos === 'tr' && { top: -8, right: -8, borderTopWidth: 1.5, borderRightWidth: 1.5 }),
+    ...(pos === 'bl' && { bottom: -8, left: -8, borderBottomWidth: 1.5, borderLeftWidth: 1.5 }),
+    ...(pos === 'br' && { bottom: -8, right: -8, borderBottomWidth: 1.5, borderRightWidth: 1.5 }),
+  });
+
+  return (
+    <section
+      ref={sectionRef}
+      style={{
+        background: '#000',
+        width: '100%',
+        height: 750,
+        position: 'relative',
+        overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        cursor: playing ? 'default' : 'none',
+      }}
+    >
+      {/* Lamp light effect — cover design, hides when playing */}
+      {!playing && <LampEffect />}
+
+      {/* Grain overlay */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E")`,
+        backgroundSize: '200px',
+        opacity: 0.6,
+        pointerEvents: 'none',
+        zIndex: 0,
+      }} />
+
+      {/* Brand mark — hidden when playing */}
+      {!playing && (
+        <div style={{ position: 'absolute', zIndex: 1 }}>
+          <BrandMark size={120} color="#FFF" />
+        </div>
+      )}
+
+      {/* Video embed */}
+      {playing && (
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: '#000',
+          zIndex: 2,
+        }}>
+          <iframe
+            src="https://player.vimeo.com/video/901595251?h=9ee652be42&autoplay=1&title=0&byline=0&portrait=0"
+            style={{
+              width: '100%',
+              maxWidth: 1200,
+              aspectRatio: '16 / 9',
+              border: 'none',
+            }}
+            allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+            allowFullScreen
+          />
+        </div>
+      )}
+
+      {/* Top-right label / close button */}
+      {playing ? (
+        <button
+          onClick={() => setPlaying(false)}
+          style={{
+            position: 'absolute',
+            top: 40,
+            right: 48,
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 8,
+            zIndex: 3,
+            background: 'none',
+            border: 'none',
+            padding: 0,
+            cursor: 'pointer',
+            color: '#FFF',
+            fontFamily: 'Space Grotesk',
+            fontSize: 12,
+            letterSpacing: '.16em',
+            textTransform: 'uppercase',
+          }}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFF" strokeWidth="1.5">
+            <line x1="6" y1="6" x2="18" y2="18" />
+            <line x1="18" y1="6" x2="6" y2="18" />
+          </svg>
+          <span>Close</span>
+        </button>
+      ) : (
+        <div style={{
+          position: 'absolute',
+          top: 40,
+          right: 48,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 8,
+          zIndex: 3,
+        }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFF" strokeWidth="1.5">
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
+          </svg>
+          <span style={{
+            fontFamily: 'Space Grotesk',
+            fontSize: 12,
+            letterSpacing: '.16em',
+            textTransform: 'uppercase',
+            color: '#FFF',
+            opacity: 0.7,
+          }}>2 Minutes Watch</span>
+        </div>
+      )}
+
+      {/* Custom cursor — "PLAY VIDEO" with bracket corners */}
+      {!playing && (
+        <div
+          ref={cursorRef}
+          style={{
+            position: 'absolute',
+            pointerEvents: 'none',
+            zIndex: 10,
+            opacity: hovering ? 1 : 0,
+            transition: 'opacity .2s ease',
+            transform: 'translate(-50%, -50%)',
+          }}
+        >
+          <div style={{
+            position: 'relative',
+            background: '#FFF',
+            padding: '12px 24px',
+            display: 'inline-flex',
+            alignItems: 'center',
+          }}>
+            <span style={bracketStyle('tl')} />
+            <span style={bracketStyle('tr')} />
+            <span style={bracketStyle('bl')} />
+            <span style={bracketStyle('br')} />
+            <span style={{
+              fontFamily: 'Space Grotesk',
+              fontSize: 11,
+              letterSpacing: '.2em',
+              textTransform: 'uppercase',
+              fontWeight: 600,
+              color: '#000',
+              whiteSpace: 'nowrap',
+            }}>Play Video</span>
+          </div>
+        </div>
+      )}
+
+    </section>
+  );
+};
+
+/* ═══════════════════════════════════════════════════
+   05 · CASE STUDY
+   WHITE bg, asymmetric layout with overlapping number.
+   Left 55%: label, heading, description, link.
+   Right 45%: horizontal bar chart that grows upward.
+   Background: massive "444" as decorative element.
+   ═══════════════════════════════════════════════════ */
+const CaseStudy = () => {
+  const [ref, seen] = useReveal(0.15);
+
+  const data = [
+    66, 147, 140, 156, 193, 210, 227, 198, 213, 193,
+    133, 138, 197, 215, 315, 337, 367, 444, 427, 395,
+    320, 254, 203, 149, 202, 224, 274,
+  ];
+  const max = 460;
+  const peakIndex = 17;
+
+  return (
+    <section
+      ref={ref}
+      style={{
+        background: '#FFF',
+        color: '#000',
+        padding: '140px 48px 160px',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
+      {/* Decorative overlapping number */}
+      <div style={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -55%)',
+        fontFamily: 'Geist',
+        fontSize: 'clamp(200px, 28vw, 420px)',
+        fontWeight: 500,
+        color: '#000',
+        opacity: seen ? 0.04 : 0,
+        lineHeight: 1,
+        letterSpacing: '-.04em',
+        pointerEvents: 'none',
+        userSelect: 'none',
+        transition: 'opacity 1.4s ease',
+      }}>
+        444
+      </div>
+
+      {/* Two-column layout */}
+      <div style={{
+        display: 'flex',
+        gap: '6vw',
+        alignItems: 'flex-end',
+        position: 'relative',
+        zIndex: 1,
+      }}>
+        {/* Left — text content */}
+        <div style={{ width: '55%' }}>
+          <Kick>Client Results · Guild Golf Carts</Kick>
+          <h2 style={{
+            fontFamily: 'Geist',
+            fontSize: '48px',
+            fontWeight: 500,
+            lineHeight: 1.06,
+            letterSpacing: '-.035em',
+            margin: '0 0 28px',
+          }}>
+            66 to 444 leads<br />
+            <em>a month.</em>
+          </h2>
+          <p style={{
+            fontSize: 'clamp(14px, 1.1vw, 16px)',
+            lineHeight: 1.75,
+            opacity: 0.6,
+            maxWidth: 440,
+            margin: '0 0 32px',
+            fontWeight: 300,
+          }}>
+            A five-location dealer group across Nevada, Oregon, Washington and Utah.
+            We rebuilt the site on WordPress, ran geo-targeted paid search per city,
+            published continuously and wired GA4, Tag Manager and CallRail into one
+            Looker Studio dashboard.
+          </p>
+          <a
+            href="case-studies.html"
+            style={{
+              fontFamily: 'Space Grotesk',
+              fontSize: 12,
+              letterSpacing: '.18em',
+              textTransform: 'uppercase',
+              borderBottom: '1px solid #000',
+              paddingBottom: 3,
+              transition: 'opacity .3s',
+            }}
+          >
+            Read the case study →
+          </a>
+        </div>
+
+        {/* Right — bar chart */}
+        <div style={{
+          width: '45%',
+          height: '44vh',
+          display: 'flex',
+          alignItems: 'flex-end',
+          gap: 3,
+          position: 'relative',
+        }}>
+          {data.map((v, i) => (
+            <div key={i} style={{
+              flex: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'flex-end',
+              height: '100%',
+              position: 'relative',
+            }}>
+              <div style={{
+                width: '100%',
+                height: seen ? `${(v / max) * 100}%` : '0%',
+                background: '#000',
+                transition: `height .8s cubic-bezier(.2,.8,.2,1) ${i * 28}ms`,
+                borderRadius: '1px 1px 0 0',
+              }} />
+              {i === peakIndex && (
+                <div style={{
+                  position: 'absolute',
+                  bottom: `${(v / max) * 100 + 4}%`,
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  whiteSpace: 'nowrap',
+                  fontFamily: 'Space Grotesk',
+                  fontSize: 10,
+                  letterSpacing: '.16em',
+                  textTransform: 'uppercase',
+                  opacity: seen ? 0.65 : 0,
+                  transition: 'opacity .5s ease 1.6s',
+                }}>
+                  444 · Jun 2025
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ═══════════════════════════════════════════════════
+   06 · BRANDS MARQUEE
+   WHITE bg, slim black infinite-scroll banner.
+   Wordmark placeholders in white on the black tape.
+   ═══════════════════════════════════════════════════ */
+const BrandsMarquee = () => {
+  const [ref, seen] = useReveal(0.3);
+
+  const brands = [
+    { name: 'intel', style: { fontFamily: 'Space Grotesk', fontWeight: 700, fontStyle: 'italic', letterSpacing: '-.02em' } },
+    { name: 'GUILD', style: { fontFamily: "'Libre Baskerville', serif", fontWeight: 400, letterSpacing: '.3em' } },
+    { name: 'Northwind', style: { fontFamily: 'Space Grotesk', fontWeight: 600, letterSpacing: '.06em' } },
+    { name: 'HALCYON', style: { fontFamily: 'Inter', fontWeight: 800, letterSpacing: '-.02em' } },
+    { name: 'Vantage', style: { fontFamily: "'Libre Baskerville', serif", fontWeight: 400, fontStyle: 'italic', letterSpacing: '.02em' } },
+    { name: 'APEX&CO', style: { fontFamily: 'Inter', fontWeight: 900, letterSpacing: '.12em' } },
+    { name: 'Meridian', style: { fontFamily: "'Libre Baskerville', serif", fontWeight: 400, letterSpacing: '.04em' } },
+    { name: 'BRICK&FLAT', style: { fontFamily: 'Space Grotesk', fontWeight: 700, letterSpacing: '.18em' } },
+  ];
+
+  const group = (key) => (
+    <div className="brands-group" key={key}>
+      {brands.map((b, i) => (
+        <span key={i} style={{
+          color: '#FFF',
+          whiteSpace: 'nowrap',
+          fontSize: 30,
+          lineHeight: 1,
+          userSelect: 'none',
+          ...b.style,
+        }}>
+          {b.name}
+        </span>
+      ))}
+    </div>
+  );
+
+  return (
+    <section ref={ref} style={{ background: '#FFF', color: '#000', paddingBottom: 150 }}>
+      <div style={{
+        padding: '0 48px',
+        textAlign: 'center',
+        marginBottom: 56,
+        opacity: seen ? 1 : 0,
+        transform: seen ? 'none' : 'translateY(20px)',
+        transition: 'opacity 1s ease, transform 1s cubic-bezier(.2,.8,.2,1)',
+      }}>
+        <div style={{
+          fontFamily: 'Geist',
+          fontSize: 24,
+          fontWeight: 500,
+          letterSpacing: '-.02em',
+          textTransform: 'none',
+          opacity: 0.8,
+        }}>
+          Brands we&rsquo;ve partnered with
+        </div>
+      </div>
+
+      <div className="brands-marquee" style={{ padding: '34px 0' }}>
+        <div className="brands-track">
+          {group('a')}
+          {group('b')}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ═══════════════════════════════════════════════════
+   07 · PROCESS
+   BLACK bg, ninety days grouped into three phase cards.
+   Black cards, white text, original line-art visuals on top.
+   ═══════════════════════════════════════════════════ */
+const Process = () => {
+  const [ref, seen] = useReveal(0.1);
+
+  const phases = [
+    {
+      tag: 'Phase 01',
+      range: 'Day 01 – 30',
+      title: 'Set the Scope',
+      desc: 'Discovery call, statement of work signed, wireframes and brand direction approved in Figma.',
+      ticks: ['Kickoff & SOW signed', 'Wireframes & brand direction approved'],
+    },
+    {
+      tag: 'Phase 02',
+      range: 'Day 31 – 60',
+      title: 'Raise the Build',
+      desc: 'WordPress build, theme and integrations. Ten to twenty pages approved across sprint reviews, with QA and speed.',
+      ticks: ['Sprint reviews — 10–20 pages approved', 'QA, speed & accessibility passed'],
+    },
+    {
+      tag: 'Phase 03',
+      range: 'Day 61 – 90',
+      title: 'Go Live',
+      desc: 'On-page SEO and content live, GA4 and GTM wired into a Looker dashboard, then campaigns scale with monthly reports.',
+      ticks: ['GA4, GTM & Looker live', 'Campaigns scale + monthly reporting'],
+    },
+  ];
+
+  const Check = ({ light }) => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={light} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
+  );
+
+  const Illustration = ({ i }) => {
+    const S = '#FFF';
+    const s = 'rgba(255,255,255,0.5)';
+    const d = 'rgba(255,255,255,0.72)';
+    return (
+      <svg viewBox="0 0 200 200" width="66%" height="auto" fill="none">
+        {i === 0 && (
+          <>
+            {/* protractor — measuring the scope */}
+            <line x1="25" y1="152" x2="175" y2="152" stroke={s} strokeWidth="1.5" />
+            <path d="M28 152 A72 72 0 0 1 172 152" stroke={S} strokeWidth="2" strokeLinecap="round" />
+            <path d="M36 152 A64 64 0 0 1 164 152" stroke={s} strokeWidth="1" strokeDasharray="3 5" />
+            <line x1="100" y1="152" x2="100" y2="56" stroke={S} strokeWidth="1.5" strokeLinecap="round" />
+            <circle cx="100" cy="152" r="4" fill={S} stroke="none" />
+            <line x1="37.6" y1="116" x2="44.5" y2="120" stroke={d} strokeWidth="1.2" strokeLinecap="round" />
+            <line x1="64" y1="89.7" x2="68" y2="96.6" stroke={d} strokeWidth="1.2" strokeLinecap="round" />
+            <line x1="100" y1="80" x2="100" y2="88" stroke={d} strokeWidth="1.2" strokeLinecap="round" />
+            <line x1="136" y1="89.7" x2="132" y2="96.6" stroke={d} strokeWidth="1.2" strokeLinecap="round" />
+            <line x1="162.4" y1="116" x2="155.5" y2="120" stroke={d} strokeWidth="1.2" strokeLinecap="round" />
+          </>
+        )}
+        {i === 1 && (
+          <>
+            {/* ascending steps — raising the build */}
+            <line x1="20" y1="160" x2="180" y2="160" stroke={s} strokeWidth="1.5" />
+            <line x1="30" y1="160" x2="30" y2="38" stroke={s} strokeWidth="0.7" strokeDasharray="2 4" />
+            <path d="M30 160 L30 132 L78 132 L78 106 L122 106 L122 82 L160 82 L160 160 Z" fill="rgba(255,255,255,0.05)" stroke={S} strokeWidth="2" strokeLinejoin="round" />
+            <line x1="30" y1="146" x2="160" y2="146" stroke={s} strokeWidth="0.7" />
+            <line x1="78" y1="119" x2="160" y2="119" stroke={s} strokeWidth="0.7" />
+            <line x1="122" y1="94" x2="160" y2="94" stroke={s} strokeWidth="0.7" />
+            <circle cx="160" cy="82" r="4" fill={S} stroke="none" />
+          </>
+        )}
+        {i === 2 && (
+          <>
+            {/* broadcast signals — going live */}
+            <circle cx="100" cy="150" r="4" fill={S} stroke="none" />
+            <line x1="100" y1="150" x2="100" y2="42" stroke={s} strokeWidth="1" strokeDasharray="3 6" />
+            <path d="M45 150 A55 55 0 0 1 155 150" stroke={s} strokeWidth="1.2" strokeDasharray="2 5" />
+            <path d="M22 150 A78 78 0 0 1 178 150" stroke={S} strokeWidth="1.5" />
+            <path d="M0 150 A100 100 0 0 1 200 150" stroke={s} strokeWidth="1" strokeDasharray="4 6" />
+            <path d="M96 72 L100 62 L104 72" fill="none" stroke={S} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <circle cx="100" cy="52" r="3" fill={S} stroke="none" />
+          </>
+        )}
+      </svg>
+    );
+  };
+
+  return (
+    <section
+      ref={ref}
+      style={{
+        background: '#000',
+        color: '#FFF',
+        padding: '130px 48px 150px',
+      }}
+    >
+      {/* Section header */}
+      <div style={{ marginBottom: 72, textAlign: 'center' }}>
+        <div style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 8,
+          fontFamily: 'Space Grotesk',
+          fontSize: 12,
+          letterSpacing: '.2em',
+          textTransform: 'uppercase',
+          opacity: 0.6,
+          marginBottom: 18,
+          whiteSpace: 'nowrap',
+        }}>
+          <BrandMark size={12} color="#FFF" />
+          The Journey
+        </div>
+        <h2 style={{
+          fontFamily: 'Geist',
+          fontSize: 'clamp(40px, 5.4vw, 84px)',
+          fontWeight: 500,
+          letterSpacing: '-.035em',
+          lineHeight: 1.06,
+          margin: '0 0 20px',
+        }}>
+          Signed to live<br /><i style={{ fontWeight: 300 }}>in ninety days.</i>
+        </h2>
+        <p style={{
+          fontSize: 'clamp(14px, 1.1vw, 16px)',
+          lineHeight: 1.75,
+          opacity: 0.6,
+          maxWidth: 480,
+          margin: '0 auto',
+          fontWeight: 300,
+        }}>
+          Three months, three phases — scope, build, launch. Everything you approve along the way.
+        </p>
+      </div>
+
+      {/* Three phase cards */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+        gap: 24,
+        maxWidth: 1240,
+        margin: '0 auto',
+      }}>
+        {phases.map((phase, i) => (
+          <div
+            key={i}
+            style={{
+              background: '#000',
+              border: '1px solid rgba(255,255,255,0.14)',
+              borderRadius: 16,
+              padding: 26,
+              boxSizing: 'border-box',
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              opacity: seen ? 1 : 0,
+              transform: seen ? 'none' : 'translateY(24px)',
+              transition: `opacity .6s ease ${i * 120}ms, transform .6s cubic-bezier(.2,.8,.2,1) ${i * 120}ms`,
+            }}
+          >
+            {/* Timeline tag */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+              <span style={{
+                fontFamily: 'Space Grotesk',
+                fontSize: 10,
+                letterSpacing: '.2em',
+                textTransform: 'uppercase',
+                color: '#FFF',
+                opacity: 0.55,
+              }}>
+                {phase.tag}
+              </span>
+              <span style={{
+                fontFamily: 'Space Grotesk',
+                fontSize: 10,
+                letterSpacing: '.18em',
+                textTransform: 'uppercase',
+                color: '#FFF',
+                opacity: 0.35,
+              }}>
+                {phase.range}
+              </span>
+            </div>
+
+            {/* Visualization on top */}
+            <div style={{
+              height: 170,
+              marginBottom: 24,
+              borderBottom: '1px solid rgba(255,255,255,0.08)',
+              paddingBottom: 24,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <Illustration i={i} />
+            </div>
+
+            {/* Heading below */}
+            <h3 style={{
+              fontFamily: 'Geist',
+              fontSize: 24,
+              fontWeight: 500,
+              letterSpacing: '-.02em',
+              color: '#FFF',
+              margin: '0 0 14px',
+            }}>
+              {phase.title}
+            </h3>
+            <p style={{
+              fontFamily: 'Inter',
+              fontSize: 15,
+              lineHeight: 1.6,
+              color: 'rgba(255,255,255,0.65)',
+              margin: '0 0 24px',
+              fontWeight: 300,
+            }}>
+              {phase.desc}
+            </p>
+
+            {/* Ticks */}
+            <ul style={{ margin: 'auto 0 0', padding: 0, listStyle: 'none', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 18 }}>
+              {phase.ticks.map((t, j) => (
+                <li key={j} style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 10,
+                  fontFamily: 'Inter',
+                  fontSize: 14,
+                  color: '#FFF',
+                  marginTop: j === 0 ? 0 : 10,
+                }}>
+                  <Check light="#FFF" />
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+/* ═══════════════════════════════════════════════════
+   06 · STATS
+   WHITE bg, large animated counters in a row.
+   Numbers count up when they enter the viewport.
+   Clean, no borders, no boxes.
+   ═══════════════════════════════════════════════════ */
+const TestimonialMarquee = () => {
+  const [ref, seen] = useReveal(0.2);
+
+  const items = [
+    { quote: 'We went from 66 to 444 leads a month — and the dashboard can prove every one of them.', client: 'Guild Golf Carts', meta: 'Nevada · Oregon · Washington · Utah' },
+    { quote: 'Every call, form and booking now lands in one dashboard. We stopped guessing.', client: 'Flat Bid Moving', meta: 'Portland, Oregon' },
+    { quote: 'The site, the ads, the tracking — rebuilt under one contract, no hand-offs.', client: 'Unemployment Society', meta: 'Los Angeles, California' },
+    { quote: 'Ninety days from signed to live. That was the promise, and it held.', client: 'Flat Bid Moving', meta: 'Portland, Oregon' },
+    { quote: 'Our five showrooms finally look as strong online as they do in person.', client: 'Guild Golf Carts', meta: 'Nevada · Oregon · Washington · Utah' },
+    { quote: 'The report is the first thing I open in the morning.', client: 'Unemployment Society', meta: 'Los Angeles, California' },
+    { quote: '444 leads a month sounded made up. The phone says otherwise.', client: 'Guild Golf Carts', meta: 'Nevada · Oregon · Washington · Utah' },
+    { quote: 'They run it like it\u2019s their own business. That\u2019s the difference.', client: 'Flat Bid Moving', meta: 'Portland, Oregon' },
+  ];
+
+  const card = (item, i, tone) => {
+    const dark = tone === 'dark';
+    return (
+      <div key={i} style={{
+        width: 400,
+        height: 280,
+        boxSizing: 'border-box',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        padding: 28,
+        background: dark ? '#000' : '#FFF',
+        color: dark ? '#FFF' : '#000',
+        border: dark ? '1px solid #000' : '1px solid rgba(0,0,0,0.12)',
+        position: 'relative',
+        overflow: 'hidden',
+      }}>
+        <div style={{
+          position: 'absolute',
+          top: -32,
+          right: 14,
+          fontFamily: 'Geist',
+          fontSize: 140,
+          lineHeight: 1,
+          color: dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)',
+          pointerEvents: 'none',
+          userSelect: 'none',
+        }}>
+          &rdquo;
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <span style={{
+            fontFamily: 'Space Grotesk',
+            fontSize: 10,
+            letterSpacing: '.2em',
+            textTransform: 'uppercase',
+            opacity: dark ? 0.4 : 0.35,
+          }}>
+            /{String(i + 1).padStart(2, '0')}
+          </span>
+        </div>
+        <p style={{
+          margin: 0,
+          fontFamily: 'Geist',
+          fontStyle: 'italic',
+          fontSize: 19,
+          lineHeight: 1.45,
+          letterSpacing: '-.01em',
+        }}>
+          {item.quote}
+        </p>
+        <div style={{
+          borderTop: dark ? '1px solid rgba(255,255,255,0.2)' : '1px solid rgba(0,0,0,0.12)',
+          paddingTop: 14,
+        }}>
+          <div style={{
+            fontFamily: 'Space Grotesk',
+            fontSize: 12,
+            fontWeight: 600,
+            letterSpacing: '.14em',
+            textTransform: 'uppercase',
+          }}>
+            {item.client}
+          </div>
+          <div style={{
+            fontFamily: 'Space Grotesk',
+            fontSize: 10,
+            letterSpacing: '.16em',
+            textTransform: 'uppercase',
+            opacity: dark ? 0.45 : 0.4,
+            marginTop: 4,
+          }}>
+            {item.meta}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const group = (key, offset) => (
+    <div className="testi-group" key={key}>
+      {items.map((item, i) => card(item, i + offset, (i + offset) % 2 === 0 ? 'dark' : 'light'))}
+    </div>
+  );
+
+  return (
+    <section ref={ref} style={{ background: '#FFF', color: '#000', padding: '140px 0' }}>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-end',
+        flexWrap: 'wrap',
+        gap: 24,
+        padding: '0 48px',
+        marginBottom: 56,
+        opacity: seen ? 1 : 0,
+        transform: seen ? 'none' : 'translateY(20px)',
+        transition: 'opacity 1s ease, transform 1s cubic-bezier(.2,.8,.2,1)',
+      }}>
+        <div style={{ maxWidth: 640 }}>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+            fontFamily: 'Space Grotesk',
+            fontSize: 12,
+            letterSpacing: '.2em',
+            textTransform: 'uppercase',
+            opacity: 0.6,
+            marginBottom: 18,
+            whiteSpace: 'nowrap',
+          }}>
+            <BrandMark size={12} color="#000" />
+            Client testimonials
+          </div>
+          <h2 style={{
+            fontFamily: 'Geist',
+            fontSize: '48px',
+            fontWeight: 500,
+            lineHeight: 1.06,
+            letterSpacing: '-.035em',
+            margin: '0 0 20px',
+          }}>
+            In their own words
+          </h2>
+          <p style={{
+            fontSize: 'clamp(14px, 1.1vw, 16px)',
+            lineHeight: 1.75,
+            opacity: 0.6,
+            maxWidth: 480,
+            margin: 0,
+            fontWeight: 300,
+          }}>
+            Real numbers from the accounts we run — reported by the people behind them.
+          </p>
+        </div>
+        <a
+          href="contact.html"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 10,
+            padding: '14px 32px',
+            background: '#000',
+            color: '#FFF',
+            fontFamily: 'Space Grotesk',
+            fontSize: 12,
+            letterSpacing: '.18em',
+            textTransform: 'uppercase',
+            fontWeight: 600,
+            textDecoration: 'none',
+            flexShrink: 0,
+          }}
+        >
+          <BrandMark size={12} color="#FFF" />
+          Get a Quote
+        </a>
+      </div>
+
+      <div className="testi-marquee">
+        <div className="testi-track">
+          {group('a', 0)}
+          {group('b', items.length)}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ═══════════════════════════════════════════════════
+   07 · BEFORE / AFTER
+   BLACK bg, split screen with vertical divider.
+   Left half: "66" with label.
+   Right half: "444" (much larger) with label.
+   Circular brand mark at center divider.
+   Numbers scale in on reveal.
+   ═══════════════════════════════════════════════════ */
+const BeforeAfter = () => {
+  const [ref, seen] = useReveal(0.25);
+
+  return (
+    <section
+      ref={ref}
+      style={{
+        display: 'flex',
+        minHeight: '88vh',
+        background: '#000',
+        color: '#FFF',
+        position: 'relative',
+      }}
+    >
+      {/* Left half — before */}
+      <div style={{
+        width: '50%',
+        padding: 'clamp(60px, 7vw, 120px) 56px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        borderRight: '1px solid rgba(255,255,255,0.1)',
+      }}>
+        <div style={{
+          fontFamily: 'Space Grotesk',
+          fontSize: 11,
+          letterSpacing: '.22em',
+          textTransform: 'uppercase',
+          opacity: 0.3,
+          marginBottom: 24,
+        }}>
+          Before we started
+        </div>
+        <div style={{
+          fontFamily: 'Geist',
+          fontSize: 'clamp(80px, 12vw, 180px)',
+          fontWeight: 500,
+          lineHeight: 0.95,
+          letterSpacing: '-.04em',
+          transform: seen ? 'scale(1)' : 'scale(0.7)',
+          opacity: seen ? 1 : 0,
+          transition: 'transform .9s cubic-bezier(.2,.8,.2,1) .2s, opacity .9s ease .2s',
+        }}>
+          66
+        </div>
+        <div style={{
+          fontFamily: 'Space Grotesk',
+          fontSize: 11,
+          letterSpacing: '.18em',
+          textTransform: 'uppercase',
+          opacity: 0.35,
+          marginTop: 18,
+        }}>
+          leads per month · January 2024
+        </div>
+        <p style={{
+          fontFamily: 'Inter',
+          fontSize: 14,
+          lineHeight: 1.7,
+          opacity: 0.4,
+          maxWidth: 340,
+          marginTop: 28,
+          fontWeight: 300,
+        }}>
+          Five showrooms, strong walk-in traffic, almost no organic visibility and
+          no tracking on the phone lines.
+        </p>
+      </div>
+
+      {/* Right half — after */}
+      <div style={{
+        width: '50%',
+        padding: 'clamp(60px, 7vw, 120px) 56px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+      }}>
+        <div style={{
+          fontFamily: 'Space Grotesk',
+          fontSize: 11,
+          letterSpacing: '.22em',
+          textTransform: 'uppercase',
+          opacity: 0.3,
+          marginBottom: 24,
+        }}>
+          Eighteen months later
+        </div>
+        <div style={{
+          fontFamily: 'Geist',
+          fontSize: 'clamp(100px, 18vw, 280px)',
+          fontWeight: 500,
+          lineHeight: 0.9,
+          letterSpacing: '-.04em',
+          transform: seen ? 'scale(1)' : 'scale(0.7)',
+          opacity: seen ? 1 : 0,
+          transition: 'transform 1s cubic-bezier(.2,.8,.2,1) .5s, opacity 1s ease .5s',
+        }}>
+          444
+        </div>
+        <div style={{
+          fontFamily: 'Space Grotesk',
+          fontSize: 11,
+          letterSpacing: '.18em',
+          textTransform: 'uppercase',
+          opacity: 0.35,
+          marginTop: 18,
+        }}>
+          leads per month · June 2025
+        </div>
+      </div>
+
+      {/* Center divider — circular brand mark */}
+      <div style={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 68,
+        height: 68,
+        borderRadius: '50%',
+        background: '#FFF',
+        display: 'grid',
+        placeItems: 'center',
+        boxShadow: '0 0 60px rgba(0,0,0,0.4)',
+      }}>
+        <BrandMark size={28} color="#000" />
+      </div>
+    </section>
+  );
+};
+
+/* ═══════════════════════════════════════════════════
+   08 · FAQ
+   WHITE bg, centralized accordion.
+   ═══════════════════════════════════════════════════ */
+const FAQ = () => {
+  const [ref, seen] = useReveal(0.3);
+  const [open, setOpen] = React.useState(0);
+
+  const items = [
+    { q: 'How fast can we launch?', a: 'Signed to live in ninety days — discovery in week one, build through month two, live campaigns and reporting by day ninety.' },
+    { q: 'What does the process look like?', a: 'Three phases across three months: Discover & Strategy (days 1–30), Design & Build (days 31–60), Launch & Grow (days 61–90). You approve work at each checkpoint.' },
+    { q: 'Is it really one contract?', a: 'Twelve services, one statement of work. Scope, price and deliverables are fixed before the work begins.' },
+    { q: 'Do we own our website and data?', a: 'Yes. The site, content, dashboards and all accounts are owned by you and handed over at launch.' },
+    { q: 'What platforms do you work with?', a: 'WordPress builds, Shopify and WooCommerce, Google Ads, Meta, GA4, Tag Manager, CallRail and Looker Studio.' },
+    { q: 'How do you report results?', a: 'A white-labeled Looker Studio dashboard wired to your calls, forms and campaigns, plus monthly reporting.' },
+    { q: 'What happens after launch?', a: 'Campaigns scale, monthly reporting continues, and ongoing hosting, maintenance and support is included.' },
+  ];
+
+  return (
+    <section
+      ref={ref}
+      style={{
+        background: '#FFF',
+        color: '#000',
+        padding: '150px 48px 170px',
+      }}
+    >
+      {/* Centralized header */}
+      <div style={{
+        textAlign: 'center',
+        marginBottom: 64,
+        opacity: seen ? 1 : 0,
+        transform: seen ? 'none' : 'translateY(20px)',
+        transition: 'opacity 1s ease, transform 1s cubic-bezier(.2,.8,.2,1)',
+      }}>
+        <div style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 8,
+          fontFamily: 'Space Grotesk',
+          fontSize: 12,
+          letterSpacing: '.2em',
+          textTransform: 'uppercase',
+          opacity: 0.6,
+          marginBottom: 18,
+        }}>
+          <BrandMark size={12} color="#000" />
+          FAQ
+        </div>
+        <h2 style={{
+          fontFamily: 'Geist',
+          fontSize: '48px',
+          fontWeight: 500,
+          lineHeight: 1.06,
+          letterSpacing: '-.035em',
+          margin: '0 0 20px',
+        }}>
+          Questions, answered.
+        </h2>
+        <p style={{
+          fontSize: 'clamp(14px, 1.1vw, 16px)',
+          lineHeight: 1.75,
+          opacity: 0.6,
+          maxWidth: 460,
+          margin: '0 auto',
+          fontWeight: 300,
+        }}>
+          Everything you need to know before we start — one flat contract, ninety days, no surprises.
+        </p>
+      </div>
+
+      {/* Accordion */}
+      <div style={{
+        maxWidth: 760,
+        margin: '0 auto',
+        borderTop: '1px solid rgba(0,0,0,0.12)',
+      }}>
+        {items.map((item, i) => {
+          const isOpen = open === i;
+          return (
+            <div
+              key={i}
+              style={{
+                borderBottom: '1px solid rgba(0,0,0,0.12)',
+                opacity: seen ? 1 : 0,
+                transform: seen ? 'translateY(0)' : 'translateY(16px)',
+                transition: `opacity .5s ease ${i * 70}ms, transform .5s cubic-bezier(.2,.8,.2,1) ${i * 70}ms`,
+              }}
+            >
+              <button
+                onClick={() => setOpen(isOpen ? -1 : i)}
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  gap: 24,
+                  padding: '28px 4px',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  color: '#000',
+                }}
+              >
+                <span style={{
+                  fontFamily: 'Geist',
+                  fontSize: 22,
+                  fontWeight: 500,
+                  lineHeight: 1.3,
+                  letterSpacing: '-.02em',
+                }}>
+                  {item.q}
+                </span>
+                <span style={{
+                  fontSize: 28,
+                  lineHeight: 1,
+                  fontFamily: 'Inter',
+                  fontWeight: 300,
+                  flexShrink: 0,
+                  transform: isOpen ? 'rotate(45deg)' : 'none',
+                  transition: 'transform .3s ease',
+                }}>
+                  +
+                </span>
+              </button>
+              {isOpen && (
+                <p style={{
+                  margin: 0,
+                  padding: '0 64px 28px 4px',
+                  fontFamily: 'Inter',
+                  fontSize: 16,
+                  lineHeight: 1.7,
+                  color: '#666',
+                  fontWeight: 300,
+                }}>
+                  {item.a}
+                </p>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+};
+
+/* ═══════════════════════════════════════════════════
+   09 · CTA
+   BLACK bg, full-screen centered.
+   Massive text, subtext, one large button.
+   ═══════════════════════════════════════════════════ */
+const CTA = () => {
+  const [ref, seen] = useReveal(0.25);
+
+  return (
+    <section
+      ref={ref}
+      style={{
+        minHeight: '80vh',
+        background: '#000',
+        color: '#FFF',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '120px 48px',
+        textAlign: 'center',
+      }}
+    >
+      <h2 style={{
+        fontFamily: 'Geist',
+        fontSize: '48px',
+        fontWeight: 500,
+        letterSpacing: '-.035em',
+        lineHeight: 1.06,
+        margin: 0,
+        opacity: seen ? 1 : 0,
+        transform: seen ? 'translateY(0)' : 'translateY(24px)',
+        transition: 'opacity .8s ease, transform .8s cubic-bezier(.2,.8,.2,1)',
+      }}>
+        Tell us about your next project.
+      </h2>
+      <p style={{
+        fontFamily: 'Inter',
+        fontSize: 'clamp(14px, 1.1vw, 17px)',
+        fontWeight: 300,
+        lineHeight: 1.6,
+        marginTop: 28,
+        opacity: seen ? 0.4 : 0,
+        transition: 'opacity .7s ease .25s',
+      }}>
+        We reply to every enquiry within one business day.
+      </p>
+      <a
+        href="contact.html"
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 12,
+          marginTop: 52,
+          padding: '20px 40px',
+          background: '#FFF',
+          color: '#000',
+          fontFamily: 'Space Grotesk',
+          fontSize: 13,
+          letterSpacing: '.2em',
+          textTransform: 'uppercase',
+          fontWeight: 600,
+          opacity: seen ? 1 : 0,
+          transform: seen ? 'translateY(0)' : 'translateY(16px)',
+          transition: 'opacity .7s ease .4s, transform .7s cubic-bezier(.2,.8,.2,1) .4s, background .3s, color .3s',
+        }}
+      >
+        <BrandMark size={14} color="#000" />
+        Get a Quote
+      </a>
+    </section>
+  );
+};
+
+/* ═══════════════════════════════════════════════════
+   10 · FOOTER
+   BLACK bg, minimal. Brand mark + copyright left,
+   links right. Thin top border.
+   ═══════════════════════════════════════════════════ */
+const Footer = () => (
+  <footer style={{
+    background: '#000',
+    color: '#FFF',
+    borderTop: '1px solid rgba(255,255,255,0.1)',
+    padding: '36px 48px 32px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: 24,
+  }}>
+    {/* Left — brand mark + copyright */}
+    <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+      <BrandMark size={18} color="#FFF" />
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        <span style={{
+          fontFamily: 'Space Grotesk',
+          fontSize: 20,
+          fontWeight: 600,
+          letterSpacing: '.06em',
+          textTransform: 'uppercase',
+        }}>
+          White Label Resell
+        </span>
+        <span style={{
+          fontFamily: 'Space Grotesk',
+          fontSize: 13,
+          letterSpacing: '.14em',
+          textTransform: 'uppercase',
+          opacity: 0.4,
+        }}>
+          © 2026 · est. 2018
+        </span>
+      </div>
+    </div>
+
+    {/* Right — links */}
+    <div style={{
+      display: 'flex',
+      gap: 20,
+      flexWrap: 'wrap',
+      alignItems: 'center',
+      fontFamily: 'Space Grotesk',
+      fontSize: 16,
+      letterSpacing: '.05em',
+      textTransform: 'uppercase',
+    }}>
+      {[['Work', 'case-studies.html'], ['About', 'about.html'], ['Team', 'team.html'], ['Get a Quote', 'contact.html']].map(([t, h]) => (
+        <a
+          key={t}
+          href={h}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 5,
+            opacity: 0.7,
+            transition: 'opacity .3s',
+          }}
+        >
+          {t}
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: -3 }}>
+            <line x1="5" y1="19" x2="19" y2="5" />
+            <polyline points="8 5 19 5 19 16" />
+          </svg>
+        </a>
+      ))}
+      <a
+        href="mailto:partners@whitelabelresell.com"
+        style={{
+          opacity: 0.5,
+          transition: 'opacity .3s',
+          letterSpacing: '.02em',
+        }}
+      >
+        partners@whitelabelresell.com
+      </a>
+    </div>
+  </footer>
+);
+
+/* ═══════════════════════════════════════════════════
+   APP — compose all sections
+   ═══════════════════════════════════════════════════ */
+const App = () => (
+  <React.Fragment>
+    <Nav />
+    <Hero />
+    <ScrollReveal />
+    <Services />
+    <VideoBanner />
+    <CaseStudy />
+    <BrandsMarquee />
+    <Process />
+    <TestimonialMarquee />
+    <BeforeAfter />
+    <FAQ />
+    <CTA />
+    <Footer />
+  </React.Fragment>
+);
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

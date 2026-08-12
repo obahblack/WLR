@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Work Page Variations — White Label Resell</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
+      background: #000;
+      color: #FFF;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 24px;
+    }
+    h1 {
+      font-weight: 500;
+      font-size: clamp(28px, 4vw, 44px);
+      letter-spacing: -.035em;
+      line-height: 1.06;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .sub {
+      font-size: 16px;
+      line-height: 1.6;
+      opacity: .6;
+      text-align: center;
+      max-width: 480px;
+      margin-bottom: 56px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      width: 100%;
+      max-width: 960px;
+    }
+    .card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 28px;
+      border: 1px solid rgba(255,255,255,.15);
+      text-decoration: none;
+      color: #FFF;
+      transition: border-color .2s, background .2s;
+    }
+    .card:hover {
+      border-color: rgba(255,255,255,.5);
+      background: rgba(255,255,255,.04);
+    }
+    .card-num {
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      opacity: .5;
+    }
+    .card-title {
+      font-weight: 500;
+      font-size: clamp(18px, 2vw, 22px);
+      letter-spacing: -.02em;
+      line-height: 1.1;
+    }
+    .card-desc {
+      font-size: 14px;
+      line-height: 1.5;
+      opacity: .6;
+    }
+    .card-arrow {
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      opacity: .7;
+      margin-top: auto;
+    }
+    @media (max-width: 600px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Work Page Variations</h1>
+  <p class="sub">Five distinct concepts for the White Label Resell Projects / Our Work page. Click to preview.</p>
+  <div class="grid">
+    <a class="card" href="work-v1.html">
+      <span class="card-num">Variation 01</span>
+      <span class="card-title">Editorial Checker Grid</span>
+      <span class="card-desc">Hero with text left + animated bar chart right. White projects section with black/white alternating cards, meta on top, scrollable screenshots capped at 450px, 64px gutters.</span>
+      <span class="card-arrow">View →</span>
+    </a>
+    <a class="card" href="work-v2.html">
+      <span class="card-num">Variation 02</span>
+      <span class="card-title">Numbered Framed Case Studies</span>
+      <span class="card-desc">Bracket-framed screenshots with large project numbering. Cards alternate black/white across the grid.</span>
+      <span class="card-arrow">View →</span>
+    </a>
+    <a class="card" href="work-v3.html">
+      <span class="card-num">Variation 03</span>
+      <span class="card-title">Image-First Under Title</span>
+      <span class="card-desc">Name, service tags and description sit above the full-page screenshot in each alternating card.</span>
+      <span class="card-arrow">View →</span>
+    </a>
+    <a class="card" href="work-v4.html">
+      <span class="card-num">Variation 04</span>
+      <span class="card-title">Split Content / Screenshot Cards</span>
+      <span class="card-desc">Tall split cards — copy stacked above the scrollable screenshot, bordered and black/white alternated.</span>
+      <span class="card-arrow">View →</span>
+    </a>
+    <a class="card" href="work-v5.html">
+      <span class="card-num">Variation 05</span>
+      <span class="card-title">Horizontal File Rows</span>
+      <span class="card-desc">File-style split rows — copy on the left, framed screenshot panel on the right, alternating surfaces.</span>
+      <span class="card-arrow">View →</span>
+    </a>
+  </div>
+</body>
+</html>

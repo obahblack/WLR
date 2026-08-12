@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Case Studies — White Label Resell</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #000; color: #FFF; }
+  body { font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  ::selection { background: #FFF; color: #000; }
+  i, em { font-style: italic; }
+  a { color: inherit; }
+  body::-webkit-scrollbar { width: 0; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="v7-shared.jsx"></script>
+<script type="text/babel">
+const { ThreeBar, HUD, useInView, Kick, Footer } = window.V7;
+
+// HERO
+const Hero = () => (
+  <section style={{
+    minHeight: '70vh', background: '#000', color: '#FFF',
+    padding: '170px 6vw 80px',
+    display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
+  }}>
+    <Kick>Case studies · three engagements, real numbers</Kick>
+    <h1 style={{
+      margin: 0, fontFamily: 'Geist',
+      fontSize: 'clamp(52px, 8.5vw, 148px)',
+      fontWeight: 500, letterSpacing: '-0.045em', lineHeight: 0.9,
+    }}>
+      Quiet work,<br /><i style={{ fontWeight: 300 }}>loud results.</i>
+    </h1>
+  </section>
+);
+
+// CASE 1 — GUILD: full-width chart section (white)
+const Guild = () => {
+  const [ref, seen] = useInView(0.2);
+  const data = [66,147,140,156,193,210,227,198,213,193,133,138,
+                197,215,315,337,367,444,427,395,320,254,203,149,
+                202,224,274];
+  const max = 460;
+  const peakIdx = data.indexOf(444);
+  return (
+    <section ref={ref} style={{
+      background: '#FFF', color: '#000',
+      padding: '120px 6vw 100px',
+      borderTop: '1px solid #000',
+    }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 24, marginBottom: 40 }}>
+        <div>
+          <Kick>Case 01 · Guild Golf Carts · 2024 – present</Kick>
+          <h2 style={{
+            margin: 0, fontFamily: 'Geist',
+            fontSize: 'clamp(44px, 6vw, 92px)',
+            fontWeight: 500, letterSpacing: '-0.035em', lineHeight: 0.92,
+          }}>66 <i style={{ fontWeight: 300, opacity: 0.5 }}>→</i> 444 monthly leads.</h2>
+        </div>
+        <div style={{
+          fontFamily: 'Geist Mono', fontSize: 11,
+          letterSpacing: '0.22em', textTransform: 'uppercase',
+          opacity: 0.6, textAlign: 'right', lineHeight: 1.8,
+        }}>
+          retail · five locations<br />seo + ppc + gmb + wordpress
+        </div>
+      </div>
+
+      {/* chart */}
+      <div style={{ height: '46vh', display: 'flex', alignItems: 'flex-end', gap: 4, position: 'relative', marginBottom: 56 }}>
+        {data.map((v, i) => (
+          <div key={i} style={{ flex: 1, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', position: 'relative' }}>
+            <div style={{
+              width: '100%',
+              height: seen ? `${(v / max) * 100}%` : 0,
+              background: '#000',
+              transition: `height .9s cubic-bezier(.2,.8,.2,1) ${i * 30}ms`,
+              outline: i === peakIdx ? '2px solid #000' : 'none',
+              outlineOffset: i === peakIdx ? 4 : 0,
+            }} />
+            {i === peakIdx && seen && (
+              <div style={{
+                position: 'absolute', bottom: `${(v / max) * 100 + 5}%`,
+                left: '50%', transform: 'translateX(-50%)',
+                fontFamily: 'Geist Mono', fontSize: 10,
+                letterSpacing: '0.18em', textTransform: 'uppercase', whiteSpace: 'nowrap',
+              }}>▲ peak · jun 2025 · 444</div>
+            )}
+          </div>
+        ))}
+        <div style={{
+          position: 'absolute', bottom: -26, left: 0, right: 0,
+          display: 'flex', justifyContent: 'space-between',
+          fontFamily: 'Geist Mono', fontSize: 10,
+          letterSpacing: '0.22em', textTransform: 'uppercase', opacity: 0.55,
+        }}>
+          <span>jan 2024</span><span>jun 2025</span><span>mar 2026</span>
+        </div>
+      </div>
+
+      {/* three columns: challenge / approach / result */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', border: '1px solid #000' }}>
+        {[
+          ['Challenge', 'A five-location golf cart dealer with strong showrooms and almost no digital footprint — 66 leads a month at the start of 2024.'],
+          ['Approach', 'Full WordPress rebuild, geo-targeted paid search across five cities, an 80+/mo local citation engine, GMB operations, and CallRail tracking on every line.'],
+          ['Result', 'A 6.7× lift to the all-time peak of 444 leads in June 2025. Portland GMB doubled year over year. Now expanding into a custom operations CRM and AI voice agent.'],
+        ].map(([t, b], i) => (
+          <div key={t} style={{
+            padding: 32, borderRight: i < 2 ? '1px solid #000' : 'none',
+            background: i === 2 ? '#000' : 'transparent',
+            color: i === 2 ? '#FFF' : '#000',
+          }}>
+            <div style={{ fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', opacity: 0.6, marginBottom: 16 }}>0{i + 1} · {t}</div>
+            <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, opacity: 0.85 }}>{b}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+// CASE 2 — UNEMPLOYMENT SOCIETY: funnel (black)
+const Unem = () => {
+  const [ref, seen] = useInView(0.25);
+  const stages = [
+    ['Wix → WordPress migration', 1.0],
+    ['SCAI content engine', 0.72],
+    ['Schema + analytics spine', 0.5],
+    ['Pepelwerk handoff', 0.26],
+  ];
+  return (
+    <section ref={ref} style={{
+      background: '#000', color: '#FFF',
+      padding: '120px 6vw 100px',
+      borderTop: '1px solid #FFF',
+      display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: '5vw', alignItems: 'center',
+    }}>
+      <div>
+        <Kick>Case 02 · Unemployment Society · 2026</Kick>
+        <h2 style={{
+          margin: 0, fontFamily: 'Geist',
+          fontSize: 'clamp(40px, 5.5vw, 84px)',
+          fontWeight: 500, letterSpacing: '-0.035em', lineHeight: 0.92,
+        }}>A search <i style={{ fontWeight: 300 }}>destination,</i><br />not a website.</h2>
+        <p style={{ marginTop: 28, marginBottom: 0, fontSize: 16, lineHeight: 1.6, opacity: 0.75, maxWidth: 420 }}>
+          A 12-month program to catch people at the hardest moment of their careers and route them into Pepelwerk. We built the analytics spine, the schema, and an AI-driven editorial flywheel that publishes at volume without losing voice.
+        </p>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+        {stages.map(([label, v], i) => (
+          <div key={label} style={{ height: 'clamp(60px, 8vw, 96px)', border: '1px solid #FFF', position: 'relative', overflow: 'hidden' }}>
+            <div style={{
+              position: 'absolute', inset: 0, background: '#FFF',
+              transformOrigin: 'left',
+              transform: `scaleX(${seen ? v : 0})`,
+              transition: `transform 1.1s cubic-bezier(.2,.85,.2,1) ${i * 160}ms`,
+            }} />
+            <span style={{
+              position: 'absolute', left: 20, top: '50%', transform: 'translateY(-50%)',
+              fontFamily: 'Geist Mono', fontSize: 11,
+              letterSpacing: '0.2em', textTransform: 'uppercase',
+              mixBlendMode: 'difference', color: '#FFF',
+            }}>0{i + 1} · {label}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+// CASE 3 — FLAT BID: split screen (Board08 style)
+const FlatBid = () => {
+  const [ref, seen] = useInView(0.3);
+  return (
+    <section ref={ref} style={{ display: 'flex', position: 'relative', borderTop: '1px solid #FFF', minHeight: '90vh' }}>
+      <div style={{
+        flex: 1, background: '#FFF', color: '#000',
+        padding: 'clamp(50px, 7vw, 100px)',
+        display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 40,
+      }}>
+        <div>
+          <Kick>Case 03 · Flat Bid Moving · 2024</Kick>
+          <h2 style={{
+            margin: 0, fontFamily: 'Geist',
+            fontSize: 'clamp(36px, 4.5vw, 68px)',
+            fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 0.95,
+          }}>A premium rebuild for a <i style={{ fontWeight: 300 }}>premium mover.</i></h2>
+          <p style={{ margin: '24px 0 0', fontSize: 15, lineHeight: 1.6, opacity: 0.75, maxWidth: 420 }}>
+            Complete website redesign built around the customization story that separates Flat Bid from commodity movers — then a disciplined paid + organic system on top.
+          </p>
+        </div>
+        <div style={{ display: 'flex', gap: 32 }}>
+          {[['1,000', 'seo articles'], ['60', 'day redesign']].map(([n, l]) => (
+            <div key={l}>
+              <div style={{ fontFamily: 'Geist', fontSize: 'clamp(36px, 4vw, 60px)', fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 1 }}>{n}</div>
+              <div style={{ marginTop: 8, fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', opacity: 0.6 }}>{l}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div style={{
+        flex: 1, background: '#000', color: '#FFF',
+        padding: 'clamp(50px, 7vw, 100px)',
+        display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 40,
+      }}>
+        <div>
+          <Kick>The exclusivity clause</Kick>
+          <div style={{ fontFamily: 'Geist', fontSize: 'clamp(80px, 12vw, 200px)', fontWeight: 500, letterSpacing: '-0.05em', lineHeight: 0.85 }}>10</div>
+          <div style={{ marginTop: 12, fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase', opacity: 0.7 }}>
+            ppc ad groups · san diego only
+          </div>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'flex-end', gap: 8, height: 'clamp(140px, 20vh, 220px)' }}>
+          {Array.from({ length: 10 }).map((_, i) => (
+            <div key={i} style={{
+              flex: 1,
+              height: seen ? `${45 + ((i * 37) % 55)}%` : 0,
+              background: '#FFF',
+              transition: `height .8s cubic-bezier(.2,.8,.2,1) ${i * 70}ms`,
+            }} />
+          ))}
+        </div>
+        <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, opacity: 0.7, maxWidth: 380 }}>
+          We don't run paid search for any other mover in San Diego county. Flat Bid owns the market with us.
+        </p>
+      </div>
+      <div style={{
+        position: 'absolute', left: '50%', top: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 64, height: 64, background: '#FFF', border: '1px solid #000',
+        display: 'grid', placeItems: 'center',
+      }}>
+        <ThreeBar size={32} color="#000" />
+      </div>
+    </section>
+  );
+};
+
+// CTA
+const CTA = () => (
+  <section style={{
+    background: '#000', color: '#FFF',
+    borderTop: '1px solid #FFF',
+    padding: 'clamp(80px, 10vw, 140px) 6vw',
+    textAlign: 'center',
+  }}>
+    <ThreeBar size={28} color="#FFF" gap={4} animate />
+    <h2 style={{
+      margin: '32px 0 0', fontFamily: 'Geist',
+      fontSize: 'clamp(44px, 6.5vw, 100px)',
+      fontWeight: 500, letterSpacing: '-0.04em', lineHeight: 0.9,
+    }}>Your brand could be<br /><i style={{ fontWeight: 300 }}>case 04.</i></h2>
+    <a href="contact.html" style={{
+      marginTop: 40, display: 'inline-flex', alignItems: 'center', gap: 14,
+      padding: '20px 28px', background: '#FFF', color: '#000',
+      fontFamily: 'Geist Mono', fontSize: 13,
+      letterSpacing: '0.22em', textTransform: 'uppercase',
+      fontWeight: 600, textDecoration: 'none',
+    }}>Get a quote →</a>
+  </section>
+);
+
+const App = () => (
+  <React.Fragment>
+    <HUD active="work" />
+    <Hero />
+    <Guild />
+    <Unem />
+    <FlatBid />
+    <CTA />
+    <Footer />
+  </React.Fragment>
+);
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+﻿Digital Marketing Strategy
+for Guild Golf Carts
+January 2026
+	  
+
+Statement of Work (SOW)
+Digital Marketing Services for Guild Golf Carts
+
+
+Company: White Label Resell 
+Client: Guild Golf Carts 
+Date: 13/01/2026 
+Version: 1.0
+
+
+________________
+
+
+
+
+1. PROJECT OBJECTIVE
+The goal is to elevate Guild Golf Carts' digital presence and operational efficiency over a 6-month period through a structured, two-phase approach. This initiative builds upon our successful SEO and PPC foundation by integrating an advanced sales and marketing automation stack.
+The strategy introduces an Operations-focused CRM, an AI-powered Voice Sales Agent, a comprehensive Social Media Marketing plan (organic and paid), and an Advanced Call Tracking platform.
+
+
+________________
+
+
+2. SCOPE OF SERVICES 
+White Label Resell will provide the following digital marketing, development, and integration services, as agreed upon in the Enterprise Package with phased pricing.
+
+
+Phased Approach Overview:
+
+
+Phase 1 | Design and Deployment ($11,999/month): 
+
+Deliverables include the complete setup and integration of the new Operations CRM, AI-powered Voice Sales Agent, and CallRail platforms. This phase also includes preparing the social media content calendar and foundational strategy and is expected to be completed within 90 days, depending on the number of revision requests.
+
+
+
+
+Phase 2 | Full Strategy Activation ($14,999/month): 
+
+Once Phase 1 is completed, the full marketing and sales strategy will be activated. This includes the ongoing management of the new platforms, execution of paid and organic social media campaigns, and continued optimization of all existing marketing efforts.
+
+
+________________
+
+
+
+
+3. SCOPE OF SERVICES - ENTERPRISE PACKAGE
+The following services are included within the Enterprise Package, as part of the overall engagement:
+
+UI/UX Design
+* Operational Interface Prototypes: Creation of high-fidelity mockups for sales, production, and service dashboards. This allows the client to validate the user flow ((e.g., quote generation) before code is written.
+
+* Technician Workspace Interface: Design of a simplified, high-contrast interface specifically for technicians to view repair tickets. This view focuses on utility and ease of access to allow staff to quickly update status while working on units.
+
+* AI-Powered Custom Design Mockups: Design and establish a streamlined process for creating AI-generated custom decal mockups for sales, speeding up the client's current process with third-party print shops
+
+Web Development
+   * Service & Inventory Views: Construction of the responsive web pages for the inventory "Check-in/Check-out" system and the technician service ticketing view.
+
+   * Ongoing Website Management: Ongoing management, optimization, and content updates for the existing WordPress website.
+
+   * Dashboard-Integrated Forms: Development of custom lead capture forms that inject submission data directly into the new Operations Dashboard. This ensures source tracking is preserved and eliminates manual data entry.
+
+   * Platform & API Integration: Implement necessary backend scripts, specifically the CallRail Dynamic Number Insertion (DNI) to ensure phone tracking is active across the site. 
+
+Note: The AI Voice Agent will be deployed via phone line integration only, not as a website widget.
+
+Frontend Engineering 
+      * Authentication & Role-Based Access Control (RBAC): Development of the secure login interface with distinct permission views for Super Admins (Full Delete/Edit access), Sales Reps (View All/Edit Own), Technicians (Status Update Only), and Parts Managers.
+
+      * Live Inventory Grid (Spreadsheet Replacement): Construction of the core inventory dashboard replicating the client’s "Color-Coded" workflow. Features include multi-location toggles (Portland, Seattle, etc.), visual status indicators (Blue=Ready, Black=Damaged, Pink=Loaner), and CRUD capabilities for editing unit metadata.
+
+      * Sales & Fulfillment Dashboard: Development of the "Build List" and "Payment Tracking" interfaces. This allows sales reps to track payment methods (Net30/Sheffield/Cash) and manage unit customization statuses (e.g., "Light Kit Installed") in real-time.
+
+      * CPQ (Configure, Price, Quote) Interface: Building the "Quote Generator" form. This interface allows staff to select a unit, add accessories from the database, apply labor costs, and generate a PDF proposal for the client.
+
+      * Service Center & Kanban Board: Implementation of the Service pipeline view (Need to Quote → Waiting on Approval → Performing Labor → Done) and the digital "Pick Ticket" intake form for diagnostics.
+
+Backend Engineering 
+         * Custom Operations CRM Development: Architecture of a serverless operations platform using Python and AWS Lambda to centrally manage data across all locations. This includes configuring Amazon Cognito to enforce strict Role-Based Access Control (RBAC) for managers, sales, and technicians.
+
+         * Custom Invoicing & Quote Delivery Engine: Development of a native proposal engine using Python ReportLab to generate PDF quotes and AWS SES to handle email delivery directly from the CRM, keeping QuickBooks strictly for accounting records via the QuickBooks API.
+
+         * Production Workflow Logic: Engineering of state-based logic using AWS Step Functions to track units through defined fulfillment stages. Each state change triggers events via Amazon EventBridge to enforce permissions and log timestamps to DynamoDB for a complete audit trail.
+
+         * Smart Lead Scoring & Notifications: Configuration of logic-based scoring (0-400 scale) to prioritize leads based on urgency and budget, utilizing Amazon EventBridge and CloudWatch to trigger real-time alerts for missed calls or stalled tickets.
+
+         * Inventory Database Architecture: Implementation of a high-concurrency DynamoDB structure to support real-time "Check-in/Check-out" workflows, using conditional writes to ensure quantity-on-hand is accurate down to the second.
+
+         * Service & Warranty Routing: Configuration of backend rules using a Python Rule Engine to validate warranty eligibility against historical sales records before automatically routing tickets to the service department.
+
+         * AI Voice Agent Configuration: Deployment of a conversational AI voice agent using Amazon Connect and Amazon Lex to handle after-hours calls, transcribe audio via Amazon Transcribe, and route qualified leads into the CRM.
+
+Search Engine Optimization
+
+
+            * Technical SEO Audit & monitoring: Perform ongoing technical SEO audits to monitor site health, crawlability, indexability, and page speed.
+
+            * Seasonal Content Strategy: Conduct keyword research to identify and target season-specific queries. This includes developing a blog content strategy to answer user questions about varying weather cart usage, storage and maintenance.
+
+            * Consideration-Phase Content: Develop and optimize new website content(e.g., articles, dedicated FAQs) to capture users in the consideration phase by answering common cost, price, and feature-related queries.
+
+            * Seasonal PLP & On-Page SEO: Create and optimize new “Seasonal focused” Product Listing Pages(PLPs) to capture seasonal, bottom-of-funnel sales opportunities. This includes optimizing meta tags, headers, and internal linking for high-intent transactional keywords.
+
+
+Social Media Marketing 
+
+
+               * AI Content Engine Setup: Establish and configure an AI-driven content generation pipeline, leveraging Guild's provided brand assets and high-quality source product imagery.
+
+               * Monthly Content Strategy: Develop a monthly social media content calendar outlining themes, post formats, and key messaging for client review and approval.
+
+               * Content Production (Organic): Produce 8 monthly organic social media posts (including AI-generated videos, reels, and customized graphics) for Facebook, Instagram, and TikTok.
+
+               * Paid Campaign Management: Setup, manage, and optimize 3 concurrent paid social media campaigns (e.g., on Meta platforms) to drive targeted brand awareness and lead generation.
+
+               * Formal Creative Approval: Implement a formal creative approval workflow, providing all AI-generated assets to Guild Golf Carts for review to ensure brand and product accuracy prior to publishing.
+
+
+Analytics
+                  * Advanced Call Tracking (CallRail): Implement and configure CallRail to monitor, record, and score all inbound call activity, providing visibility into the leads currently lost in the "black hole" .
+
+                  * Core Platform Integration: Connect CallRail, the AI Voice Agent, GA4 to pipeline all marketing lead data into the new Operations CRM .
+
+                  * Data & Transcript Collection: Configure the system to extract and store all call data, including full AI Voice Agent transcripts, within the CRM for client review and sales team training. .
+
+                  * Full-Funnel Dashboards: Configure unified dashboards in the Operations CRM integrated with Looker Studio to provide complete end-to-end visibility, from initial touchpoint to final sale and fulfillment and replace manual reporting with automated real-time data flow.
+
+Hosting and Maintenance:
+                     * 6  months of managed WordPress hosting with regular website updates, backups, and security monitoring.
+
+                     * Maintenance will also include updates to website content (e.g., pricing, service descriptions) based on client requests.
+
+                     * Enhanced website performance optimization, regular security audits, and proactive issue resolution.
+
+
+________________
+
+
+
+
+4. CLIENT SPECIFICATIONS AND REQUESTS
+
+
+                        * Primary Communication: Communication will occur through Discord and Email.
+
+                        * Bi-Weekly Meetings: Meetings will be held every two weeks to provide status updates on all active projects and campaigns.
+
+                        * Creative Approvals: All new creative assets for social media must be approved by Guild Golf Carts before they are finalized.
+
+                        * CRM & Dashboard Approvals: Guild Golf Carts will be provided with key opportunities for review and input during the CRM framing and build-out process to ensure the final structure aligns with their specific operational vision.
+
+                        * AI Voice Agent Scripting: All AI Voice Agent scripts, including introductory greetings for after-hours calls and clear opt-out paths for customers, must be approved by Guild Golf Carts prior to launch.
+
+
+________________
+
+
+
+
+5. PROJECT ASSUMPTIONS & EXCLUSIONS
+
+
+                           * Marketing Budget Allocation: During Phase 2 ($14,999/month), 30% of the budget will be allocated toward paid media efforts: $4,499 per month allocated for existing Google Ads and new paid social campaigns.
+
+                           * Project Duration: The project will run for an initial 6-month period as per this agreement. Following the initial 6-month term, this agreement will continue at the Phase 2 rate ($14,999/month), subject to a bi-annual (6-month) performance and budget review.
+
+                           * Formal Requests: Any changes or clarifications to the scope of work must be made through formal channels, with written documentation.
+
+                           * Change Requests: Any changes to the scope of work will be managed through a formal change request process, ensuring that all modifications are mutually agreed upon and well-documented before commencing.
+
+                           * Content & Imagery: Client agrees to provide necessary brand assets and high-quality source product imagery/video content. White Label Resell will leverage these assets for the AI-driven production and generation of new creative assets (e.g., social media posts, videos, ads) as part of the social media service.
+
+
+________________
+
+
+
+
+
+
+
+6. SIGNATURE ACCEPTANCE
+
+
+This Statement of Work (SOW) is agreed upon and accepted by the undersigned as a binding agreement between White Label Resell and Guild Golf Carts.
+CLIENT
+
+	WHITE LABEL RESELL 
+
+	Signature:_____________________
+
+
+	Signature:_____________________
+
+
+	Name:________________________
+
+
+	Name: Christian Clark
+
+
+	Title:_________________________
+
+
+	Title: Owner 
+
+
+	Date:_________________________
+	Date:_________________________

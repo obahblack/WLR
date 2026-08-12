@@ -1,0 +1,129 @@
+﻿Digital Marketing Strategy
+for Unemployment Society
+March 2026
+	  
+
+Statement of Work (SOW)
+Digital Marketing Services for Unemployment Society
+Company: White Label Resell
+Client: Unemployment Society
+Date: 03/18/2026
+Version: 1.0
+________________
+
+
+1. PROJECT OBJECTIVE
+The primary objective is to establish Unemployment Society as a high-authority, organic search destination over a 12-month period. The site is designed to serve as a primary top-of-funnel lead source for Pepelwerk, capturing users experiencing job loss or career displacement and directing them into the Pepelwerk platform.
+This project will start with a 90-day website development phase.This phase will involve migration to WordPress and a complete website re-design and build to establish a robust analytics and conversion framework, followed by a comprehensive organic digital marketing strategy.
+________________
+
+
+2. SCOPE OF SERVICES
+White Label Resell will provide digital marketing and website redesign services tailored to Unemployment Society's needs, as agreed upon in the Agency Essential Package with phased deliverables.
+Phased Approach Overview:
+Phase 1 | Website Design and Deployment ($1,499/month): 
+In the first phase, the primary focus will be the migration of the Unemployment Society website from Wix Studio to WordPress.
+This phase includes UI/UX design, web development, and foundational SEO and analytics setup. By Day 90, the client will have a fully optimized, data-ready site with active reporting in Looker Studio and weekly performance check-ins.
+
+
+Phase 2 | Marketing Activation ($1,499/month): 
+Once the 90-day development phase is complete, the focus shifts to ongoing Organic Growth. This phase includes Content Marketing (SEO) and active performance reporting.
+________________
+
+
+3. SCOPE OF SERVICES – ESSENTIAL PACKAGE
+The following services are included within the Essential Package, as part of the overall engagement:
+
+UI/UX Design
+* Custom Layout, Structure, and UI: Comprehensive customization of the website layout and user interface in Figma, optimized for user experience and conversion.
+
+* Brand Guidelines: Finalization and alignment of digital brand guidelines to ensure consistent visual identity across all assets.
+
+* Conversion-Focused Design: Strategic placement of trust signals (licenses, reviews) and calls-to-action to maximize lead generation.
+
+* Responsive Optimization: Ensuring flawless design and functionality across all device types (mobile, tablet, desktop).
+
+Web Development
+   * WordPress Deployment: The website will be built on a high-performance WordPress platform using Elementor for scalability and ease of management.
+
+   * Speed & Performance: Optimization of site speed, image compression, and code minification to meet Core Web Vitals standards.
+
+   * Advanced Lead Form Implementation: Custom lead capture forms with conditional logic and tracking integrations will be developed to maximize lead quality.
+
+   * Hosting and Maintenance: 12 months of managed Cloudways hosting (Digital Ocean) hosting with regular website updates, backups, security monitoring, and proactive issue resolution.
+
+Analytics
+      * Custom Data Layer & Analytics Framework: Implementation of a sitewide data layer to capture key user interactions, lead events, and engagement metrics.
+
+      * Google Tag Manager (GTM): Deployment and configuration of GTM containers for the website, managing all tracking tags and event triggers.
+
+      * Google Analytics 4 (GA4) Setup: Full setup and configuration of a GA4 property, including event tracking, conversion setup, and enhanced measurement.
+
+      * Looker Studio Reporting: Development of interactive Looker Studio dashboards to track performance, keyword positions, and full-funnel metrics.
+
+Search Engine Optimization (SEO)
+         * Technical & On-Page SEO: Implement in-depth technical SEO audits (crawlability, site speed, mobile-friendliness) and advanced on-page optimizations (meta tags, internal linking).
+
+         * Keyword & Content Strategy: Research and integration of high-value keywords relevant to the client's local market and service offerings.
+
+         * AI-Driven Content Refinement: Utilization of SCAI, White Label Resell's proprietary AI content platform, to produce high-volume SEO-optimized articles designed to rank on search and build topical authority for Unemployment Society.
+
+         * Content Optimization: Refinement of website copy to ensure alignment with SEO best practices and brand voice.
+
+         * Launch Optimization: Ensuring launch-ready performance passed by SEO teams before going live, establishing a strong organic foundation.
+
+         * Advanced Schema Markup: Implementation of advanced schema markup for improved search visibility.
+________________
+
+
+4. CLIENT SPECIFICATIONS AND REQUESTS
+            * Primary Communication: Communication will occur through Discord and Email for clarity and responsiveness.
+
+            * Monthly SEO Reports: Reports will be delivered every 30 days, starting from the date of the completion of the website build. These reports will include SEO growth updates and performance details for the website.
+
+            * Bi-Weekly Meetings: Meetings will be held every two weeks, starting from the date of the SOW signing. These meetings will include status updates on work completed and client requests.
+
+            * Status Documents: A document will be maintained to track all client requests and status updates, ensuring that all work is reviewed and progresses in line with Unemployment Society's priorities.
+
+            * Creative Approvals: All creative assets, including website designs and marketing collateral, must be approved by Unemployment Society before they are finalized.
+
+            * Website Management: The website will receive continuous updates and improvements in line with evolving marketing strategies and client feedback.
+________________
+
+
+5. PROJECT ASSUMPTIONS & EXCLUSIONS
+               * Project Duration: The project will run for an initial 12-month period as per the agreed contract.
+
+               * Formal Requests: Any changes or clarifications to the scope of work must be made through formal channels, with written documentation.
+
+               * Change Requests: Any changes to the scope of work will be managed through a formal change request process, ensuring that all modifications are mutually agreed upon.
+
+               * Asset Ownership: Client retains 100% ownership of all designs, websites, reports, data, and creative files at the end of contract term. 
+________________
+
+
+6. SIGNATURE ACCEPTANCE
+This Statement of Work (SOW) is agreed upon and accepted by the undersigned as a binding agreement between White Label Resell and Unemployment Society.
+CLIENT
+
+	WHITE LABEL RESELL 
+
+	Signature:_____________________
+
+
+	Signature:_____________________
+
+
+	Name:________________________
+
+
+	Name: Christian Clark
+
+
+	Title:_________________________
+
+
+	Title: Owner
+ 
+	Date:_________________________
+	Date:_________________________

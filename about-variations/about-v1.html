@@ -1,0 +1,1255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>About — White Label Resell</title>
+<meta name="description" content="White Label Resell is the people behind your digital work — a multidisciplinary team of named specialists designing, building and growing better digital businesses under your brand. est. 2018." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+html { overflow-x: clip; }
+html, body { margin: 0; padding: 0; background: #000; color: #FFF; }
+body { font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: clip; }
+h1, h2, h3 { text-wrap: pretty; }
+p { margin: 0; }
+::selection { background: #FFF; color: #000; }
+i, em { font-style: italic; }
+a { color: inherit; }
+a:hover { opacity: .7; }
+body::-webkit-scrollbar { width: 0; }
+
+:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+
+@keyframes mqFwd { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+.kick { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: .22em; text-transform: uppercase; opacity: .6; margin-bottom: 16px; }
+
+.team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+@media (max-width: 1000px) { .team-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 520px)  { .team-grid { grid-template-columns: 1fr; } }
+
+.quad { display: grid; grid-template-columns: minmax(280px, 1fr) auto minmax(280px, 1fr); column-gap: 44px; align-items: center; }
+.quad .quad-l, .quad .quad-r { display: flex; flex-direction: column; gap: 14px; }
+.quad .quad-c { width: clamp(320px, 30vw, 450px); justify-self: center; }
+@media (max-width: 1000px) {
+  .quad { grid-template-columns: minmax(210px, 1fr) auto minmax(210px, 1fr); column-gap: 32px; }
+  .quad .quad-c { width: clamp(260px, 24vw, 340px); }
+}
+@media (max-width: 900px) {
+  .quad { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .quad .quad-c { grid-column: 1 / -1; order: -1; width: clamp(260px, 40vw, 360px); margin-bottom: 26px; justify-self: center; }
+  .quad .quad-l { grid-column: 1; }
+  .quad .quad-r { grid-column: 2; }
+}
+@media (max-width: 540px) {
+  .quad { grid-template-columns: 1fr; }
+  .quad .quad-l, .quad .quad-r { grid-column: 1; }
+  .quad .quad-c { width: min(60vw, 300px); margin-bottom: 22px; }
+}
+
+.brand-mark { display: flex; align-items: flex-end; gap: 14px; height: clamp(300px, 24vw, 340px); color: #000; }
+.brand-mark > span { width: clamp(72px, 7vw, 92px); background: currentColor; }
+.brand-mark > span:nth-child(1) { height: 66%; }
+.brand-mark > span:nth-child(2) { height: 100%; }
+.brand-mark > span:nth-child(3) { height: 82%; }
+@media (max-width: 540px) {
+  .brand-mark { height: 240px; gap: 10px; }
+  .brand-mark > span { width: clamp(52px, 15vw, 68px); }
+}
+
+.value-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+@media (max-width: 1000px) { .value-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px)  { .value-grid { grid-template-columns: 1fr; } }
+
+.dept-grid { display: flex; flex-direction: column; }
+.dept-grid > div { border-bottom: 1px solid rgba(0,0,0,.12); padding: 24px 0; display: grid; grid-template-columns: 60px 1fr 1fr; gap: 32px; align-items: baseline; }
+.dept-grid > div:last-child { border-bottom: none; }
+@media (max-width: 700px) { .dept-grid > div { grid-template-columns: 44px 1fr; gap: 12px; } .dept-grid > div > div:last-child { grid-column: 1 / -1; } }
+
+.dept-ring { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; align-items: stretch; }
+.dept-ring .ring-center { grid-column: 2; grid-row: 2; display: grid; place-items: center; }
+@media (max-width: 900px) {
+  .dept-ring { grid-template-columns: repeat(2, 1fr); }
+  .dept-ring .ring-center { grid-column: 1 / -1; grid-row: auto; order: -1; padding: 24px 0 8px; }
+}
+@media (max-width: 520px) { .dept-ring { grid-template-columns: 1fr; } }
+
+.dept-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+@media (max-width: 900px) { .dept-list { grid-template-columns: 1fr; } }
+
+.journey-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+@media (max-width: 900px) { .journey-grid { grid-template-columns: 1fr; } }
+
+.journey-bento { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 1100px; margin: 0 auto; }
+.jb-top { grid-column: 1 / -1; display: grid; grid-template-columns: 1.05fr 1fr; gap: clamp(20px, 3vw, 40px); align-items: center; background: #FFF; color: #000; border: 1px solid rgba(0,0,0,.18); padding: clamp(26px, 3.4vw, 40px); min-height: 360px; max-height: 400px; transition: background .6s ease, color .6s ease, border-color .6s ease; }
+.jb-top.jb-inverted { background: #000; color: #FFF; border-color: #FFF; }
+.jb-card { display: flex; flex-direction: column; justify-content: space-between; gap: 18px; border: 1px solid #000; background: #FFF; color: #000; padding: 22px; min-height: 360px; max-height: 400px; transition: background .6s ease, color .6s ease, border-color .6s ease; }
+.jb-card.jb-inverted { background: #000; color: #FFF; border-color: #FFF; }
+.jb-copy { min-width: 0; }
+.ji-period { display: inline-block; font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: .22em; text-transform: uppercase; opacity: .55; margin-bottom: 12px; }
+.jb-top .ji-period { opacity: .6; }
+.jb-copy h3 { margin: 2px 0 8px; font-family: 'Geist', sans-serif; font-size: clamp(20px, 2vw, 26px); font-weight: 500; letter-spacing: -.02em; line-height: 1.1; }
+.jb-copy p { font-size: 16px; line-height: 1.5; opacity: .72; font-weight: 300; }
+.jb-top .jb-copy p { max-width: 400px; }
+.jb-art { display: flex; align-items: center; overflow: hidden; }
+.jb-art svg { width: 100%; height: auto; max-height: 100%; }
+.jb-card .jb-art { height: 200px; padding-top: 12px; justify-content: center; overflow: hidden; }
+.jb-card .jb-art svg { max-height: 100%; }
+@media (max-width: 900px) {
+  .journey-bento { grid-template-columns: 1fr; max-width: 680px; }
+  .jb-top { grid-template-columns: 1fr; }
+}
+
+@keyframes jiPulse { 0%, 100% { opacity: 1; } 50% { opacity: .3; } }
+@keyframes jiRise  { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.16); } }
+@keyframes jiFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+.journey-bento .ji-pulse { transform-box: fill-box; transform-origin: center; animation: jiPulse 1.7s ease-in-out infinite; }
+.journey-bento .ji-rise  { transform-box: fill-box; transform-origin: center bottom; animation: jiRise 1.9s ease-in-out infinite; }
+.journey-bento .ji-float { transform-box: fill-box; transform-origin: center; animation: jiFloat 2.7s ease-in-out infinite; }
+
+.scroll-line-track { position: absolute; left: 50%; transform: translateX(-50%); width: 24px; height: 100%; pointer-events: none; }
+.scroll-line-fill { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 16px; height: 0%; background: #000; border-radius: 8px; transition: height .05s linear; }
+.scroll-line-track.is-dark .scroll-line-fill { background: #FFF; }
+@keyframes linePour { 0% { height: 0%; } 100% { height: 100%; } }
+
+.val-row { display: grid; grid-template-columns: 90px 1.3fr 1fr; gap: 32px; align-items: baseline; padding: 34px 0; border-top: 1px solid rgba(255,255,255,.22); }
+.val-row:last-child { border-bottom: 1px solid rgba(255,255,255,.22); }
+@media (max-width: 900px) { .val-row { grid-template-columns: 70px 1fr; gap: 12px; } .val-row .val-desc { grid-column: 1 / -1; } }
+
+.id-img { transition: transform .6s cubic-bezier(.2,.8,.2,1); }
+.id-card:hover .id-img { transform: scale(1.05); }
+.id-label { transition: transform .35s ease; }
+.id-card:hover .id-label { transform: translateY(-2px); }
+.id-li { transition: opacity .2s ease, transform .3s ease; }
+.id-card:hover .id-li { opacity: 1; transform: translateY(-2px); }
+
+.split2 { display: grid; grid-template-columns: 1fr 1fr; }
+.split2 > div { padding: 0 40px; }
+.split2 > div:first-child { padding-left: 0; border-right: 1px solid rgba(255,255,255,.2); }
+.split2.light > div:first-child { border-right-color: rgba(0,0,0,.18); }
+@media (max-width: 800px) {
+  .split2 { grid-template-columns: 1fr; }
+  .split2 > div, .split2 > div:first-child { padding: 0 0 36px; border-right: none; border-bottom: 1px solid rgba(255,255,255,.2); margin-bottom: 36px; }
+  .split2.light > div:first-child { border-bottom-color: rgba(0,0,0,.18); }
+}
+
+.marq { overflow: hidden; }
+.marq-track { display: flex; width: max-content; animation: mqFwd 46s linear infinite; }
+.marq-track .mq-group { display: flex; align-items: center; gap: 64px; padding-right: 64px; }
+.marq:hover .marq-track { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .marq-track { animation: none !important; width: auto; flex-wrap: wrap; justify-content: center; row-gap: 24px; }
+}
+
+.video-frame { position: relative; overflow: hidden; background: #000; height: clamp(320px, 46vw, 520px); display: flex; align-items: center; justify-content: center; }
+.video-grain { position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  background-size: 200px; opacity: .55; }
+.video-brackets .b-tl, .video-brackets .b-tr, .video-brackets .b-bl, .video-brackets .b-br { position: absolute; width: 14px; height: 14px; border: 1.5px solid #000; }
+.video-brackets .b-tl { top: -8px; left: -8px; border-width: 1.5px 0 0 1.5px; }
+.video-brackets .b-tr { top: -8px; right: -8px; border-width: 1.5px 1.5px 0 0; }
+.video-brackets .b-bl { bottom: -8px; left: -8px; border-width: 0 0 1.5px 1.5px; }
+.video-brackets .b-br { bottom: -8px; right: -8px; border-width: 0 1.5px 1.5px 0; }
+
+.faq-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 5vw; align-items: start; }
+@media (max-width: 800px) { .faq-grid { grid-template-columns: 1fr; gap: 40px; } }
+.faq-btn { width: 100%; background: transparent; border: none; color: inherit; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 24px 0; font-family: 'Geist', sans-serif; font-size: clamp(17px, 1.5vw, 23px); font-weight: 500; letter-spacing: -.015em; }
+.faq-item { border-bottom: 1px solid rgba(0,0,0,.18); }
+.faq-item:first-child { border-top: 1px solid rgba(0,0,0,.18); }
+.faq-plus { font-family: 'Geist Mono', monospace; font-size: 20px; flex-shrink: 0; transition: transform .25s ease; }
+.faq-item.open .faq-plus { transform: rotate(45deg); }
+
+/* ── hero h1 word stagger ─────────────────────────── */
+.hero-word { display: inline-block; opacity: 0; transform: translateY(40px) rotateX(35deg); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1); margin-right: 0.3em; }
+.hero-word:last-child { margin-right: 0; }
+.hero-word.revealed { opacity: 1; transform: translateY(0) rotateX(0); }
+
+/* ── dept tile hover inversion ────────────────────── */
+.dept-tile { transition: background .4s ease, color .4s ease, border-color .4s ease; }
+.dept-tile:hover { background: #000 !important; color: #FFF !important; border-color: #000 !important; }
+.dept-tile:hover .dept-num { color: rgba(255,255,255,.4) !important; }
+
+/* ── video curtain reveal ──────────────────────────── */
+.vid-curtain { position: absolute; inset: 0; z-index: 2; display: flex; pointer-events: none; }
+.vid-curtain-half {
+  width: 50%; background: #000; position: relative; overflow: hidden;
+  transition: transform .9s cubic-bezier(.7,0,.3,1);
+}
+.vid-curtain-half-l { transform: translateX(0); }
+.vid-curtain-half-r { transform: translateX(0); }
+.vid-curtain.open .vid-curtain-half-l { transform: translateX(calc(-100% + 200px)); }
+.vid-curtain.open .vid-curtain-half-r { transform: translateX(calc(100% - 200px)); }
+/* Logo halves — each clipped to show only its side of the mark */
+.vid-curtain-logo-half {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  display: flex; align-items: flex-end; gap: 14px; height: 300px;
+}
+.vid-curtain-logo-half > span { width: 66px; background: #FFF; }
+.vid-curtain-logo-half > span:nth-child(1) { height: 66%; }
+.vid-curtain-logo-half > span:nth-child(2) { height: 100%; }
+.vid-curtain-logo-half > span:nth-child(3) { height: 82%; }
+.vid-curtain-logo-half-l { right: 0; clip-path: inset(0 50% 0 0); }
+.vid-curtain-logo-half-r { left: 0; clip-path: inset(0 0 0 50%); }
+
+/* ── team scale-up reveal ─────────────────────────── */
+.team-reveal { opacity: 0; transform: scale(0.97); transition: opacity 1s ease, transform 1s cubic-bezier(.2,.8,.2,1); }
+.team-reveal.revealed { opacity: 1; transform: scale(1); }
+
+/* ── journey bars: timer (card 1) ─────────────────── */
+@keyframes jbTimer1 { 0%,88%,100% { opacity: 0; } 10%,86% { opacity: 1; } }
+@keyframes jbTimer2 { 0%,88%,100% { opacity: 0; } 24%,86% { opacity: 1; } }
+@keyframes jbTimer3 { 0%,88%,100% { opacity: 0; } 38%,86% { opacity: 1; } }
+
+/* ── journey bars: grow (card 2) ──────────────────── */
+@keyframes jbGrow1 { 0%,14% { height: 66%; } 18%,84% { height: 48%; } 88%,100% { height: 66%; } }
+@keyframes jbGrow2 { 0%,32% { height: 100%; } 36%,84% { height: 70%; } 88%,100% { height: 100%; } }
+@keyframes jbGrow3 { 0%,50% { height: 82%; } 54%,84% { height: 100%; } 88%,100% { height: 82%; } }
+
+/* ── journey bars: unity (card 3) ─────────────────── */
+@keyframes jbUnityL { 0%,18% { transform: translateX(0); } 35%,65% { transform: translateX(calc(var(--jm-tx) * -1)); } 82%,100% { transform: translateX(0); } }
+@keyframes jbUnityR { 0%,18% { transform: translateX(0); } 35%,65% { transform: translateX(var(--jm-tx)); } 82%,100% { transform: translateX(0); } }
+
+.jm { display: inline-flex; align-items: flex-end; }
+.jm-bar { display: block; border-radius: 0; transform-origin: center bottom; }
+.jm-timer .jm-bar:nth-child(1) { animation: jbTimer1 2.8s ease-in-out infinite; }
+.jm-timer .jm-bar:nth-child(2) { animation: jbTimer2 2.8s ease-in-out infinite; }
+.jm-timer .jm-bar:nth-child(3) { animation: jbTimer3 2.8s ease-in-out infinite; }
+.jm-grow .jm-bar:nth-child(1) { animation: jbGrow1 3.4s ease-in-out infinite; }
+.jm-grow .jm-bar:nth-child(2) { animation: jbGrow2 3.4s ease-in-out infinite; }
+.jm-grow .jm-bar:nth-child(3) { animation: jbGrow3 3.4s ease-in-out infinite; }
+.jm-unity .jm-bar:nth-child(1) { animation: jbUnityL 3s ease-in-out infinite; }
+.jm-unity .jm-bar:nth-child(2) { animation: none; }
+.jm-unity .jm-bar:nth-child(3) { animation: jbUnityR 3s ease-in-out infinite; }
+.jb-top .jb-art { margin-left: auto; padding-right: 60px; }
+.jb-card .jb-art { align-items: flex-end; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition-duration: .01ms !important; }
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<!-- React + Babel from unpkg (no SRI — prevents blocking if CDN hash drifts) -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<!-- shared verified data (inlined for portability) -->
+<script>
+window.ABOUT = {
+  team: [
+    { name: 'Christian Clark',        role: 'Founder',                 img: 'https://whitelabelresell.com/wp-content/uploads/2025/01/1697726084291.jpeg', w: 562,  h: 562,  li: 'https://www.linkedin.com/in/christian-clark-9a352b179/' },
+    { name: 'Himanshu Raikwar',       role: 'Lead Digital Designer',   img: 'https://whitelabelresell.com/wp-content/uploads/2025/01/Himanshu-Raikwar-1024x1024.png', w: 1024, h: 1024, li: 'https://www.linkedin.com/in/himanshuraikwar/' },
+    { name: 'Mohammad Muneeb',        role: 'Lead SEO Specialist',     img: 'https://whitelabelresell.com/wp-content/uploads/2025/01/Mohammad-Muneeb-1024x1024.png', w: 1024, h: 1024, li: 'https://www.linkedin.com/in/mohammad-muneeb-204418215/' },
+    { name: 'Anil Raikwar',           role: 'Analytics Engineer',      img: 'https://whitelabelresell.com/wp-content/uploads/2025/01/Anil-Raikwar.png', w: 651,  h: 649,  li: 'https://www.linkedin.com/in/anil-raikwar/' },
+    { name: 'Haider Ali',             role: 'SEO Specialist',          img: 'https://whitelabelresell.com/wp-content/uploads/elementor/thumbs/Haider-Ali-rqg7xs8a0bnqe844b332hjurrpz1a11ezafcq7nbb4.png', w: 1024, h: 1024, li: 'https://www.linkedin.com/in/haider-naeem-888378249/' },
+    { name: 'Brandon Carroll',        role: 'Acquisition Specialist',  img: 'https://whitelabelresell.com/wp-content/uploads/elementor/thumbs/Brandon-Carroll-rqg7xs8a0bnqe844b332hjurrpz1a11ezafcq7nbb4.png', w: 1024, h: 1024, li: null },
+    { name: 'Taofeek Abdulrauf',      role: 'Cloud Engineer',          img: 'https://whitelabelresell.com/wp-content/uploads/2025/01/Taofeek-Abdulrauf-1024x1024.png', w: 1024, h: 1024, li: 'https://www.linkedin.com/in/taofeek-abdulrauf-a95815226/' },
+    { name: 'Munir Nadayako',         role: 'Web Developer',           img: 'https://whitelabelresell.com/wp-content/uploads/2025/01/Munir-Nadayako-1024x1022.png', w: 1024, h: 1022, li: null },
+  ],
+  departments: [
+    { name: 'Leadership and Strategy',       desc: 'Direction, scoping and the standards the whole bench works to.' },
+    { name: 'UI/UX and Product Design',      desc: 'Interfaces, flows and brand systems that turn strategy into something people can use.' },
+    { name: 'SEO and Content',               desc: 'Technical and on-page SEO, keyword strategy and content built to earn rankings.' },
+    { name: 'Paid Acquisition',              desc: 'Search and social campaigns measured against pipeline, not vanity clicks.' },
+    { name: 'Web Development',               desc: 'WordPress, eCommerce and custom builds — fast, accessible and production-ready.' },
+    { name: 'Analytics',                     desc: 'GA4, Tag Manager and Looker reporting that turns data into decisions.' },
+    { name: 'Cloud and Infrastructure',      desc: 'Hosting, security and uptime that keep the work online around the clock.' },
+    { name: 'Operations and Client Success', desc: 'The coordinators who keep projects moving and partners in the loop.' },
+  ],
+  values: [
+    { n: '01', name: 'Ownership',                          short: 'Every specialist runs their discipline like it is their own project — and answers for it.' },
+    { n: '02', name: 'Clear Communication',                short: 'Straight answers, honest timelines and no hiding behind process.' },
+    { n: '03', name: 'Continuous Improvement',             short: 'We refine the systems, not just the deliverables, so every engagement beats the last.' },
+    { n: '04', name: 'Quality Without Unnecessary Complexity', short: 'Work that is simple to maintain, easy to explain and built to last.' },
+    { n: '05', name: 'Collaboration Across Disciplines',   short: 'Designers, engineers, marketers and analysts work as one team on every client.' },
+    { n: '06', name: 'Work That Creates Lasting Value',    short: 'We measure success in results our partners keep, not reports we hand over.' },
+  ],
+  journey: [
+    { tag: '2018–2019', title: 'Where it started.',  desc: 'White Label Resell is founded as a focused production team — SEO, content and web work shipped quietly under partner brands from day one.' },
+    { tag: '2020–2024', title: 'The bench grows.',    desc: 'Design, engineering, paid, analytics and cloud join one by one, each led by a named specialist, all working to a single standard.' },
+    { tag: '2025–2026', title: 'One connected team.', desc: 'Today the team runs complete digital growth programs end to end — a full in-house bench for each partner, always behind their brand.' },
+  ],
+  clients: [
+    { name: 'Guild Golf Carts',   style: { letterSpacing: '.06em', fontWeight: 500 } },
+    { name: 'Unemployment Society', style: { fontWeight: 300, fontStyle: 'italic' } },
+    { name: 'Flat Bid Moving',    style: { letterSpacing: '.14em', fontWeight: 600 } },
+  ],
+  faqs: [
+    {
+      q: 'Who is behind White Label Resell?',
+      a: 'The company was founded by Christian Clark in 2018. Today it is a team of specialists across design, SEO, development, paid acquisition, analytics, cloud and operations, each discipline led by a named lead.',
+    },
+    {
+      q: 'How does the team work across different disciplines?',
+      a: 'Every engagement is staffed by the specialist leads it needs — strategy, design, build, marketing, analytics — who work from one shared brief and one shared standard instead of passing work between silos.',
+    },
+    {
+      q: 'Will clients ever work directly with the team?',
+      a: 'No. All work ships under the partner\'s brand, never ours. We sign mutual NDAs as standard and stay invisible to the end client.',
+    },
+    {
+      q: 'What kind of support is available after launch?',
+      a: 'Hosting, maintenance, reporting and ongoing growth work continue after launch. Most partners start with one discipline and grow to a full bench over time.',
+    },
+  ],
+  video: {
+    url: 'https://player.vimeo.com/video/901595251?h=9ee652be42&autoplay=1&title=0&byline=0&portrait=0',
+    label: '2 Minutes Watch',
+  },
+  cta: {
+    headline: 'Bring the right people.',
+    support: 'Tell us what you are building, improving or growing, and we\u2019ll connect the right specialists around it.',
+    link: '../contact.html',
+  },
+  teamHref: '../team.html',
+};
+</script>
+<script type="text/babel">
+/* ════════════════════════════════════════════════════════════════════
+   Shared components for the About variations (about-v1/v2/v3).
+   Single source of truth — inlined into each page by build.js so pages
+   render when opened directly via file:// (Babel cannot fetch external
+   text/babel scripts from file://). Data lives in shared-data.js
+   (plain JS, loaded via <script src>).
+   Design language mirrors home.html: pure #000/#FFF, Geist + Geist Mono,
+   mono kickers, hairline rules, fade-and-rise reveal motion.
+   ════════════════════════════════════════════════════════════════════ */
+
+const { useState, useEffect, useRef } = React;
+
+const A = window.ABOUT;
+
+/* ── mark ─────────────────────────────────────────── */
+const ThreeBar = ({ size = 16, color = 'currentColor', gap = 2, animate = false }) => {
+  const [t, setT] = useState(0);
+  useEffect(() => {
+    if (!animate) return;
+    let r;
+    const tick = () => { setT(x => x + 0.016); r = requestAnimationFrame(tick); };
+    r = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(r);
+  }, [animate]);
+  const base = [0.66, 1, 0.82];
+  const heights = animate ? base.map((h, i) => 0.4 + 0.55 * (0.5 + 0.5 * Math.sin(t * 2.6 + i * 0.7))) : base;
+  return (
+    <span style={{ display: 'inline-flex', alignItems: 'flex-end', gap, height: size }}>
+      {heights.map((h, i) => (
+        <span key={i} style={{ width: size * 0.22, height: `${h * 100}%`, background: color }} />
+      ))}
+    </span>
+  );
+};
+
+/* ── chrome ───────────────────────────────────────── */
+const HUD = ({ active = '' }) => {
+  const links = [
+    ['Work', '../case-studies.html', 'work'],
+    ['About', 'about-v1.html', 'about'],
+    ['Team', '../team.html', 'team'],
+    ['Get a Quote', '../contact.html', 'contact'],
+  ];
+  return (
+    <div style={{
+      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+      mixBlendMode: 'difference', pointerEvents: 'none',
+      padding: '20px 32px', display: 'flex', justifyContent: 'space-between',
+      alignItems: 'center', color: '#FFF',
+      fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '.22em',
+      textTransform: 'uppercase',
+    }}>
+      <a href="../index.html" style={{ pointerEvents: 'auto', display: 'inline-flex', alignItems: 'center', gap: 12, color: '#FFF', textDecoration: 'none' }}>
+        <ThreeBar size={14} color="#FFF" gap={3} />White Label Resell
+      </a>
+      <span style={{ pointerEvents: 'auto', display: 'flex', gap: 24 }}>
+        {links.map(([label, href, key]) => (
+          <a key={key} href={href} style={{
+            color: '#FFF', textDecoration: 'none',
+            opacity: active === key ? 1 : .6,
+            borderBottom: active === key ? '1px solid #FFF' : '1px solid transparent',
+            paddingBottom: 2,
+          }}>{label}</a>
+        ))}
+      </span>
+    </div>
+  );
+};
+
+const Kick = ({ children, style = {} }) => (
+  <div style={{
+    fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '.22em',
+    textTransform: 'uppercase', opacity: .6, marginBottom: 16, ...style,
+  }}>{children}</div>
+);
+
+/* ── motion ───────────────────────────────────────── */
+const useReveal = (amount = 0.2) => {
+  const ref = useRef(null);
+  const [seen, setSeen] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setSeen(true); io.disconnect(); } },
+      { threshold: amount, rootMargin: '0px 0px -12% 0px' }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [amount]);
+  return [ref, seen];
+};
+
+/* ── buttons (home.html system) ───────────────────── */
+const Btn = ({ href, children, light = false, outline = false }) => {
+  const base = {
+    display: 'inline-flex', alignItems: 'center', gap: 12, padding: '18px 26px',
+    textDecoration: 'none', fontFamily: 'Geist Mono, monospace', fontSize: 12,
+    letterSpacing: '.22em', textTransform: 'uppercase', fontWeight: 600,
+  };
+  const filled = outline
+    ? { border: `1px solid ${light ? '#FFF' : '#000'}`, color: light ? '#FFF' : '#000' }
+    : { background: light ? '#FFF' : '#000', color: light ? '#000' : '#FFF' };
+  return (
+    <a href={href} style={{ ...base, ...filled }}>
+      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 12 }}>
+        {!outline && <ThreeBar size={12} color={light ? '#000' : '#FFF'} />}
+        {children}
+      </span>
+    </a>
+  );
+};
+
+/* ── footer (home.html) ───────────────────────────── */
+const Footer = () => (
+  <footer style={{ background: '#000', color: '#FFF', borderTop: '1px solid #FFF', padding: '44px 6vw 32px' }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 28 }}>
+      <div>
+        <ThreeBar size={20} color="#FFF" gap={3} />
+        <div style={{ marginTop: 14, fontFamily: 'Geist Mono, monospace', fontSize: 10, letterSpacing: '.22em', textTransform: 'uppercase', opacity: .55 }}>
+          © 2026 White Label Resell · est. 2018
+        </div>
+      </div>
+      <div style={{ display: 'flex', gap: 22, flexWrap: 'wrap', fontFamily: 'Geist Mono, monospace', fontSize: 10, letterSpacing: '.22em', textTransform: 'uppercase' }}>
+        <a href="../index.html" style={{ textDecoration: 'none', opacity: .8 }}>Work</a>
+        <a href="about-v1.html" style={{ textDecoration: 'none', opacity: .8 }}>About</a>
+        <a href="../team-v2.html" style={{ textDecoration: 'none', opacity: .8 }}>Team</a>
+        <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{ textDecoration: 'none', opacity: .8, cursor: 'pointer' }}>Get a Quote</a>
+        <a href="mailto:partners@whitelabelresell.com" style={{ textDecoration: 'none', opacity: .8 }}>partners@whitelabelresell.com</a>
+      </div>
+    </div>
+  </footer>
+);
+
+/* ── team ─────────────────────────────────────────── */
+const LinkedIn = ({ size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+  </svg>
+);
+
+const TeamPhoto = ({ m, i, light = false }) => (
+  <img src={m.img} alt={`${m.name} — ${m.role}`} width={m.w} height={m.h}
+       loading={i < 4 ? 'eager' : 'lazy'} decoding="async"
+       style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%', display: 'block', filter: 'grayscale(1) contrast(1.05)' }} />
+);
+
+/* variation 1 — alternating black/white profile cards, checkerboard */
+const CheckerTeamCard = ({ m, i, seen, hover, onEnter, onLeave }) => {
+  const row = Math.floor(i / 4);
+  const baseInv = (i + row) % 2 === 0;
+  const inv = hover ? !baseInv : baseInv;
+  return (
+    <div onMouseEnter={onEnter} onMouseLeave={onLeave}
+         style={{
+           border: '1px solid #FFF', background: inv ? '#FFF' : '#000',
+           color: inv ? '#000' : '#FFF', display: 'flex', flexDirection: 'column', overflow: 'hidden',
+           transition: 'background .3s ease, color .3s ease, border-color .3s ease',
+         }}>
+      <div style={{ aspectRatio: '4 / 5', overflow: 'hidden', background: '#111' }}>
+        <div style={{ width: '100%', height: '100%', transition: 'transform .5s cubic-bezier(.2,.8,.2,1)', transform: hover ? 'scale(1.06)' : 'scale(1)' }}>
+          <TeamPhoto m={m} i={i} />
+        </div>
+      </div>
+      <div style={{ padding: '18px 20px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 12 }}>
+        <div>
+          <div style={{ fontFamily: 'Geist, sans-serif', fontSize: 'clamp(16px,1.3vw,20px)', fontWeight: 500, letterSpacing: '-.015em', lineHeight: 1.15 }}>{m.name}</div>
+           <div style={{ marginTop: 6, fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .65 }}>{m.role}</div>
+        </div>
+        {m.li && (
+          <a href={m.li} target="_blank" rel="noopener noreferrer" aria-label={`${m.name} on LinkedIn`}
+             style={{ color: 'inherit', opacity: .55, display: 'inline-flex', transition: 'opacity .2s ease, transform .2s ease', transform: hover ? 'translateY(-2px)' : 'none' }}>
+            <LinkedIn />
+          </a>
+        )}
+      </div>
+    </div>
+  );
+};
+
+/* variation 2 — editorial portrait cards, name/role below a thin divider */
+const EditorialTeamCard = ({ m, i, seen, light = false }) => {
+  const row = Math.floor(i / 4);
+  const delay = (i % 4) * 90 + row * 130;
+  const fg = light ? '#000' : '#FFF';
+  const line = light ? 'rgba(0,0,0,.22)' : 'rgba(255,255,255,.3)';
+  return (
+    <div style={{ color: fg }}>
+      <div style={{ aspectRatio: '4 / 5', overflow: 'hidden', background: '#111' }}>
+        <TeamPhoto m={m} i={i} />
+      </div>
+      <div style={{
+        height: 1, background: line, margin: '16px 0 14px',
+        transform: seen ? 'scaleX(1)' : 'scaleX(0)', transformOrigin: 'left center',
+        transition: `transform .7s cubic-bezier(.2,.8,.2,1) ${seen ? delay : 0}ms`,
+      }} />
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12 }}>
+        <div>
+          <div style={{ fontFamily: 'Geist, sans-serif', fontSize: 'clamp(17px,1.4vw,22px)', fontWeight: 500, letterSpacing: '-.015em' }}>{m.name}</div>
+           <div style={{ marginTop: 5, fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .6 }}>{m.role}</div>
+        </div>
+        {m.li && (
+          <a href={m.li} target="_blank" rel="noopener noreferrer" aria-label={`${m.name} on LinkedIn`}
+             style={{ color: fg, opacity: .6, display: 'inline-flex', transition: 'opacity .2s ease' }}>
+            <LinkedIn />
+          </a>
+        )}
+      </div>
+    </div>
+  );
+};
+
+/* variation 3 — structured identity cards, label integrated over the photo */
+const IdentityTeamCard = ({ m, i, seen }) => (
+  <div className="id-card" style={{ position: 'relative', aspectRatio: '4 / 5', overflow: 'hidden', background: '#111', border: '1px solid rgba(255,255,255,.14)' }}>
+    <div className="id-img" style={{ width: '100%', height: '100%' }}>
+      <TeamPhoto m={m} i={i} />
+    </div>
+    <div className="id-scrim" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(0,0,0,0) 38%, rgba(0,0,0,.84) 100%)' }} />
+    <div className="id-label" style={{ position: 'absolute', left: 0, right: 0, bottom: 0, padding: '72px 18px 18px', color: '#FFF' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 10 }}>
+        <div>
+          <div style={{ fontFamily: 'Geist, sans-serif', fontSize: 'clamp(16px,1.3vw,20px)', fontWeight: 500, letterSpacing: '-.015em' }}>{m.name}</div>
+           <div style={{ marginTop: 5, fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .7 }}>{m.role}</div>
+        </div>
+        {m.li && (
+          <a href={m.li} target="_blank" rel="noopener noreferrer" aria-label={`${m.name} on LinkedIn`}
+             style={{ color: '#FFF', display: 'inline-flex' }} className="id-li">
+            <LinkedIn />
+          </a>
+        )}
+      </div>
+    </div>
+  </div>
+);
+
+/* ── video (adapted from Home Version 1) ────────────
+   Sits inside the same black area as the team preview: a mono section
+   label separates it from the team cards, then the frame with the brand
+   mark poster, an accessible play control and the custom cursor chip. */
+const VideoSection = () => {
+  const [playing, setPlaying] = useState(false);
+  const [ref, seen] = useReveal(0.2);
+  const sectionRef = useRef(null);
+  const cursorRef = useRef(null);
+  const [hovering, setHovering] = useState(false);
+  const [curtainOpen, setCurtainOpen] = useState(false);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([e]) => { setCurtainOpen(e.isIntersecting); },
+      { threshold: 0.35 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (playing) return;
+    const s = sectionRef.current, c = cursorRef.current;
+    if (!s || !c) return;
+    const move = (e) => { const r = s.getBoundingClientRect(); c.style.left = `${e.clientX - r.left}px`; c.style.top = `${e.clientY - r.top}px`; };
+    const enter = () => setHovering(true);
+    const leave = () => setHovering(false);
+    s.addEventListener('mousemove', move);
+    s.addEventListener('mouseenter', enter);
+    s.addEventListener('mouseleave', leave);
+    return () => { s.removeEventListener('mousemove', move); s.removeEventListener('mouseenter', enter); s.removeEventListener('mouseleave', leave); };
+  }, [playing]);
+  const V = A.video;
+  return (
+    <section style={{ background: '#000', color: '#FFF', padding: '100px 6vw 80px' }}>
+      <div style={{
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12, marginBottom: 28,
+        fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase',
+        opacity: seen ? .6 : 0, transition: 'opacity .6s ease .1s',
+      }}>
+        <span>The team, in one take</span>
+        <span>{V.label}</span>
+      </div>
+      <div ref={(el) => { ref.current = el; sectionRef.current = el; }} className="video-frame" style={{
+        cursor: playing ? 'default' : 'none',
+        opacity: seen ? 1 : 0, transform: seen ? 'scale(1)' : 'scale(.985)',
+        transition: 'opacity .9s ease .15s, transform .9s cubic-bezier(.2,.8,.2,1) .15s',
+      }} onClick={() => { if (!playing) setPlaying(true); }}>
+        <div className="video-grain" />
+        {!playing && (
+          <img src="https://vumbnail.com/901595251.jpg" alt="" aria-hidden="true"
+               style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', zIndex: 0 }} />
+        )}
+        <div className={`vid-curtain${curtainOpen && !playing ? ' open' : ''}`}>
+          <div className="vid-curtain-half vid-curtain-half-l">
+            <div className="vid-curtain-logo-half vid-curtain-logo-half-l">
+              <span /><span /><span />
+            </div>
+          </div>
+          <div className="vid-curtain-half vid-curtain-half-r">
+            <div className="vid-curtain-logo-half vid-curtain-logo-half-r">
+              <span /><span /><span />
+            </div>
+          </div>
+        </div>
+        {playing && (
+          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#000', zIndex: 2 }}>
+            <iframe src={V.url} title="White Label Resell — team film"
+                    style={{ width: '100%', maxWidth: 1200, maxHeight: '100%', aspectRatio: '16 / 9', border: 'none' }}
+                    allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowFullScreen />
+          </div>
+        )}
+        {playing ? (
+          <button onClick={(e) => { e.stopPropagation(); setPlaying(false); }}
+                  style={{
+                    position: 'absolute', top: 40, right: 48, zIndex: 3, background: 'none', border: 'none',
+                    cursor: 'pointer', color: '#FFF', fontFamily: 'Geist Mono, monospace', fontSize: 12,
+                    letterSpacing: '.16em', textTransform: 'uppercase', display: 'inline-flex', alignItems: 'center', gap: 8,
+                  }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFF" strokeWidth="1.5"><line x1="6" y1="6" x2="18" y2="18" /><line x1="18" y1="6" x2="6" y2="18" /></svg>
+            <span>Close</span>
+          </button>
+        ) : (
+          <div style={{ position: 'absolute', top: 40, right: 48, zIndex: 3, display: 'flex', alignItems: 'center', gap: 8, fontFamily: 'Geist Mono, monospace', fontSize: 12, letterSpacing: '.16em', textTransform: 'uppercase', color: '#FFF', opacity: .75 }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFF" strokeWidth="1.5"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+            <span>{V.label}</span>
+          </div>
+        )}
+        {!playing && (
+          <div ref={cursorRef} style={{ position: 'absolute', pointerEvents: 'none', zIndex: 10, opacity: hovering && curtainOpen ? 1 : 0, transition: 'opacity .2s ease', transform: 'translate(-50%, -50%)' }}>
+            <div className="video-brackets" style={{ position: 'relative', background: '#FFF', padding: '12px 24px', display: 'inline-flex', alignItems: 'center' }}>
+              <span className="b-tl" /><span className="b-tr" /><span className="b-bl" /><span className="b-br" />
+              <span style={{ fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '.2em', textTransform: 'uppercase', fontWeight: 600, color: '#000', whiteSpace: 'nowrap' }}>Play Video</span>
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};
+
+/* ── infinite partner marquee (Home Version 1 treatment) ── */
+const PartnerMarquee = () => {
+  const [ref, seen] = useReveal(0.3);
+  const group = (key) => (
+    <div className="mq-group" key={key}>
+      {A.clients.map((c, i) => (
+        <span key={i} style={{ whiteSpace: 'nowrap', fontFamily: 'Geist, sans-serif', fontSize: 'clamp(22px,2.4vw,34px)', fontWeight: 500, letterSpacing: '-.02em', opacity: .85, ...c.style }}>
+          {c.name}
+        </span>
+      ))}
+    </div>
+  );
+  return (
+    <section ref={ref} style={{ background: '#000', color: '#FFF', borderTop: '1px solid #FFF', padding: '90px 0 100px', overflow: 'hidden' }}>
+      <div style={{ padding: '0 6vw', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12, marginBottom: 44, fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase', opacity: .6 }}>
+        <span>Brands we&rsquo;ve partnered with</span>
+        <span>verified client marks · monochrome wordmarks</span>
+      </div>
+      <div className="marq">
+        <div className="marq-track" style={seen ? {} : { animation: 'none' }}>
+          {group('a')}{group('b')}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ── FAQ (light background, dark type) ────────────── */
+const Faq = () => {
+  const [open, setOpen] = useState(0);
+  const [ref, seen] = useReveal(0.2);
+  return (
+    <section ref={ref} style={{ background: '#FFF', color: '#000', padding: 'clamp(80px, 9vw, 120px) 6vw', borderTop: '1px solid #000' }}>
+      <div className="faq-grid">
+        <div style={{ opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(18px)', transition: 'opacity .8s ease, transform .8s cubic-bezier(.2,.8,.2,1)' }}>
+          <Kick style={{ opacity: .55 }}>Questions</Kick>
+          <h2 style={{ margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(36px,4.5vw,64px)', fontWeight: 500, letterSpacing: '-.03em', lineHeight: .98 }}>
+            A few things<br /><i style={{ fontWeight: 300 }}>people ask.</i>
+          </h2>
+          <a href={A.cta.link} style={{ display: 'inline-block', marginTop: 28, borderBottom: '1px solid #000', textDecoration: 'none', fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase' }}>
+            Ask us anything →
+          </a>
+        </div>
+        <div>
+          {A.faqs.map((f, i) => (
+            <div key={i} className={`faq-item${open === i ? ' open' : ''}`}>
+              <button className="faq-btn" onClick={() => setOpen(open === i ? -1 : i)} aria-expanded={open === i}>
+                <span>{f.q}</span><span className="faq-plus">+</span>
+              </button>
+              {open === i && <p style={{ margin: '0 0 24px', maxWidth: 560, fontSize: 15, lineHeight: 1.6, opacity: .72, fontWeight: 300 }}>{f.a}</p>}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ── final CTA (home.html button system) ──────────── */
+const Cta = () => {
+  const [ref, seen] = useReveal(0.25);
+  const c = A.cta;
+  return (
+    <section ref={ref} style={{ background: '#000', color: '#FFF', borderTop: '1px solid #FFF', padding: 'clamp(80px,10vw,140px) 6vw', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <ThreeBar size={28} color="#FFF" gap={4} />
+      <h2 style={{
+        margin: '30px 0 0', maxWidth: 980, fontFamily: 'Geist, sans-serif',
+        fontSize: 'clamp(44px,6vw,92px)', fontWeight: 500, letterSpacing: '-.04em', lineHeight: 1.02,
+        opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(20px)',
+        transition: 'opacity .8s ease, transform .8s cubic-bezier(.2,.8,.2,1)',
+      }}>{c.headline}</h2>
+      <p style={{ margin: '22px auto 0', maxWidth: 560, fontSize: 16, lineHeight: 1.6, opacity: .72, fontWeight: 300 }}>{c.support}</p>
+      <div style={{ marginTop: 36 }}>
+        <Btn href={c.link} light>Get a quote</Btn>
+      </div>
+    </section>
+  );
+};
+
+/* ── quad icons (bold stroke, linear) ─────────────── */
+const QuadIcon = ({ i, size = 36, color = '#FFF' }) => {
+  const S = color;
+  const svgProps = { viewBox: '0 0 24 24', width: size, height: size, fill: 'none', 'aria-hidden': true };
+  if (i === 0) return ( /* Design & Development — pen tool + code */
+    <svg {...svgProps}>
+      <path d="M4 20 L4 16 L14 6 L18 10 L18 14 L8 24 Z" stroke={S} strokeWidth="2.2" strokeLinejoin="round" strokeLinecap="round" />
+      <path d="M12 8 L16 12" stroke={S} strokeWidth="2.2" strokeLinecap="round" />
+      <path d="M5 19 L7 17" stroke={S} strokeWidth="2.2" strokeLinecap="round" />
+      <path d="M20 4 L18 2 L22 2 L20 6 Z" stroke={S} strokeWidth="2.2" strokeLinejoin="round" strokeLinecap="round" fill={S} />
+    </svg>
+  );
+  if (i === 1) return ( /* SEO — magnifying glass with cursor */
+    <svg {...svgProps}>
+      <circle cx="11" cy="11" r="7" stroke={S} strokeWidth="2.2" />
+      <line x1="16" y1="16" x2="21" y2="21" stroke={S} strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M8 11 L11 11 L11 8" stroke={S} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M14 11 L11 11" stroke={S} strokeWidth="2.2" strokeLinecap="round" />
+    </svg>
+  );
+  if (i === 2) return ( /* Marketing — megaphone */
+    <svg {...svgProps}>
+      <path d="M3 10 L3 14 L7 14 L15 19 L15 5 L7 10 Z" stroke={S} strokeWidth="2.2" strokeLinejoin="round" strokeLinecap="round" />
+      <path d="M18 8 Q20 12 18 16" stroke={S} strokeWidth="2.2" strokeLinecap="round" fill="none" />
+      <path d="M20 6 Q23 12 20 18" stroke={S} strokeWidth="2.2" strokeLinecap="round" fill="none" />
+    </svg>
+  );
+  /* Content Strategy & Analytics — rising bar chart */
+  return (
+    <svg {...svgProps}>
+      <line x1="3" y1="21" x2="21" y2="21" stroke={S} strokeWidth="2.2" strokeLinecap="round" />
+      <rect x="5" y="13" width="4" height="8" stroke={S} strokeWidth="2.2" strokeLinejoin="round" />
+      <rect x="11" y="8" width="4" height="13" stroke={S} strokeWidth="2.2" strokeLinejoin="round" />
+      <rect x="17" y="4" width="4" height="17" stroke={S} strokeWidth="2.2" strokeLinejoin="round" />
+    </svg>
+  );
+};
+
+const ValueIll = ({ i, color = '#FFF' }) => {
+  const S = color, s = color === '#000' ? 'rgba(0,0,0,.5)' : 'rgba(255,255,255,.5)';
+  return (
+    <svg viewBox="0 0 200 200" width="120" height="120" fill="none" aria-hidden="true">
+      {i === 0 && (<>
+        <path d="M60 130 A52 52 0 0 1 112 58 L112 40 M112 40 L128 52 L112 40" stroke={S} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M140 70 A52 52 0 0 1 88 142 L88 160 M88 160 L72 148 L88 160" stroke={s} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+      </>)}
+      {i === 1 && (<>
+        <path d="M100 32 L168 100 L100 168 L32 100 Z" stroke={S} strokeWidth="2" strokeLinejoin="round" />
+        <line x1="100" y1="66" x2="100" y2="134" stroke={s} strokeWidth="1.2" strokeDasharray="3 5" />
+        <circle cx="100" cy="100" r="8" fill={S} stroke="none" />
+      </>)}
+      {i === 2 && (<>
+        <rect x="36" y="36" width="128" height="128" stroke={S} strokeWidth="2" />
+        <rect x="58" y="58" width="84" height="84" stroke={s} strokeWidth="1" strokeDasharray="3 6" />
+        <circle cx="100" cy="100" r="18" stroke={S} strokeWidth="1.8" />
+        <circle cx="100" cy="100" r="4" fill={S} stroke="none" />
+      </>)}
+      {i === 3 && (<>
+        <path d="M44 76 H120 A12 12 0 0 1 132 88 V112 A12 12 0 0 1 120 124 H84 L64 144 V124 H44 A12 12 0 0 1 32 112 V88 A12 12 0 0 1 44 76 Z" stroke={S} strokeWidth="2" strokeLinejoin="round" />
+        <circle cx="60" cy="100" r="3" fill={S} />
+        <circle cx="80" cy="100" r="3" fill={S} />
+        <circle cx="100" cy="100" r="3" fill={S} />
+        <path d="M132 72 A10 10 0 0 1 142 62 H168 V88 A10 10 0 0 1 158 98 H146 V116 L132 100" stroke={s} strokeWidth="1.4" strokeLinejoin="round" />
+      </>)}
+    </svg>
+  );
+};
+
+/* ── v1: central-logo quad blocks ───────────────────
+   Consistent height, tight padding, small illustration — the logo stays
+   the dominant visual. fill = '#000' (solid black box) or '#FFF' (white box
+   with a hairline black border), matching the checkerboard inverse pattern
+   used across the page. */
+const QuadBlock = ({ i, seen, title, desc, delay, fill = '#000' }) => {
+  const white = fill === '#FFF';
+  const fg = white ? '#000' : '#FFF';
+  return (
+    <div style={{
+      border: white ? '1px solid #000' : '1px solid #FFF',
+      background: fill, color: fg, padding: '20px 22px',
+      display: 'flex', flexDirection: 'column', minHeight: 172,
+      opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(18px)',
+      transition: `opacity .6s ease ${seen ? delay : 0}ms, transform .6s cubic-bezier(.2,.8,.2,1) ${seen ? delay : 0}ms`,
+    }}>
+      <QuadIcon i={i} size={36} color={fg} />
+      <div style={{ marginTop: 14, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(17px,1.4vw,21px)', fontWeight: 500, letterSpacing: '-.02em', lineHeight: 1.15 }}>{title}</div>
+      <p style={{ marginTop: 8, fontSize: 13.5, lineHeight: 1.55, opacity: .7, fontWeight: 300 }}>{desc}</p>
+    </div>
+  );
+};
+
+/* Central brand mark — the three-bar logo only, no wordmark, no tagline,
+   no caption. Sized at least 300×300 on desktop (bars scale down on small
+   screens via the .brand-mark rule in design.css). Restrained entrance:
+   fade + scale 0.96 → 1 over ~0.8s, not continuous. */
+const BrandLockup = ({ seen, color = '#FFF', markRef }) => (
+  <div style={{
+    width: '100%', display: 'flex', justifyContent: 'center',
+    opacity: seen ? 1 : 0, transform: seen ? 'scale(1)' : 'scale(.96)',
+    transition: 'opacity .8s ease, transform .8s cubic-bezier(.2,.8,.2,1)',
+  }}>
+    <div ref={markRef} className="brand-mark" style={{ color }}><span /><span /><span /></div>
+  </div>
+);
+
+/* ── v2: typographic value panels ─────────────────── */
+const ValuePanel = ({ v, i, seen }) => (
+  <div className="val-row" style={{
+    opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(14px)',
+    transition: `opacity .55s ease ${i * 80}ms, transform .55s ease ${i * 80}ms`,
+  }}>
+    <span className="kick" style={{ opacity: .5, marginBottom: 0 }}>{v.n}</span>
+    <h3 style={{ margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(30px,4vw,64px)', fontWeight: 500, letterSpacing: '-.03em', lineHeight: 1.02 }}>{v.name}</h3>
+    <p className="val-desc" style={{ fontSize: 15, lineHeight: 1.6, opacity: .7, maxWidth: 420, fontWeight: 300 }}>{v.short}</p>
+  </div>
+);
+
+/* ── v3: illustrated value cards ──────────────────── */
+const ValueCard = ({ v, i, seen, light = false }) => {
+  const odd = i % 2 === 1;
+  const fg = light ? (odd ? '#FFF' : '#000') : (odd ? '#000' : '#FFF');
+  return (
+    <div style={{
+      background: light ? (odd ? '#000' : 'transparent') : (odd ? '#FFF' : 'transparent'),
+      color: fg,
+      border: light ? (odd ? 'none' : '1px solid #000') : (odd ? 'none' : '1px solid #FFF'),
+      padding: 22, minHeight: 268,
+      display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+      opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(18px)',
+      transition: `opacity .5s ease ${i * 70}ms, transform .5s ease ${i * 70}ms`,
+    }}>
+      <ValueIll i={i} color={fg} />
+      <div>
+        <div style={{ fontFamily: 'Geist, sans-serif', fontSize: 'clamp(18px,1.5vw,23px)', fontWeight: 500, letterSpacing: '-.02em', lineHeight: 1.15 }}>{v.name}</div>
+        <div style={{ marginTop: 8, fontFamily: 'Geist Mono, monospace', fontSize: 10, letterSpacing: '.16em', textTransform: 'uppercase', opacity: .6 }}>{v.n}</div>
+        <p style={{ marginTop: 10, fontSize: 14, lineHeight: 1.6, opacity: .7, fontWeight: 300 }}>{v.short}</p>
+      </div>
+    </div>
+  );
+};
+
+/* ── departments ──────────────────────────────────── */
+const DeptCard = ({ d, i, progress, wide = false, light = false }) => {
+  const odd = i % 2 === 1;
+  const fg = light ? '#000' : (odd ? '#000' : '#FFF');
+  const numColor = light ? 'rgba(0,0,0,.35)' : 'rgba(255,255,255,.4)';
+  const x = (1 - progress) * 100;
+  const y = (1 - progress) * 20;
+  return (
+    <div className="dept-tile"
+         style={{
+           color: fg, background: light ? '#FFF' : 'transparent',
+           border: '1px solid transparent', padding: '24px 0',
+           opacity: progress, transform: `translateX(${x}%) translateY(${y}px)`,
+           transition: 'background .4s ease, color .4s ease',
+         }}>
+      <div className="dept-num" style={{ fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '.18em', color: numColor, transition: 'color .4s ease' }}>
+        /0{i + 1}
+      </div>
+      <div style={{ fontFamily: 'Geist, sans-serif', fontSize: 'clamp(17px,1.4vw,21px)', fontWeight: 500, letterSpacing: '-.015em' }}>
+        {d.name}
+      </div>
+      <div style={{ fontSize: 16, lineHeight: 1.55, opacity: .65, fontWeight: 300 }}>
+        {d.desc}
+      </div>
+    </div>
+  );
+};
+
+const DeptRingCard = ({ d, i, seen }) => (
+  <div style={{
+    border: '1px solid rgba(255,255,255,.18)', background: '#000', padding: '18px 18px 20px',
+    display: 'flex', flexDirection: 'column', gap: 10, minHeight: 118,
+    opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(12px)',
+    transition: `opacity .5s ease ${i * 50}ms, transform .5s ease ${i * 50}ms`,
+  }}>
+    <span style={{ fontFamily: 'Geist Mono, monospace', fontSize: 10, letterSpacing: '.22em', opacity: .5 }}>/0{i + 1}</span>
+    <div style={{ fontFamily: 'Geist, sans-serif', fontSize: 'clamp(15px,1.3vw,19px)', fontWeight: 500, letterSpacing: '-.015em', lineHeight: 1.2 }}>{d.name}</div>
+    <p style={{ fontSize: 13, lineHeight: 1.55, opacity: .68, fontWeight: 300 }}>{d.desc}</p>
+  </div>
+);
+
+/* ── journey ──────────────────────────────────────── */
+const JourneyCard = ({ s, i, seen, light = false }) => {
+  const fg = light ? '#000' : '#FFF';
+  const bd = light ? 'rgba(0,0,0,.18)' : 'rgba(255,255,255,.18)';
+  return (
+    <div style={{
+      border: `1px solid ${bd}`, padding: '26px 24px', display: 'flex', flexDirection: 'column', gap: 14, minHeight: 210,
+      opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(20px)',
+      transition: `opacity .55s ease ${i * 110}ms, transform .55s cubic-bezier(.2,.8,.2,1) ${i * 110}ms`,
+    }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: 'Geist Mono, monospace', fontSize: 10, letterSpacing: '.22em', opacity: .55 }}>
+        <span>{s.tag}</span><ThreeBar size={16} color={fg} />
+      </div>
+      <div style={{ fontFamily: 'Geist, sans-serif', fontSize: 'clamp(22px,2vw,30px)', fontWeight: 500, letterSpacing: '-.025em' }}>{s.title}</div>
+      <p style={{ fontSize: 14.5, lineHeight: 1.6, opacity: .7, fontWeight: 300 }}>{s.desc}</p>
+    </div>
+  );
+};
+
+/* ═══ VARIATION 1 · PEOPLE AND PRINCIPLES ═══
+   Human-centred, brand-led, clean and balanced. Fully centred hero,
+   central-logo commitments, white journey, checker team preview with the
+   film as a continuation of the people story, department bento, partner
+   marquee, FAQ. */
+
+const Hero = () => {
+  const [ref, seen] = useReveal(0.15);
+  const line1 = 'Who we are.';
+  const numRefs = useRef([]);
+  const animated = useRef(false);
+  const stats = [
+    { value: 25, suffix: '+', label: 'Projects completed' },
+    { value: 175, prefix: '$', suffix: 'K', label: 'Revenue generated' },
+    { value: 100, suffix: 'M', label: 'Words generated' },
+  ];
+
+  useEffect(() => {
+    if (!seen || animated.current) return;
+    animated.current = true;
+  }, [seen]);
+  return (
+    <section ref={ref} style={{
+      minHeight: '86vh', background: '#000', color: '#FFF', padding: '150px 6vw 70px',
+      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center',
+    }}>
+      <h1 style={{
+        margin: '0 auto', maxWidth: 1060, fontFamily: 'Geist, sans-serif',
+        fontSize: 'clamp(46px,7vw,120px)', fontWeight: 500, letterSpacing: '-.045em', lineHeight: 1.0,
+        perspective: '600px',
+      }}>
+        <span style={{ display: 'block' }}>
+          {line1.split(' ').map((w, i) => (
+            <span key={i} className={`hero-word${seen ? ' revealed' : ''}`}
+                  style={{ transitionDelay: `${i * 90 + 100}ms` }}>{w}</span>
+          ))}
+        </span>
+      </h1>
+      <p style={{ margin: '28px 0 0', maxWidth: 620, fontSize: 'clamp(15px,1.2vw,18px)', lineHeight: 1.65, opacity: .75, fontWeight: 300 }}>
+        White Label Resell is a multidisciplinary team designing, building and growing better digital
+        businesses — shipped under our partners&rsquo; brands, never in front of their clients.
+      </p>
+      <div style={{ marginTop: 48, marginLeft: '-6vw', marginRight: '-6vw', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', background: '#FFF', color: '#000', borderTop: '1px solid #000', borderBottom: '1px solid #000', opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(24px)', transition: 'opacity .8s ease .4s, transform .8s cubic-bezier(.2,.8,.2,1) .4s' }}>
+        {stats.map((s, i) => (
+          <div key={i} style={{ padding: 'clamp(24px,3.5vw,48px) 6vw', borderRight: i < 2 ? '1px solid #000' : 'none', textAlign: 'left' }}>
+            <div ref={el => numRefs.current[i] = el} style={{ fontFamily: 'Geist, sans-serif', fontSize: 'clamp(48px,7vw,112px)', fontWeight: 500, letterSpacing: '-.045em', lineHeight: .9, opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(20px)', transition: `opacity .7s ease ${.5 + i * .15}s, transform .7s cubic-bezier(.2,.8,.2,1) ${.5 + i * .15}s` }}>{s.prefix || ''}{s.value}{s.suffix}</div>
+            <div style={{ marginTop: 12, fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase', opacity: .65 }}>{s.label}</div>
+          </div>
+        ))}
+      </div>
+      <div style={{ marginTop: 56, display: 'flex', gap: 30, flexWrap: 'wrap', justifyContent: 'center', fontFamily: 'Geist Mono, monospace', fontSize: 10, letterSpacing: '.22em', textTransform: 'uppercase', opacity: .55 }}>
+        {['Strategy', 'Design', 'Engineering', 'Marketing', 'Analytics'].map(x => (
+          <span key={x} style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
+            <ThreeBar size={10} color="#FFF" />{x}
+          </span>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+const Quad = ({ markRef }) => {
+  const [ref, seen] = useReveal(0.1);
+  const blocks = [
+    { t: 'Design and Development', d: 'Interfaces, brand systems and production-ready builds — WordPress, eCommerce and custom.', fill: '#FFF' },
+    { t: 'SEO', d: 'Technical and on-page SEO, keyword strategy and content engineered to earn rankings.', fill: '#000' },
+    { t: 'Marketing', d: 'Search and social campaigns measured against pipeline, not vanity clicks.', fill: '#000' },
+    { t: 'Content Strategy and Analytics Tracking', d: 'Content built to convert, with GA4 and reporting that turns data into decisions.', fill: '#FFF' },
+  ];
+  return (
+    <section ref={ref} style={{ background: '#FFF', color: '#000', padding: '120px 6vw', borderTop: '1px solid #000' }}>
+      <div style={{ marginBottom: 64 }}>
+        <Kick style={{ opacity: .6 }}>What we do</Kick>
+        <h2 style={{ margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(38px,5vw,80px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1.02 }}>
+          One team. <span style={{ background: '#000', color: '#FFF', padding: '0 16px', display: 'inline-block', fontStyle: 'italic', fontWeight: 300 }}>Four commitments.</span>
+        </h2>
+      </div>
+      <div className="quad">
+        <div className="quad-l">
+          <QuadBlock i={0} seen={seen} title={blocks[0].t} desc={blocks[0].d} fill={blocks[0].fill} delay={120} />
+          <QuadBlock i={1} seen={seen} title={blocks[1].t} desc={blocks[1].d} fill={blocks[1].fill} delay={220} />
+        </div>
+        <div className="quad-c"><BrandLockup seen={seen} color="#000" markRef={markRef} /></div>
+        <div className="quad-r">
+          <QuadBlock i={2} seen={seen} title={blocks[2].t} desc={blocks[2].d} fill={blocks[2].fill} delay={160} />
+          <QuadBlock i={3} seen={seen} title={blocks[3].t} desc={blocks[3].d} fill={blocks[3].fill} delay={260} />
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const JourneyBars = ({ variant = 'timer', color = '#000', size = 170 }) => {
+  const heights = [0.66, 1, 0.82];
+  const cls = `jm-${variant}`;
+  return (
+    <span className={`jm ${cls}`} style={{ height: size, gap: size * 0.18 }}>
+      {heights.map((h, i) => (
+        <span key={i} className="jm-bar"
+              style={{ width: size * 0.22, height: `${h * 100}%`, background: color, ['--jm-tx']: `${size * 0.09 + size * 0.22}px` }} />
+      ))}
+    </span>
+  );
+};
+
+const Journey = ({ cardRef, cardBg, cardColor, cardBorder, cardDark }) => {
+  const [ref, seen] = useReveal(0.1);
+  const j = A.journey;
+  return (
+    <section ref={ref} style={{ background: '#FFF', color: '#000', padding: '120px 6vw', borderTop: '1px solid #000' }}>
+      <div style={{ textAlign: 'center', maxWidth: 720, margin: '0 auto 56px' }}>
+        <Kick style={{ opacity: .55 }}>Our journey</Kick>
+        <h2 style={{ margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(38px,5.2vw,74px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1.04 }}>
+          One team,<br /><i style={{ fontWeight: 300 }}>year by year.</i>
+        </h2>
+      </div>
+      <div className="journey-bento" style={{ opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(20px)', transition: 'opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1)' }}>
+        <div ref={cardRef} className="jb-top" style={{ background: cardBg, color: cardColor, borderColor: cardBorder }}>
+          <div className="jb-copy">
+            <span className="ji-period">{j[0].tag}</span>
+            <h3>{j[0].title}</h3>
+            <p>{j[0].desc}</p>
+          </div>
+          <div className="jb-art"><JourneyBars variant="timer" color={cardColor} size={170} /></div>
+        </div>
+        <div className="jb-card">
+          <div className="jb-art"><JourneyBars variant="grow" color="#000" size={160} /></div>
+          <div className="jb-copy">
+            <span className="ji-period">{j[1].tag}</span>
+            <h3>{j[1].title}</h3>
+            <p>{j[1].desc}</p>
+          </div>
+        </div>
+        <div className="jb-card">
+          <div className="jb-art"><JourneyBars variant="unity" color="#000" size={160} /></div>
+          <div className="jb-copy">
+            <span className="ji-period">{j[2].tag}</span>
+            <h3>{j[2].title}</h3>
+            <p>{j[2].desc}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const Team = () => {
+  const [ref, seen] = useReveal(0.05);
+  const [hover, setHover] = useState(-1);
+  return (
+    <section id="team" ref={ref} className={`team-reveal${seen ? ' revealed' : ''}`} style={{ background: '#000', color: '#FFF', padding: '120px 6vw 0', borderTop: '1px solid #FFF' }}>
+      <div style={{ marginBottom: 48 }}>
+        <Kick>The people</Kick>
+        <h2 style={{ margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(40px,5.4vw,84px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1.02 }}>
+          The people behind<br /><i style={{ fontWeight: 300 }}>the work.</i>
+        </h2>
+      </div>
+      <div className="team-grid">
+        {A.team.map((m, i) => {
+          const delay = (i % 4) * 70 + Math.floor(i / 4) * 120;
+          return (
+            <div key={m.name} style={{
+              opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(18px)',
+              transition: `opacity .6s ease ${seen ? delay : 0}ms, transform .6s cubic-bezier(.2,.8,.2,1) ${seen ? delay : 0}ms`,
+            }}>
+              <CheckerTeamCard m={m} i={i} seen={seen} hover={hover === i}
+                               onEnter={() => setHover(i)} onLeave={() => setHover(-1)} />
+            </div>
+          );
+        })}
+      </div>
+      <div style={{ marginTop: 48, textAlign: 'center' }}>
+        <Btn href={A.teamHref} light outline>Meet the full team</Btn>
+      </div>
+    </section>
+  );
+};
+
+const Departments = () => {
+  const sectionRef = useRef(null);
+  const [progress, setProgress] = useState(0);
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        const rect = el.getBoundingClientRect();
+        const vh = window.innerHeight;
+        const sectionCenter = rect.top + rect.height / 2;
+        const p = Math.max(0, Math.min(1, (vh - sectionCenter) / (vh * 0.6)));
+        setProgress(p);
+      });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+  return (
+    <section ref={sectionRef} style={{ position: 'relative', background: '#FFF', color: '#000', padding: '120px 6vw', borderTop: '1px solid #000', overflow: 'hidden' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 24, marginBottom: 48 }}>
+        <div>
+          <Kick style={{ opacity: .55 }}>The disciplines</Kick>
+          <h2 style={{ margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(40px,5.4vw,84px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1.02 }}>
+            Eight disciplines,<br /><i style={{ fontWeight: 300 }}>one standard.</i>
+          </h2>
+        </div>
+        <p style={{ margin: 0, maxWidth: 400, fontSize: 15, lineHeight: 1.6, opacity: .7, fontWeight: 300 }}>
+          Each area is led by a specialist who works with the rest of the bench on every client — not in isolation.
+        </p>
+      </div>
+      <div className="dept-grid">
+        {A.departments.map((d, i) => {
+          const stagger = i * 0.06;
+          const tileProgress = Math.max(0, Math.min(1, (progress - stagger) / 0.5));
+          return <DeptCard key={d.name} d={d} i={i} progress={tileProgress} wide={i === 0 || i === 7} light />;
+        })}
+      </div>
+    </section>
+  );
+};
+
+const QuadJourney = () => {
+  const trackRef = React.useRef(null);
+  const markRef = React.useRef(null);
+  const cardRef = React.useRef(null);
+  const [lineTop, setLineTop] = React.useState(0);
+  const [lineH, setLineH] = React.useState(0);
+  const [cardBg, setCardBg] = React.useState('#FFF');
+  const [cardColor, setCardColor] = React.useState('#000');
+  const [cardBorder, setCardBorder] = React.useState('#000');
+  const [cardDark, setCardDark] = React.useState(false);
+
+  React.useEffect(() => {
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        const track = trackRef.current;
+        const mark = markRef.current;
+        const card = cardRef.current;
+        if (!track || !mark || !card) return;
+        const trackRect = track.getBoundingClientRect();
+        const markRect = mark.getBoundingClientRect();
+        const cardRect = card.getBoundingClientRect();
+        const logoBottom = markRect.bottom - trackRect.top;
+        const cardTop = cardRect.top - trackRect.top;
+        const gap = cardTop - logoBottom;
+        if (gap <= 0) {
+          setLineTop(logoBottom);
+          setLineH(0);
+          setCardBg('#000');
+          setCardColor('#FFF');
+          setCardBorder('#000');
+          setCardDark(true);
+          return;
+        }
+        const viewH = window.innerHeight;
+        const startTrigger = viewH * 0.55;
+        const scrolled = startTrigger - markRect.bottom;
+        const progress = Math.max(0, Math.min(1, scrolled / gap));
+        const PHASE_A = 0.55;
+        let lt, lh, bgR;
+        if (progress <= PHASE_A) {
+          const t = progress / PHASE_A;
+          lt = logoBottom;
+          lh = t * gap;
+          bgR = 0;
+        } else {
+          const t = (progress - PHASE_A) / (1 - PHASE_A);
+          lt = logoBottom + t * gap;
+          lh = (1 - t) * gap;
+          bgR = t;
+        }
+        setLineTop(lt);
+        setLineH(lh);
+        const r = Math.round(255 * (1 - bgR));
+        setCardBg(`rgb(${r},${r},${r})`);
+        setCardColor(bgR > 0.5 ? '#FFF' : '#000');
+          setCardBorder(bgR > 0.5 ? '#000' : '#FFF');
+        setCardDark(bgR > 0.5);
+      });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  return (
+    <div ref={trackRef} style={{ position: 'relative' }}>
+      <div style={{
+        position: 'absolute', left: '50%', transform: 'translateX(-50%)',
+        top: lineTop, width: 24, height: lineH,
+        background: '#000', borderRadius: 0, pointerEvents: 'none', zIndex: 1,
+      }} />
+      <Quad markRef={markRef} />
+      <Journey cardRef={cardRef} cardBg={cardBg} cardColor={cardColor} cardBorder={cardBorder} cardDark={cardDark} />
+    </div>
+  );
+};
+
+const App = () => (
+  <React.Fragment>
+    <HUD active="about" />
+    <Hero />
+    <QuadJourney />
+    <Team />
+    <VideoSection />
+    <Departments />
+    <Cta />
+    <Footer />
+  </React.Fragment>
+);
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

@@ -1,0 +1,610 @@
+/* ════════════════════════════════════════════════════════════════════
+   Shared components for the About variations (about-v1/v2/v3).
+   Single source of truth — inlined into each page by build.js so pages
+   render when opened directly via file:// (Babel cannot fetch external
+   text/babel scripts from file://). Data lives in shared-data.js
+   (plain JS, loaded via <script src>).
+   Design language mirrors home.html: pure #000/#FFF, Geist + Geist Mono,
+   mono kickers, hairline rules, fade-and-rise reveal motion.
+   ════════════════════════════════════════════════════════════════════ */
+
+const { useState, useEffect, useRef } = React;
+
+const A = window.ABOUT;
+
+/* ── mark ─────────────────────────────────────────── */
+const ThreeBar = ({ size = 16, color = 'currentColor', gap = 2, animate = false }) => {
+  const [t, setT] = useState(0);
+  useEffect(() => {
+    if (!animate) return;
+    let r;
+    const tick = () => { setT(x => x + 0.016); r = requestAnimationFrame(tick); };
+    r = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(r);
+  }, [animate]);
+  const base = [0.66, 1, 0.82];
+  const heights = animate ? base.map((h, i) => 0.4 + 0.55 * (0.5 + 0.5 * Math.sin(t * 2.6 + i * 0.7))) : base;
+  return (
+    <span style={{ display: 'inline-flex', alignItems: 'flex-end', gap, height: size }}>
+      {heights.map((h, i) => (
+        <span key={i} style={{ width: size * 0.22, height: `${h * 100}%`, background: color }} />
+      ))}
+    </span>
+  );
+};
+
+/* ── chrome ───────────────────────────────────────── */
+const HUD = ({ active = '' }) => {
+  const links = [
+    ['Work', '../case-studies.html', 'work'],
+    ['About', 'about-v1.html', 'about'],
+    ['Team', '../team.html', 'team'],
+    ['Get a Quote', '../contact.html', 'contact'],
+  ];
+  return (
+    <div style={{
+      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+      mixBlendMode: 'difference', pointerEvents: 'none',
+      padding: '20px 32px', display: 'flex', justifyContent: 'space-between',
+      alignItems: 'center', color: '#FFF',
+      fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '.22em',
+      textTransform: 'uppercase',
+    }}>
+      <a href="../home.html" style={{ pointerEvents: 'auto', display: 'inline-flex', alignItems: 'center', gap: 12, color: '#FFF', textDecoration: 'none' }}>
+        <ThreeBar size={14} color="#FFF" gap={3} />White Label Resell
+      </a>
+      <span style={{ pointerEvents: 'auto', display: 'flex', gap: 24 }}>
+        {links.map(([label, href, key]) => (
+          <a key={key} href={href} style={{
+            color: '#FFF', textDecoration: 'none',
+            opacity: active === key ? 1 : .6,
+            borderBottom: active === key ? '1px solid #FFF' : '1px solid transparent',
+            paddingBottom: 2,
+          }}>{label}</a>
+        ))}
+      </span>
+    </div>
+  );
+};
+
+const Kick = ({ children, style = {} }) => (
+  <div style={{
+    fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '.22em',
+    textTransform: 'uppercase', opacity: .6, marginBottom: 16, ...style,
+  }}>{children}</div>
+);
+
+/* ── motion ───────────────────────────────────────── */
+const useReveal = (amount = 0.2) => {
+  const ref = useRef(null);
+  const [seen, setSeen] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setSeen(true); io.disconnect(); } },
+      { threshold: amount, rootMargin: '0px 0px -12% 0px' }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [amount]);
+  return [ref, seen];
+};
+
+/* ── buttons (home.html system) ───────────────────── */
+const Btn = ({ href, children, light = false, outline = false }) => {
+  const base = {
+    display: 'inline-flex', alignItems: 'center', gap: 12, padding: '18px 26px',
+    textDecoration: 'none', fontFamily: 'Geist Mono, monospace', fontSize: 12,
+    letterSpacing: '.22em', textTransform: 'uppercase', fontWeight: 600,
+  };
+  const filled = outline
+    ? { border: `1px solid ${light ? '#FFF' : '#000'}`, color: light ? '#FFF' : '#000' }
+    : { background: light ? '#FFF' : '#000', color: light ? '#000' : '#FFF' };
+  return (
+    <a href={href} style={{ ...base, ...filled }}>
+      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 12 }}>
+        {!outline && <ThreeBar size={12} color={light ? '#000' : '#FFF'} />}
+        {children}
+      </span>
+    </a>
+  );
+};
+
+/* ── footer (home.html) ───────────────────────────── */
+const Footer = () => (
+  <footer style={{ background: '#000', color: '#FFF', borderTop: '1px solid #FFF', padding: '44px 6vw 32px' }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 28 }}>
+      <div>
+        <ThreeBar size={20} color="#FFF" gap={3} />
+        <div style={{ marginTop: 14, fontFamily: 'Geist Mono, monospace', fontSize: 10, letterSpacing: '.22em', textTransform: 'uppercase', opacity: .55 }}>
+          © 2026 White Label Resell · est. 2018
+        </div>
+      </div>
+      <div style={{ display: 'flex', gap: 22, flexWrap: 'wrap', fontFamily: 'Geist Mono, monospace', fontSize: 10, letterSpacing: '.22em', textTransform: 'uppercase' }}>
+        <a href="../case-studies.html" style={{ textDecoration: 'none', opacity: .8 }}>Work</a>
+        <a href="about-v1.html" style={{ textDecoration: 'none', opacity: .8 }}>About</a>
+        <a href="../team.html" style={{ textDecoration: 'none', opacity: .8 }}>Team</a>
+        <a href="../contact.html" style={{ textDecoration: 'none', opacity: .8 }}>Get a Quote</a>
+        <a href="mailto:partners@whitelabelresell.com" style={{ textDecoration: 'none', opacity: .8 }}>partners@whitelabelresell.com</a>
+      </div>
+    </div>
+  </footer>
+);
+
+/* ── team ─────────────────────────────────────────── */
+const LinkedIn = ({ size = 14 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+  </svg>
+);
+
+const TeamPhoto = ({ m, i, light = false }) => (
+  <img src={m.img} alt={`${m.name} — ${m.role}`} width={m.w} height={m.h}
+       loading={i < 4 ? 'eager' : 'lazy'} decoding="async"
+       style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%', display: 'block', filter: 'grayscale(1) contrast(1.05)' }} />
+);
+
+/* variation 1 — alternating black/white profile cards, checkerboard */
+const CheckerTeamCard = ({ m, i, seen, hover, onEnter, onLeave }) => {
+  const row = Math.floor(i / 4);
+  const baseInv = (i + row) % 2 === 0;
+  const inv = hover ? !baseInv : baseInv;
+  return (
+    <div onMouseEnter={onEnter} onMouseLeave={onLeave}
+         style={{
+           border: `1px solid ${inv ? '#FFF' : '#000'}`, background: inv ? '#FFF' : '#000',
+           color: inv ? '#000' : '#FFF', display: 'flex', flexDirection: 'column', overflow: 'hidden',
+           transition: 'background .3s ease, color .3s ease, border-color .3s ease',
+         }}>
+      <div style={{ aspectRatio: '4 / 5', overflow: 'hidden', background: '#111' }}>
+        <div style={{ width: '100%', height: '100%', transition: 'transform .5s cubic-bezier(.2,.8,.2,1)', transform: hover ? 'scale(1.06)' : 'scale(1)' }}>
+          <TeamPhoto m={m} i={i} />
+        </div>
+      </div>
+      <div style={{ padding: '18px 20px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 12 }}>
+        <div>
+          <div style={{ fontFamily: 'Geist, sans-serif', fontSize: 'clamp(16px,1.3vw,20px)', fontWeight: 500, letterSpacing: '-.015em', lineHeight: 1.15 }}>{m.name}</div>
+          <div style={{ marginTop: 6, fontFamily: 'Geist Mono, monospace', fontSize: 9, letterSpacing: '.2em', textTransform: 'uppercase', opacity: .65 }}>{m.role}</div>
+        </div>
+        {m.li && (
+          <a href={m.li} target="_blank" rel="noopener noreferrer" aria-label={`${m.name} on LinkedIn`}
+             style={{ color: 'inherit', opacity: .55, display: 'inline-flex', transition: 'opacity .2s ease, transform .2s ease', transform: hover ? 'translateY(-2px)' : 'none' }}>
+            <LinkedIn />
+          </a>
+        )}
+      </div>
+    </div>
+  );
+};
+
+/* variation 2 — editorial portrait cards, name/role below a thin divider */
+const EditorialTeamCard = ({ m, i, seen, light = false }) => {
+  const row = Math.floor(i / 4);
+  const delay = (i % 4) * 90 + row * 130;
+  const fg = light ? '#000' : '#FFF';
+  const line = light ? 'rgba(0,0,0,.22)' : 'rgba(255,255,255,.3)';
+  return (
+    <div style={{ color: fg }}>
+      <div style={{ aspectRatio: '4 / 5', overflow: 'hidden', background: '#111' }}>
+        <TeamPhoto m={m} i={i} />
+      </div>
+      <div style={{
+        height: 1, background: line, margin: '16px 0 14px',
+        transform: seen ? 'scaleX(1)' : 'scaleX(0)', transformOrigin: 'left center',
+        transition: `transform .7s cubic-bezier(.2,.8,.2,1) ${seen ? delay : 0}ms`,
+      }} />
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12 }}>
+        <div>
+          <div style={{ fontFamily: 'Geist, sans-serif', fontSize: 'clamp(17px,1.4vw,22px)', fontWeight: 500, letterSpacing: '-.015em' }}>{m.name}</div>
+          <div style={{ marginTop: 5, fontFamily: 'Geist Mono, monospace', fontSize: 9, letterSpacing: '.2em', textTransform: 'uppercase', opacity: .6 }}>{m.role}</div>
+        </div>
+        {m.li && (
+          <a href={m.li} target="_blank" rel="noopener noreferrer" aria-label={`${m.name} on LinkedIn`}
+             style={{ color: fg, opacity: .6, display: 'inline-flex', transition: 'opacity .2s ease' }}>
+            <LinkedIn />
+          </a>
+        )}
+      </div>
+    </div>
+  );
+};
+
+/* variation 3 — structured identity cards, label integrated over the photo */
+const IdentityTeamCard = ({ m, i, seen }) => (
+  <div className="id-card" style={{ position: 'relative', aspectRatio: '4 / 5', overflow: 'hidden', background: '#111', border: '1px solid rgba(255,255,255,.14)' }}>
+    <div className="id-img" style={{ width: '100%', height: '100%' }}>
+      <TeamPhoto m={m} i={i} />
+    </div>
+    <div className="id-scrim" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(0,0,0,0) 38%, rgba(0,0,0,.84) 100%)' }} />
+    <div className="id-label" style={{ position: 'absolute', left: 0, right: 0, bottom: 0, padding: '72px 18px 18px', color: '#FFF' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 10 }}>
+        <div>
+          <div style={{ fontFamily: 'Geist, sans-serif', fontSize: 'clamp(16px,1.3vw,20px)', fontWeight: 500, letterSpacing: '-.015em' }}>{m.name}</div>
+          <div style={{ marginTop: 5, fontFamily: 'Geist Mono, monospace', fontSize: 9, letterSpacing: '.2em', textTransform: 'uppercase', opacity: .7 }}>{m.role}</div>
+        </div>
+        {m.li && (
+          <a href={m.li} target="_blank" rel="noopener noreferrer" aria-label={`${m.name} on LinkedIn`}
+             style={{ color: '#FFF', display: 'inline-flex' }} className="id-li">
+            <LinkedIn />
+          </a>
+        )}
+      </div>
+    </div>
+  </div>
+);
+
+/* ── video (adapted from Home Version 1) ────────────
+   Sits inside the same black area as the team preview: a mono section
+   label separates it from the team cards, then the frame with the brand
+   mark poster, an accessible play control and the custom cursor chip. */
+const VideoSection = () => {
+  const [playing, setPlaying] = useState(false);
+  const [ref, seen] = useReveal(0.2);
+  const sectionRef = useRef(null);
+  const cursorRef = useRef(null);
+  const [hovering, setHovering] = useState(false);
+  useEffect(() => {
+    if (playing) return;
+    const s = sectionRef.current, c = cursorRef.current;
+    if (!s || !c) return;
+    const move = (e) => { const r = s.getBoundingClientRect(); c.style.left = `${e.clientX - r.left}px`; c.style.top = `${e.clientY - r.top}px`; };
+    const enter = () => setHovering(true);
+    const leave = () => setHovering(false);
+    s.addEventListener('mousemove', move);
+    s.addEventListener('mouseenter', enter);
+    s.addEventListener('mouseleave', leave);
+    return () => { s.removeEventListener('mousemove', move); s.removeEventListener('mouseenter', enter); s.removeEventListener('mouseleave', leave); };
+  }, [playing]);
+  const V = A.video;
+  return (
+    <section style={{ background: '#000', color: '#FFF', padding: '100px 6vw 110px' }}>
+      <div style={{
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12, marginBottom: 28,
+        fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase',
+        opacity: seen ? .6 : 0, transition: 'opacity .6s ease .1s',
+      }}>
+        <span>The team, in one take</span>
+        <span>{V.label}</span>
+      </div>
+      <div ref={ref} className="video-frame" style={{
+        cursor: playing ? 'default' : 'none',
+        opacity: seen ? 1 : 0, transform: seen ? 'scale(1)' : 'scale(.985)',
+        transition: 'opacity .9s ease .15s, transform .9s cubic-bezier(.2,.8,.2,1) .15s',
+      }} onClick={() => { if (!playing) setPlaying(true); }}>
+        <div className="video-grain" />
+        {!playing && (
+          <button type="button" aria-label="Play the team film" onClick={() => setPlaying(true)}
+                  style={{
+                    position: 'relative', zIndex: 1, background: 'none', border: 'none', cursor: 'none',
+                    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20, padding: '0 24px',
+                    color: '#FFF', textAlign: 'center',
+                  }}>
+            <ThreeBar size={96} color="#FFF" gap={8} />
+            <span style={{ fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase', opacity: .75 }}>Play the film</span>
+          </button>
+        )}
+        {playing && (
+          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#000', zIndex: 2 }}>
+            <iframe src={V.url} title="White Label Resell — team film"
+                    style={{ width: '100%', maxWidth: 1200, aspectRatio: '16 / 9', border: 'none' }}
+                    allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowFullScreen />
+          </div>
+        )}
+        {playing ? (
+          <button onClick={(e) => { e.stopPropagation(); setPlaying(false); }}
+                  style={{
+                    position: 'absolute', top: 40, right: 48, zIndex: 3, background: 'none', border: 'none',
+                    cursor: 'pointer', color: '#FFF', fontFamily: 'Geist Mono, monospace', fontSize: 12,
+                    letterSpacing: '.16em', textTransform: 'uppercase', display: 'inline-flex', alignItems: 'center', gap: 8,
+                  }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFF" strokeWidth="1.5"><line x1="6" y1="6" x2="18" y2="18" /><line x1="18" y1="6" x2="6" y2="18" /></svg>
+            <span>Close</span>
+          </button>
+        ) : (
+          <div style={{ position: 'absolute', top: 40, right: 48, zIndex: 3, display: 'flex', alignItems: 'center', gap: 8, fontFamily: 'Geist Mono, monospace', fontSize: 12, letterSpacing: '.16em', textTransform: 'uppercase', color: '#FFF', opacity: .75 }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFF" strokeWidth="1.5"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+            <span>{V.label}</span>
+          </div>
+        )}
+        {!playing && (
+          <div ref={cursorRef} style={{ position: 'absolute', pointerEvents: 'none', zIndex: 10, opacity: hovering ? 1 : 0, transition: 'opacity .2s ease', transform: 'translate(-50%, -50%)' }}>
+            <div className="video-brackets" style={{ position: 'relative', background: '#FFF', padding: '12px 24px', display: 'inline-flex', alignItems: 'center' }}>
+              <span className="b-tl" /><span className="b-tr" /><span className="b-bl" /><span className="b-br" />
+              <span style={{ fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '.2em', textTransform: 'uppercase', fontWeight: 600, color: '#000', whiteSpace: 'nowrap' }}>Play Video</span>
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};
+
+/* ── infinite partner marquee (Home Version 1 treatment) ── */
+const PartnerMarquee = () => {
+  const [ref, seen] = useReveal(0.3);
+  const group = (key) => (
+    <div className="mq-group" key={key}>
+      {A.clients.map((c, i) => (
+        <span key={i} style={{ whiteSpace: 'nowrap', fontFamily: 'Geist, sans-serif', fontSize: 'clamp(22px,2.4vw,34px)', fontWeight: 500, letterSpacing: '-.02em', opacity: .85, ...c.style }}>
+          {c.name}
+        </span>
+      ))}
+    </div>
+  );
+  return (
+    <section ref={ref} style={{ background: '#000', color: '#FFF', borderTop: '1px solid #FFF', padding: '90px 0 100px', overflow: 'hidden' }}>
+      <div style={{ padding: '0 6vw', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12, marginBottom: 44, fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase', opacity: .6 }}>
+        <span>Brands we&rsquo;ve partnered with</span>
+        <span>verified client marks · monochrome wordmarks</span>
+      </div>
+      <div className="marq">
+        <div className="marq-track" style={seen ? {} : { animation: 'none' }}>
+          {group('a')}{group('b')}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ── FAQ (light background, dark type) ────────────── */
+const Faq = () => {
+  const [open, setOpen] = useState(0);
+  const [ref, seen] = useReveal(0.2);
+  return (
+    <section ref={ref} style={{ background: '#FFF', color: '#000', padding: 'clamp(80px, 9vw, 120px) 6vw', borderTop: '1px solid #000' }}>
+      <div className="faq-grid">
+        <div style={{ opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(18px)', transition: 'opacity .8s ease, transform .8s cubic-bezier(.2,.8,.2,1)' }}>
+          <Kick style={{ opacity: .55 }}>Questions</Kick>
+          <h2 style={{ margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(36px,4.5vw,64px)', fontWeight: 500, letterSpacing: '-.03em', lineHeight: .98 }}>
+            A few things<br /><i style={{ fontWeight: 300 }}>people ask.</i>
+          </h2>
+          <a href={A.cta.link} style={{ display: 'inline-block', marginTop: 28, borderBottom: '1px solid #000', textDecoration: 'none', fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase' }}>
+            Ask us anything →
+          </a>
+        </div>
+        <div>
+          {A.faqs.map((f, i) => (
+            <div key={i} className={`faq-item${open === i ? ' open' : ''}`}>
+              <button className="faq-btn" onClick={() => setOpen(open === i ? -1 : i)} aria-expanded={open === i}>
+                <span>{f.q}</span><span className="faq-plus">+</span>
+              </button>
+              {open === i && <p style={{ margin: '0 0 24px', maxWidth: 560, fontSize: 15, lineHeight: 1.6, opacity: .72, fontWeight: 300 }}>{f.a}</p>}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ── final CTA (home.html button system) ──────────── */
+const Cta = () => {
+  const [ref, seen] = useReveal(0.25);
+  const c = A.cta;
+  return (
+    <section ref={ref} style={{ background: '#FFF', color: '#000', borderTop: '1px solid #000', padding: 'clamp(80px,10vw,140px) 6vw', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <ThreeBar size={28} color="#000" gap={4} />
+      <h2 style={{
+        margin: '30px 0 0', maxWidth: 980, fontFamily: 'Geist, sans-serif',
+        fontSize: 'clamp(44px,6vw,92px)', fontWeight: 500, letterSpacing: '-.04em', lineHeight: 1.02,
+        opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(20px)',
+        transition: 'opacity .8s ease, transform .8s cubic-bezier(.2,.8,.2,1)',
+      }}>{c.headline}</h2>
+      <p style={{ margin: '22px auto 0', maxWidth: 560, fontSize: 16, lineHeight: 1.6, opacity: .72, fontWeight: 300 }}>{c.support}</p>
+      <div style={{ marginTop: 36 }}>
+        <Btn href={c.link} light={false}>Get a quote</Btn>
+      </div>
+    </section>
+  );
+};
+
+/* ── illustrations (monochrome line art) ──────────── */
+const QuadIll = ({ i, size = 64, color = '#FFF' }) => {
+  const S = color, s = color === '#000' ? 'rgba(0,0,0,.5)' : 'rgba(255,255,255,.5)';
+  const faint = color === '#000' ? 'rgba(0,0,0,.05)' : 'rgba(255,255,255,.06)';
+  return (
+    <svg viewBox="0 0 200 200" width={size} height={size} fill="none" aria-hidden="true">
+      {/* 0 · Design & Development — pen nib on a screen baseline + code chevrons */}
+      {i === 0 && (<>
+        <line x1="46" y1="104" x2="88" y2="104" stroke={s} strokeWidth="1.5" />
+        <line x1="46" y1="78" x2="104" y2="78" stroke={s} strokeWidth="1.5" />
+        <path d="M120 58 L104 176 L120 140 L136 176 Z" stroke={S} strokeWidth="2" strokeLinejoin="round" />
+        <line x1="120" y1="140" x2="120" y2="120" stroke={s} strokeWidth="1" strokeDasharray="2 4" />
+        <path d="M52 130 l-22 12 22 12" stroke={S} strokeWidth="2" fill="none" />
+        <path d="M148 130 l22 12 -22 12" stroke={S} strokeWidth="2" fill="none" />
+        <circle cx="120" cy="104" r="4" fill={S} />
+      </>)}
+      {/* 1 · SEO — magnifying glass over a ranking bar chart */}
+      {i === 1 && (<>
+        <circle cx="78" cy="88" r="30" stroke={S} strokeWidth="2" />
+        <line x1="100" y1="110" x2="128" y2="138" stroke={S} strokeWidth="2" strokeLinecap="round" />
+        <line x1="30" y1="158" x2="172" y2="158" stroke={s} strokeWidth="1.5" />
+        <line x1="122" y1="158" x2="122" y2="146" stroke={S} strokeWidth="2" strokeLinecap="round" />
+        <line x1="136" y1="158" x2="136" y2="132" stroke={S} strokeWidth="2" strokeLinecap="round" />
+        <line x1="150" y1="158" x2="150" y2="142" stroke={S} strokeWidth="2" strokeLinecap="round" />
+        <path d="M150 116 l8 -12 8 12 M158 128 v-24" stroke={s} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      </>)}
+      {/* 2 · Marketing — megaphone + sound waves */}
+      {i === 2 && (<>
+        <path d="M62 82 L176 62 L176 138 L62 118 Z" stroke={S} strokeWidth="2" strokeLinejoin="round" />
+        <path d="M62 82 A 26 26 0 0 0 62 118" stroke={S} strokeWidth="2" />
+        <path d="M40 104 L40 80" stroke={s} strokeWidth="2" strokeLinecap="round" />
+        <path d="M140 92 q16 -14 0 -30" stroke={s} strokeWidth="1.5" strokeLinecap="round" fill="none" />
+        <path d="M150 106 q24 -22 0 -46" stroke={s} strokeWidth="1.5" strokeLinecap="round" fill="none" />
+        <path d="M138 78 a10 10 0 0 1 6 6" stroke={S} strokeWidth="1.5" />
+      </>)}
+      {/* 3 · Content Strategy & Analytics Tracking — rising KPI chart + copy lines */}
+      {i === 3 && (<>
+        <line x1="40" y1="150" x2="164" y2="150" stroke={s} strokeWidth="1.5" />
+        <line x1="40" y1="150" x2="40" y2="58" stroke={s} strokeWidth="1.5" />
+        <path d="M50 138 L82 116 L108 124 L150 86" stroke={S} strokeWidth="2" strokeLinecap="round" />
+        <circle cx="50" cy="138" r="3.5" fill={S} />
+        <circle cx="108" cy="124" r="3.5" fill={S} />
+        <circle cx="150" cy="86" r="4" fill={S} />
+        <circle cx="150" cy="86" r="11" stroke={s} strokeWidth="1" strokeDasharray="3 5" />
+        <line x1="118" y1="44" x2="160" y2="44" stroke={s} strokeWidth="1.5" />
+        <line x1="118" y1="58" x2="146" y2="58" stroke={s} strokeWidth="1.5" />
+      </>)}
+    </svg>
+  );
+};
+
+const ValueIll = ({ i, color = '#FFF' }) => {
+  const S = color, s = color === '#000' ? 'rgba(0,0,0,.5)' : 'rgba(255,255,255,.5)';
+  return (
+    <svg viewBox="0 0 200 200" width="120" height="120" fill="none" aria-hidden="true">
+      {i === 0 && (<>
+        <path d="M60 130 A52 52 0 0 1 112 58 L112 40 M112 40 L128 52 L112 40" stroke={S} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M140 70 A52 52 0 0 1 88 142 L88 160 M88 160 L72 148 L88 160" stroke={s} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+      </>)}
+      {i === 1 && (<>
+        <path d="M100 32 L168 100 L100 168 L32 100 Z" stroke={S} strokeWidth="2" strokeLinejoin="round" />
+        <line x1="100" y1="66" x2="100" y2="134" stroke={s} strokeWidth="1.2" strokeDasharray="3 5" />
+        <circle cx="100" cy="100" r="8" fill={S} stroke="none" />
+      </>)}
+      {i === 2 && (<>
+        <rect x="36" y="36" width="128" height="128" stroke={S} strokeWidth="2" />
+        <rect x="58" y="58" width="84" height="84" stroke={s} strokeWidth="1" strokeDasharray="3 6" />
+        <circle cx="100" cy="100" r="18" stroke={S} strokeWidth="1.8" />
+        <circle cx="100" cy="100" r="4" fill={S} stroke="none" />
+      </>)}
+      {i === 3 && (<>
+        <path d="M44 76 H120 A12 12 0 0 1 132 88 V112 A12 12 0 0 1 120 124 H84 L64 144 V124 H44 A12 12 0 0 1 32 112 V88 A12 12 0 0 1 44 76 Z" stroke={S} strokeWidth="2" strokeLinejoin="round" />
+        <circle cx="60" cy="100" r="3" fill={S} />
+        <circle cx="80" cy="100" r="3" fill={S} />
+        <circle cx="100" cy="100" r="3" fill={S} />
+        <path d="M132 72 A10 10 0 0 1 142 62 H168 V88 A10 10 0 0 1 158 98 H146 V116 L132 100" stroke={s} strokeWidth="1.4" strokeLinejoin="round" />
+      </>)}
+    </svg>
+  );
+};
+
+/* ── v1: central-logo quad blocks ───────────────────
+   Consistent height, tight padding, small illustration — the logo stays
+   the dominant visual. fill = '#000' (solid black box) or '#FFF' (white box
+   with a hairline black border), matching the checkerboard inverse pattern
+   used across the page. */
+const QuadBlock = ({ i, seen, title, desc, delay, fill = '#000' }) => {
+  const white = fill === '#FFF';
+  const fg = white ? '#000' : '#FFF';
+  return (
+    <div style={{
+      border: white ? '1px solid rgba(0,0,0,.18)' : '1px solid rgba(255,255,255,.16)',
+      background: fill, color: fg, padding: '20px 22px',
+      display: 'flex', flexDirection: 'column', minHeight: 172,
+      opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(18px)',
+      transition: `opacity .6s ease ${seen ? delay : 0}ms, transform .6s cubic-bezier(.2,.8,.2,1) ${seen ? delay : 0}ms`,
+    }}>
+      <QuadIll i={i} size={60} color={fg} />
+      <div style={{ marginTop: 14, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(17px,1.4vw,21px)', fontWeight: 500, letterSpacing: '-.02em', lineHeight: 1.15 }}>{title}</div>
+      <p style={{ marginTop: 8, fontSize: 13.5, lineHeight: 1.55, opacity: .7, fontWeight: 300 }}>{desc}</p>
+    </div>
+  );
+};
+
+/* Central brand mark — the three-bar logo only, no wordmark, no tagline,
+   no caption. Sized at least 300×300 on desktop (bars scale down on small
+   screens via the .brand-mark rule in design.css). Restrained entrance:
+   fade + scale 0.96 → 1 over ~0.8s, not continuous. */
+const BrandLockup = ({ seen, color = '#FFF', markRef }) => (
+  <div style={{
+    width: '100%', display: 'flex', justifyContent: 'center',
+    opacity: seen ? 1 : 0, transform: seen ? 'scale(1)' : 'scale(.96)',
+    transition: 'opacity .8s ease, transform .8s cubic-bezier(.2,.8,.2,1)',
+  }}>
+    <div ref={markRef} className="brand-mark" style={{ color }}><span /><span /><span /></div>
+  </div>
+);
+
+/* ── v2: typographic value panels ─────────────────── */
+const ValuePanel = ({ v, i, seen }) => (
+  <div className="val-row" style={{
+    opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(14px)',
+    transition: `opacity .55s ease ${i * 80}ms, transform .55s ease ${i * 80}ms`,
+  }}>
+    <span className="kick" style={{ opacity: .5, marginBottom: 0 }}>{v.n}</span>
+    <h3 style={{ margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(30px,4vw,64px)', fontWeight: 500, letterSpacing: '-.03em', lineHeight: 1.02 }}>{v.name}</h3>
+    <p className="val-desc" style={{ fontSize: 15, lineHeight: 1.6, opacity: .7, maxWidth: 420, fontWeight: 300 }}>{v.short}</p>
+  </div>
+);
+
+/* ── v3: illustrated value cards ──────────────────── */
+const ValueCard = ({ v, i, seen, light = false }) => {
+  const odd = i % 2 === 1;
+  const fg = light ? (odd ? '#FFF' : '#000') : (odd ? '#000' : '#FFF');
+  return (
+    <div style={{
+      background: light ? (odd ? '#000' : 'transparent') : (odd ? '#FFF' : 'transparent'),
+      color: fg,
+      border: light ? (odd ? 'none' : '1px solid #000') : (odd ? 'none' : '1px solid #FFF'),
+      padding: 22, minHeight: 268,
+      display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+      opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(18px)',
+      transition: `opacity .5s ease ${i * 70}ms, transform .5s ease ${i * 70}ms`,
+    }}>
+      <ValueIll i={i} color={fg} />
+      <div>
+        <div style={{ fontFamily: 'Geist, sans-serif', fontSize: 'clamp(18px,1.5vw,23px)', fontWeight: 500, letterSpacing: '-.02em', lineHeight: 1.15 }}>{v.name}</div>
+        <div style={{ marginTop: 8, fontFamily: 'Geist Mono, monospace', fontSize: 10, letterSpacing: '.16em', textTransform: 'uppercase', opacity: .6 }}>{v.n}</div>
+        <p style={{ marginTop: 10, fontSize: 14, lineHeight: 1.6, opacity: .7, fontWeight: 300 }}>{v.short}</p>
+      </div>
+    </div>
+  );
+};
+
+/* ── departments ──────────────────────────────────── */
+const DeptCard = ({ d, i, seen, wide = false, light = false }) => {
+  const odd = i % 2 === 1;
+  const fg = light ? '#000' : (odd ? '#000' : '#FFF');
+  const numColor = light ? 'rgba(0,0,0,.35)' : 'rgba(255,255,255,.4)';
+  return (
+    <div style={{
+      color: fg,
+      opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(10px)',
+      transition: `opacity .5s ease ${i * 50}ms, transform .5s ease ${i * 50}ms`,
+    }}>
+      <div style={{ fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '.18em', color: numColor }}>
+        /0{i + 1}
+      </div>
+      <div style={{ fontFamily: 'Geist, sans-serif', fontSize: 'clamp(17px,1.4vw,21px)', fontWeight: 500, letterSpacing: '-.015em' }}>
+        {d.name}
+      </div>
+      <div style={{ fontSize: 16, lineHeight: 1.55, opacity: .65, fontWeight: 300 }}>
+        {d.desc}
+      </div>
+    </div>
+  );
+};
+
+const DeptRingCard = ({ d, i, seen }) => (
+  <div style={{
+    border: '1px solid rgba(255,255,255,.18)', background: '#000', padding: '18px 18px 20px',
+    display: 'flex', flexDirection: 'column', gap: 10, minHeight: 118,
+    opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(12px)',
+    transition: `opacity .5s ease ${i * 50}ms, transform .5s ease ${i * 50}ms`,
+  }}>
+    <span style={{ fontFamily: 'Geist Mono, monospace', fontSize: 10, letterSpacing: '.22em', opacity: .5 }}>/0{i + 1}</span>
+    <div style={{ fontFamily: 'Geist, sans-serif', fontSize: 'clamp(15px,1.3vw,19px)', fontWeight: 500, letterSpacing: '-.015em', lineHeight: 1.2 }}>{d.name}</div>
+    <p style={{ fontSize: 13, lineHeight: 1.55, opacity: .68, fontWeight: 300 }}>{d.desc}</p>
+  </div>
+);
+
+/* ── journey ──────────────────────────────────────── */
+const JourneyCard = ({ s, i, seen, light = false }) => {
+  const fg = light ? '#000' : '#FFF';
+  const bd = light ? 'rgba(0,0,0,.18)' : 'rgba(255,255,255,.18)';
+  return (
+    <div style={{
+      border: `1px solid ${bd}`, padding: '26px 24px', display: 'flex', flexDirection: 'column', gap: 14, minHeight: 210,
+      opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(20px)',
+      transition: `opacity .55s ease ${i * 110}ms, transform .55s cubic-bezier(.2,.8,.2,1) ${i * 110}ms`,
+    }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: 'Geist Mono, monospace', fontSize: 10, letterSpacing: '.22em', opacity: .55 }}>
+        <span>{s.tag}</span><ThreeBar size={16} color={fg} />
+      </div>
+      <div style={{ fontFamily: 'Geist, sans-serif', fontSize: 'clamp(22px,2vw,30px)', fontWeight: 500, letterSpacing: '-.025em' }}>{s.title}</div>
+      <p style={{ fontSize: 14.5, lineHeight: 1.6, opacity: .7, fontWeight: 300 }}>{s.desc}</p>
+    </div>
+  );
+};

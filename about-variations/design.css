@@ -1,0 +1,191 @@
+/* ════════════════════════════════════════════════════════════════════
+   White Label Resell — About variations · shared design system
+   Mirrors home.html: pure #000/#FFF, Geist + Geist Mono, mono kickers,
+   hairline rules, fade-and-rise motion. Used by about-v1 / v2 / v3.
+   ════════════════════════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; }
+html { overflow-x: clip; }
+html, body { margin: 0; padding: 0; background: #000; color: #FFF; }
+body { font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: clip; }
+h1, h2, h3 { text-wrap: pretty; }
+p { margin: 0; }
+::selection { background: #FFF; color: #000; }
+i, em { font-style: italic; }
+a { color: inherit; }
+a:hover { opacity: .7; }
+body::-webkit-scrollbar { width: 0; }
+
+:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+
+@keyframes mqFwd { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+.kick { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: .22em; text-transform: uppercase; opacity: .6; margin-bottom: 16px; }
+
+/* ── team grid: 4 → 2 → 1 columns ────────────────────────────────── */
+.team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+@media (max-width: 1000px) { .team-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 520px)  { .team-grid { grid-template-columns: 1fr; } }
+
+/* ── central-logo quad composition (v1) ────────────────────────────
+   Desktop: left cards | 44px gap | large central logo | 44px gap | right cards.
+   The centre column constrains the logo to clamp(320px, 30vw, 450px) and the
+   side columns narrow to ~minmax(280px,1fr) so the logo stays dominant.
+   Tablet (<900px): logo centred on top, 2×2 card grid beneath.
+   Mobile (<540px): logo first, cards one per row. */
+.quad { display: grid; grid-template-columns: minmax(280px, 1fr) auto minmax(280px, 1fr); column-gap: 44px; align-items: center; }
+.quad .quad-l, .quad .quad-r { display: flex; flex-direction: column; gap: 14px; }
+.quad .quad-c { width: clamp(320px, 30vw, 450px); justify-self: center; }
+@media (max-width: 1000px) {
+  .quad { grid-template-columns: minmax(210px, 1fr) auto minmax(210px, 1fr); column-gap: 32px; }
+  .quad .quad-c { width: clamp(260px, 24vw, 340px); }
+}
+@media (max-width: 900px) {
+  .quad { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .quad .quad-c { grid-column: 1 / -1; order: -1; width: clamp(260px, 40vw, 360px); margin-bottom: 26px; justify-self: center; }
+  .quad .quad-l { grid-column: 1; }
+  .quad .quad-r { grid-column: 2; }
+}
+@media (max-width: 540px) {
+  .quad { grid-template-columns: 1fr; }
+  .quad .quad-l, .quad .quad-r { grid-column: 1; }
+  .quad .quad-c { width: min(60vw, 300px); margin-bottom: 22px; }
+}
+
+/* ── v1 central brand mark — the three-bar logo only ────────────────
+   Big and bold: ≥300px tall on desktop, drawn with the same 0.66 / 1 / 0.82
+   bar silhouette as ThreeBar. Uses currentColor so the page passes a colour
+   (black here, since the section is white). Scales down on small screens so
+   it never overflows its column. */
+.brand-mark { display: flex; align-items: flex-end; gap: 14px; height: clamp(300px, 24vw, 340px); color: #000; }
+.brand-mark > span { width: clamp(72px, 7vw, 92px); background: currentColor; }
+.brand-mark > span:nth-child(1) { height: 66%; }
+.brand-mark > span:nth-child(2) { height: 100%; }
+.brand-mark > span:nth-child(3) { height: 82%; }
+@media (max-width: 540px) {
+  .brand-mark { height: 240px; gap: 10px; }
+  .brand-mark > span { width: clamp(52px, 15vw, 68px); }
+}
+
+/* ── value grid (v3 illustrated cards) ───────────────────────────── */
+.value-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+@media (max-width: 1000px) { .value-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px)  { .value-grid { grid-template-columns: 1fr; } }
+
+/* ── department bento (v1) ───────────────────────────────────────── */
+.dept-grid { display: flex; flex-direction: column; }
+.dept-grid > div { border-bottom: 1px solid rgba(0,0,0,.12); padding: 24px 0; display: grid; grid-template-columns: 60px 1fr 1fr; gap: 32px; align-items: baseline; }
+.dept-grid > div:last-child { border-bottom: none; }
+@media (max-width: 700px) { .dept-grid > div { grid-template-columns: 44px 1fr; gap: 12px; } .dept-grid > div > div:last-child { grid-column: 1 / -1; } }
+
+/* ── department ring (v3): 3×3 with brand node in the centre ─────── */
+.dept-ring { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; align-items: stretch; }
+.dept-ring .ring-center { grid-column: 2; grid-row: 2; display: grid; place-items: center; }
+@media (max-width: 900px) {
+  .dept-ring { grid-template-columns: repeat(2, 1fr); }
+  .dept-ring .ring-center { grid-column: 1 / -1; grid-row: auto; order: -1; padding: 24px 0 8px; }
+}
+@media (max-width: 520px) { .dept-ring { grid-template-columns: 1fr; } }
+
+/* ── department cards / tabs (v2) ────────────────────────────────── */
+.dept-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+@media (max-width: 900px) { .dept-list { grid-template-columns: 1fr; } }
+
+/* ── journey cards ───────────────────────────────────────────────── */
+.journey-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+@media (max-width: 900px) { .journey-grid { grid-template-columns: 1fr; } }
+
+/* ── v1: journey bento grid ────────────────────────────────────────
+   Centred section heading; grid caps at 960px and never fills the whole
+   container. One wide card on top (text left, illustration right), two
+   stacked cards below (illustration top, text bottom). */
+.journey-bento { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 1100px; margin: 0 auto; }
+.jb-top { grid-column: 1 / -1; display: grid; grid-template-columns: 1.05fr 1fr; gap: clamp(20px, 3vw, 40px); align-items: center; background: #FFF; color: #000; border: 1px solid rgba(0,0,0,.18); padding: clamp(26px, 3.4vw, 40px); min-height: 360px; max-height: 400px; transition: background .6s ease, color .6s ease, border-color .6s ease; }
+.jb-top.jb-inverted { background: #000; color: #FFF; border-color: #000; }
+.jb-card { display: flex; flex-direction: column; justify-content: space-between; gap: 18px; border: 1px solid rgba(0,0,0,.18); background: #FFF; color: #000; padding: 22px; min-height: 360px; max-height: 400px; transition: background .6s ease, color .6s ease, border-color .6s ease; }
+.jb-card.jb-inverted { background: #000; color: #FFF; border-color: #000; }
+.jb-copy { min-width: 0; }
+.ji-period { display: inline-block; font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: .22em; text-transform: uppercase; opacity: .55; margin-bottom: 12px; }
+.jb-top .ji-period { opacity: .6; }
+.jb-copy h3 { margin: 2px 0 8px; font-family: 'Geist', sans-serif; font-size: clamp(20px, 2vw, 26px); font-weight: 500; letter-spacing: -.02em; line-height: 1.1; }
+.jb-copy p { font-size: 16px; line-height: 1.5; opacity: .72; font-weight: 300; }
+.jb-top .jb-copy p { max-width: 400px; }
+.jb-art { display: flex; align-items: center; overflow: hidden; }
+.jb-art svg { width: 100%; height: auto; max-height: 100%; }
+.jb-card .jb-art { height: 200px; padding-top: 12px; justify-content: center; overflow: hidden; }
+.jb-card .jb-art svg { max-height: 100%; }
+@media (max-width: 900px) {
+  .journey-bento { grid-template-columns: 1fr; max-width: 680px; }
+  .jb-top { grid-template-columns: 1fr; }
+}
+
+/* micro-animations for the journey illustrations (disabled under reduced motion) */
+@keyframes jiPulse { 0%, 100% { opacity: 1; } 50% { opacity: .3; } }
+@keyframes jiRise  { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.16); } }
+@keyframes jiFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+.journey-bento .ji-pulse { transform-box: fill-box; transform-origin: center; animation: jiPulse 1.7s ease-in-out infinite; }
+.journey-bento .ji-rise  { transform-box: fill-box; transform-origin: center bottom; animation: jiRise 1.9s ease-in-out infinite; }
+.journey-bento .ji-float { transform-box: fill-box; transform-origin: center; animation: jiFloat 2.7s ease-in-out infinite; }
+
+/* ── scroll-driven line from logo to bento card ──────────────────── */
+.scroll-line-track { position: absolute; left: 50%; transform: translateX(-50%); width: 24px; height: 100%; pointer-events: none; }
+.scroll-line-fill { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 3px; height: 0%; background: #000; border-radius: 2px; transition: height .05s linear; }
+.scroll-line-track.is-dark .scroll-line-fill { background: #FFF; }
+@keyframes linePour { 0% { height: 0%; } 100% { height: 100%; } }
+
+/* ── typographic value panels (v2) ───────────────────────────────── */
+.val-row { display: grid; grid-template-columns: 90px 1.3fr 1fr; gap: 32px; align-items: baseline; padding: 34px 0; border-top: 1px solid rgba(255,255,255,.22); }
+.val-row:last-child { border-bottom: 1px solid rgba(255,255,255,.22); }
+@media (max-width: 900px) { .val-row { grid-template-columns: 70px 1fr; gap: 12px; } .val-row .val-desc { grid-column: 1 / -1; } }
+
+/* ── identity team cards (v3) hover ──────────────────────────────── */
+.id-img { transition: transform .6s cubic-bezier(.2,.8,.2,1); }
+.id-card:hover .id-img { transform: scale(1.05); }
+.id-label { transition: transform .35s ease; }
+.id-card:hover .id-label { transform: translateY(-2px); }
+.id-li { transition: opacity .2s ease, transform .3s ease; }
+.id-card:hover .id-li { opacity: 1; transform: translateY(-2px); }
+
+/* ── split two-column (v3 who/what) ──────────────────────────────── */
+.split2 { display: grid; grid-template-columns: 1fr 1fr; }
+.split2 > div { padding: 0 40px; }
+.split2 > div:first-child { padding-left: 0; border-right: 1px solid rgba(255,255,255,.2); }
+.split2.light > div:first-child { border-right-color: rgba(0,0,0,.18); }
+@media (max-width: 800px) {
+  .split2 { grid-template-columns: 1fr; }
+  .split2 > div, .split2 > div:first-child { padding: 0 0 36px; border-right: none; border-bottom: 1px solid rgba(255,255,255,.2); margin-bottom: 36px; }
+  .split2.light > div:first-child { border-bottom-color: rgba(0,0,0,.18); }
+}
+
+/* ── infinite partner marquee ────────────────────────────────────── */
+.marq { overflow: hidden; }
+.marq-track { display: flex; width: max-content; animation: mqFwd 46s linear infinite; }
+.marq-track .mq-group { display: flex; align-items: center; gap: 64px; padding-right: 64px; }
+.marq:hover .marq-track { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .marq-track { animation: none !important; width: auto; flex-wrap: wrap; justify-content: center; row-gap: 24px; }
+}
+
+/* ── video section (mid-page, continuation of the team area) ─────── */
+.video-frame { position: relative; overflow: hidden; background: #000; height: clamp(380px, 56vw, 620px); display: flex; align-items: center; justify-content: center; }
+.video-grain { position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  background-size: 200px; opacity: .55; }
+.video-brackets span { position: absolute; width: 14px; height: 14px; border: 1.5px solid #000; }
+.video-brackets .b-tl { top: -8px; left: -8px; border-width: 1.5px 0 0 1.5px; }
+.video-brackets .b-tr { top: -8px; right: -8px; border-width: 1.5px 1.5px 0 0; }
+.video-brackets .b-bl { bottom: -8px; left: -8px; border-width: 0 0 1.5px 1.5px; }
+.video-brackets .b-br { bottom: -8px; right: -8px; border-width: 0 1.5px 1.5px 0; }
+
+.faq-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 5vw; align-items: start; }
+@media (max-width: 800px) { .faq-grid { grid-template-columns: 1fr; gap: 40px; } }
+.faq-btn { width: 100%; background: transparent; border: none; color: inherit; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 24px 0; font-family: 'Geist', sans-serif; font-size: clamp(17px, 1.5vw, 23px); font-weight: 500; letter-spacing: -.015em; }
+.faq-item { border-bottom: 1px solid rgba(0,0,0,.18); }
+.faq-item:first-child { border-top: 1px solid rgba(0,0,0,.18); }
+.faq-plus { font-family: 'Geist Mono', monospace; font-size: 20px; flex-shrink: 0; transition: transform .25s ease; }
+.faq-item.open .faq-plus { transform: rotate(45deg); }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition-duration: .01ms !important; }
+}

@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Get a Quote — White Label Resell</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #000; color: #FFF; }
+  body { font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  ::selection { background: #FFF; color: #000; }
+  i, em { font-style: italic; }
+  a { color: inherit; }
+  body::-webkit-scrollbar { width: 0; }
+  input, textarea { font-family: 'Geist', sans-serif; }
+  input:focus, textarea:focus { outline: 2px solid #000; outline-offset: -2px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="v7-shared.jsx"></script>
+<script type="text/babel">
+const { useState } = React;
+const { ThreeBar, HUD, Kick, Footer } = window.V7;
+
+const services = ['SEO', 'Content', 'Web build', 'Paid media', 'Email', 'Analytics', 'AI / Ops'];
+
+const Field = ({ label, ...props }) => (
+  <label style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+    <span style={{ fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', opacity: 0.65 }}>{label}</span>
+    {props.rows
+      ? <textarea {...props} style={{
+          background: 'transparent', border: '1px solid #000', padding: '14px 16px',
+          fontSize: 15, color: '#000', resize: 'vertical',
+        }} />
+      : <input {...props} style={{
+          background: 'transparent', border: '1px solid #000', padding: '14px 16px',
+          fontSize: 15, color: '#000',
+        }} />}
+  </label>
+);
+
+const QuoteForm = () => {
+  const [picked, setPicked] = useState([]);
+  const [form, setForm] = useState({ name: '', company: '', email: '', msg: '' });
+  const toggle = (s) => setPicked(p => p.includes(s) ? p.filter(x => x !== s) : [...p, s]);
+  const submit = (e) => {
+    e.preventDefault();
+    const body = encodeURIComponent(
+      `Name: ${form.name}\nCompany: ${form.company}\nServices: ${picked.join(', ') || '—'}\n\n${form.msg}`
+    );
+    window.location.href = `mailto:partners@whitelabelresell.com?subject=${encodeURIComponent('Quote request — ' + (form.company || form.name))}&body=${body}`;
+  };
+  return (
+    <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 22 }}>
+        <Field label="Your name" required value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />
+        <Field label="Company / agency" value={form.company} onChange={e => setForm({ ...form, company: e.target.value })} />
+      </div>
+      <Field label="Email" type="email" required value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} />
+      <div>
+        <div style={{ fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', opacity: 0.65, marginBottom: 10 }}>
+          What do you need? · pick any
+        </div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+          {services.map(s => {
+            const on = picked.includes(s);
+            return (
+              <button key={s} type="button" onClick={() => toggle(s)} style={{
+                padding: '10px 16px',
+                background: on ? '#000' : 'transparent',
+                color: on ? '#FFF' : '#000',
+                border: '1px solid #000',
+                fontFamily: 'Geist Mono', fontSize: 11,
+                letterSpacing: '0.16em', textTransform: 'uppercase',
+                cursor: 'pointer', transition: 'background .2s, color .2s',
+              }}>{on ? '■ ' : '□ '}{s}</button>
+            );
+          })}
+        </div>
+      </div>
+      <Field label="Tell us about the project" rows={5} value={form.msg} onChange={e => setForm({ ...form, msg: e.target.value })} />
+      <button type="submit" style={{
+        alignSelf: 'flex-start',
+        padding: '18px 28px',
+        background: '#000', color: '#FFF', border: 'none',
+        fontFamily: 'Geist Mono', fontSize: 12,
+        letterSpacing: '0.22em', textTransform: 'uppercase',
+        fontWeight: 600, cursor: 'pointer',
+        display: 'inline-flex', alignItems: 'center', gap: 12,
+      }}>
+        <ThreeBar size={12} color="#FFF" />
+        Send the request →
+      </button>
+    </form>
+  );
+};
+
+const App = () => (
+  <React.Fragment>
+    <HUD active="contact" />
+
+    {/* HERO — black */}
+    <section style={{
+      background: '#000', color: '#FFF',
+      padding: '170px 6vw 80px',
+    }}>
+      <Kick>Get a quote · reply within one business day</Kick>
+      <h1 style={{
+        margin: 0, fontFamily: 'Geist',
+        fontSize: 'clamp(52px, 8.5vw, 148px)',
+        fontWeight: 500, letterSpacing: '-0.045em', lineHeight: 0.9,
+      }}>
+        Let's make your<br /><i style={{ fontWeight: 300 }}>agency look brilliant.</i>
+      </h1>
+    </section>
+
+    {/* FORM SPLIT — white */}
+    <section style={{
+      background: '#FFF', color: '#000',
+      borderTop: '1px solid #000',
+      display: 'grid', gridTemplateColumns: '1fr 1.5fr',
+    }}>
+      {/* left rail */}
+      <div style={{
+        padding: 'clamp(50px, 6vw, 90px) 6vw',
+        borderRight: '1px solid #000',
+        display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 60,
+      }}>
+        <div>
+          <Kick>How it starts</Kick>
+          {[
+            ['01', 'You send the note', 'Two sentences is plenty.'],
+            ['02', 'We reply in a day', 'With questions, not a pitch deck.'],
+            ['03', 'Partnership outline', 'Shaped around how your shop runs.'],
+          ].map(([n, t, b]) => (
+            <div key={n} style={{ padding: '20px 0', borderBottom: '1px solid rgba(0,0,0,0.2)' }}>
+              <div style={{ display: 'flex', gap: 16, alignItems: 'baseline' }}>
+                <span style={{ fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '0.2em', opacity: 0.55 }}>{n}</span>
+                <div>
+                  <div style={{ fontFamily: 'Geist', fontSize: 20, fontWeight: 500, letterSpacing: '-0.015em' }}>{t}</div>
+                  <div style={{ marginTop: 4, fontSize: 14, opacity: 0.65 }}>{b}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div style={{ display: 'flex', alignItems: 'flex-end', gap: 12, height: 120 }}>
+          {[0.66, 1, 0.82].map((h, i) => (
+            <div key={i} style={{ width: 36, height: `${h * 100}%`, background: '#000' }} />
+          ))}
+        </div>
+      </div>
+      {/* form */}
+      <div style={{ padding: 'clamp(50px, 6vw, 90px) 6vw' }}>
+        <QuoteForm />
+        <div style={{
+          marginTop: 40, paddingTop: 24, borderTop: '1px solid rgba(0,0,0,0.2)',
+          fontFamily: 'Geist Mono', fontSize: 10,
+          letterSpacing: '0.2em', textTransform: 'uppercase', opacity: 0.6,
+          display: 'flex', gap: 24, flexWrap: 'wrap',
+        }}>
+          <span>prefer email? partners@whitelabelresell.com</span>
+          <span>· discord for active partners</span>
+        </div>
+      </div>
+    </section>
+
+    <Footer />
+  </React.Fragment>
+);
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
