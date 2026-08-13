@@ -630,6 +630,35 @@ const CaseChart = () => {
   );
 };
 
+const ProcessRow = ({ r, i, seen }) => {
+  const [hover, setHover] = useState(false);
+  return (
+    <div
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        display: 'grid', gridTemplateColumns: '110px 1fr 260px 110px', gap: 24,
+        padding: '18px 0',
+        borderBottom: i < 7 ? '1px solid rgba(255,255,255,.12)' : 'none',
+        fontFamily: 'Geist Mono', fontSize: 13, letterSpacing: '.04em',
+        opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateX(-14px)',
+        transition: `opacity .45s ease ${i * 80}ms, transform .45s ease ${i * 80}ms, background .3s ease`,
+        background: hover ? 'rgba(255,255,255,.08)' : 'transparent',
+        cursor: 'default',
+      }}
+    >
+      <span style={{ opacity: .6 }}>{r[0]}</span>
+      <span>{r[1]}</span>
+      <span style={{ opacity: .6 }}>{r[2]}</span>
+      <span style={{
+        background: i < 3 ? '#FFF' : 'transparent', color: i < 3 ? '#000' : '#FFF',
+        border: i < 3 ? 'none' : '1px solid #FFF', padding: '4px 10px',
+        fontSize: 10, textAlign: 'center', letterSpacing: '.18em',
+      }}>{r[3]}</span>
+    </div>
+  );
+};
+
 /* ═══ 06 · PROCESS — console rows, real 90-day plan ═══ */
 const Process = () => {
   const [ref, seen] = useReveal(.15);
@@ -659,23 +688,7 @@ const Process = () => {
       </div>
       <div style={{ border: '1px solid rgba(255,255,255,.25)', padding: '4px 28px' }}>
         {rows.map((r, i) => (
-          <div key={i} style={{
-            display: 'grid', gridTemplateColumns: '110px 1fr 260px 110px', gap: 24,
-            padding: '18px 0',
-            borderBottom: i < rows.length - 1 ? '1px solid rgba(255,255,255,.12)' : 'none',
-            fontFamily: 'Geist Mono', fontSize: 13, letterSpacing: '.04em',
-            opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateX(-14px)',
-            transition: `opacity .45s ease ${i * 80}ms, transform .45s ease ${i * 80}ms`,
-          }}>
-            <span style={{ opacity: .6 }}>{r[0]}</span>
-            <span>{r[1]}</span>
-            <span style={{ opacity: .6 }}>{r[2]}</span>
-            <span style={{
-              background: i < 3 ? '#FFF' : 'transparent', color: i < 3 ? '#000' : '#FFF',
-              border: i < 3 ? 'none' : '1px solid #FFF', padding: '4px 10px',
-              fontSize: 10, textAlign: 'center', letterSpacing: '.18em',
-            }}>{r[3]}</span>
-          </div>
+          <ProcessRow key={i} r={r} i={i} seen={seen} />
         ))}
       </div>
     </section>
@@ -777,34 +790,56 @@ const Marquee = () => {
 
 /* ═══ 09 · THE NUMBER ═══ */
 const BigNumber = () => {
-  const [ref, seen] = useReveal(.4);
+  const [ref, seen] = useReveal(.3);
   return (
     <section ref={ref} style={{
       minHeight: '92vh', background: '#FFF', color: '#000', padding: '130px 6vw',
       position: 'relative', display: 'grid', placeItems: 'center', borderTop: '1px solid #000',
+      overflow: 'hidden',
     }}>
-      <div style={{ position: 'absolute', top: 70, left: 32, fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase', opacity: .6 }}>
+      <div style={{
+        position: 'absolute', top: 70, left: 32, fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase',
+        opacity: seen ? .6 : 0, transform: seen ? 'none' : 'translateY(12px)',
+        transition: 'opacity .6s ease .1s, transform .6s cubic-bezier(.2,.8,.2,1) .1s',
+      }}>
         Measured, not claimed
       </div>
       <div style={{ textAlign: 'center' }}>
         <div style={{
           fontFamily: 'Geist', fontSize: 'clamp(200px,32vw,520px)', fontWeight: 500,
           letterSpacing: '-.06em', lineHeight: .95,
-          opacity: seen ? 1 : 0, transform: seen ? 'scale(1)' : 'scale(.94)',
-          transition: 'opacity .9s ease, transform .9s cubic-bezier(.2,.8,.2,1)',
+          opacity: seen ? 1 : 0,
+          transform: seen ? 'scale(1) translateY(0)' : 'scale(.7) translateY(30px)',
+          transition: 'opacity .5s ease, transform .7s cubic-bezier(.175,.885,.32,1.275)',
         }}>6.7×</div>
-        <div style={{ marginTop: 18, fontFamily: 'Geist Mono', fontSize: 14, letterSpacing: '.22em', textTransform: 'uppercase' }}>
+        <div style={{
+          marginTop: 18, fontFamily: 'Geist Mono', fontSize: 14, letterSpacing: '.22em', textTransform: 'uppercase',
+          opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(14px)',
+          transition: 'opacity .6s ease .3s, transform .6s cubic-bezier(.2,.8,.2,1) .3s',
+        }}>
           more leads in eighteen months
         </div>
-        <p style={{ margin: '20px auto 0', maxWidth: 520, fontSize: 16, lineHeight: 1.6, opacity: .7 }}>
+        <p style={{
+          margin: '20px auto 0', maxWidth: 520, fontSize: 16, lineHeight: 1.6,
+          opacity: seen ? .7 : 0, transform: seen ? 'none' : 'translateY(14px)',
+          transition: 'opacity .6s ease .45s, transform .6s cubic-bezier(.2,.8,.2,1) .45s',
+        }}>
           Across our partner accounts we have generated more than 100 million words of
           published content and helped agencies deliver over 25,000 completed projects.
         </p>
       </div>
-      <div style={{ position: 'absolute', left: 32, bottom: 70, display: 'flex', alignItems: 'flex-end', gap: 8 }}>
+      <div style={{
+        position: 'absolute', left: 32, bottom: 70, display: 'flex', alignItems: 'flex-end', gap: 8,
+        opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(16px)',
+        transition: 'opacity .6s ease .55s, transform .6s cubic-bezier(.2,.8,.2,1) .55s',
+      }}>
         {[40, 64, 50].map((h, i) => <div key={i} style={{ width: 18, height: h, background: '#000' }} />)}
       </div>
-      <div style={{ position: 'absolute', right: 32, bottom: 70, textAlign: 'right', fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase' }}>
+      <div style={{
+        position: 'absolute', right: 32, bottom: 70, textAlign: 'right', fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase',
+        opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(16px)',
+        transition: 'opacity .6s ease .55s, transform .6s cubic-bezier(.2,.8,.2,1) .55s',
+      }}>
         guild golf carts<br /><span style={{ opacity: .55 }}>jan 2024 → jun 2025</span>
       </div>
     </section>
@@ -813,7 +848,7 @@ const BigNumber = () => {
 
 /* ═══ 10 · CLOSE ═══ */
 const Close = () => {
-  const [ref, seen] = useReveal(.2);
+  const [ref, seen] = useReveal(.15);
   const steps = [
     ['SELL', 'You win the client'],
     ['SCOPE', 'We write the SOW'],
@@ -822,7 +857,11 @@ const Close = () => {
   ];
   return (
     <section ref={ref} style={{ background: '#000', color: '#FFF', padding: '120px 6vw 90px', borderTop: '1px solid #FFF' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 24, marginBottom: 44 }}>
+      <div style={{
+        display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 24, marginBottom: 44,
+        opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(24px)',
+        transition: 'opacity .8s ease, transform .8s cubic-bezier(.2,.8,.2,1)',
+      }}>
         <div>
           <Kick>Working with us</Kick>
           <h2 style={{ margin: 0, fontFamily: 'Geist', fontSize: 'clamp(44px,6.4vw,104px)', fontWeight: 500, letterSpacing: '-.04em', lineHeight: 1.06 }}>
@@ -842,8 +881,8 @@ const Close = () => {
               background: inv ? '#FFF' : '#000', color: inv ? '#000' : '#FFF',
               border: inv ? 'none' : '1px solid #FFF', padding: 26, aspectRatio: '3 / 4',
               display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-              opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(20px)',
-              transition: `all .55s ease ${i * 100}ms`,
+              opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(32px) scale(.97)',
+              transition: `opacity .5s ease ${i * 120 + 200}ms, transform .6s cubic-bezier(.2,.8,.2,1) ${i * 120 + 200}ms`,
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '.22em', opacity: .7 }}>
                 <span>/0{i + 1}</span><ThreeBar size={16} color="currentColor" />
@@ -856,7 +895,11 @@ const Close = () => {
           );
         })}
       </div>
-      <div style={{ marginTop: 72, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 28 }}>
+      <div style={{
+        marginTop: 72, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 28,
+        opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(20px)',
+        transition: 'opacity .8s ease .7s, transform .8s cubic-bezier(.2,.8,.2,1) .7s',
+      }}>
         <div style={{ maxWidth: 520 }}>
           <h3 style={{ margin: 0, fontFamily: 'Geist', fontSize: 'clamp(28px,3.4vw,52px)', fontWeight: 500, letterSpacing: '-.03em', lineHeight: 1.1 }}>
             Tell us about your next project.
