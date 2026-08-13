@@ -1,0 +1,789 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>White Label Resell — White-label SEO, content, web &amp; analytics for agencies</title>
+<meta name="description" content="White Label Resell is the production bench behind agencies. SEO, content, web development, paid media and analytics delivered under your brand." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html { overflow-x: clip; }
+  html, body { margin: 0; padding: 0; background: #000; color: #FFF; }
+  body { font-family: 'Geist Mono', ui-monospace, SFMono-Regular, monospace; -webkit-font-smoothing: antialiased; overflow-x: clip; }
+  h1, h2, h3, p { text-wrap: pretty; }
+  ::selection { background: #FFF; color: #000; }
+  i, em { font-style: italic; }
+  a { color: inherit; }
+  a:hover { opacity: .75; }
+  body::-webkit-scrollbar { width: 0; }
+  .blink { animation: blinkCur 1.1s steps(1) infinite; }
+  @keyframes blinkCur { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+  @keyframes pulseDot { 0%,100% { opacity:1; transform: scale(1); } 50% { opacity:.3; transform: scale(.7); } }
+  @keyframes marqueeFwd { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition-duration: .01ms !important; } }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+const ThreeBar = ({ size = 16, color = 'currentColor', gap = 2 }) => (
+  <span style={{ display: 'inline-flex', alignItems: 'flex-end', gap, height: size }}>
+    {[0.66, 1, 0.82].map((h, i) => (
+      <span key={i} style={{ width: size * 0.22, height: `${h * 100}%`, background: color }} />
+    ))}
+  </span>
+);
+
+const useReveal = (amount = 0.2) => {
+  const ref = useRef(null);
+  const [seen, setSeen] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setSeen(true); io.disconnect(); } }, { threshold: amount, rootMargin: '0px 0px -12% 0px' });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [amount]);
+  return [ref, seen];
+};
+
+const navigateTo = (v) => { window.dispatchEvent(new CustomEvent('wlr-nav', { detail: v })); window.scrollTo({ top: 0, behavior: 'instant' }); };
+
+/* console chrome — a fixed status strip under the HUD */
+const HUD = ({ view }) => (
+  <div style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, mixBlendMode: 'difference', pointerEvents: 'none', padding: '16px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#FFF', fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase' }}>
+    <a href="#" onClick={(e) => { e.preventDefault(); navigateTo('home'); }} style={{ pointerEvents: 'auto', display: 'inline-flex', alignItems: 'center', gap: 12, color: '#FFF', textDecoration: 'none' }}>
+      <ThreeBar size={14} color="#FFF" gap={3} /><span>[ wlr@bench ]</span>
+    </a>
+    <span style={{ pointerEvents: 'auto', display: 'flex', gap: 26 }}>
+      {[['Work','work'],['About','about'],['Team','team']].map(([l, v]) => (
+        <a key={v} href="#" onClick={(e) => { e.preventDefault(); navigateTo(v); }} style={{ color: '#FFF', textDecoration: 'none', opacity: view === v ? 1 : .5 }}>{view === v ? '→ ' + l : l}</a>
+      ))}
+      <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{ color: '#FFF', textDecoration: 'none', cursor: 'pointer' }}>$ quote</a>
+    </span>
+  </div>
+);
+
+const WindowFrame = ({ title, children, height = 'clamp(320px, 50vh, 480px)' }) => (
+  <div style={{ border: '1px solid rgba(255,255,255,.35)', background: '#000', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ padding: '10px 16px', borderBottom: '1px solid rgba(255,255,255,.2)', display: 'flex', alignItems: 'center', gap: 8 }}>
+      <span style={{ width: 8, height: 8, borderRadius: '50%', border: '1px solid rgba(255,255,255,.4)' }} />
+      <span style={{ width: 8, height: 8, borderRadius: '50%', border: '1px solid rgba(255,255,255,.4)' }} />
+      <span style={{ flex: 1, height: 12 }} />
+      <span style={{ fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '.16em', textTransform: 'uppercase', opacity: .6 }}>{title}</span>
+    </div>
+    <div style={{ height, overflow: 'hidden', position: 'relative' }}>{children}</div>
+  </div>
+);
+
+/* ════════════ HOME ════════════ */
+
+/* 01 · Boot sequence hero — lines type in, then the heading */
+const Hero = () => {
+  const [boot, setBoot] = useState([]);
+  const [done, setDone] = useState(false);
+  const lines = [
+    '$ wlr --init bench',
+    '> loading 20 specialists… ok',
+    '> connecting timezones [4]… ok',
+    '> mounting white-label modules… ok',
+    '> signing NDAs… ok',
+    '$ ready.',
+  ];
+  useEffect(() => {
+    let i = 0;
+    const iv = setInterval(() => {
+      i++;
+      setBoot(lines.slice(0, i));
+      if (i >= lines.length) { clearInterval(iv); setTimeout(() => setDone(true), 350); }
+    }, 320);
+    return () => clearInterval(iv);
+  }, []);
+  const [hover, setHover] = useState(false);
+  return (
+    <section onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} style={{
+      minHeight: '100vh', background: hover ? '#FFF' : '#000', color: hover ? '#000' : '#FFF',
+      transition: 'background .55s ease, color .55s ease',
+      padding: '150px 6vw 90px', display: 'grid', gridTemplateColumns: '1fr 1fr', alignItems: 'center', gap: '4vw',
+    }}>
+      <div style={{ position: 'relative', zIndex: 2 }}>
+        <div style={{ fontFamily: 'Geist Mono', fontSize: 12, lineHeight: 2, opacity: .7, minHeight: 120 }}>
+          {boot.map((l, i) => <div key={i} style={{ opacity: i === boot.length - 1 && !done ? .9 : .55 }}>{l}</div>)}
+          {!done && <span className="blink">█</span>}
+        </div>
+        <h1 style={{
+          margin: '26px 0 0', fontFamily: 'Geist', fontSize: 'clamp(48px, 6.8vw, 116px)', fontWeight: 500,
+          letterSpacing: '-.045em', lineHeight: 1.02,
+          opacity: done ? 1 : 0, transform: done ? 'none' : 'translateY(22px)',
+          transition: 'opacity .8s ease .2s, transform .8s cubic-bezier(.2,.8,.2,1) .2s',
+        }}>
+          Your clients see you.<br /><i>We do the work.</i>
+        </h1>
+        <p style={{ margin: '28px 0 0', maxWidth: 470, fontSize: 15, lineHeight: 1.65, opacity: .75 }}>SEO, content, web development, paid media and analytics — built and shipped under your agency's brand. You keep the client, the credit and the margin.</p>
+        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 36 }}>
+          <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{ display: 'inline-flex', alignItems: 'center', gap: 12, padding: '16px 22px', background: 'currentColor', textDecoration: 'none', fontFamily: 'Geist Mono', fontSize: 12, letterSpacing: '.18em', textTransform: 'uppercase', cursor: 'pointer' }}>
+            <span style={{ color: hover ? '#FFF' : '#000' }}>$ quote --now</span>
+          </a>
+          <a href="#" onClick={(e) => { e.preventDefault(); navigateTo('work'); }} style={{ display: 'inline-flex', alignItems: 'center', padding: '16px 22px', border: '1px solid currentColor', textDecoration: 'none', fontFamily: 'Geist Mono', fontSize: 12, letterSpacing: '.18em', textTransform: 'uppercase' }}>ls ./work</a>
+        </div>
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <ThreeBar size={110} color="currentColor" gap={14} />
+      </div>
+    </section>
+  );
+};
+
+/* 02 · Sell/Deliver — two terminal panels swap on scroll, progress readout */
+const SellDeliver = () => {
+  const sectionRef = useRef(null);
+  const [p, setP] = useState(0);
+  const [pct, setPct] = useState(0);
+  const [flip, setFlip] = useState(false);
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    let raf = 0, lastFlip = null;
+    const measure = () => {
+      raf = 0;
+      const r = section.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const span = r.height - vh;
+      const prog = span <= 0 ? 0 : Math.max(0, Math.min(1, -r.top / span));
+      setP(prog);
+      setPct(Math.round(Math.min(1, prog / 0.45) * 100));
+      const f = prog > 0.5;
+      if (f !== lastFlip) { lastFlip = f; setFlip(f); }
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(measure); };
+    measure();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); if (raf) cancelAnimationFrame(raf); };
+  }, []);
+
+  return (
+    <section ref={sectionRef} style={{ height: '420vh', position: 'relative' }}>
+      <div style={{ position: 'sticky', top: 0, height: '100vh', background: flip ? '#FFF' : '#000', color: flip ? '#000' : '#FFF', transition: 'background .5s ease, color .5s ease', display: 'flex', flexDirection: 'column', justifyContent: 'center', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: 90, left: 32, right: 32, display: 'flex', justifyContent: 'space-between', fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .6 }}>
+          <span>the partnership / two words</span><span>{String(pct).padStart(3, '0')}%</span>
+        </div>
+        <div style={{ padding: '0 6vw', maxWidth: 1200 }}>
+          <WindowFrame title={flip ? 'we-deliver.sh' : 'you-sell.sh'}>
+            <div style={{ padding: 20, fontFamily: 'Geist Mono', fontSize: 13, lineHeight: 1.9 }}>
+              <div style={{ opacity: .55 }}>$ cat role.txt</div>
+              <div style={{ marginTop: 6 }}>you:   relationship · pitch · invoice</div>
+              <div style={{ opacity: .7 }}>us:    production · templates · deadlines</div>
+              <div style={{ opacity: .45 }}>client: never learns our name</div>
+              <div style={{ marginTop: 14 }}>→ <span style={{ fontFamily: 'Geist', fontWeight: 500, fontSize: 'clamp(26px, 4vw, 52px)', letterSpacing: '-.03em' }}>{flip ? 'We deliver.' : 'You sell.'}</span></div>
+            </div>
+          </WindowFrame>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* 03 · Services — command list, typed rows reveal */
+const Services = () => {
+  const [ref, seen] = useReveal(0.1);
+  const items = [
+    'Technical SEO — audits, site speed, schema',
+    'Content production — up to 1M words a year',
+    'WordPress development — custom themes',
+    'eCommerce builds — Shopify, WooCommerce',
+    'Paid search — Google, Shopping, YouTube',
+    'Paid social — Meta, Instagram, retargeting',
+    'Local SEO — 80+ citations a month, GMB',
+    'Link acquisition — digital PR and outreach',
+    'Email marketing — campaigns, flows, A/B',
+    'GA4 & Tag Manager — events, QA, migration',
+    'Looker Studio reporting — white-labeled',
+    'Hosting & maintenance — LiteSpeed, SSL',
+  ];
+  return (
+    <section ref={ref} style={{ background: '#000', color: '#FFF', padding: '130px 6vw', borderTop: '1px solid #FFF' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 24, marginBottom: 48 }}>
+        <div>
+          <div style={{ fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .6, marginBottom: 16 }}>$ wlr services --list</div>
+          <h2 style={{ margin: 0, fontFamily: 'Geist', fontSize: 'clamp(40px, 5.5vw, 88px)', fontWeight: 500, letterSpacing: '-.04em', lineHeight: 1 }}>Twelve services,<br /><i>one contract.</i></h2>
+        </div>
+        <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{ padding: '14px 24px', border: '1px solid #FFF', textDecoration: 'none', fontFamily: 'Geist Mono', fontSize: 12, letterSpacing: '.18em', textTransform: 'uppercase', cursor: 'pointer' }}>$ scope it →</a>
+      </div>
+      <div style={{ border: '1px solid rgba(255,255,255,.3)' }}>
+        {items.map((t, i) => (
+          <div key={i} style={{
+            display: 'flex', gap: 20, padding: '15px 22px', alignItems: 'baseline',
+            borderBottom: i < items.length - 1 ? '1px solid rgba(255,255,255,.12)' : 'none',
+            fontFamily: 'Geist Mono', fontSize: 13.5,
+            opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateX(-12px)',
+            transition: `opacity .4s ease ${i * 60}ms, transform .4s ease ${i * 60}ms`,
+          }}>
+            <span style={{ opacity: .4 }}>{String(i + 1).padStart(2, '0')}</span>
+            <span style={{ opacity: .5 }}>$</span>
+            <span>{t}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+/* 04 · Positioning — sticky word scrub */
+const Positioning = () => {
+  const sectionRef = useRef(null);
+  const wordRefs = useRef([]);
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const words = wordRefs.current.filter(Boolean);
+    if (!words.length) return;
+    let raf = 0;
+    const measure = () => {
+      raf = 0;
+      const vh = window.innerHeight;
+      for (let i = 0; i < words.length; i++) {
+        const r = words[i].getBoundingClientRect();
+        const center = r.top + r.height / 2;
+        const pr = Math.max(0, Math.min(1, 1 - (center - vh * 0.3) / (vh * 0.5)));
+        words[i].style.opacity = 0.15 + pr * 0.85;
+      }
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(measure); };
+    measure();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => { window.removeEventListener('scroll', onScroll); if (raf) cancelAnimationFrame(raf); };
+  }, []);
+  const l1 = 'Hiring a specialist for every discipline is slow and expensive.';
+  const l2 = 'Renting a full bench is neither.';
+  const renderLine = (line, off) => line.split(' ').map((w, i) => (
+    <span key={i} ref={el => wordRefs.current[off + i] = el} style={{ display: 'inline-block', opacity: 0.15, marginRight: '0.28em' }}>{w}</span>
+  ));
+  return (
+    <section ref={sectionRef} style={{ background: '#000', color: '#FFF', padding: '150px 6vw', borderTop: '1px solid #FFF' }}>
+      <div style={{ fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .6, marginBottom: 16 }}>why agencies partner with us</div>
+      <div style={{ fontFamily: 'Geist', fontSize: 'clamp(34px, 5.6vw, 92px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1.08 }}>
+        <div>{renderLine(l1, 0)}</div>
+        <div style={{ marginTop: 14 }}>{renderLine(l2, l1.split(' ').length)}</div>
+      </div>
+    </section>
+  );
+};
+
+/* 05 · Results — ascii-ish bar chart in a window */
+const Results = () => {
+  const [ref, seen] = useReveal(.2);
+  const data = [66,147,140,156,193,210,227,198,213,193,133,138,197,215,315,337,367,444,427,395,320,254,203,149,202,224,274];
+  const max = 460, peak = data.indexOf(444);
+  return (
+    <section ref={ref} style={{ background: '#000', color: '#FFF', padding: '130px 6vw', borderTop: '1px solid #FFF' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: '5vw', alignItems: 'flex-end' }}>
+        <div>
+          <div style={{ fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .6, marginBottom: 16 }}>$ wlr report guild-golf --year</div>
+          <h2 style={{ margin: 0, fontFamily: 'Geist', fontSize: 'clamp(38px, 5vw, 76px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1.06 }}>66 to 444 leads<br /><i>a month.</i></h2>
+          <p style={{ margin: '26px 0 0', maxWidth: 400, fontSize: 15, lineHeight: 1.65, opacity: .7 }}>A five-location dealer group across Nevada, Oregon, Washington and Utah. Rebuilt on WordPress, geo-targeted paid search per city, GA4 + GTM + CallRail wired into one Looker Studio dashboard.</p>
+        </div>
+        <WindowFrame title="leads.tsv — 27 rows" height="clamp(320px, 48vh, 480px)">
+          <div style={{ height: '100%', display: 'flex', alignItems: 'flex-end', gap: 3, padding: '18px 16px 10px' }}>
+            {data.map((v, i) => (
+              <div key={i} style={{ flex: 1, height: '100%', display: 'flex', alignItems: 'flex-end' }}>
+                <div style={{ width: '100%', height: seen ? `${(v / max) * 100}%` : 0, background: i === peak ? '#FFF' : 'rgba(255,255,255,.4)', transition: `height .6s cubic-bezier(.2,.8,.2,1) ${i * 24}ms` }} />
+              </div>
+            ))}
+          </div>
+        </WindowFrame>
+      </div>
+    </section>
+  );
+};
+
+/* 06 · Process — timeline in a terminal */
+const Process = () => {
+  const [ref, seen] = useReveal(.15);
+  const rows = [
+    ['DAY 00', 'Discovery call and statement of work', 'SIGNED'],
+    ['WEEK 01', 'Wireframes and brand direction in Figma', 'ACTIVE'],
+    ['WEEK 04', 'Sprint review — 10 to 20 pages approved', 'REVIEW'],
+    ['WEEK 05', 'WordPress build, theme and integrations', 'BUILD'],
+    ['WEEK 08', 'QA pass, page speed and accessibility', 'QA'],
+    ['WEEK 09', 'On-page SEO, keyword map, content live', 'RUNNING'],
+    ['WEEK 12', 'GA4 events, GTM and Looker dashboard', 'LIVE'],
+    ['MONTH 04', 'Campaigns scale, monthly reporting begins', 'ONGOING'],
+  ];
+  return (
+    <section ref={ref} style={{ background: '#000', color: '#FFF', padding: '130px 6vw', borderTop: '1px solid #FFF' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 24, marginBottom: 40 }}>
+        <div>
+          <div style={{ fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .6, marginBottom: 16 }}>sprint timeline / log</div>
+          <h2 style={{ margin: 0, fontFamily: 'Geist', fontSize: 'clamp(40px, 5.4vw, 84px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1.06 }}>Signed to live<br /><i>in ninety days.</i></h2>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .7 }}>
+          <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#FFF', animation: 'pulseDot 1.4s ease-in-out infinite' }} />sprint reviews every 14 days
+        </div>
+      </div>
+      <div style={{ border: '1px solid rgba(255,255,255,.3)' }}>
+        {rows.map((r, i) => (
+          <div key={i} style={{
+            display: 'grid', gridTemplateColumns: '110px 1fr 110px', gap: 20, padding: '16px 22px',
+            borderBottom: i < rows.length - 1 ? '1px solid rgba(255,255,255,.12)' : 'none',
+            fontFamily: 'Geist Mono', fontSize: 13, alignItems: 'center',
+            opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(10px)',
+            transition: `opacity .45s ease ${i * 80}ms, transform .45s ease ${i * 80}ms, background .3s ease`,
+          }}>
+            <span style={{ opacity: .6 }}>{r[0]}</span>
+            <span>{r[1]}</span>
+            <span style={{ textAlign: 'right', color: i < 3 ? '#000' : '#FFF', background: i < 3 ? '#FFF' : 'transparent', border: i < 3 ? 'none' : '1px solid rgba(255,255,255,.4)', padding: '3px 10px', fontSize: 10, letterSpacing: '.16em' }}>{r[2]}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+/* 07 · Before/After — two windows, counters */
+const BeforeAfter = () => {
+  const [ref, seen] = useReveal(.3);
+  return (
+    <section ref={ref} style={{ background: '#000', color: '#FFF', padding: '130px 6vw', borderTop: '1px solid #FFF', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+      <WindowFrame title="before.tsv — jan 2024">
+        <div style={{ padding: 24, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
+          <div><div style={{ fontFamily: 'Geist', fontSize: 'clamp(80px, 11vw, 160px)', fontWeight: 500, letterSpacing: '-.04em', lineHeight: 1 }}>66</div><div style={{ marginTop: 8, fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .6 }}>leads / month</div></div>
+          <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, opacity: .65, maxWidth: 340 }}>Five showrooms, strong walk-in traffic, almost no organic visibility and no tracking on the phone lines.</p>
+        </div>
+      </WindowFrame>
+      <WindowFrame title="after.tsv — jun 2025">
+        <div style={{ padding: 24, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
+          <div><div style={{ fontFamily: 'Geist', fontSize: 'clamp(120px, 17vw, 250px)', fontWeight: 500, letterSpacing: '-.045em', lineHeight: .95 }}>444</div><div style={{ marginTop: 8, fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .6 }}>leads / month</div></div>
+          <div style={{ display: 'flex', alignItems: 'flex-end', gap: 14, height: 120 }}>
+            {[.66, 1, .84].map((h, i) => <div key={i} style={{ width: 48, height: seen ? `${h * 100}%` : 0, background: '#FFF', transition: `height 1s cubic-bezier(.2,.8,.2,1) ${300 + i * 120}ms` }} />)}
+          </div>
+        </div>
+      </WindowFrame>
+    </section>
+  );
+};
+
+/* 08 · Marquee */
+const Marquee = () => {
+  const [ref, seen] = useReveal(.2);
+  const items = ['SEO', 'Content', 'Web dev', 'Paid search', 'Paid social', 'Email', 'Analytics', 'Hosting', 'Reporting'];
+  const list = [...items, ...items];
+  return (
+    <section ref={ref} style={{ background: '#000', color: '#FFF', borderTop: '1px solid #FFF', borderBottom: '1px solid #FFF', padding: '46px 0', overflow: 'hidden' }}>
+      <div style={{ display: 'flex', gap: 72, whiteSpace: 'nowrap', width: 'max-content', animation: seen ? 'marqueeFwd 30s linear infinite' : 'none', fontFamily: 'Geist', fontSize: 'clamp(30px, 4vw, 56px)', fontWeight: 500, letterSpacing: '-.02em' }}>
+        {list.map((it, i) => <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: 72 }}>{it}<span style={{ fontFamily: 'Geist Mono', opacity: .4 }}>01_{i + 1}</span></span>)}
+      </div>
+    </section>
+  );
+};
+
+/* 09 · Big number — scrubbed */
+const BigNumber = () => {
+  const numRef = useRef(null);
+  const [ref] = useReveal(.2);
+  useEffect(() => {
+    const el = numRef.current;
+    if (!el) return;
+    let raf = 0;
+    const measure = () => {
+      raf = 0;
+      const r = el.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const pr = Math.max(0, Math.min(1, (vh - r.top) / (vh * 0.9)));
+      el.style.transform = `scale(${0.7 + pr * 0.35})`;
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(measure); };
+    measure();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => { window.removeEventListener('scroll', onScroll); if (raf) cancelAnimationFrame(raf); };
+  }, []);
+  return (
+    <section ref={ref} style={{ background: '#000', color: '#FFF', padding: '140px 6vw', borderTop: '1px solid #FFF', textAlign: 'center', overflow: 'hidden' }}>
+      <div style={{ fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .6 }}>$ wlr stats --all-time</div>
+      <div ref={numRef} style={{ fontFamily: 'Geist', fontSize: 'clamp(200px, 30vw, 480px)', fontWeight: 500, letterSpacing: '-.06em', lineHeight: .95, willChange: 'transform' }}>6.7×</div>
+      <div style={{ fontFamily: 'Geist Mono', fontSize: 13, letterSpacing: '.2em', textTransform: 'uppercase' }}>more leads in eighteen months</div>
+      <p style={{ margin: '20px auto 0', maxWidth: 520, fontSize: 15, lineHeight: 1.6, opacity: .7 }}>Across our partner accounts: 100M+ words published, 25,000+ completed projects.</p>
+    </section>
+  );
+};
+
+/* 10 · Close — command steps */
+const Close = () => {
+  const [ref, seen] = useReveal(.15);
+  const steps = [['SELL', 'You win the client'], ['SCOPE', 'We write the SOW'], ['SHIP', 'Our bench produces'], ['SCALE', 'You keep the margin']];
+  return (
+    <section ref={ref} style={{ background: '#000', color: '#FFF', padding: '120px 6vw 90px', borderTop: '1px solid #FFF' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 24, marginBottom: 44, opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(24px)', transition: 'opacity .8s ease, transform .8s cubic-bezier(.2,.8,.2,1)' }}>
+        <div><div style={{ fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .6, marginBottom: 16 }}>workflow / 4 steps</div><h2 style={{ margin: 0, fontFamily: 'Geist', fontSize: 'clamp(44px,6.4vw,104px)', fontWeight: 500, letterSpacing: '-.04em', lineHeight: 1.06 }}>Four steps,<br /><i>then it just runs.</i></h2></div>
+        <p style={{ margin: 0, maxWidth: 380, fontSize: 15, lineHeight: 1.6, opacity: .7 }}>Most partners start with one client and one discipline. Within a quarter they have moved their whole roster onto the bench.</p>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
+        {steps.map(([w, sub], i) => {
+          const inv = i % 2 === 1;
+          return (
+            <div key={w} style={{ background: inv ? '#FFF' : 'transparent', color: inv ? '#000' : '#FFF', border: '1px solid ' + (inv ? 'transparent' : '#FFF'), padding: 26, minHeight: 230, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(24px)', transition: `opacity .5s ease ${i * 120 + 200}ms, transform .6s cubic-bezier(.2,.8,.2,1) ${i * 120 + 200}ms` }}>
+              <div style={{ fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '.2em', opacity: .6 }}>$ {i + 1}</div>
+              <div><div style={{ fontFamily: 'Geist', fontSize: 'clamp(34px,4.6vw,72px)', fontWeight: 500, letterSpacing: '-.05em', lineHeight: 1 }}>{w}</div><div style={{ marginTop: 10, fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .6 }}>{sub}</div></div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+};
+
+const Home = () => (
+  <React.Fragment>
+    <Hero />
+    <SellDeliver />
+    <Services />
+    <Positioning />
+    <Results />
+    <Process />
+    <BeforeAfter />
+    <Marquee />
+    <BigNumber />
+    <Close />
+    <CTA />
+  </React.Fragment>
+);
+
+/* ════════════ WORK ════════════ */
+const PROJECTS = [
+  ['MPS Group', 'Product + Dashboard + Dev'],
+  ['Guild Golf Carts', 'SEO + PPC + Web Design'],
+  ['Annuity Rate Info', 'Web + Content + SEO'],
+  ['Wooden Wood Works', 'Design + Dev + SEO'],
+  ['FlatBid Moving', 'Design + Dev + Marketing'],
+  ['Intel', 'Product + AI + Dev'],
+  ['Texas Backyard Structures', 'Design + Dev + SEO'],
+  ['Unemployment Society', 'SEO + Content + Migration'],
+];
+
+const WorkHero = () => {
+  const [ref, seen] = useReveal(0.15);
+  return (
+    <section ref={ref} style={{ minHeight: '86vh', background: '#000', color: '#FFF', padding: '150px 6vw 80px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(24px)', transition: 'opacity .9s ease, transform .9s cubic-bezier(.2,.8,.2,1)' }}>
+      <div style={{ fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .6, marginBottom: 16 }}>$ ls ./work --shipped</div>
+      <h1 style={{ margin: 0, fontFamily: 'Geist', fontSize: 'clamp(52px, 8.5vw, 148px)', fontWeight: 500, letterSpacing: '-0.045em', lineHeight: 0.9 }}>Shipped work,<br /><i>under your brand.</i></h1>
+      <p style={{ marginTop: 32, maxWidth: 520, fontSize: 15, lineHeight: 1.65, opacity: .7 }}>White-label production for agencies — documents and builds delivered under client and partner brands. No logos. No credit. Just results.</p>
+    </section>
+  );
+};
+
+const CARD_W = 380, CARD_GAP = 16;
+const ProjectCard = ({ p, i, seen }) => (
+  <div style={{ width: CARD_W, flexShrink: 0, aspectRatio: '3 / 4', background: i % 2 === 1 ? '#FFF' : '#000', color: i % 2 === 1 ? '#000' : '#FFF', border: '1px solid #000', padding: 26, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(20px)', transition: 'all .55s ease ' + (i * 100) + 'ms' }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '.2em', opacity: .6 }}><span>/{String(i + 1).padStart(2, '0')}</span><ThreeBar size={16} color="currentColor" /></div>
+    <div><div style={{ fontFamily: 'Geist', fontSize: 'clamp(24px, 3vw, 44px)', fontWeight: 500, letterSpacing: '-.05em', lineHeight: 1 }}>{p[0]}</div><div style={{ marginTop: 12, fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .6 }}>{p[1]}</div></div>
+  </div>
+);
+
+const HorizontalProjects = () => {
+  const sectionRef = useRef(null);
+  const cardsTrackRef = useRef(null);
+  const trackRef = useRef(null);
+  const headingRef = useRef(null);
+  const [seen, setSeen] = useState(false);
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    let raf = 0;
+    const measure = () => {
+      raf = 0;
+      const r = section.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const span = r.height - vh;
+      const p = span <= 0 ? 0 : Math.max(0, Math.min(1, -r.top / span));
+      if (!seen && r.top < vh * 0.7) setSeen(true);
+      const cardsP = Math.max(0, Math.min(1, p / 0.45));
+      const eased = 1 - Math.pow(1 - cardsP, 3);
+      const vw = window.innerWidth;
+      const maxTx = Math.max(0, (PROJECTS.length * CARD_W + (PROJECTS.length - 1) * CARD_GAP) - (vw * 0.88));
+      if (cardsTrackRef.current) cardsTrackRef.current.style.transform = `translateX(${-eased * maxTx}px)`;
+      const fade = Math.max(0, Math.min(1, (p - 0.38) / 0.14));
+      if (headingRef.current) headingRef.current.style.opacity = String(1 - fade);
+      const trackP = Math.max(0, Math.min(1, (p - 0.38) / 0.34));
+      const trackEased = 1 - Math.pow(1 - trackP, 3);
+      if (trackRef.current) trackRef.current.style.transform = `translateX(${-trackEased * 100}vw)`;
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(measure); };
+    measure();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', measure);
+    return () => { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', measure); if (raf) cancelAnimationFrame(raf); };
+  }, [seen]);
+  return (
+    <section ref={sectionRef} style={{ height: '380vh', position: 'relative' }}>
+      <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden' }}>
+        <div ref={trackRef} style={{ display: 'flex', width: '200vw', height: '100vh', willChange: 'transform' }}>
+          <div style={{ width: '100vw', height: '100vh', position: 'relative', background: '#FFF', color: '#000', display: 'flex', flexDirection: 'column', justifyContent: 'center', flexShrink: 0, overflow: 'hidden' }}>
+            <div ref={headingRef} style={{ padding: '0 6vw', marginBottom: 44, opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(28px)', transition: 'opacity .8s cubic-bezier(.2,.8,.2,1), transform .8s cubic-bezier(.2,.8,.2,1)' }}>
+              <div style={{ fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .5, marginBottom: 12 }}>$ ls ./clients</div>
+              <h2 style={{ margin: 0, fontFamily: 'Geist', fontSize: 'clamp(36px, 5vw, 72px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1 }}>Our clients.</h2>
+            </div>
+            <div ref={cardsTrackRef} style={{ display: 'flex', gap: CARD_GAP, paddingLeft: '6vw', alignItems: 'stretch', willChange: 'transform' }}>
+              {PROJECTS.map((p, i) => <ProjectCard key={i} p={p} i={i} seen={seen} />)}
+            </div>
+          </div>
+          <div id="case-studies" style={{ width: '100vw', height: '100vh', background: '#000', color: '#FFF', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .6, marginBottom: 14 }}>$ cat case-studies</div>
+              <h2 style={{ margin: 0, fontFamily: 'Geist', fontSize: 'clamp(64px, 10vw, 180px)', fontWeight: 600, letterSpacing: '-.045em', lineHeight: 0.92 }}>Case <span style={{ background: '#FFF', color: '#000', padding: '0 20px', display: 'inline-block', fontStyle: 'italic', fontWeight: 300 }}>studies.</span></h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const CaseStudy = ({ kick, num, stat, sub, blocks }) => {
+  const [ref, seen] = useReveal(0.15);
+  return (
+    <section ref={ref} style={{ background: '#000', color: '#FFF', padding: '110px 6vw 90px', borderTop: '1px solid #FFF' }}>
+      <div style={{ marginBottom: 56, opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(28px)', transition: 'opacity .8s ease, transform .8s cubic-bezier(.2,.8,.2,1)' }}>
+        <div style={{ fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .6, marginBottom: 14 }}>{kick}</div>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 14 }}>
+          <div style={{ fontFamily: 'Geist', fontSize: 'clamp(80px, 12vw, 200px)', fontWeight: 500, letterSpacing: '-.05em', lineHeight: 0.9 }}>{num}</div>
+          <div style={{ fontFamily: 'Geist', fontSize: 'clamp(22px, 3vw, 40px)', fontWeight: 300, opacity: .6 }}>{stat}</div>
+        </div>
+        <div style={{ marginTop: 14, fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .6 }}>{sub}</div>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', border: '1px solid rgba(255,255,255,.3)', opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(16px)', transition: 'opacity .8s ease .3s, transform .8s cubic-bezier(.2,.8,.2,1) .3s' }}>
+        {blocks.map(([t, b], i) => (
+          <div key={t} style={{ padding: 30, borderRight: i < 2 ? '1px solid rgba(255,255,255,.3)' : 'none', background: i === 2 ? '#FFF' : 'transparent', color: i === 2 ? '#000' : '#FFF' }}>
+            <div style={{ fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', opacity: 0.6, marginBottom: 14 }}>0{i + 1} · {t}</div>
+            <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.6, opacity: 0.85 }}>{b}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+const Work = () => (
+  <React.Fragment>
+    <WorkHero />
+    <HorizontalProjects />
+    <CaseStudy kick="case study / guild golf carts / 2024–present" num="444" stat="monthly leads" sub="retail · five locations · seo+ppc+gmb+wordpress" blocks={[
+      ['Challenge', 'A five-location golf cart dealer with strong showrooms and almost no digital footprint — 66 leads a month at the start of 2024.'],
+      ['Approach', 'Full WordPress rebuild, geo-targeted paid search across five cities, an 80+/mo local citation engine, GMB operations, and CallRail tracking on every line.'],
+      ['Result', 'A 6.7x lift to the all-time peak of 444 leads in June 2025. Portland GMB doubled year over year.'],
+    ]} />
+    <CaseStudy kick="case study / mps group / 2025" num="14" stat="days" sub="waste management · product + dashboard + dev" blocks={[
+      ['Challenge', 'A waste management company running operations on spreadsheets and phone calls — no centralised system, no real-time visibility.'],
+      ['Approach', 'Rapid prototyping sprints, stakeholder interviews every 48 hours, and a component-based architecture built for iteration.'],
+      ['Result', 'Production dashboard in 14 days. Fleet scheduling efficiency up 40%. Three stakeholder views with real-time data.'],
+    ]} />
+    <CaseStudy kick="case study / flatbid moving / 2024" num="10" stat="ppc ad groups" sub="movers · san diego only · exclusivity" blocks={[
+      ['Challenge', 'A premium mover with a commodity look. The customisation story — and the margin — was buried in a template site.'],
+      ['Approach', 'Complete redesign built around the customisation story, then a disciplined paid + organic system capped to one exclusive territory.'],
+      ['Result', '1,000 SEO articles published, a 60-day redesign, and Flat Bid owns paid search for movers in San Diego county.'],
+    ]} />
+    <CTA />
+  </React.Fragment>
+);
+
+/* ════════════ ABOUT ════════════ */
+const AboutHero = () => {
+  const [ref, seen] = useReveal(0.15);
+  const [hover, setHover] = useState(false);
+  return (
+    <section ref={ref} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} style={{ minHeight: '88vh', background: hover ? '#FFF' : '#000', color: hover ? '#000' : '#FFF', transition: 'background .55s ease, color .55s ease', padding: '150px 6vw 80px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+      <div style={{ fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .6, marginBottom: 16 }}>$ wlr about --bench</div>
+      <h1 style={{ margin: 0, fontFamily: 'Geist', fontSize: 'clamp(52px, 8.5vw, 148px)', fontWeight: 500, letterSpacing: '-0.045em', lineHeight: 0.9 }}>The bench behind<br /><i>your agency.</i></h1>
+      <p style={{ marginTop: 32, maxWidth: 560, fontSize: 15, lineHeight: 1.65, opacity: .7 }}>Est. 2018. 20 specialists across four time zones producing SEO, content, web, paid media and analytics — entirely under your brand, on your templates, to your deadlines.</p>
+    </section>
+  );
+};
+
+const AboutStory = () => {
+  const [ref, seen] = useReveal(0.2);
+  return (
+    <section ref={ref} style={{ background: '#FFF', color: '#000', padding: '120px 6vw', borderTop: '1px solid #000', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5vw' }}>
+      <div style={{ opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(24px)', transition: 'opacity .8s ease, transform .8s cubic-bezier(.2,.8,.2,1)' }}>
+        <div style={{ fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .5, marginBottom: 14 }}>the problem</div>
+        <h2 style={{ margin: 0, fontFamily: 'Geist', fontSize: 'clamp(30px, 4vw, 60px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1.05 }}>Agencies sell the strategy. Production is where projects die.</h2>
+      </div>
+      <div style={{ opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(24px)', transition: 'opacity .8s ease .15s, transform .8s cubic-bezier(.2,.8,.2,1) .15s' }}>
+        <p style={{ margin: 0, fontSize: 15.5, lineHeight: 1.7, opacity: .8 }}>We are the production bench behind agencies. You own the client, the pitch and the invoice; we run the work — on your templates, in your voice, to your deadlines. Most partners start with one client and one discipline, and within a quarter move their whole roster onto the bench.</p>
+        <p style={{ margin: '20px 0 0', fontSize: 15.5, lineHeight: 1.7, opacity: .8 }}>We have generated more than 100 million words of published content and helped agencies deliver over 25,000 completed projects.</p>
+      </div>
+    </section>
+  );
+};
+
+const AboutValues = () => {
+  const [ref, seen] = useReveal(0.2);
+  const values = [['no-credit.sh', 'Reports, decks and dashboards ship in your identity. Mutual NDAs as standard.'], ['capacity.sh', 'Add a discipline to your offering this month — no recruiting, no bench risk.'], ['results.sh', 'Every engagement measured in leads, rankings and revenue your client can see.'], ['speed.sh', 'A sprint review every 14 days. Signed to live in ninety days, standard.']];
+  return (
+    <section ref={ref} style={{ background: '#000', color: '#FFF', padding: '120px 6vw', borderTop: '1px solid #FFF' }}>
+      <div style={{ fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .6, marginBottom: 24 }}>$ wlr values</div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
+        {values.map(([t, b], i) => (
+          <div key={t} style={{ border: '1px solid rgba(255,255,255,.3)', padding: 28, minHeight: 180, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(22px)', transition: `opacity .5s ease ${i * 110}ms, transform .6s cubic-bezier(.2,.8,.2,1) ${i * 110}ms` }}>
+            <div style={{ fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.18em', opacity: .6 }}>{t}</div>
+            <div><div style={{ fontFamily: 'Geist', fontSize: 'clamp(22px,2.4vw,34px)', fontWeight: 500, letterSpacing: '-.02em', lineHeight: 1.1 }}>{b.split('.')[0]}.</div><p style={{ margin: '8px 0 0', fontSize: 14, lineHeight: 1.6, opacity: .7 }}>{b.split('.').slice(1).join('.')}</p></div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+const About = () => (
+  <React.Fragment>
+    <AboutHero />
+    <AboutStory />
+    <AboutValues />
+    <CTA />
+  </React.Fragment>
+);
+
+/* ════════════ TEAM ════════════ */
+const TEAM = [
+  ['Christian Clark', 'Founder'],
+  ['Himanshu Raikwar', 'Lead Digital Designer'],
+  ['Mohammad Muneeb', 'Lead SEO Specialist'],
+  ['Anil Raikwar', 'Analytics Engineer'],
+  ['Haider Ali', 'SEO Specialist'],
+  ['Brandon Carroll', 'Acquisition Specialist'],
+  ['Taofeek Abdulrauf', 'Cloud Engineer'],
+  ['Munir Nadayako', 'Web Developer'],
+  ['Mcjethro Kalu', 'Frontend Developer'],
+  ['Asad Ehsan', 'Administrator'],
+  ['Zubair Tayyib', 'Jr UI/UX Designer'],
+  ['Sochima Chukwu', 'Jr Web Developer'],
+  ['Nathaniel Duku', 'Jr Client Success Manager'],
+];
+
+const TeamHero = () => {
+  const [ref, seen] = useReveal(0.15);
+  const [hover, setHover] = useState(false);
+  return (
+    <section ref={ref} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} style={{ minHeight: '88vh', background: hover ? '#FFF' : '#000', color: hover ? '#000' : '#FFF', transition: 'background .55s ease, color .55s ease', padding: '150px 6vw 80px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+      <div style={{ fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .6, marginBottom: 16 }}>$ wlr team --roster</div>
+      <h1 style={{ margin: 0, fontFamily: 'Geist', fontSize: 'clamp(52px, 8.5vw, 148px)', fontWeight: 500, letterSpacing: '-0.045em', lineHeight: 0.9 }}>The people who<br /><i>never take credit.</i></h1>
+      <p style={{ marginTop: 32, maxWidth: 560, fontSize: 15, lineHeight: 1.65, opacity: .7 }}>Strategists, designers, engineers and writers working across four time zones — shipped entirely under your brand.</p>
+    </section>
+  );
+};
+
+const TeamGrid = () => {
+  const [ref, seen] = useReveal(0.1);
+  return (
+    <section ref={ref} style={{ background: '#000', color: '#FFF', padding: '120px 6vw', borderTop: '1px solid #FFF' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 24, marginBottom: 48 }}>
+        <div><div style={{ fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .6, marginBottom: 14 }}>$ wlr roster --active</div><h2 style={{ margin: 0, fontFamily: 'Geist', fontSize: 'clamp(36px,5vw,76px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1 }}>The full bench.</h2></div>
+        <p style={{ margin: 0, maxWidth: 360, fontSize: 14.5, lineHeight: 1.6, opacity: .65 }}>No logos on the work, no bylines on the deliverables. Every project ships under your brand — the names stay here.</p>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
+        {TEAM.map((m, i) => {
+          const inv = i % 2 === 1;
+          return (
+            <div key={m[0]} style={{ border: '1px solid rgba(255,255,255,.3)', display: 'flex', flexDirection: 'column', opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(22px)', transition: `opacity .5s ease ${(i % 4) * 90}ms, transform .6s cubic-bezier(.2,.8,.2,1) ${(i % 4) * 90}ms` }}>
+              <div style={{ aspectRatio: '1 / 1', display: 'grid', placeItems: 'center', background: inv ? '#FFF' : '#000', borderBottom: '1px solid rgba(255,255,255,.3)' }}>
+                <ThreeBar size={40} color={inv ? '#000' : '#FFF'} gap={4} />
+              </div>
+              <div style={{ padding: 18 }}>
+                <div style={{ fontFamily: 'Geist', fontSize: 'clamp(16px,1.3vw,21px)', fontWeight: 500, letterSpacing: '-.015em', lineHeight: 1.15 }}>{m[0]}</div>
+                <div style={{ marginTop: 6, fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '.16em', textTransform: 'uppercase', opacity: .55 }}>{m[1]}</div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+};
+
+const Team = () => (
+  <React.Fragment>
+    <TeamHero />
+    <TeamGrid />
+    <CTA />
+  </React.Fragment>
+);
+
+/* ════════════ CTA + QUOTE + FOOTER ════════════ */
+const CTA = () => {
+  const [ref, seen] = useReveal(0.2);
+  return (
+    <section ref={ref} style={{ background: '#000', color: '#FFF', borderTop: '1px solid #FFF', padding: 'clamp(80px, 10vw, 140px) 6vw', textAlign: 'center', opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(24px)', transition: 'opacity .9s ease, transform .9s cubic-bezier(.2,.8,.2,1)' }}>
+      <div style={{ fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .6, marginBottom: 24 }}>$ wlr --next-step</div>
+      <h2 style={{ margin: 0, fontFamily: 'Geist', fontSize: 'clamp(44px, 6.5vw, 100px)', fontWeight: 500, letterSpacing: '-0.04em', lineHeight: 0.9 }}>Ready to build<br />under your brand?</h2>
+      <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{ marginTop: 40, display: 'inline-flex', alignItems: 'center', gap: 12, padding: '18px 26px', background: '#FFF', color: '#000', cursor: 'pointer', fontFamily: 'Geist Mono', fontSize: 13, letterSpacing: '.18em', textTransform: 'uppercase', textDecoration: 'none' }}>$ quote --now</a>
+    </section>
+  );
+};
+
+const QuoteModal = () => {
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    window.openQuoteModal = () => setOpen(true);
+    window.closeQuoteModal = () => setOpen(false);
+    const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => { delete window.openQuoteModal; delete window.closeQuoteModal; window.removeEventListener('keydown', onKey); };
+  }, []);
+  if (!open) return null;
+  return (
+    <div style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div onClick={() => setOpen(false)} style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,.6)' }} />
+      <div style={{ position: 'relative', width: '90vw', maxWidth: 640, maxHeight: '90vh', overflow: 'auto' }}>
+        <button onClick={() => setOpen(false)} style={{ position: 'fixed', top: 20, right: 24, zIndex: 2, background: '#FFF', border: 'none', color: '#000', cursor: 'pointer', fontFamily: 'Geist Mono', fontSize: 14, lineHeight: 1, padding: '8px 12px' }}>ESC ✕</button>
+        <iframe src="quote-v1.html" title="Get a Quote" style={{ width: '100%', height: '85vh', border: 'none' }} />
+      </div>
+    </div>
+  );
+};
+
+const Footer = () => (
+  <footer style={{ background: '#000', color: '#FFF', borderTop: '1px solid #FFF', padding: '40px 6vw 30px' }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 24 }}>
+      <div>
+        <ThreeBar size={20} color="#FFF" gap={3} />
+        <div style={{ marginTop: 12, fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '.2em', textTransform: 'uppercase', opacity: .5 }}>© 2026 White Label Resell · est. 2018</div>
+      </div>
+      <div style={{ display: 'flex', gap: 22, flexWrap: 'wrap', fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '.18em', textTransform: 'uppercase' }}>
+        {[['Work','work'],['About','about'],['Team','team']].map(([l, v]) => <a key={v} href="#" onClick={(e) => { e.preventDefault(); navigateTo(v); }} style={{ textDecoration: 'none', opacity: .75 }}>{l}</a>)}
+        <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{ textDecoration: 'none', opacity: .75, cursor: 'pointer' }}>Get a Quote</a>
+        <a href="mailto:partners@whitelabelresell.com" style={{ textDecoration: 'none', opacity: .75 }}>partners@whitelabelresell.com</a>
+      </div>
+    </div>
+  </footer>
+);
+
+const App = () => {
+  const [view, setView] = useState('home');
+  useEffect(() => {
+    const onNav = (e) => setView(e.detail);
+    window.addEventListener('wlr-nav', onNav);
+    return () => window.removeEventListener('wlr-nav', onNav);
+  }, []);
+  return (
+    <React.Fragment>
+      <QuoteModal />
+      <HUD view={view} />
+      {view === 'home' && <Home />}
+      {view === 'work' && <Work />}
+      {view === 'about' && <About />}
+      {view === 'team' && <Team />}
+      <Footer />
+    </React.Fragment>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

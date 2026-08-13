@@ -129,17 +129,14 @@ const Kick = ({ children, style = {} }) => (
   }}>{children}</div>
 );
 
-/* ═══ 01 · HERO — hover inverts the whole frame ═══ */
+/* ═══ 01 · HERO — white, no inversion ═══ */
 const Hero = () => {
-  const [hover, setHover] = useState(false);
   const [lit, setLit] = useState(false);
   useEffect(() => { const t = setTimeout(() => setLit(true), 60); return () => clearTimeout(t); }, []);
   return (
     <section
-      onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
       style={{
-        minHeight: '100vh', background: hover ? '#FFF' : '#000', color: hover ? '#000' : '#FFF',
-        transition: 'background .6s cubic-bezier(.2,.8,.2,1), color .6s',
+        minHeight: '100vh', background: '#FFF', color: '#000',
         display: 'grid', gridTemplateColumns: '1fr 1fr', alignItems: 'center',
         padding: '140px 6vw 80px', gap: '4vw',
       }}>
@@ -147,7 +144,7 @@ const Hero = () => {
         {[0.7, 1, 0.85].map((h, i) => (
           <div key={i} style={{
             width: 'clamp(70px, 9vw, 140px)',
-            height: lit ? `${h * (hover ? 100 : 92)}%` : '0%',
+            height: lit ? `${h * 100}%` : '0%',
             background: 'currentColor',
             transition: `height .9s cubic-bezier(.2,.8,.2,1) ${i * 90}ms`,
           }} />
@@ -160,8 +157,10 @@ const Hero = () => {
           fontSize: 'clamp(48px, 6.6vw, 112px)',
           fontWeight: 500, letterSpacing: '-.04em', lineHeight: 1.04,
         }}>
-          Your clients see you.<br />
-          <i style={{ fontWeight: 300 }}>We do the work.</i>
+          We Build<br />
+          What Moves<br />
+          <i style={{ fontWeight: 300 }}>Business</i><br />
+          <i style={{ fontWeight: 300 }}>Forward</i>
         </h1>
         <p style={{
           margin: '32px 0 0', maxWidth: 480,
@@ -177,8 +176,8 @@ const Hero = () => {
             fontFamily: 'Geist Mono', fontSize: 12, letterSpacing: '.22em',
             textTransform: 'uppercase', fontWeight: 600, cursor: 'pointer',
           }}>
-            <span style={{ color: hover ? '#FFF' : '#000', display: 'inline-flex', alignItems: 'center', gap: 12 }}>
-              <ThreeBar size={12} color={hover ? '#FFF' : '#000'} />Get a quote
+            <span style={{ color: '#FFF', display: 'inline-flex', alignItems: 'center', gap: 12 }}>
+              <ThreeBar size={12} color="#FFF" />Get a quote
             </span>
           </a>
           <a href="work-variations/work-v6.html" style={{
@@ -252,16 +251,21 @@ const SellDeliver = () => {
           sdStageRef.current.style.color = flip ? '#000000' : '#FFFFFF';
         }
         if (sdHeadingRef.current) {
-          sdHeadingRef.current.style.transition = 'opacity .25s ease, transform .25s ease';
-          sdHeadingRef.current.style.opacity = '0';
-          sdHeadingRef.current.style.transform = 'scale(0.95) translateY(-12px)';
+          const el = sdHeadingRef.current;
+          el.style.transition = 'transform .18s ease-in, opacity .14s ease-in';
+          el.style.transform = 'translateY(-24px) scale(0.97)';
+          el.style.opacity = '0';
           setTimeout(() => {
-            if (sdHeadingRef.current) {
-              sdHeadingRef.current.textContent = flip ? 'We deliver.' : 'You sell.';
-              sdHeadingRef.current.style.opacity = '1';
-              sdHeadingRef.current.style.transform = 'scale(1) translateY(0)';
-            }
-          }, 260);
+            if (!el) return;
+            el.textContent = flip ? 'We deliver.' : 'You sell.';
+            el.style.transition = 'none';
+            el.style.transform = 'translateY(24px) scale(0.97)';
+            el.style.opacity = '0';
+            void el.offsetHeight;
+            el.style.transition = 'transform .18s ease-out, opacity .14s ease-out';
+            el.style.transform = 'translateY(0) scale(1)';
+            el.style.opacity = '1';
+          }, 180);
         }
       }
       const pct = String(Math.round(sdP * 100)).padStart(3, '0') + '%';
@@ -331,7 +335,7 @@ const SellDeliver = () => {
               {[0, 1, 2].map(i => (
                 <div key={i} ref={barRefs[i]} style={{
                   position: 'absolute', left: 0, right: 0,
-                  top: `${19 + i * 23}%`, height: '13%',
+                  top: `${10 + i * 26}%`, height: '24%',
                   backgroundColor: '#FFF',
                   transformOrigin: 'left center',
                   transform: 'scaleX(0)',

@@ -252,16 +252,21 @@ const SellDeliver = () => {
           sdStageRef.current.style.color = flip ? '#000000' : '#FFFFFF';
         }
         if (sdHeadingRef.current) {
-          sdHeadingRef.current.style.transition = 'opacity .25s ease, transform .25s ease';
-          sdHeadingRef.current.style.opacity = '0';
-          sdHeadingRef.current.style.transform = 'scale(0.95) translateY(-12px)';
+          const el = sdHeadingRef.current;
+          el.style.transition = 'transform .18s ease-in, opacity .14s ease-in';
+          el.style.transform = 'translateY(-24px) scale(0.97)';
+          el.style.opacity = '0';
           setTimeout(() => {
-            if (sdHeadingRef.current) {
-              sdHeadingRef.current.textContent = flip ? 'We deliver.' : 'You sell.';
-              sdHeadingRef.current.style.opacity = '1';
-              sdHeadingRef.current.style.transform = 'scale(1) translateY(0)';
-            }
-          }, 260);
+            if (!el) return;
+            el.textContent = flip ? 'We deliver.' : 'You sell.';
+            el.style.transition = 'none';
+            el.style.transform = 'translateY(24px) scale(0.97)';
+            el.style.opacity = '0';
+            void el.offsetHeight;
+            el.style.transition = 'transform .18s ease-out, opacity .14s ease-out';
+            el.style.transform = 'translateY(0) scale(1)';
+            el.style.opacity = '1';
+          }, 180);
         }
       }
       const pct = String(Math.round(sdP * 100)).padStart(3, '0') + '%';
@@ -331,7 +336,7 @@ const SellDeliver = () => {
               {[0, 1, 2].map(i => (
                 <div key={i} ref={barRefs[i]} style={{
                   position: 'absolute', left: 0, right: 0,
-                  top: `${19 + i * 23}%`, height: '13%',
+                  top: `${10 + i * 26}%`, height: '24%',
                   backgroundColor: '#FFF',
                   transformOrigin: 'left center',
                   transform: 'scaleX(0)',
