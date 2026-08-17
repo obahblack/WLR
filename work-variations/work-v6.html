@@ -335,13 +335,32 @@ const HorizontalProjects = () => {
 };
 
 const GaltCase = () => {
-  const [ref, seen] = useReveal(0.15);
+  const ref = useRef(null);
+  const [seen, setSeen] = useState(false);
   const data = [66,147,140,156,193,210,227,198,213,193,133,138,
                 197,215,315,337,367,444,427,395,320,254,203,149,
                 202,224,274];
   const max = 460;
   const peak = data.indexOf(444);
   const pulseBars = new Set([3, 8, 14, 19, 24]);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setSeen(true);
+        } else {
+          // Reset when section scrolls out of view
+          setSeen(false);
+        }
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -12% 0px' }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   return (
     <section ref={ref} style={{

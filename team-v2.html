@@ -28,7 +28,7 @@
   .gate-half.right { right: -50%; }
   @media (max-width: 1024px) { .team-row { grid-template-columns: repeat(2, 1fr) !important; } .cta2 { grid-template-columns: 1fr !important; } }
   @media (max-width: 640px) { .team-row { grid-template-columns: 1fr !important; } }
-  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition-duration: .01ms !important; } }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
 </style>
 </head>
 <body>
@@ -126,20 +126,22 @@ const Footer = () =>
     )
   );
 
-const team = [
-  { name: "Christian Clark", role: "Founder", image: "https://whitelabelresell.com/wp-content/uploads/2025/01/1697726084291.jpeg", linkedin: "https://www.linkedin.com/in/christian-clark-9a352b179/", alt: "Christian Clark — Founder", width: 562, height: 562 },
-  { name: "Himanshu Raikwar", role: "Lead Digital Designer", image: "https://whitelabelresell.com/wp-content/uploads/2025/01/Himanshu-Raikwar-1024x1024.png", linkedin: "https://www.linkedin.com/in/himanshuraikwar/", alt: "Himanshu Raikwar — Lead Digital Designer", width: 1024, height: 1024 },
-  { name: "Mohammad Muneeb", role: "Lead SEO Specialist", image: "https://whitelabelresell.com/wp-content/uploads/2025/01/Mohammad-Muneeb-1024x1024.png", linkedin: "https://www.linkedin.com/in/mohammad-muneeb-204418215/", alt: "Mohammad Muneeb — Lead SEO Specialist", width: 1024, height: 1024 },
-  { name: "Anil Raikwar", role: "Analytics Engineer", image: "https://whitelabelresell.com/wp-content/uploads/2025/01/Anil-Raikwar.png", linkedin: "https://www.linkedin.com/in/anil-raikwar/", alt: "Anil Raikwar — Analytics Engineer", width: 651, height: 649 },
-  { name: "Haider Ali", role: "SEO Specialist", image: "https://whitelabelresell.com/wp-content/uploads/elementor/thumbs/Haider-Ali-rqg7xs8a0bnqe844b332hjurrpz1a11ezafcq7nbb4.png", linkedin: "https://www.linkedin.com/in/haider-naeem-888378249/", alt: "Haider Ali — SEO Specialist", width: 1024, height: 1024 },
-  { name: "Brandon Carroll", role: "Acquisition Specialist", image: "https://whitelabelresell.com/wp-content/uploads/elementor/thumbs/Brandon-Carroll-rqg7xs8a0bnqe844b332hjurrpz1a11ezafcq7nbb4.png", linkedin: null, alt: "Brandon Carroll — Acquisition Specialist", width: 1024, height: 1024 },
-  { name: "Taofeek Abdulrauf", role: "Cloud Engineer", image: "https://whitelabelresell.com/wp-content/uploads/2025/01/Taofeek-Abdulrauf-1024x1024.png", linkedin: "https://www.linkedin.com/in/taofeek-abdulrauf-a95815226/", alt: "Taofeek Abdulrauf — Cloud Engineer", width: 1024, height: 1024 },
-  { name: "Munir Nadayako", role: "Web Developer", image: "https://whitelabelresell.com/wp-content/uploads/2025/01/Munir-Nadayako-1024x1022.png", linkedin: null, alt: "Munir Nadayako — Web Developer", width: 1024, height: 1022 },
-  { name: "Mcjethro Kalu", role: "Frontend Developer", image: "https://whitelabelresell.com/wp-content/uploads/2025/01/Mcjethro-Kalu-1.png", linkedin: "https://www.linkedin.com/in/mcjethro-kalu-96270a237/", alt: "Mcjethro Kalu — Frontend Developer", width: 732, height: 733 },
-  { name: "Asad Ehsan", role: "Administrator", image: "https://whitelabelresell.com/wp-content/uploads/2025/01/Asad-Ehsan-1021x1024.png", linkedin: null, alt: "Asad Ehsan — Administrator", width: 1021, height: 1024 },
-  { name: "Zubair Tayyib", role: "Jr UI/UX Designer", image: "https://whitelabelresell.com/wp-content/uploads/2025/01/Zubair-Muhammad-Tayyib.png", linkedin: null, alt: "Zubair Tayyib — Jr UI/UX Designer", width: 528, height: 530 },
-  { name: "Sochima Chukwu", role: "Jr Web Developer", image: "https://whitelabelresell.com/wp-content/uploads/2025/01/Sochi-1024x1016.png", linkedin: "https://www.linkedin.com/in/sochukwuma-chukwu/", alt: "Sochima Chukwu — Jr Web Developer", width: 1024, height: 1016 },
-  { name: "Nathaniel Duku", role: "Jr Client Success Manager", image: "https://whitelabelresell.com/wp-content/uploads/2025/01/Nathaniel-Abiodun-Duku-1019x1024.png", linkedin: null, alt: "Nathaniel Duku — Jr Client Success Manager", width: 1019, height: 1024 },
+const teamLeadership = [
+  { name: "Christian Clark", role: "Founder", image: "https://i.ibb.co/R4dPk0Yt/Chris.png", linkedin: "https://www.linkedin.com/in/christian-clark-9a352b179/", alt: "Christian Clark — Founder" },
+  { name: "Himanshu Raikwar", role: "Lead Digital Designer", image: "https://i.ibb.co/Cs5FVpMF/Himanshu.png", linkedin: "https://www.linkedin.com/in/himanshuraikwar/", alt: "Himanshu Raikwar — Lead Digital Designer" },
+  { name: "Mohammad Muneeb", role: "Lead SEO Specialist", image: "https://i.ibb.co/4nb0YZyt/Muneeb.png", linkedin: "https://www.linkedin.com/in/mohammad-muneeb-204418215/", alt: "Mohammad Muneeb — Lead SEO Specialist" },
+];
+
+const teamMembers = [
+  { name: "Brandon Carroll", role: "Acquisition Specialist", image: "https://i.ibb.co/nsg9546q/Brandon.png", linkedin: null, alt: "Brandon Carroll — Acquisition Specialist" },
+  { name: "Anil Raikwar", role: "Analytics Engineer", image: "https://i.ibb.co/fVQNxcsM/Anil.png", linkedin: "https://www.linkedin.com/in/anil-raikwar/", alt: "Anil Raikwar — Analytics Engineer" },
+  { name: "Haider Ali", role: "SEO Specialist", image: "https://i.ibb.co/HLbFdjQq/Haider.png", linkedin: "https://www.linkedin.com/in/haider-naeem-888378249/", alt: "Haider Ali — SEO Specialist" },
+  { name: "Mcjethro Kalu", role: "Frontend Developer", image: "https://i.ibb.co/LzXjyzLS/Kalu.png", linkedin: "https://www.linkedin.com/in/mcjethro-kalu-96270a237/", alt: "Mcjethro Kalu — Frontend Developer" },
+  { name: "Munir Nadayako", role: "Web Developer", image: "https://i.ibb.co/p6WfNz6v/Munir.png", linkedin: null, alt: "Munir Nadayako — Web Developer" },
+  { name: "Toufeek Abdulrauf", role: "Cloud Engineer", image: "https://i.ibb.co/DH6K17mv/Tofe.png", linkedin: "https://www.linkedin.com/in/taofeek-abdulrauf-a95815226/", alt: "Toufeek Abdulrauf — Cloud Engineer" },
+  { name: "Zubair", role: "UI/UX Designer", image: "https://i.ibb.co/Kp2yGDTs/Zub.png", linkedin: null, alt: "Zubair — UI/UX Designer" },
+  { name: "Nathaniel Duku", role: "Client Success Manager", image: "https://i.ibb.co/tp708Qyc/Nath.png", linkedin: null, alt: "Nathaniel Duku — Client Success Manager" },
+  { name: "Asad Ehsan", role: "Administrator", image: "https://i.ibb.co/TBC8yFpq/Asad.png", linkedin: null, alt: "Asad Ehsan — Administrator" },
 ];
 
 /* HERO — text left, brand mark right, black with hover inversion */
@@ -160,11 +162,10 @@ const Hero = ({ kick, heading, sub }) => {
   useEffect(() => {
     const sec = ref.current;
     if (!sec || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     gsap.registerPlugin(ScrollTrigger);
     const target = document.querySelector('.cardsec');
     if (!target) return;
-    const apply = (self) => setInv(self.progress > 0.5);
+    const apply = (self) => setInv(self.progress > 0.75);
     const st = ScrollTrigger.create({ trigger: target, start: 'top 60%', end: 'top 45%', onUpdate: apply, onRefresh: apply });
     return () => st.kill();
   }, []);
@@ -192,7 +193,7 @@ const Hero = ({ kick, heading, sub }) => {
 const Card = ({ member }) =>
   h('div', { className: 'team-card', style: { background: '#000', color: '#FFF', display: 'flex', flexDirection: 'column' } },
     h('div', { style: { overflow: 'hidden', aspectRatio: '1 / 1', background: '#111' } },
-      h('img', { src: member.image, alt: member.alt, width: member.width, height: member.height, loading: 'lazy', style: { width: '100%', height: '100%', objectFit: 'cover', display: 'block', filter: 'grayscale(100%) contrast(1.05)' } })
+      h('img', { src: member.image, alt: member.alt, loading: 'lazy', style: { width: '100%', height: '100%', objectFit: 'cover', display: 'block', filter: 'grayscale(100%) contrast(1.05)' } })
     ),
     h('div', { style: { padding: 18 } },
       h('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12 } },
@@ -203,8 +204,17 @@ const Card = ({ member }) =>
     )
   );
 
-const ROWS = [];
-for (let i = 0; i < team.length; i += 4) ROWS.push(team.slice(i, i + 4));
+const SectionHeading = ({ children }) =>
+  h('div', { style: { marginBottom: 32 } },
+    h('h2', { style: { margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(28px, 3vw, 44px)', fontWeight: 600, letterSpacing: '-0.03em', lineHeight: 1.1 } }, children),
+    h('div', { style: { marginTop: 12, height: 2, width: 48, background: '#000' } })
+  );
+
+const makeRows = (arr) => {
+  const rows = [];
+  for (let i = 0; i < arr.length; i += 4) rows.push(arr.slice(i, i + 4));
+  return rows;
+};
 
 /* Gate: two black halves that seal the section, each carrying its own copy of
    the centered brand mark so the logo splits cleanly down the middle when the
@@ -231,7 +241,6 @@ const Cards = () => {
     const sec = secRef.current;
     if (!sec) return;
     if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     gsap.registerPlugin(ScrollTrigger);
 
     const left = sec.querySelector('.gate-half.left');
@@ -262,15 +271,31 @@ const Cards = () => {
     return () => { tl.scrollTrigger && tl.scrollTrigger.kill(); tl.kill(); };
   }, []);
 
+  const leadershipRows = makeRows(teamLeadership);
+  const memberRows = makeRows(teamMembers);
+
   return h('section', { className: 'cardsec', ref: secRef, style: { position: 'relative', overflow: 'hidden', background: '#FFF', color: '#000', padding: 'clamp(70px, 8vw, 110px) 6vw', borderTop: '1px solid #000' } },
     h('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 48 } },
       h(Kick, { style: { opacity: 0.5, marginBottom: 0 } }, 'The team')
     ),
-    h('div', { className: 'cardgrid', style: { gap: 48 } },
-      ROWS.map((row, ri) =>
-        h('div', { key: ri, className: 'team-row', style: { gap: 24 } },
-          row.map((member) => h(Card, { key: member.name, member })),
-          ri < ROWS.length - 1 ? h('div', { className: 'row-rule' }) : null
+    h('div', { className: 'cardgrid', style: { gap: 64 } },
+      /* Leadership */
+      h('div', null,
+        h(SectionHeading, null, 'Leadership'),
+        leadershipRows.map((row, ri) =>
+          h('div', { key: 'l-' + ri, className: 'team-row', style: { gap: 24 } },
+            row.map((member) => h(Card, { key: member.name, member }))
+          )
+        )
+      ),
+      /* Team Members */
+      h('div', null,
+        h(SectionHeading, null, 'Team Members'),
+        memberRows.map((row, ri) =>
+          h('div', { key: 'm-' + ri, className: 'team-row', style: { gap: 24 } },
+            row.map((member) => h(Card, { key: member.name, member })),
+            ri < memberRows.length - 1 ? h('div', { className: 'row-rule' }) : null
+          )
         )
       )
     ),
