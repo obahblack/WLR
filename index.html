@@ -615,36 +615,34 @@ const CaseChart = () => {
     if (peakRef.current) gsap.set(peakRef.current, { opacity: 0, y: 8 });
 
     let ctx = gsap.context(() => {
-      /* 1. Initial in-view reveal — bars grow left→right, once */
+      /* In-view reveal — bars grow left→right, replays on enter */
+      const revealBars = () => {
+        gsap.to(bars, {
+          scaleY: 1, stagger: 0.03, duration: 0.9, ease: 'power3.out',
+        });
+        gsap.to(textRef.current, {
+          y: 0, opacity: 1, duration: 0.7, ease: 'power3.out', delay: 0.15,
+        });
+        if (peakRef.current) {
+          gsap.to(peakRef.current, {
+            opacity: 1, y: 0, duration: 0.45, ease: 'power2.out', delay: 0.6,
+          });
+        }
+      };
+      const hideBars = () => {
+        gsap.set(bars, { scaleY: 0 });
+        gsap.set(textRef.current, { y: 30, opacity: 0 });
+        if (peakRef.current) gsap.set(peakRef.current, { opacity: 0, y: 8 });
+      };
+
       ScrollTrigger.create({
         trigger: el,
         start: 'top 80%',
-        once: true,
-        onEnter: () => {
-          gsap.to(bars, {
-            scaleY: 1, stagger: 0.03, duration: 0.9, ease: 'power3.out',
-          });
-          gsap.to(textRef.current, {
-            y: 0, opacity: 1, duration: 0.7, ease: 'power3.out', delay: 0.15,
-          });
-          if (peakRef.current) {
-            gsap.to(peakRef.current, {
-              opacity: 1, y: 0, duration: 0.45, ease: 'power2.out', delay: 0.6,
-            });
-          }
-        },
+        onEnter: revealBars,
+        onLeaveBack: hideBars,
+        onLeave: hideBars,
+        onEnterBack: revealBars,
       });
-
-      /* 2. Scroll scrub — bars shrink as section scrolls past */
-      const scrubTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: el,
-          start: 'bottom 30%',
-          end: 'bottom top',
-          scrub: 0.8,
-        }
-      });
-      scrubTl.fromTo(bars, { scaleY: 1 }, { scaleY: 0, stagger: 0.01, duration: 0.8, ease: 'power2.in' }, 0);
     }, el);
     return () => ctx.revert();
   }, []);
@@ -875,7 +873,27 @@ const Marquee = () => {
 
 /* ═══ 09 · THE NUMBER ═══ */
 const BigNumber = () => {
-  const [ref, seen] = useReveal(.15);
+  const ref = useRef(null);
+  const [seen, setSeen] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setSeen(true);
+        } else {
+          // Reset when section scrolls out of view
+          setSeen(false);
+        }
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -12% 0px' }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
     <section ref={ref} style={{
       minHeight: '92vh', background: '#FFF', color: '#000', padding: '130px 6vw',
