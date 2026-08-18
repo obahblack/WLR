@@ -22,7 +22,7 @@
   @keyframes pulseDot { 0%,100% { opacity:1; transform: scale(1); } 50% { opacity:.3; transform: scale(.7); } }
   @keyframes marqueeFwd { from { transform: translateX(0); } to { transform: translateX(-33.333%); } }
   @keyframes marqueeRev { from { transform: translateX(-33.333%); } to { transform: translateX(0); } }
-  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition-duration: .01ms !important; } }
+  /* Reduced-motion override removed — animations play on all devices */
 </style>
 </head>
 <body>

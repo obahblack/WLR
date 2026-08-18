@@ -22,7 +22,7 @@
   @keyframes pulseDot { 0%,100% { opacity:1; transform: scale(1); } 50% { opacity:.3; transform: scale(.7); } }
   @keyframes marqueeFwd { from { transform: translateX(0); } to { transform: translateX(-33.333%); } }
   @keyframes marqueeRev { from { transform: translateX(-33.333%); } to { transform: translateX(0); } }
-  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition-duration: .01ms !important; } }
+  /* Reduced-motion override removed — animations play on all devices */
 </style>
 </head>
 <body>
@@ -39,13 +39,26 @@ const { useState, useEffect, useRef, useCallback, useLayoutEffect } = React;
 gsap.registerPlugin(ScrollTrigger);
 
 /* ── mark ─────────────────────────────────────────── */
-const ThreeBar = ({ size = 16, color = 'currentColor', gap = 2 }) => (
-  <span style={{ display: 'inline-flex', alignItems: 'flex-end', gap, height: size }}>
-    {[0.66, 1, 0.82].map((h, i) => (
-      <span key={i} style={{ width: size * 0.22, height: `${h * 100}%`, background: color }} />
-    ))}
-  </span>
-);
+const ThreeBar = ({ size = 16, color = 'currentColor', gap = 2, animate = false, barWidth = null }) => {
+  const [t, setT] = useState(0);
+  useEffect(() => {
+    if (!animate) return;
+    let r;
+    const tick = () => { setT(x => x + 0.016); r = requestAnimationFrame(tick); };
+    r = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(r);
+  }, [animate]);
+  const base = [0.66, 1, 0.82];
+  const heights = animate ? base.map((h, i) => h * (0.7 + 0.3 * Math.sin(t * 1.0 + i * 1.2))) : base;
+  const w = barWidth || size * 0.22;
+  return (
+    <span style={{ display: 'inline-flex', alignItems: 'flex-end', gap, height: size }}>
+      {heights.map((h, i) => (
+        <span key={i} style={{ width: w, height: `${h * 100}%`, background: color }} />
+      ))}
+    </span>
+  );
+};
 
 /* ── scroll hooks ─────────────────────────────────────
    useReveal: fires once, only when the element is genuinely
@@ -158,6 +171,30 @@ const Hero = () => {
     return () => ctx.revert();
   }, [loaded]);
 
+  // Continuous breathing animation — starts after entrance completes
+  useEffect(() => {
+    if (!loaded) return;
+    const durations = [3.8, 4.5, 3.2];
+    const ranges = [
+      [0.6, 0.95],
+      [0.7, 1.0],
+      [0.55, 0.88],
+    ];
+    const timers = barsRef.current.map((bar, i) => {
+      if (!bar) return null;
+      const [min] = ranges[i];
+      return gsap.to(bar, {
+        height: `${min * 100}%`,
+        duration: durations[i] * 0.5,
+        ease: 'sine.inOut',
+        repeat: -1,
+        yoyo: true,
+        delay: 1.4 + i * 0.4,
+      });
+    });
+    return () => timers.forEach(t => t && t.kill());
+  }, [loaded]);
+
   return (
     <section
       ref={sectionRef}
@@ -166,17 +203,7 @@ const Hero = () => {
         display: 'grid', gridTemplateColumns: '1fr 1fr', alignItems: 'center',
         padding: '140px 6vw 80px', gap: '4vw',
       }}>
-      <div style={{ display: 'flex', alignItems: 'flex-end', gap: 32, height: '64vh' }}>
-        {[0.7, 1, 0.85].map((h, i) => (
-          <div key={i} ref={el => barsRef.current[i] = el} style={{
-            width: 'clamp(70px, 9vw, 140px)',
-            height: `${h * 100}%`,
-            background: 'currentColor',
-            transformOrigin: 'bottom center',
-          }} />
-        ))}
-      </div>
-      <div ref={contentRef}>
+      <div ref={contentRef} style={{ order: 0 }}>
         <Kick style={{ opacity: .6 }}>White-label production · est. 2018</Kick>
         <h1 style={{
           margin: 0, fontFamily: 'Geist',
@@ -212,6 +239,16 @@ const Hero = () => {
             fontFamily: 'Geist Mono', fontSize: 12, letterSpacing: '.22em', textTransform: 'uppercase',
           }}>See the work →</a>
         </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', gap: 32, height: '64vh', order: 1 }}>
+        {[0.7, 1, 0.85].map((h, i) => (
+          <div key={i} ref={el => barsRef.current[i] = el} style={{
+            width: 'clamp(70px, 9vw, 140px)',
+            height: `${h * 100}%`,
+            background: 'currentColor',
+            transformOrigin: 'bottom center',
+          }} />
+        ))}
       </div>
     </section>
   );

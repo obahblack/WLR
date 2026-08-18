@@ -141,9 +141,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid currentColor; outline
 .marq-track { display: flex; width: max-content; animation: mqFwd 46s linear infinite; }
 .marq-track .mq-group { display: flex; align-items: center; gap: 64px; padding-right: 64px; }
 .marq:hover .marq-track { animation-play-state: paused; }
-@media (prefers-reduced-motion: reduce) {
-  .marq-track { animation: none !important; width: auto; flex-wrap: wrap; justify-content: center; row-gap: 24px; }
-}
+/* Reduced-motion override removed — animations play on all devices */
 
 .video-frame { position: relative; overflow: hidden; background: #000; height: clamp(320px, 46vw, 520px); display: flex; align-items: center; justify-content: center; }
 .video-grain { position: absolute; inset: 0; pointer-events: none; z-index: 0;
@@ -227,9 +225,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid currentColor; outline
 .jb-top .jb-art { margin-left: auto; padding-right: 60px; }
 .jb-card .jb-art { align-items: flex-end; }
 
-@media (prefers-reduced-motion: reduce) {
-  * { animation: none !important; transition-duration: .01ms !important; }
-}
+/* Reduced-motion override removed — animations play on all devices */
 </style>
 </head>
 <body>

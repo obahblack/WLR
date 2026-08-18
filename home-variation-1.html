@@ -741,8 +741,6 @@ const ScrollReveal = () => {
   };
 
   React.useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
     gsap.registerPlugin(ScrollTrigger);
 
     const section = sectionRef.current;
@@ -848,9 +846,7 @@ const ScrollReveal = () => {
     };
   }, []);
 
-  /* Reduced motion: plain layout */
-  const isReducedMotion = typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* Reduced motion check removed — animations play on all devices */
 
   return (
     <section
@@ -1135,12 +1131,7 @@ const LampEffect = () => {
     const rc = rightConeRef.current;
     if (!root || !lamp || !line || !lc || !rc) return;
 
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      gsap.set(lamp, { width: '24rem' });
-      gsap.set(line, { width: '38rem' });
-      gsap.set([lc, rc], { width: '38rem', opacity: 1 });
-      return;
-    }
+    /* Reduced motion check removed — animations play on all devices */
 
     const tl = gsap.timeline({
       scrollTrigger: {
