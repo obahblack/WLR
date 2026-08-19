@@ -27,6 +27,10 @@
     0% { transform: scale(1); }
     100% { transform: scale(1); }
   }
+  @keyframes barHeartbeat {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(1.07); }
+  }
   /* Reduced-motion override removed — animations play on all devices */
 </style>
 </head>
@@ -826,6 +830,8 @@ const FlatBidCase = () => {
                 height: barsSeen ? `${45 + ((i * 37) % 55)}%` : 0,
                 background: '#FFF',
                 transition: `height .8s cubic-bezier(.2,.8,.2,1) ${i * 70}ms`,
+                animation: barsSeen ? `barHeartbeat 1.4s ease-in-out ${i * 60}ms infinite` : 'none',
+                transformOrigin: 'bottom center',
               }} />
             ))}
           </div>
