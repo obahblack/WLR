@@ -1,7 +1,11 @@
 {
+  "buildCommand": null,
+  "installCommand": null,
+  "outputDirectory": null,
+  "framework": null,
   "cleanUrls": false,
-  "trailingSlash": false,
-  "outputDirectory": ".",
-  "buildCommand": "",
-  "installCommand": ""
+  "rewrites": [],
+  "routes": [
+    { "src": "/(.*)", "dest": "/$1" }
+  ]
 }
