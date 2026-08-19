@@ -420,25 +420,59 @@ const Btn = ({ href, children, light = false, outline = false }) => {
 };
 
 /* ── footer (home.html) ───────────────────────────── */
-const Footer = () => (
-  <footer style={{ background: '#000', color: '#FFF', borderTop: '1px solid #FFF', padding: '44px 6vw 32px' }}>
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 28 }}>
-      <div>
-        <ThreeBar size={20} color="#FFF" gap={3} />
-        <div style={{ marginTop: 14, fontFamily: 'Geist Mono, monospace', fontSize: 10, letterSpacing: '.22em', textTransform: 'uppercase', opacity: .55 }}>
-          © 2026 White Label Resell · est. 2018
+const Footer = () => {
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    const btn = e.currentTarget.querySelector('button[type=submit]');
+    if (btn) { btn.textContent = 'Subscribed \u2713'; btn.style.background = '#333'; btn.style.color = '#FFF'; }
+  };
+  return (
+    <footer style={{ background: '#000', color: '#FFF', padding: '0 6vw' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr 1.6fr', gap: 'clamp(32px, 4vw, 64px)', padding: '64px 0 48px' }}>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
+            <ThreeBar size={28} color="#FFF" gap={4} />
+            <span style={{ fontFamily: 'Geist', fontSize: 20, fontWeight: 600, letterSpacing: '-0.02em' }}>White Label Resell</span>
+          </div>
+          <p style={{ margin: 0, fontSize: 15, lineHeight: 1.65, opacity: .7, maxWidth: 320 }}>Maximize potential, boost business! Expert SEO and Content Marketing to attract visitors and achieve digital success.</p>
+          <div style={{ display: 'flex', gap: 12, marginTop: 28 }}>
+            <a href="#" aria-label="Facebook" style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' }}><svg width="16" height="16" viewBox="0 0 24 24" fill="#FFF"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+            <a href="#" aria-label="LinkedIn" style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' }}><svg width="16" height="16" viewBox="0 0 24 24" fill="#FFF"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+            <a href="#" aria-label="Twitter" style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' }}><svg width="16" height="16" viewBox="0 0 24 24" fill="#FFF"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+          </div>
+        </div>
+        {/* Company */}
+        <div>
+          <h4 style={{ margin: '0 0 24px', fontFamily: 'Geist', fontSize: 18, fontWeight: 600, letterSpacing: '-0.01em' }}>Company</h4>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {[['Work',['../work-variations/work-v6.html'],['About','about-v1.html'],['Team',['../team-v2.html']].map(([l, href]) => <a key={l} href={href} style={{ color: '#FFF', textDecoration: 'none', fontSize: 15, opacity: .7 }}>{l}</a>)}
+          </div>
+        </div>
+        {/* Quick Links */}
+        <div>
+          <h4 style={{ margin: '0 0 24px', fontFamily: 'Geist', fontSize: 18, fontWeight: 600, letterSpacing: '-0.01em' }}>Quick Links</h4>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {[['Get a Quote','#'],['Blog','#']].map(([l, href]) => <a key={l} href={href} onClick={l === 'Get a Quote' ? (e) => { e.preventDefault(); window.openQuoteModal(); } : undefined} style={{ color: '#FFF', textDecoration: 'none', fontSize: 15, opacity: .7, cursor: l === 'Get a Quote' ? 'pointer' : 'default' }}>{l}</a>)}
+          </div>
+        </div>
+        <div>
+          <h4 style={{ margin: '0 0 24px', fontFamily: 'Geist', fontSize: 18, fontWeight: 600, letterSpacing: '-0.01em' }}>Subscribe To Our Newsletter</h4>
+          <form onSubmit={handleSubscribe} style={{ display: 'flex' }}>
+            <input type="email" placeholder="Email" required style={{ flex: 1, padding: '14px 16px', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', borderRight: 'none', color: '#FFF', fontSize: 15, outline: 'none', fontFamily: 'inherit' }} />
+            <button type="submit" style={{ padding: '14px 28px', background: '#FFF', color: '#000', border: '1px solid #FFF', fontSize: 15, fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap' }}>Subscribe</button>
+          </form>
         </div>
       </div>
-      <div style={{ display: 'flex', gap: 22, flexWrap: 'wrap', fontFamily: 'Geist Mono, monospace', fontSize: 10, letterSpacing: '.22em', textTransform: 'uppercase' }}>
-        <a href="../work-variations/work-v6.html" style={{ textDecoration: 'none', opacity: .8 }}>Work</a>
-        <a href="about-v1.html" style={{ textDecoration: 'none', opacity: .8 }}>About</a>
-        <a href="../team-v2.html" style={{ textDecoration: 'none', opacity: .8 }}>Team</a>
-        <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{ textDecoration: 'none', opacity: .8, cursor: 'pointer' }}>Get a Quote</a>
-        <a href="mailto:partners@whitelabelresell.com" style={{ textDecoration: 'none', opacity: .8 }}>partners@whitelabelresell.com</a>
+      <div style={{ borderTop: '1px solid rgba(255,255,255,0.15)', padding: '24px 0 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
+        <div style={{ fontSize: 14, opacity: .6 }}>&copy; 2026 White Label Resell. All Rights Reserved.</div>
+        <div style={{ display: 'flex', gap: 24 }}>
+          <a href="#" style={{ color: '#FFF', textDecoration: 'none', fontSize: 14, opacity: .6 }}>Terms</a>
+          <a href="#" style={{ color: '#FFF', textDecoration: 'none', fontSize: 14, opacity: .6 }}>Privacy</a>
+        </div>
       </div>
-    </div>
-  </footer>
-);
+    </footer>
+  );
+};
 
 /* ── team ─────────────────────────────────────────── */
 const LinkedIn = ({ size = 18 }) => (
