@@ -145,20 +145,39 @@ const Kick = ({ children, style = {} }) => (
   }}>{children}</div>
 );
 
-/* ═══ 01 · HERO — white, no inversion, scroll fade-out ═══ */
+/* ═══ 01 · HERO — white, no inversion ═══ */
 const Hero = () => {
   const [loaded, setLoaded] = useState(false);
   const sectionRef = useRef(null);
   const barsRef = useRef([]);
   const contentRef = useRef(null);
+  const barsWrapRef = useRef(null);
+  const [barsH, setBarsH] = useState(0);
 
   useEffect(() => {
     const t = setTimeout(() => setLoaded(true), 100);
     return () => clearTimeout(t);
   }, []);
 
+  // Measure text content height and apply to bars container
   useLayoutEffect(() => {
-    if (!loaded) return;
+    const wrap = barsWrapRef.current;
+    const content = contentRef.current;
+    if (!wrap || !content) return;
+    const measure = () => {
+      const h = content.offsetHeight;
+      if (h > 0) {
+        wrap.style.height = h + 'px';
+        setBarsH(h);
+      }
+    };
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, [loaded]);
+
+  useLayoutEffect(() => {
+    if (!loaded || !barsH) return;
     const ctx = gsap.context(() => {
       // Only the initial page-load entrance animation for bars
       gsap.fromTo(barsRef.current, { scaleY: 0 }, {
@@ -169,86 +188,89 @@ const Hero = () => {
       });
     }, sectionRef);
     return () => ctx.revert();
-  }, [loaded]);
+  }, [loaded, barsH]);
 
   // Continuous breathing animation — starts after entrance completes
   useEffect(() => {
-    if (!loaded) return;
+    if (!loaded || !barsH) return;
     const durations = [3.8, 4.5, 3.2];
-    const ranges = [
-      [0.6, 0.95],
-      [0.7, 1.0],
-      [0.55, 0.88],
-    ];
+    const scales = [0.85, 1.0, 0.92];
     const timers = barsRef.current.map((bar, i) => {
       if (!bar) return null;
-      const [min] = ranges[i];
-      return gsap.to(bar, {
-        height: `${min * 100}%`,
-        duration: durations[i] * 0.5,
-        ease: 'sine.inOut',
-        repeat: -1,
-        yoyo: true,
-        delay: 1.4 + i * 0.4,
-      });
+      const targetScale = scales[i];
+      return gsap.fromTo(bar,
+        { scaleY: targetScale },
+        {
+          scaleY: targetScale * 0.85,
+          duration: durations[i] * 0.5,
+          ease: 'sine.inOut',
+          repeat: -1,
+          yoyo: true,
+          delay: 1.4 + i * 0.4,
+        }
+      );
     });
     return () => timers.forEach(t => t && t.kill());
-  }, [loaded]);
+  }, [loaded, barsH]);
 
   return (
     <section
       ref={sectionRef}
       style={{
         minHeight: '100vh', background: '#FFF', color: '#000',
-        display: 'grid', gridTemplateColumns: '1fr 1fr', alignItems: 'center',
-        padding: '140px 6vw 80px', gap: '4vw',
+        display: 'flex', alignItems: 'center',
+        padding: '140px 6vw 80px',
       }}>
-      <div ref={contentRef} style={{ order: 0 }}>
-        <Kick style={{ opacity: .6 }}>White-label production · est. 2018</Kick>
-        <h1 style={{
-          margin: 0, fontFamily: 'Geist',
-          fontSize: 'clamp(48px, 6.6vw, 112px)',
-          fontWeight: 500, letterSpacing: '-.04em', lineHeight: 1.04,
-        }}>
-          We Build<br />
-          What Moves<br />
-          <i style={{ fontWeight: 300 }}>Business</i><br />
-          <i style={{ fontWeight: 300 }}>Forward</i>
-        </h1>
-        <p style={{
-          margin: '32px 0 0', maxWidth: 480,
-          fontSize: 'clamp(16px, 1.25vw, 19px)', lineHeight: 1.6, opacity: .8,
-        }}>
-          SEO, content, web development, paid media and analytics — built and shipped
-          under your agency&apos;s brand. You keep the client, the credit and the margin.
-        </p>
-        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 40 }}>
-          <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{
-            display: 'inline-flex', alignItems: 'center', gap: 12, padding: '18px 26px',
-            background: 'currentColor', textDecoration: 'none',
-            fontFamily: 'Geist Mono', fontSize: 12, letterSpacing: '.22em',
-            textTransform: 'uppercase', fontWeight: 600, cursor: 'pointer',
+      <div style={{ display: 'flex', alignItems: 'flex-end', gap: '4vw', width: '100%' }}>
+        {/* Text content — auto height, grows naturally */}
+        <div ref={contentRef} style={{ flex: 1 }}>
+          <Kick style={{ opacity: .6 }}>White-label production · est. 2018</Kick>
+          <h1 style={{
+            margin: 0, fontFamily: 'Geist',
+            fontSize: '94px',
+            fontWeight: 500, letterSpacing: '-.04em', lineHeight: 1.04,
           }}>
-            <span style={{ color: '#FFF', display: 'inline-flex', alignItems: 'center', gap: 12 }}>
-              <ThreeBar size={12} color="#FFF" />Get a quote
-            </span>
-          </a>
-          <a href="work-variations/work-v6.html" style={{
-            display: 'inline-flex', alignItems: 'center', padding: '18px 26px',
-            border: '1px solid currentColor', textDecoration: 'none',
-            fontFamily: 'Geist Mono', fontSize: 12, letterSpacing: '.22em', textTransform: 'uppercase',
-          }}>See the work →</a>
+            We Build What<br />
+            Moves<br />
+            <i style={{ fontWeight: 300 }}>Business forward</i>
+          </h1>
+          <p style={{
+            margin: '32px 0 0',
+            maxWidth: 'calc(94px * 7.2)',
+            fontSize: 'clamp(16px, 1.25vw, 19px)', lineHeight: 1.6, opacity: .8,
+          }}>
+            SEO, content, web development, paid media and analytics — built and shipped
+            under your agency&apos;s brand. You keep the client, the credit and the margin.
+          </p>
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 40 }}>
+            <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{
+              display: 'inline-flex', alignItems: 'center', gap: 12, padding: '18px 26px',
+              background: 'currentColor', textDecoration: 'none',
+              fontFamily: 'Geist Mono', fontSize: 12, letterSpacing: '.22em',
+              textTransform: 'uppercase', fontWeight: 600, cursor: 'pointer',
+            }}>
+              <span style={{ color: '#FFF', display: 'inline-flex', alignItems: 'center', gap: 12 }}>
+                <ThreeBar size={12} color="#FFF" />Get a quote
+              </span>
+            </a>
+            <a href="work-variations/work-v6.html" style={{
+              display: 'inline-flex', alignItems: 'center', padding: '18px 26px',
+              border: '1px solid currentColor', textDecoration: 'none',
+              fontFamily: 'Geist Mono', fontSize: 12, letterSpacing: '.22em', textTransform: 'uppercase',
+            }}>See the work →</a>
+          </div>
         </div>
-      </div>
-      <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', gap: 32, height: '64vh', order: 1 }}>
-        {[0.7, 1, 0.85].map((h, i) => (
-          <div key={i} ref={el => barsRef.current[i] = el} style={{
-            width: 'clamp(70px, 9vw, 140px)',
-            height: `${h * 100}%`,
-            background: 'currentColor',
-            transformOrigin: 'bottom center',
-          }} />
-        ))}
+        {/* Bars — height matches text content, bottom-aligned */}
+        <div ref={barsWrapRef} style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', gap: 32, flexShrink: 0 }}>
+          {[0.7, 1, 0.85].map((h, i) => (
+            <div key={i} ref={el => barsRef.current[i] = el} style={{
+              width: 'clamp(70px, 9vw, 160px)',
+              height: `${h * 100}%`,
+              background: 'currentColor',
+              transformOrigin: 'bottom center',
+            }} />
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -462,13 +484,14 @@ const SellDeliver = () => {
                 mixBlendMode: 'difference', color: '#FFF',
                 willChange: 'transform',
               }}>
-                Four disciplines,<br /><i style={{ fontWeight: 300 }}>one contract.</i>
+                Your full<br /><i style={{ fontWeight: 300 }}>production bench.</i>
               </h2>
 
-              {/* Subtext — collapsed during intro, expands after */}
+              {/* Subtext + Get a quote — collapsed during intro, expands after */}
               <div ref={svcSubtextWrapRef} style={{
                 maxHeight: 0, overflow: 'hidden', opacity: 0,
                 transition: 'max-height .5s ease, opacity .5s ease',
+                display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 24,
               }}>
                 <p ref={svcSubtextRef} style={{
                   margin: '16px 0 0', maxWidth: 420, fontSize: 18, lineHeight: 1.6,
@@ -477,6 +500,15 @@ const SellDeliver = () => {
                   Take the whole stack or the two pieces you are missing. Scope is set in a
                   simple statement of work, and work begins the day it is signed.
                 </p>
+                <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 12, padding: '18px 26px',
+                  background: '#FFF', color: '#000', textDecoration: 'none', flexShrink: 0,
+                  fontFamily: 'Geist Mono', fontSize: 12, letterSpacing: '.22em',
+                  textTransform: 'uppercase', fontWeight: 600, cursor: 'pointer',
+                  pointerEvents: 'auto',
+                }}>
+                  <ThreeBar size={12} color="#000" />Get a quote
+                </a>
               </div>
 
               {/* Cards — collapsed during intro, expands after */}
@@ -486,6 +518,7 @@ const SellDeliver = () => {
               }}>
                 <div ref={svcCardsRef} style={{
                   marginTop: 44, display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10,
+                  width: '100%',
                 }}>
               {items.map((item, i) => {
                 const t = item.name;
@@ -495,32 +528,32 @@ const SellDeliver = () => {
                   <div key={t}
                     ref={el => cardsRef.current[i] = el}
                     style={{
-                      background: inverted ? '#FFF' : 'transparent',
-                      color: inverted ? '#000' : '#FFF',
-                      border: '1px solid #FFF', padding: 22, minHeight: 'clamp(420px, 55vh, 720px)',
+                      background: inverted ? '#000' : '#FFF',
+                      color: inverted ? '#FFF' : '#000',
+                      border: `2px solid ${inverted ? '#FFF' : '#000'}`, padding: 28, minHeight: 'clamp(420px, 55vh, 720px)',
                       display: 'flex', flexDirection: 'column',
                     }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
                       <span style={{ fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '.22em', opacity: .6 }}>/{String(i + 1).padStart(2, '0')}</span>
-                      <ThreeBar size={20} color="currentColor" />
+                      <ThreeBar size={20} color={inverted ? '#FFF' : '#000'} />
                     </div>
                     <div style={{ marginTop: 16 }}>
                       <div style={{ fontFamily: 'Geist', fontSize: 'clamp(36px, 3.2vw, 44px)', fontWeight: 500, letterSpacing: '-.02em', lineHeight: 1.1, textTransform: 'uppercase' }}>{t}</div>
                       <div style={{ marginTop: 12, fontFamily: 'Inter', fontSize: 15, lineHeight: 1.6, opacity: .7 }}>{sub}</div>
                     </div>
-                    <div style={{ flex: 1 }} />
-                    {item.services && (
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 16 }}>
-                        {item.services.map(s => (
-                          <span key={s} style={{
-                            display: 'inline-block', padding: '4px 10px',
-                            border: `1px solid ${inverted ? '#000' : '#FFF'}`,
-                            fontFamily: 'Geist Mono', fontSize: 9, letterSpacing: '.12em',
-                            textTransform: 'uppercase', opacity: .5,
-                          }}>{s}</span>
-                        ))}
-                      </div>
-                    )}
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px 0' }}>
+                      <img 
+                        src={`Logos/${item.name}.png`} 
+                        alt={`${item.name} visualization`} 
+                        style={{ 
+                          width: '100%', 
+                          maxWidth: 280, 
+                          height: 'auto', 
+                          objectFit: 'contain', 
+                          filter: inverted ? 'brightness(1.1) contrast(1.1)' : 'none',
+                        }} 
+                      />
+                    </div>
                   </div>
                 );
               })}
@@ -631,10 +664,8 @@ const CaseChart = () => {
   const barsRef = useRef([]);
   const textRef = useRef(null);
   const peakRef = useRef(null);
-  const waveRef = useRef(null);
-  const [isHovered, setIsHovered] = useState(false);
+  const heartbeatRef = useRef(null);
   const chartRef = useRef(null);
-  const waveTweenRef = useRef(null);
   const data = [66,147,140,156,193,210,227,198,213,193,133,138,
                 197,215,315,337,367,444,427,395,320,254,203,149,
                 202,224,274];
@@ -667,46 +698,46 @@ const CaseChart = () => {
         }
       };
       const hideBars = () => {
-        gsap.set(bars, { scaleY: 0 });
-        gsap.set(textRef.current, { y: 30, opacity: 0 });
-        if (peakRef.current) gsap.set(peakRef.current, { opacity: 0, y: 8 });
+        gsap.killTweensOf(bars);
+        gsap.to(bars, {
+          scaleY: 0, stagger: { each: 0.03, from: 'end' }, duration: 0.6, ease: 'power2.in',
+        });
+        gsap.to(textRef.current, { y: 30, opacity: 0, duration: 0.4, ease: 'power2.in' });
+        if (peakRef.current) gsap.to(peakRef.current, { opacity: 0, y: 8, duration: 0.3, ease: 'power2.in' });
+      };
+
+      /* Heartbeat starts after reveal, killed on hide */
+      const startHeartbeat = () => {
+        if (heartbeatRef.current) return;
+        heartbeatRef.current = gsap.to(bars, {
+          scaleY: (i) => 1 + Math.sin(i * 0.7) * 0.07,
+          duration: 1.4,
+          ease: 'sine.inOut',
+          yoyo: true,
+          repeat: -1,
+          overwrite: 'auto',
+        });
+      };
+      const killHeartbeat = () => {
+        if (heartbeatRef.current) { heartbeatRef.current.kill(); heartbeatRef.current = null; }
+        gsap.set(bars, { scaleY: 1 });
       };
 
       ScrollTrigger.create({
         trigger: el,
         start: 'top 80%',
-        onEnter: revealBars,
-        onLeaveBack: hideBars,
-        onLeave: hideBars,
-        onEnterBack: revealBars,
+        onEnter: () => { revealBars(); setTimeout(startHeartbeat, 1400); },
+        onLeaveBack: () => { hideBars(); killHeartbeat(); },
+        onLeave: () => { hideBars(); killHeartbeat(); },
+        onEnterBack: () => { revealBars(); setTimeout(startHeartbeat, 1400); },
       });
     }, el);
     return () => ctx.revert();
   }, []);
 
-  useEffect(() => {
-    const bars = barsRef.current.filter(Boolean);
-    if (!bars.length) return;
-    if (waveTweenRef.current) { waveTweenRef.current.kill(); waveTweenRef.current = null; }
-    gsap.set(bars, { y: 0 });
-    if (isHovered) {
-      waveTweenRef.current = gsap.to(bars, {
-        y: (i) => Math.sin(i * 0.5) * 6,
-        duration: 0.6,
-        stagger: { each: 0.03, from: 'start' },
-        ease: 'sine.inOut',
-        yoyo: true,
-        repeat: -1,
-      });
-    } else {
-      gsap.to(bars, { y: 0, duration: 0.4, ease: 'power2.out' });
-    }
-    return () => { if (waveTweenRef.current) { waveTweenRef.current.kill(); waveTweenRef.current = null; } };
-  }, [isHovered]);
-
   return (
-    <section ref={sectionRef} style={{ background: '#FFF', color: '#000', padding: '120px 6vw', borderTop: '1px solid #000' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: '5vw', alignItems: 'flex-end' }}>
+    <section ref={sectionRef} style={{ background: '#FFF', color: '#000', padding: '180px 6vw', borderTop: '1px solid #000', minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: '5vw', alignItems: 'center', width: '100%' }}>
         <div ref={textRef}>
           <Kick>Client results · Guild Golf Carts</Kick>
           <h2 style={{ margin: 0, fontFamily: 'Geist', fontSize: 'clamp(38px, 5vw, 76px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1.06 }}>
@@ -724,7 +755,7 @@ const CaseChart = () => {
             fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase',
           }}>Read the case study →</a>
         </div>
-        <div ref={chartRef} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} style={{ height: '52vh', display: 'flex', alignItems: 'flex-end', gap: 4, position: 'relative', cursor: 'default' }}>
+        <div ref={chartRef} style={{ height: '60vh', display: 'flex', alignItems: 'flex-end', gap: 4, position: 'relative' }}>
           {data.map((v, i) => (
             <div key={i} style={{ flex: 1, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', position: 'relative' }}>
               <div ref={el => barsRef.current[i] = el} style={{
@@ -933,8 +964,8 @@ const BigNumber = () => {
 
   return (
     <section ref={ref} style={{
-      minHeight: '92vh', background: '#FFF', color: '#000', padding: '130px 6vw',
-      position: 'relative', display: 'grid', placeItems: 'center', borderTop: '1px solid #000',
+      minHeight: '92vh', background: '#000', color: '#FFF', padding: '130px 6vw',
+      position: 'relative', display: 'grid', placeItems: 'center', borderTop: '1px solid #FFF',
       overflow: 'hidden',
     }}>
       <div style={{
@@ -973,7 +1004,7 @@ const BigNumber = () => {
         opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(16px)',
         transition: 'opacity .6s ease .55s, transform .6s cubic-bezier(.2,.8,.2,1) .55s',
       }}>
-        {[40, 64, 50].map((h, i) => <div key={i} style={{ width: 18, height: h, background: '#000' }} />)}
+        {[40, 64, 50].map((h, i) => <div key={i} style={{ width: 18, height: h, background: '#FFF' }} />)}
       </div>
       <div style={{
         position: 'absolute', right: 32, bottom: 70, textAlign: 'right', fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase',
@@ -1016,18 +1047,19 @@ const Close = () => {
 
   return (
     <section ref={containerRef} style={{
-      minHeight: '100vh', width: '100vw', background: '#000', color: '#FFF',
+      minHeight: '100vh', width: '100vw', background: '#FFF', color: '#000',
       position: 'relative', overflow: 'hidden', zIndex: 4,
-      borderTop: '1px solid rgba(255,255,255,0.2)',
+      borderTop: '1px solid rgba(0,0,0,0.2)',
       padding: 'clamp(40px, 8vh, 120px) 6vw',
-      display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+      display: 'flex', flexDirection: 'column', justifyContent: 'center',
+      gap: 'clamp(48px, 5vh, 72px)',
     }}>
 
       {/* CTA Content — directly in the section, no absolute positioning */}
         <div>
           <Kick className="cta-elem">Working with us</Kick>
           <h2 className="cta-elem" style={{ margin: 0, fontFamily: 'Geist', fontSize: 'clamp(40px, 5vw, 100px)', fontWeight: 500, letterSpacing: '-.04em', lineHeight: 1 }}>
-            Four steps,<br/><i style={{ fontWeight: 300, color: '#AAA' }}>then it just runs.</i>
+            Four steps,<br/><i style={{ fontWeight: 300, color: '#555' }}>then it just runs.</i>
           </h2>
           <p className="cta-elem" style={{ margin: '32px 0 0', maxWidth: 460, fontSize: 18, lineHeight: 1.6, opacity: .75 }}>
             Most partners start with one client and one discipline. Within a quarter they
@@ -1035,8 +1067,8 @@ const Close = () => {
           </p>
         </div>
 
-        <div className="cta-elem" style={{ position: 'relative', margin: 'clamp(20px, 3vh, 6vh) 0' }}>
-          <div className="step-line" style={{ position: 'absolute', top: 32, left: 0, height: 1, background: 'rgba(255,255,255,0.2)', width: '100%', transformOrigin: 'left', transform: 'scaleX(0)' }} />
+        <div className="cta-elem" style={{ position: 'relative', margin: '0' }}>
+          <div className="step-line" style={{ position: 'absolute', top: 32, left: 0, height: 1, background: 'rgba(0,0,0,0.2)', width: '100%', transformOrigin: 'left', transform: 'scaleX(0)' }} />
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '4vw' }}>
             {[
               ['01', 'Scope', 'We review your client, outline deliverables, and sign a flat-rate statement of work.'],
@@ -1046,9 +1078,9 @@ const Close = () => {
             ].map(([num, title, desc]) => (
               <div key={num} className="step-col" style={{ display: 'flex', flexDirection: 'column', gap: 32, position: 'relative' }}>
                 <div style={{
-                  width: 64, height: 64, background: '#000', border: '1px solid #FFF',
+                  width: 64, height: 64, background: '#FFF', border: '1px solid #000',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontFamily: 'Geist Mono', fontSize: 18, color: '#FFF', zIndex: 2
+                  fontFamily: 'Geist Mono', fontSize: 18, color: '#000', zIndex: 2
                 }}>
                   {num}
                 </div>
@@ -1070,36 +1102,90 @@ const Close = () => {
           </div>
           <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{
             display: 'inline-flex', alignItems: 'center', gap: 16, padding: '24px 40px',
-            background: '#FFF', color: '#000', textDecoration: 'none', cursor: 'pointer',
+            background: '#000', color: '#FFF', textDecoration: 'none', cursor: 'pointer',
             fontFamily: 'Geist Mono', fontSize: 14, letterSpacing: '.22em', textTransform: 'uppercase', fontWeight: 600,
             transition: 'background 0.3s, color 0.3s'
-          }} onMouseEnter={e => { e.currentTarget.style.background = '#333'; e.currentTarget.style.color = '#FFF'; }} onMouseLeave={e => { e.currentTarget.style.background = '#FFF'; e.currentTarget.style.color = '#000'; }}>
-            <ThreeBar size={14} color="#000" />Get a quote →
+          }} onMouseEnter={e => { e.currentTarget.style.background = '#333'; e.currentTarget.style.color = '#FFF'; }} onMouseLeave={e => { e.currentTarget.style.background = '#000'; e.currentTarget.style.color = '#FFF'; }}>
+            <ThreeBar size={14} color="#FFF" />Get a quote →
           </a>
         </div>
     </section>
   );
 };
 
-const Footer = () => (
-  <footer style={{ background: '#000', color: '#FFF', borderTop: '1px solid #FFF', padding: '44px 6vw 32px' }}>
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 28 }}>
-      <div>
-        <ThreeBar size={20} color="#FFF" gap={3} />
-        <div style={{ marginTop: 14, fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '.22em', textTransform: 'uppercase', opacity: .55 }}>
-          © 2026 White Label Resell · est. 2018
+const Footer = () => {
+  const [email, setEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    if (email) { setSubscribed(true); setEmail(''); }
+  };
+  return (
+    <footer style={{ background: '#000', color: '#FFF', padding: '0 6vw' }}>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: '1.4fr 1fr 1fr 1.6fr',
+        gap: 'clamp(32px, 4vw, 64px)',
+        padding: '64px 0 48px',
+      }}>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
+            <ThreeBar size={28} color="#FFF" gap={4} />
+            <span style={{ fontFamily: 'Geist', fontSize: 20, fontWeight: 600, letterSpacing: '-0.02em' }}>White Label Resell</span>
+          </div>
+          <p style={{ margin: 0, fontSize: 15, lineHeight: 1.65, opacity: .7, maxWidth: 320 }}>
+            Maximize potential, boost business! Expert SEO and Content Marketing to attract visitors and achieve digital success.
+          </p>
+          <div style={{ display: 'flex', gap: 12, marginTop: 28 }}>
+            <a href="#" aria-label="Facebook" style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', transition: 'background 0.3s' }} onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.2)'} onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#FFF"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            </a>
+            <a href="#" aria-label="LinkedIn" style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', transition: 'background 0.3s' }} onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.2)'} onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#FFF"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="#" aria-label="Twitter" style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', transition: 'background 0.3s' }} onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.2)'} onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#FFF"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+          </div>
+        </div>
+        {/* Company */}
+        <div>
+          <h4 style={{ margin: '0 0 24px', fontFamily: 'Geist', fontSize: 18, fontWeight: 600, letterSpacing: '-0.01em' }}>Company</h4>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {[['Work', 'work-variations/work-v6.html'], ['About', 'about-variations/about-v1.html'], ['Team', 'team-v2.html']].map(([label, href]) => (
+              <a key={label} href={href} style={{ color: '#FFF', textDecoration: 'none', fontSize: 15, opacity: .7, transition: 'opacity 0.3s' }} onMouseEnter={e => e.currentTarget.style.opacity = 1} onMouseLeave={e => e.currentTarget.style.opacity = .7}>{label}</a>
+            ))}
+          </div>
+        </div>
+        {/* Quick Links */}
+        <div>
+          <h4 style={{ margin: '0 0 24px', fontFamily: 'Geist', fontSize: 18, fontWeight: 600, letterSpacing: '-0.01em' }}>Quick Links</h4>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {[['Get a Quote', '#'], ['Blog', '#']].map(([label, href]) => (
+              <a key={label} href={href} onClick={label === 'Get a Quote' ? (e) => { e.preventDefault(); window.openQuoteModal(); } : undefined} style={{ color: '#FFF', textDecoration: 'none', fontSize: 15, opacity: .7, transition: 'opacity 0.3s', cursor: label === 'Get a Quote' ? 'pointer' : 'default' }} onMouseEnter={e => e.currentTarget.style.opacity = 1} onMouseLeave={e => e.currentTarget.style.opacity = .7}>{label}</a>
+            ))}
+          </div>
+        </div>
+        <div>
+          <h4 style={{ margin: '0 0 24px', fontFamily: 'Geist', fontSize: 18, fontWeight: 600, letterSpacing: '-0.01em' }}>Subscribe To Our Newsletter</h4>
+          <form onSubmit={handleSubscribe} style={{ display: 'flex', gap: 0 }}>
+            <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required style={{ flex: 1, padding: '14px 16px', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', borderRight: 'none', color: '#FFF', fontSize: 15, outline: 'none', fontFamily: 'inherit' }} />
+            <button type="submit" style={{ padding: '14px 28px', background: '#FFF', color: '#000', border: '1px solid #FFF', fontSize: 15, fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap', transition: 'background 0.3s, color 0.3s' }} onMouseEnter={e => { e.currentTarget.style.background = '#333'; e.currentTarget.style.color = '#FFF'; }} onMouseLeave={e => { e.currentTarget.style.background = '#FFF'; e.currentTarget.style.color = '#000'; }}>
+              {subscribed ? 'Subscribed ✓' : 'Subscribe'}
+            </button>
+          </form>
         </div>
       </div>
-      <div style={{ display: 'flex', gap: 22, flexWrap: 'wrap', fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '.22em', textTransform: 'uppercase' }}>
-        <a href="work-variations/work-v6.html" style={{ textDecoration: 'none', opacity: .8 }}>Work</a>
-        <a href="about-variations/about-v1.html" style={{ textDecoration: 'none', opacity: .8 }}>About</a>
-        <a href="team-v2.html" style={{ textDecoration: 'none', opacity: .8 }}>Team</a>
-        <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{ textDecoration: 'none', opacity: .8, cursor: 'pointer' }}>Get a Quote</a>
-        <a href="mailto:partners@whitelabelresell.com" style={{ textDecoration: 'none', opacity: .8 }}>partners@whitelabelresell.com</a>
+      <div style={{ borderTop: '1px solid rgba(255,255,255,0.15)', padding: '24px 0 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
+        <div style={{ fontSize: 14, opacity: .6 }}>© 2026 White Label Resell. All Rights Reserved.</div>
+        <div style={{ display: 'flex', gap: 24 }}>
+          <a href="#" style={{ color: '#FFF', textDecoration: 'none', fontSize: 14, opacity: .6, transition: 'opacity 0.3s' }} onMouseEnter={e => e.currentTarget.style.opacity = 1} onMouseLeave={e => e.currentTarget.style.opacity = .6}>Terms</a>
+          <a href="#" style={{ color: '#FFF', textDecoration: 'none', fontSize: 14, opacity: .6, transition: 'opacity 0.3s' }} onMouseEnter={e => e.currentTarget.style.opacity = 1} onMouseLeave={e => e.currentTarget.style.opacity = .6}>Privacy</a>
+        </div>
       </div>
-    </div>
-  </footer>
-);
+    </footer>
+  );
+};
 
 const QuoteModal = () => {
   const [open, setOpen] = useState(false);
@@ -1555,10 +1641,7 @@ const App = () => (
     <HUD />
     <Hero />
     <SellDeliver />
-    <Positioning />
-    <ProductEngineering />
     <CaseChart />
-    <Process />
     <Marquee />
     <BigNumber />
     <Close />

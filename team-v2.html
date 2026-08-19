@@ -109,22 +109,59 @@ const HUD = ({ active = '' }) => {
   );
 };
 
-const Footer = () =>
-  h('footer', { style: { background: '#000', color: '#FFF', borderTop: '1px solid #FFF', padding: '44px 6vw 32px' } },
-    h('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 28 } },
+const Footer = () => {
+  const [email, setEmail] = React.useState('');
+  const [subscribed, setSubscribed] = React.useState(false);
+  const handleSubscribe = (e) => { e.preventDefault(); if (email) { setSubscribed(true); setEmail(''); } };
+  const linkStyle = { color: '#FFF', textDecoration: 'none', fontSize: 15, opacity: .7 };
+  const socialBtn = (label, svg) => h('a', { href: '#', 'aria-label': label, style: { width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' } }, h('span', { dangerouslySetInnerHTML: { __html: svg } }));
+  return h('footer', { style: { background: '#000', color: '#FFF', padding: '0 6vw' } },
+    h('div', { style: { display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr 1.6fr', gap: 'clamp(32px, 4vw, 64px)', padding: '64px 0 48px' } },
       h('div', null,
-        h(ThreeBar, { size: 20, color: '#FFF', gap: 3 }),
-        h('div', { style: { marginTop: 14, fontFamily: 'Geist Mono, monospace', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', opacity: 0.55 } }, '\u00a9 2026 White Label Resell \u00b7 est. 2018')
-      ),
-      h('div', { style: { display: 'flex', gap: 22, flexWrap: 'wrap', fontFamily: 'Geist Mono, monospace', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase' } },
-        [['Work','work-variations/work-v6.html'],['About','about-variations/about-v1.html'],['Team','team-v2.html']].map(([label, href]) =>
-          h('a', { key: label, href, style: { color: '#FFF', textDecoration: 'none', opacity: 0.8 } }, label)
+        h('div', { style: { display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 } },
+          h(ThreeBar, { size: 28, color: '#FFF', gap: 4 }),
+          h('span', { style: { fontFamily: 'Geist', fontSize: 20, fontWeight: 600, letterSpacing: '-0.02em' } }, 'White Label Resell')
         ),
-        h('a', { href: '#', onClick: (e) => { e.preventDefault(); window.openQuoteModal(); }, style: { color: '#FFF', textDecoration: 'none', opacity: 0.8, cursor: 'pointer' } }, 'Get a Quote'),
-        h('a', { href: 'mailto:partners@whitelabelresell.com', style: { color: '#FFF', textDecoration: 'none', opacity: 0.8 } }, 'partners@whitelabelresell.com')
+        h('p', { style: { margin: 0, fontSize: 15, lineHeight: 1.65, opacity: .7, maxWidth: 320 } }, 'Maximize potential, boost business! Expert SEO and Content Marketing to attract visitors and achieve digital success.'),
+        h('div', { style: { display: 'flex', gap: 12, marginTop: 28 } },
+          socialBtn('Facebook', '<svg width="16" height="16" viewBox="0 0 24 24" fill="#FFF"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>'),
+          socialBtn('LinkedIn', '<svg width="16" height="16" viewBox="0 0 24 24" fill="#FFF"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>'),
+          socialBtn('Twitter', '<svg width="16" height="16" viewBox="0 0 24 24" fill="#FFF"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>')
+        )
+      ),
+      h('div', null,
+        h('h4', { style: { margin: '0 0 24px', fontFamily: 'Geist', fontSize: 18, fontWeight: 600 } }, 'Company'),
+        h('div', { style: { display: 'flex', flexDirection: 'column', gap: 16 } },
+          [['Work','work-variations/work-v6.html'],['About','about-variations/about-v1.html'],['Team','team-v2.html']].map(([l, href]) =>
+            h('a', { key: l, href, style: linkStyle }, l)
+          )
+        )
+      ),
+      h('div', null,
+        h('h4', { style: { margin: '0 0 24px', fontFamily: 'Geist', fontSize: 18, fontWeight: 600 } }, 'Quick Links'),
+        h('div', { style: { display: 'flex', flexDirection: 'column', gap: 16 } },
+          [['Get a Quote','#'],['Blog','#']].map(([l, href]) =>
+            h('a', { key: l, href, onClick: l === 'Get a Quote' ? (e) => { e.preventDefault(); window.openQuoteModal(); } : undefined, style: linkStyle }, l)
+          )
+        )
+      ),
+      h('div', null,
+        h('h4', { style: { margin: '0 0 24px', fontFamily: 'Geist', fontSize: 18, fontWeight: 600 } }, 'Subscribe To Our Newsletter'),
+        h('form', { onSubmit: handleSubscribe, style: { display: 'flex' } },
+          h('input', { type: 'email', placeholder: 'Email', value: email, onChange: e => setEmail(e.target.value), required: true, style: { flex: 1, padding: '14px 16px', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', borderRight: 'none', color: '#FFF', fontSize: 15, outline: 'none', fontFamily: 'inherit' } }),
+          h('button', { type: 'submit', style: { padding: '14px 28px', background: '#FFF', color: '#000', border: '1px solid #FFF', fontSize: 15, fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap' } }, subscribed ? 'Subscribed ✓' : 'Subscribe')
+        )
+      )
+    ),
+    h('div', { style: { borderTop: '1px solid rgba(255,255,255,0.15)', padding: '24px 0 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 } },
+      h('div', { style: { fontSize: 14, opacity: .6 } }, '\u00a9 2026 White Label Resell. All Rights Reserved.'),
+      h('div', { style: { display: 'flex', gap: 24 } },
+        h('a', { href: '#', style: { color: '#FFF', textDecoration: 'none', fontSize: 14, opacity: .6 } }, 'Terms'),
+        h('a', { href: '#', style: { color: '#FFF', textDecoration: 'none', fontSize: 14, opacity: .6 } }, 'Privacy')
       )
     )
   );
+};
 
 const teamLeadership = [
   { name: "Christian Clark", role: "Founder", image: "https://i.ibb.co/R4dPk0Yt/Chris.png", linkedin: "https://www.linkedin.com/in/christian-clark-9a352b179/", alt: "Christian Clark — Founder" },
