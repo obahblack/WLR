@@ -139,10 +139,14 @@ const LinkedIn = ({ size = 14 }) => (
   </svg>
 );
 
-const TeamPhoto = ({ m, i, light = false }) => (
+const TeamPhoto = ({ m, i, light = false, hover = false }) => (
   <img src={m.img} alt={`${m.name} — ${m.role}`} width={m.w} height={m.h}
        loading={i < 4 ? 'eager' : 'lazy'} decoding="async"
-       style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%', display: 'block', filter: 'grayscale(1) contrast(1.05)' }} />
+       style={{
+         width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%', display: 'block',
+         filter: hover ? 'grayscale(0) contrast(1.05)' : 'grayscale(1) contrast(1.05)',
+         transition: 'filter 0.6s cubic-bezier(.2,.8,.2,1)',
+       }} />
 );
 
 /* variation 1 — alternating black/white profile cards, checkerboard */
@@ -159,7 +163,7 @@ const CheckerTeamCard = ({ m, i, seen, hover, onEnter, onLeave }) => {
          }}>
       <div style={{ aspectRatio: '4 / 5', overflow: 'hidden', background: '#111' }}>
         <div style={{ width: '100%', height: '100%', transition: 'transform .5s cubic-bezier(.2,.8,.2,1)', transform: hover ? 'scale(1.06)' : 'scale(1)' }}>
-          <TeamPhoto m={m} i={i} />
+          <TeamPhoto m={m} i={i} hover={hover} />
         </div>
       </div>
       <div style={{ padding: '18px 20px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 12 }}>

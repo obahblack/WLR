@@ -838,10 +838,10 @@ const Process = () => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: el,
-          start: 'top top',
+          start: 'top 90%',
           end: '+=80%',
           pin: true,
-          scrub: 0.3,
+          scrub: 0.6,
         }
       });
 
@@ -1096,7 +1096,7 @@ const Close = () => {
         <div className="cta-elem" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 32 }}>
           <div>
             <h3 style={{ margin: 0, fontFamily: 'Geist', fontSize: 'clamp(32px, 4vw, 60px)', fontWeight: 500, letterSpacing: '-.03em', lineHeight: 1.1 }}>
-              Tell us about your next client.
+              Tell us about your next project.
             </h3>
             <p style={{ margin: '16px 0 0', fontSize: 16, opacity: .7 }}>We reply to every enquiry within one business day.</p>
           </div>

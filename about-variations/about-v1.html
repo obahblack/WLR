@@ -242,7 +242,7 @@ window.ABOUT = {
     { name: 'Himanshu Raikwar',       role: 'Lead Digital Designer',   img: 'https://i.ibb.co/Cs5FVpMF/Himanshu.png', li: 'https://www.linkedin.com/in/himanshuraikwar/' },
     { name: 'Mohammad Muneeb',        role: 'Lead SEO Specialist',     img: 'https://i.ibb.co/4nb0YZyt/Muneeb.png', li: 'https://www.linkedin.com/in/mohammad-muneeb-204418215/' },
     { name: 'Anil Raikwar',           role: 'Analytics Engineer',      img: 'https://i.ibb.co/fVQNxcsM/Anil.png', li: 'https://www.linkedin.com/in/anil-raikwar/' },
-    { name: 'Haider Ali',             role: 'SEO Specialist',          img: 'https://i.ibb.co/HLbFdjQq/Haider.png', li: 'https://www.linkedin.com/in/haider-naeem-888378249/' },
+    { name: 'Haider Ali',             role: 'SEO Specialist',          img: 'https://i.ibb.co/mrwyT0Tr/Haider-new.png', li: 'https://www.linkedin.com/in/haider-naeem-888378249/' },
     { name: 'Brandon Carroll',        role: 'Acquisition Specialist',  img: 'https://i.ibb.co/nsg9546q/Brandon.png', li: null },
     { name: 'Taofeek Abdulrauf',      role: 'Cloud Engineer',          img: 'https://i.ibb.co/DH6K17mv/Tofe.png', li: 'https://www.linkedin.com/in/taofeek-abdulrauf-a95815226/' },
     { name: 'Munir Nadayako',         role: 'Web Developer',           img: 'https://i.ibb.co/p6WfNz6v/Munir.png', li: null },
@@ -252,7 +252,7 @@ window.ABOUT = {
     { name: 'UI/UX and Product Design',      desc: 'Interfaces, flows and brand systems that turn strategy into something people can use.' },
     { name: 'SEO and Content',               desc: 'Technical and on-page SEO, keyword strategy and content built to earn rankings.' },
     { name: 'Paid Acquisition',              desc: 'Search and social campaigns measured against pipeline, not vanity clicks.' },
-    { name: 'Web Development',               desc: 'WordPress, eCommerce and custom builds — fast, accessible and production-ready.' },
+    { name: 'Development',               desc: 'WordPress, eCommerce and custom builds — fast, accessible and production-ready.' },
     { name: 'Analytics',                     desc: 'GA4, Tag Manager and Looker reporting that turns data into decisions.' },
     { name: 'Cloud and Infrastructure',      desc: 'Hosting, security and uptime that keep the work online around the clock.' },
     { name: 'Operations and Client Success', desc: 'The coordinators who keep projects moving and partners in the loop.' },
@@ -501,10 +501,14 @@ const LinkedIn = ({ size = 18 }) => (
   </svg>
 );
 
-const TeamPhoto = ({ m, i, light = false }) => (
+const TeamPhoto = ({ m, i, light = false, hover = false }) => (
   <img src={m.img} alt={`${m.name} — ${m.role}`} width={m.w} height={m.h}
        loading={i < 4 ? 'eager' : 'lazy'} decoding="async"
-       style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%', display: 'block', filter: 'grayscale(1) contrast(1.05)' }} />
+       style={{
+         width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%', display: 'block',
+         filter: hover ? 'grayscale(0) contrast(1.05)' : 'grayscale(1) contrast(1.05)',
+         transition: 'filter 0.6s cubic-bezier(.2,.8,.2,1)',
+       }} />
 );
 
 /* variation 1 — alternating black/white profile cards, checkerboard */
@@ -521,7 +525,7 @@ const CheckerTeamCard = ({ m, i, seen, hover, onEnter, onLeave }) => {
          }}>
       <div style={{ aspectRatio: '4 / 5', overflow: 'hidden', background: '#111' }}>
         <div style={{ width: '100%', height: '100%', transition: 'transform .5s cubic-bezier(.2,.8,.2,1)', transform: hover ? 'scale(1.06)' : 'scale(1)' }}>
-          <TeamPhoto m={m} i={i} />
+          <TeamPhoto m={m} i={i} hover={hover} />
         </div>
       </div>
       <div style={{ padding: '18px 20px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 12 }}>
