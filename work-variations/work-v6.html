@@ -462,6 +462,18 @@ const MPSCase = () => {
   const pages = ['dashboard', 'fleet', 'analytics', 'reports'];
 
   useEffect(() => {
+    const updateHeight = () => {
+      const vh = Math.min(window.innerHeight, 932);
+      if (pinRef.current && pinRef.current.parentElement) {
+        pinRef.current.parentElement.style.height = `${vh + 1000}px`;
+      }
+    };
+    updateHeight();
+    window.addEventListener('resize', updateHeight);
+    return () => window.removeEventListener('resize', updateHeight);
+  }, []);
+
+  useEffect(() => {
     const pin = pinRef.current;
     if (!pin) return;
     let raf = 0;
@@ -470,7 +482,7 @@ const MPSCase = () => {
       raf = requestAnimationFrame(() => {
         raf = 0;
         const r = pin.getBoundingClientRect();
-        const vh = window.innerHeight;
+        const vh = Math.min(window.innerHeight, 932);
         const span = r.height - vh;
         if (span <= 0) { setP(0); return; }
         setP(Math.max(0, Math.min(1, -r.top / span)));
@@ -663,7 +675,7 @@ const MPSCase = () => {
   return (
     <section ref={pinRef} style={{ background: '#000', color: '#FFF', borderTop: '1px solid #FFF' }}>
       <div style={{
-        position: 'sticky', top: 0, height: '100vh',
+        position: 'sticky', top: 0, height: 'min(100dvh, 932px)',
         display: 'flex', flexDirection: 'column',
         overflow: 'hidden', paddingTop: 96,
       }}>
@@ -754,6 +766,18 @@ const FlatBidCase = () => {
   const [barsSeen, setBarsSeen] = useState(false);
 
   useEffect(() => {
+    const updateHeight = () => {
+      const vh = Math.min(window.innerHeight, 932);
+      if (sectionRef.current) {
+        sectionRef.current.style.height = `${vh + 1000}px`;
+      }
+    };
+    updateHeight();
+    window.addEventListener('resize', updateHeight);
+    return () => window.removeEventListener('resize', updateHeight);
+  }, []);
+
+  useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
     let raf = 0;
@@ -762,7 +786,7 @@ const FlatBidCase = () => {
       raf = requestAnimationFrame(() => {
         raf = 0;
         const r = section.getBoundingClientRect();
-        const vh = window.innerHeight;
+        const vh = Math.min(window.innerHeight, 932);
         const span = r.height - vh;
         const p = span <= 0 ? 0 : Math.max(0, Math.min(1, -r.top / span));
 
@@ -796,9 +820,9 @@ const FlatBidCase = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} style={{ height: '220vh', position: 'relative' }}>
+    <section ref={sectionRef} style={{ position: 'relative' }}>
       <div style={{
-        position: 'sticky', top: 0, height: '100vh',
+        position: 'sticky', top: 0, height: 'min(100dvh, 932px)',
         display: 'flex', borderTop: '1px solid #FFF', overflow: 'hidden',
       }}>
         {/* Left panel — white, starts at 75%, animates to 50% */}
@@ -881,7 +905,7 @@ const WorkPhilosophy = () => {
   return (
     <section ref={ref} style={{
       background: '#FFF', color: '#000',
-      padding: '120px 6vw 100px',
+      padding: '180px 6vw 180px',
       borderTop: '1px solid #000',
     }}>
       <div style={{
