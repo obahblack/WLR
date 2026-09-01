@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — White Label Resell</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+  @font-face { font-family: 'Geist'; src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-Regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Geist'; src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-Medium.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Geist'; src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-SemiBold.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Geist Mono'; src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-mono/GeistMono-Regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Geist Mono'; src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-mono/GeistMono-Medium.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Geist Mono'; src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-mono/GeistMono-SemiBold.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+  body { font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif; background: #000; color: #FFF; overflow-x: hidden; }
+  a { text-decoration: none; color: inherit; }
+
+  /* ── NAV ── */
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; mix-blend-mode: difference; pointer-events: none; padding: 20px 32px; display: flex; justify-content: space-between; align-items: center; color: #FFF; font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; }
+  .nav a { pointer-events: auto; color: #FFF; text-decoration: none; }
+  .nav-logo { display: inline-flex; align-items: center; gap: 12px; }
+  .nav-links { pointer-events: auto; display: flex; gap: 24px; }
+  .nav-links a { opacity: 0.6; transition: opacity 0.2s; padding-bottom: 2px; border-bottom: 1px solid transparent; }
+  .nav-links a:hover { opacity: 1; }
+  .nav-links a.active { opacity: 1; border-bottom-color: #FFF; }
+  @media (max-width: 768px) { .nav-links { display: none; } }
+
+  /* ── THREE BAR LOGO ── */
+  .three-bar { display: flex; gap: 3px; align-items: flex-end; }
+  .three-bar span { display: block; background: currentColor; border-radius: 1px; }
+
+  /* ── HERO ── */
+  .blog-hero { background: #000; padding: 140px 6vw 80px; min-height: 50vh; }
+  .blog-hero h1 { font-size: clamp(48px, 7vw, 96px); font-weight: 600; letter-spacing: -0.04em; line-height: 1.04; margin-bottom: 20px; }
+  .blog-hero p { font-size: 18px; opacity: 0.6; max-width: 480px; line-height: 1.6; }
+
+  /* ── FEATURED POST ── */
+  .featured-section { background: #FFF; color: #000; padding: 80px 6vw; }
+  .featured-card { display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: center; background: #F5F5F5; border-radius: 20px; overflow: hidden; }
+  .featured-img { width: 100%; height: 100%; min-height: 420px; object-fit: cover; display: block; }
+  .featured-body { padding: 48px 48px 48px 0; }
+  .featured-tag { display: inline-block; font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; background: #000; color: #FFF; padding: 6px 14px; border-radius: 999px; margin-bottom: 20px; }
+  .featured-body h2 { font-size: clamp(28px, 3vw, 40px); font-weight: 600; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 16px; }
+  .featured-body p { font-size: 16px; line-height: 1.65; opacity: 0.65; margin-bottom: 28px; max-width: 420px; }
+  .featured-meta { font-size: 13px; opacity: 0.45; margin-bottom: 28px; }
+  .btn-read { display: inline-flex; align-items: center; gap: 10px; padding: 16px 28px; background: #000; color: #FFF; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 600; text-decoration: none; transition: opacity 0.2s; }
+  .btn-read:hover { opacity: 0.85; }
+  @media (max-width: 900px) { .featured-card { grid-template-columns: 1fr; } .featured-body { padding: 32px; } .featured-img { min-height: 280px; } }
+
+  /* ── RECENT POSTS ── */
+  .recent-section { background: #FFF; color: #000; padding: 0 6vw 100px; }
+  .recent-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 48px; gap: 24px; flex-wrap: wrap; }
+  .recent-header h2 { font-size: clamp(28px, 3vw, 40px); font-weight: 600; letter-spacing: -0.03em; }
+  .search-box { display: flex; align-items: center; gap: 10px; padding: 12px 20px; border: 1px solid rgba(0,0,0,0.15); border-radius: 12px; background: #F8F8F8; min-width: 260px; }
+  .search-box input { border: none; outline: none; background: transparent; font-family: 'Geist', sans-serif; font-size: 14px; color: #000; flex: 1; min-width: 0; }
+  .search-box input::placeholder { color: rgba(0,0,0,0.35); }
+  .search-box svg { flex-shrink: 0; opacity: 0.4; }
+
+  /* ── BLOG GRID ── */
+  .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .blog-card { background: #F8F8F8; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+  .blog-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
+  .blog-card-img { width: 100%; height: 220px; object-fit: cover; display: block; }
+  .blog-card-body { padding: 24px; display: flex; flex-direction: column; flex: 1; }
+  .blog-card-tag { font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.45; margin-bottom: 10px; }
+  .blog-card-title { font-size: 18px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.35; margin-bottom: 12px; }
+  .blog-card-excerpt { font-size: 14px; line-height: 1.6; opacity: 0.55; margin-bottom: 20px; flex: 1; }
+  .blog-card-footer { display: flex; justify-content: space-between; align-items: center; }
+  .blog-card-date { font-size: 12px; opacity: 0.4; }
+  .blog-card-link { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 600; opacity: 0.7; transition: opacity 0.2s; }
+  .blog-card-link:hover { opacity: 1; }
+  @media (max-width: 900px) { .blog-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .blog-grid { grid-template-columns: 1fr; } }
+
+  /* ── CTA ── */
+  .cta-section { background: #000; padding: 100px 6vw; }
+  .cta-inner { display: flex; justify-content: space-between; align-items: center; gap: 40px; }
+  .cta-text h2 { font-size: clamp(32px, 4vw, 56px); font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 16px; }
+  .cta-text p { font-size: 16px; opacity: 0.6; max-width: 400px; line-height: 1.6; }
+  .btn-cta { display: inline-flex; align-items: center; gap: 14px; padding: 20px 28px; background: #FFF; color: #000; font-family: 'Geist Mono', monospace; font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 600; text-decoration: none; transition: opacity 0.2s; cursor: pointer; border: none; }
+  .btn-cta:hover { opacity: 0.85; }
+  @media (max-width: 768px) { .cta-inner { flex-direction: column; text-align: center; } .cta-text p { margin: 0 auto; } }
+
+  /* ── FOOTER ── */
+  .site-footer { background: #000; color: #FFF; padding: 0 6vw; border-top: 1px solid rgba(255,255,255,0.1); }
+  .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.6fr; gap: clamp(32px, 4vw, 64px); padding: 64px 0 48px; }
+  .footer-brand-text { margin: 20px 0 0; font-size: 15px; line-height: 1.65; opacity: 0.7; max-width: 320px; }
+  .footer-socials { display: flex; gap: 12px; margin-top: 28px; }
+  .footer-socials a { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; text-decoration: none; transition: background 0.2s; }
+  .footer-socials a:hover { background: rgba(255,255,255,0.2); }
+  .footer-socials svg { width: 16px; height: 16px; fill: #FFF; }
+  .footer-col h4 { margin: 0 0 24px; font-family: 'Geist', sans-serif; font-size: 18px; font-weight: 600; }
+  .footer-col a { display: block; font-size: 15px; opacity: 0.7; margin-bottom: 16px; transition: opacity 0.2s; }
+  .footer-col a:hover { opacity: 1; }
+  .footer-newsletter-input { display: flex; gap: 8px; margin-top: 8px; }
+  .footer-newsletter-input input { flex: 1; padding: 12px 16px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #FFF; font-family: 'Geist', sans-serif; font-size: 14px; outline: none; min-width: 0; }
+  .footer-newsletter-input input::placeholder { color: rgba(255,255,255,0.4); }
+  .footer-newsletter-input button { padding: 12px 20px; background: #FFF; color: #000; border: none; border-radius: 8px; font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 600; cursor: pointer; white-space: nowrap; transition: opacity 0.2s; }
+  .footer-newsletter-input button:hover { opacity: 0.85; }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding: 24px 0; display: flex; justify-content: space-between; align-items: center; font-size: 13px; opacity: 0.5; }
+  .footer-bottom a { opacity: 0.7; transition: opacity 0.2s; }
+  .footer-bottom a:hover { opacity: 1; }
+  @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .footer-grid { grid-template-columns: 1fr; } .footer-bottom { flex-direction: column; gap: 12px; text-align: center; } }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <span class="three-bar" style="height: 18px;"><span style="width:4px;height:100%;"></span><span style="width:4px;height:70%;"></span><span style="width:4px;height:45%;"></span></span>
+    White Label Resell
+  </a>
+  <div class="nav-links">
+    <a href="work-variations/work-v6.html">Work</a>
+    <a href="about-variations/about-v1.html">About</a>
+    <a href="team-v2.html">Team</a>
+    <a href="blog.html" class="active">Blog</a>
+    <a href="#" onclick="event.preventDefault(); window.openQuoteModal && window.openQuoteModal();">Get a Quote</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="blog-hero">
+  <h1>Insights &amp;<br/>Perspectives</h1>
+  <p>Thoughts on digital growth, production systems, and the work behind scaling agencies silently.</p>
+</section>
+
+<!-- FEATURED POST -->
+<section class="featured-section">
+  <div class="featured-card">
+    <img class="featured-img" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop&q=80" alt="Featured post" />
+    <div class="featured-body">
+      <span class="featured-tag">Featured</span>
+      <h2>The Silent Engine: How White Label Teams Scale Without the Headcount</h2>
+      <p>Most agencies hit a wall — more clients means more overhead. But there's a model that lets you grow revenue while keeping your team lean. Here's how it works.</p>
+      <div class="featured-meta">Jun 12, 2026 · 8 min read</div>
+      <a href="blog-post.html" class="btn-read">Read Article <span>→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- RECENT POSTS -->
+<section class="recent-section">
+  <div class="recent-header">
+    <h2>Recent Blogs</h2>
+    <div class="search-box">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="Search articles..." id="blogSearch" />
+    </div>
+  </div>
+
+  <div class="blog-grid" id="blogGrid">
+    <a href="blog-post.html" class="blog-card">
+      <img class="blog-card-img" src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&h=400&fit=crop&q=80" alt="" />
+      <div class="blog-card-body">
+        <span class="blog-card-tag">Strategy</span>
+        <h3 class="blog-card-title">Why Agencies Are Moving to White Label Production in 2026</h3>
+        <p class="blog-card-excerpt">The shift is quiet but accelerating. More agencies are choosing to scale through white label partnerships rather than hiring in-house.</p>
+        <div class="blog-card-footer">
+          <span class="blog-card-date">May 28, 2026</span>
+          <span class="blog-card-link">Read →</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="blog-post.html" class="blog-card">
+      <img class="blog-card-img" src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&h=400&fit=crop&q=80" alt="" />
+      <div class="blog-card-body">
+        <span class="blog-card-tag">Operations</span>
+        <h3 class="blog-card-title">Building a Production Bench: The Framework Behind Consistent Delivery</h3>
+        <p class="blog-card-excerpt">Consistency isn't about working harder. It's about building systems that deliver the same quality, every time, regardless of who's on the team.</p>
+        <div class="blog-card-footer">
+          <span class="blog-card-date">May 14, 2026</span>
+          <span class="blog-card-link">Read →</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="blog-post.html" class="blog-card">
+      <img class="blog-card-img" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop&q=80" alt="" />
+      <div class="blog-card-body">
+        <span class="blog-card-tag">Growth</span>
+        <h3 class="blog-card-title">Client Results vs. Client Claims: Why Measured Outcomes Win</h3>
+        <p class="blog-card-excerpt">Numbers without context are just noise. Here's how to build a results framework that actually proves ROI to your clients.</p>
+        <div class="blog-card-footer">
+          <span class="blog-card-date">Apr 30, 2026</span>
+          <span class="blog-card-link">Read →</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="blog-post.html" class="blog-card">
+      <img class="blog-card-img" src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&h=400&fit=crop&q=80" alt="" />
+      <div class="blog-card-body">
+        <span class="blog-card-tag">SEO</span>
+        <h3 class="blog-card-title">The End of Keyword Stuffing: What Actually Drives Rankings Now</h3>
+        <p class="blog-card-excerpt">Google's systems have evolved. The old tricks don't work. Here's what the top-performing sites are doing differently in 2026.</p>
+        <div class="blog-card-footer">
+          <span class="blog-card-date">Apr 16, 2026</span>
+          <span class="blog-card-link">Read →</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="blog-post.html" class="blog-card">
+      <img class="blog-card-img" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&q=80" alt="" />
+      <div class="blog-card-body">
+        <span class="blog-card-tag">Analytics</span>
+        <h3 class="blog-card-title">Data-Rich Interfaces: Turning Complex Analytics Into Clear Decisions</h3>
+        <p class="blog-card-excerpt">Dashboards shouldn't confuse your clients. Here's how to design analytics interfaces that drive action, not just display data.</p>
+        <div class="blog-card-footer">
+          <span class="blog-card-date">Apr 2, 2026</span>
+          <span class="blog-card-link">Read →</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="blog-post.html" class="blog-card">
+      <img class="blog-card-img" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=400&fit=crop&q=80" alt="" />
+      <div class="blog-card-body">
+        <span class="blog-card-tag">Team</span>
+        <h3 class="blog-card-title">Working Behind the Brand: The Art of Invisible Partnership</h3>
+        <p class="blog-card-excerpt">The best white label relationships are invisible. Your clients never know there's a team behind the work — and that's exactly the point.</p>
+        <div class="blog-card-footer">
+          <span class="blog-card-date">Mar 19, 2026</span>
+          <span class="blog-card-link">Read →</span>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <div class="cta-text">
+      <h2>Ready to scale<br/>without the overhead?</h2>
+      <p>Talk to us about building your production bench. No hiring, no headaches — just consistent, high-quality output under your brand.</p>
+    </div>
+    <a href="#" class="btn-cta" onclick="event.preventDefault(); window.openQuoteModal && window.openQuoteModal();">
+      <span class="three-bar" style="height: 13px; color: #000;"><span style="width:3px;height:100%;"></span><span style="width:3px;height:70%;"></span><span style="width:3px;height:45%;"></span></span>
+      Get a Quote →
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="three-bar" style="height: 28px; color: #FFF;"><span style="width:4px;height:100%;"></span><span style="width:4px;height:70%;"></span><span style="width:4px;height:45%;"></span></span>
+        <span style="font-family:'Geist',sans-serif;font-size:20px;font-weight:600;letter-spacing:-0.02em;">White Label Resell</span>
+      </div>
+      <p class="footer-brand-text">Maximize potential, boost business! Expert SEO and Content Marketing to attract visitors and achieve digital success.</p>
+      <div class="footer-socials">
+        <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+        <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="work-variations/work-v6.html">Work</a>
+      <a href="about-variations/about-v1.html">About</a>
+      <a href="team-v2.html">Team</a>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <a href="#" onclick="event.preventDefault(); window.openQuoteModal && window.openQuoteModal();">Get a Quote</a>
+      <a href="blog.html">Blog</a>
+    </div>
+    <div class="footer-col">
+      <h4>Newsletter</h4>
+      <div class="footer-newsletter-input">
+        <input type="email" placeholder="Enter your email" />
+        <button type="button">Subscribe</button>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 White Label Resell. All rights reserved.</span>
+    <span><a href="#">Privacy Policy</a> · <a href="#">Terms of Service</a></span>
+  </div>
+</footer>
+
+<script>
+  // Blog search filter
+  const searchInput = document.getElementById('blogSearch');
+  const blogGrid = document.getElementById('blogGrid');
+  if (searchInput && blogGrid) {
+    searchInput.addEventListener('input', function() {
+      const q = this.value.toLowerCase();
+      blogGrid.querySelectorAll('.blog-card').forEach(card => {
+        const text = card.textContent.toLowerCase();
+        card.style.display = text.includes(q) ? '' : 'none';
+      });
+    });
+  }
+</script>
+</body>
+</html>
