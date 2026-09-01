@@ -32,12 +32,13 @@
   @media (max-width: 768px) { .nav-links { display: none; } }
 
   /* ── HERO (black bg, centered text + featured card) ── */
-  .blog-hero { background: #000; padding: 140px 6vw 80px; text-align: center; }
-  .blog-hero h1 { font-size: clamp(48px, 7vw, 96px); font-weight: 600; letter-spacing: -0.04em; line-height: 1.04; }
+  .blog-hero { background: #000; padding: 140px 6vw 120px; text-align: left; }
+  .blog-hero h1 { font-size: clamp(48px, 7vw, 96px); font-weight: 600; letter-spacing: -0.04em; line-height: 1.04; margin-bottom: 16px; }
+  .blog-hero .hero-sub { font-size: 18px; opacity: 0.5; max-width: 480px; line-height: 1.6; }
 
   /* ── FEATURED POST (white card, inside hero) ── */
-  .featured-wrap { margin-top: 64px; }
-  .featured-card { display: grid; grid-template-columns: 1.1fr 1fr; gap: 0; align-items: stretch; background: #FFF; color: #000; border-radius: 20px; overflow: hidden; }
+  .featured-wrap { margin-top: 64px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+  .featured-card { display: grid; grid-template-columns: 1fr 1fr; gap: 0; align-items: stretch; background: #FFF; color: #000; border-radius: 20px; overflow: hidden; text-align: left; }
   .featured-img { width: 100%; height: 100%; min-height: 420px; object-fit: cover; display: block; }
   .featured-body { padding: 48px; display: flex; flex-direction: column; justify-content: center; }
   .featured-tag { display: inline-block; width: fit-content; font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; background: #000; color: #FFF; padding: 6px 14px; border-radius: 999px; margin-bottom: 20px; }
@@ -68,6 +69,12 @@
   .blog-card-excerpt { font-size: 14px; line-height: 1.6; color: rgba(0,0,0,0.5); margin-bottom: 24px; flex: 1; }
   .blog-card-link { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; border: 1px solid rgba(0,0,0,0.2); font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.1em; font-weight: 500; color: #000; text-decoration: none; transition: background 0.2s, color 0.2s; width: fit-content; }
   .blog-card-link:hover { background: #000; color: #FFF; border-color: #000; }
+  /* ── PAGINATION ── */
+  .pagination { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 48px; }
+  .page-btn { padding: 10px 16px; border: 1px solid rgba(0,0,0,0.15); background: #FFF; color: #000; font-family: 'Geist Mono', monospace; font-size: 13px; font-weight: 500; cursor: pointer; transition: background 0.2s, color 0.2s; text-decoration: none; }
+  .page-btn:hover { background: #000; color: #FFF; border-color: #000; }
+  .page-btn.active { background: #000; color: #FFF; border-color: #000; }
+  .page-btn.disabled { opacity: 0.35; pointer-events: none; }
 
   /* ── CTA ── */
   .cta-section { background: #000; padding: 100px 6vw; }
@@ -118,9 +125,10 @@
   </div>
 </nav>
 
-<!-- HERO (black bg, centered title + featured card inside) -->
+<!-- HERO (black bg, left-aligned title + featured card inside) -->
 <section class="blog-hero">
   <h1>Blogs</h1>
+  <p class="hero-sub">Thoughts on digital growth, production systems, and the work behind scaling agencies silently.</p>
 
   <div class="featured-wrap">
     <a href="blog-post.html" class="featured-card">
@@ -206,6 +214,125 @@
         <span class="blog-card-link">Read &raquo;</span>
       </div>
     </a>
+
+    <a href="blog-post.html" class="blog-card">
+      <img class="blog-card-img" src="https://images.unsplash.com/photo-1497215842964-222b430dc094?w=600&h=400&fit=crop&q=80" alt="" />
+      <div class="blog-card-body">
+        <div class="blog-card-date">Mar 5, 2026</div>
+        <h3 class="blog-card-title">Why Your Agency Needs a White Label SEO Partner in 2026</h3>
+        <p class="blog-card-excerpt">Scaling SEO services in-house is expensive and slow. Here's why the smartest agencies are partnering up instead.</p>
+        <span class="blog-card-link">Read &raquo;</span>
+      </div>
+    </a>
+
+    <a href="blog-post.html" class="blog-card">
+      <img class="blog-card-img" src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&h=400&fit=crop&q=80" alt="" />
+      <div class="blog-card-body">
+        <div class="blog-card-date">Feb 20, 2026</div>
+        <h3 class="blog-card-title">The Framework for Consistent Content Delivery at Scale</h3>
+        <p class="blog-card-excerpt">Quality doesn't have to suffer when volume increases. Build the system that makes consistency automatic.</p>
+        <span class="blog-card-link">Read &raquo;</span>
+      </div>
+    </a>
+
+    <a href="blog-post.html" class="blog-card">
+      <img class="blog-card-img" src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&h=400&fit=crop&q=80" alt="" />
+      <div class="blog-card-body">
+        <div class="blog-card-date">Feb 8, 2026</div>
+        <h3 class="blog-card-title">How to Measure What Matters: Beyond Vanity Metrics</h3>
+        <p class="blog-card-excerpt">Page views and impressions mean nothing without context. Here's how to build a reporting framework that drives real decisions.</p>
+        <span class="blog-card-link">Read &raquo;</span>
+      </div>
+    </a>
+
+    <a href="blog-post.html" class="blog-card">
+      <img class="blog-card-img" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop&q=80" alt="" />
+      <div class="blog-card-body">
+        <div class="blog-card-date">Jan 25, 2026</div>
+        <h3 class="blog-card-title">Building Trust Through Transparent Client Reporting</h3>
+        <p class="blog-card-excerpt">Trust is earned through clarity. Learn how transparent reporting strengthens client relationships and retention.</p>
+        <span class="blog-card-link">Read &raquo;</span>
+      </div>
+    </a>
+
+    <a href="blog-post.html" class="blog-card">
+      <img class="blog-card-img" src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&h=400&fit=crop&q=80" alt="" />
+      <div class="blog-card-body">
+        <div class="blog-card-date">Jan 12, 2026</div>
+        <h3 class="blog-card-title">White Label Web Development: What to Look for in a Partner</h3>
+        <p class="blog-card-excerpt">Not all white label partners are equal. Here's the checklist to evaluate before signing a production agreement.</p>
+        <span class="blog-card-link">Read &raquo;</span>
+      </div>
+    </a>
+
+    <a href="blog-post.html" class="blog-card">
+      <img class="blog-card-img" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&q=80" alt="" />
+      <div class="blog-card-body">
+        <div class="blog-card-date">Dec 18, 2025</div>
+        <h3 class="blog-card-title">Data-Driven Decisions: How Analytics Teams Add Real Value</h3>
+        <p class="blog-card-excerpt">Analytics without action is just data. Here's how to turn reports into revenue-driving decisions for your clients.</p>
+        <span class="blog-card-link">Read &raquo;</span>
+      </div>
+    </a>
+
+    <a href="blog-post.html" class="blog-card">
+      <img class="blog-card-img" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=400&fit=crop&q=80" alt="" />
+      <div class="blog-card-body">
+        <div class="blog-card-date">Dec 3, 2025</div>
+        <h3 class="blog-card-title">The Art of Scaling Without Sacrificing Quality</h3>
+        <p class="blog-card-excerpt">Growth shouldn't mean compromise. Here's the operational framework that lets agencies scale while keeping quality high.</p>
+        <span class="blog-card-link">Read &raquo;</span>
+      </div>
+    </a>
+
+    <a href="blog-post.html" class="blog-card">
+      <img class="blog-card-img" src="https://images.unsplash.com/photo-1497215842964-222b430dc094?w=600&h=400&fit=crop&q=80" alt="" />
+      <div class="blog-card-body">
+        <div class="blog-card-date">Nov 20, 2025</div>
+        <h3 class="blog-card-title">SEO in 2026: What's Changing and What's Not</h3>
+        <p class="blog-card-excerpt">The landscape is shifting. Stay ahead with the strategies that actually work in the new year.</p>
+        <span class="blog-card-link">Read &raquo;</span>
+      </div>
+    </a>
+
+    <a href="blog-post.html" class="blog-card">
+      <img class="blog-card-img" src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&h=400&fit=crop&q=80" alt="" />
+      <div class="blog-card-body">
+        <div class="blog-card-date">Nov 5, 2025</div>
+        <h3 class="blog-card-title">Why Project Management Makes or Breaks Agency Growth</h3>
+        <p class="blog-card-excerpt">Great work delivered late is still a failure. Here's how project management separates good agencies from great ones.</p>
+        <span class="blog-card-link">Read &raquo;</span>
+      </div>
+    </a>
+
+    <a href="blog-post.html" class="blog-card">
+      <img class="blog-card-img" src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&h=400&fit=crop&q=80" alt="" />
+      <div class="blog-card-body">
+        <div class="blog-card-date">Oct 22, 2025</div>
+        <h3 class="blog-card-title">Client Retention Strategies That Actually Work</h3>
+        <p class="blog-card-excerpt">Acquiring clients is expensive. Keeping them shouldn't be. These retention frameworks have proven results.</p>
+        <span class="blog-card-link">Read &raquo;</span>
+      </div>
+    </a>
+
+    <a href="blog-post.html" class="blog-card">
+      <img class="blog-card-img" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop&q=80" alt="" />
+      <div class="blog-card-body">
+        <div class="blog-card-date">Oct 8, 2025</div>
+        <h3 class="blog-card-title">How to Build a Brand That Clients Remember</h3>
+        <p class="blog-card-excerpt">Brand isn't just a logo. It's the entire experience. Here's how to create one that sticks with your clients.</p>
+        <span class="blog-card-link">Read &raquo;</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- PAGINATION -->
+  <div class="pagination">
+    <span class="page-btn disabled">&laquo; Prev</span>
+    <span class="page-btn active">1</span>
+    <a href="#" class="page-btn">2</a>
+    <a href="#" class="page-btn">3</a>
+    <a href="#" class="page-btn">Next &raquo;</a>
   </div>
 </section>
 
