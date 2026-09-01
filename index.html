@@ -1161,7 +1161,7 @@ const Footer = () => {
         <div>
           <h4 style={{ margin: '0 0 24px', fontFamily: 'Geist', fontSize: 18, fontWeight: 600, letterSpacing: '-0.01em' }}>Quick Links</h4>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {[['Get a Quote', '#'], ['Blog', '#']].map(([label, href]) => (
+            {[['Get a Quote', '#'], ['Blog', 'blog.html']].map(([label, href]) => (
               <a key={label} href={href} onClick={label === 'Get a Quote' ? (e) => { e.preventDefault(); window.openQuoteModal(); } : undefined} style={{ color: '#FFF', textDecoration: 'none', fontSize: 15, opacity: .7, transition: 'opacity 0.3s', cursor: label === 'Get a Quote' ? 'pointer' : 'default' }} onMouseEnter={e => e.currentTarget.style.opacity = 1} onMouseLeave={e => e.currentTarget.style.opacity = .7}>{label}</a>
             ))}
           </div>
