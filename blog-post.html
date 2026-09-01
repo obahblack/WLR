@@ -55,7 +55,7 @@
   .article-section { background: #FFF; color: #000; padding: 80px 0; }
   .article { max-width: 768px; margin: 0 auto; padding: 0 24px; line-height: 1.8; }
   .article .lead { font-size: 20px; font-weight: 500; color: #000; line-height: 1.75; margin-bottom: 28px; }
-  .article h2 { font-size: clamp(24px, 3vw, 32px); font-weight: 600; color: #000; margin: 48px 0 18px; letter-spacing: -0.02em; line-height: 1.25; padding-bottom: 12px; border-bottom: 2px solid #E5E5E5; }
+  .article h2 { font-size: clamp(24px, 3vw, 32px); font-weight: 600; color: #000; margin: 48px 0 18px; letter-spacing: -0.02em; line-height: 1.25; padding-bottom: 12px; border-bottom: 1px solid #000; }
   .article h3 { font-size: 20px; font-weight: 600; color: #000; margin: 32px 0 12px; letter-spacing: -0.01em; }
   .article p { font-size: 16px; line-height: 1.82; color: rgba(0,0,0,0.7); margin-bottom: 20px; }
   .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
@@ -66,20 +66,22 @@
   .article-img figcaption { font-size: 13px; font-style: italic; color: rgba(0,0,0,0.4); margin-top: 10px; text-align: center; line-height: 1.4; }
 
   /* ── COMPONENTS: TOC, Takeaways, Facts, FAQ ── */
-  .comp-box { background: #F8F8F8; border-radius: 16px; overflow: hidden; border: 1px solid rgba(0,0,0,0.08); margin: 32px 0; }
+  .comp-box { background: #FFF; border: 1px solid #000; margin: 32px 0; }
   .comp-title { font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #000; padding: 20px 24px 12px; }
   .comp-list { list-style: none; padding: 0 24px 20px; margin: 0; }
-  .comp-list li { padding: 8px 0; font-size: 15px; color: rgba(0,0,0,0.65); display: flex; gap: 10px; align-items: flex-start; line-height: 1.6; }
+  .comp-list li { padding: 8px 0; font-size: 15px; color: rgba(0,0,0,0.65); display: flex; gap: 10px; align-items: flex-start; line-height: 1.6; border-bottom: 1px solid rgba(0,0,0,0.08); }
+  .comp-list li:last-child { border-bottom: none; }
   .comp-list li::before { content: '→'; color: #000; font-weight: 600; flex-shrink: 0; }
   .comp-takeaway li::before { content: '✓'; }
   .comp-toc { list-style: none; padding: 0 24px 20px; margin: 0; }
-  .comp-toc li { padding: 6px 0; }
+  .comp-toc li { padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.08); }
+  .comp-toc li:last-child { border-bottom: none; }
   .comp-toc a { color: rgba(0,0,0,0.55); text-decoration: none; font-size: 15px; font-weight: 500; transition: color 0.2s; }
   .comp-toc a:hover { color: #000; }
 
   /* FAQ */
-  .comp-faq .comp-title { border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 16px; }
-  .faq-item { padding: 20px 24px; border-bottom: 1px solid rgba(0,0,0,0.06); }
+  .comp-faq .comp-title { border-bottom: 1px solid #000; padding-bottom: 16px; }
+  .faq-item { padding: 20px 24px; border-bottom: 1px solid rgba(0,0,0,0.08); }
   .faq-item:last-child { border-bottom: none; }
   .faq-q { font-size: 15px; font-weight: 600; color: #000; margin-bottom: 8px; }
   .faq-a { font-size: 15px; color: rgba(0,0,0,0.6); line-height: 1.65; }
@@ -93,32 +95,31 @@
   @media (max-width: 640px) { .inline-cta { flex-direction: column; align-items: flex-start; padding: 28px 24px; gap: 20px; } }
 
   /* ── RELATED POSTS ── */
-  .related-section { background: #000; padding: 100px 6vw; }
+  .related-section { background: #FFF; color: #000; padding: 80px 6vw; }
   .related-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 48px; gap: 24px; flex-wrap: wrap; }
-  .related-header h2 { font-size: clamp(28px, 3vw, 40px); font-weight: 600; letter-spacing: -0.03em; color: #FFF; }
-  .btn-more { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: #FFF; color: #000; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 600; border: none; cursor: pointer; text-decoration: none; transition: opacity 0.2s; }
+  .related-header h2 { font-size: clamp(28px, 3vw, 40px); font-weight: 600; letter-spacing: -0.03em; color: #000; }
+  .btn-more { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: #000; color: #FFF; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 600; border: none; cursor: pointer; text-decoration: none; transition: opacity 0.2s; }
   .btn-more:hover { opacity: 0.85; }
-  .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-  .rel-card { background: #111; border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s ease, border-color 0.3s ease; }
-  .rel-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.2); }
-  .rel-card-img { width: 100%; height: 200px; object-fit: cover; }
-  .rel-card-body { padding: 20px; display: flex; flex-direction: column; flex: 1; }
+  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 24px; }
+  .rel-card { background: #FFF; border: 1px solid rgba(0,0,0,0.12); overflow: hidden; display: flex; flex-direction: column; transition: border-color 0.2s; text-decoration: none; color: #000; }
+  .rel-card:hover { border-color: rgba(0,0,0,0.4); }
+  .rel-card-img { width: 100%; aspect-ratio: 16/10; object-fit: cover; }
+  .rel-card-body { padding: 24px; display: flex; flex-direction: column; flex: 1; }
   .rel-card-tag { font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.45; margin-bottom: 8px; }
-  .rel-card-title { font-size: 17px; font-weight: 600; color: #FFF; line-height: 1.35; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-  .rel-card-date { font-size: 12px; color: rgba(255,255,255,0.35); }
-  .rel-card-link { margin-top: 14px; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.2s; }
-  .rel-card-link:hover { color: #FFF; }
+  .rel-card-title { font-size: 17px; font-weight: 600; color: #000; line-height: 1.35; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .rel-card-date { font-size: 12px; color: rgba(0,0,0,0.4); }
+  .rel-card-link { margin-top: 14px; display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; border: 1px solid rgba(0,0,0,0.2); font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.1em; font-weight: 500; color: #000; text-decoration: none; transition: background 0.2s, color 0.2s; width: fit-content; }
+  .rel-card-link:hover { background: #000; color: #FFF; border-color: #000; }
   @media (max-width: 900px) { .related-grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 600px) { .related-grid { grid-template-columns: 1fr; } }
 
   /* ── CTA ── */
-  .cta-section { background: #000; padding: 100px 6vw; }
-  .cta-inner { display: flex; justify-content: space-between; align-items: center; gap: 40px; }
-  .cta-text h2 { font-size: clamp(32px, 4vw, 56px); font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 16px; color: #FFF; }
-  .cta-text p { font-size: 16px; opacity: 0.6; max-width: 400px; line-height: 1.6; }
+  .cta-section { background: #000; padding: 100px 6vw; text-align: center; }
+  .cta-section h2 { font-size: clamp(40px, 5vw, 72px); font-weight: 600; letter-spacing: -0.04em; line-height: 1.1; margin-bottom: 20px; color: #FFF; }
+  .cta-section h2 i { font-weight: 300; background: #FFF; color: #000; padding: 4px 16px; font-style: italic; display: inline; }
+  .cta-section p { font-size: 17px; color: rgba(255,255,255,0.5); max-width: 480px; margin: 0 auto 36px; line-height: 1.65; }
   .btn-cta { display: inline-flex; align-items: center; gap: 14px; padding: 20px 28px; background: #FFF; color: #000; font-family: 'Geist Mono', monospace; font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 600; text-decoration: none; transition: opacity 0.2s; cursor: pointer; border: none; }
   .btn-cta:hover { opacity: 0.85; }
-  @media (max-width: 768px) { .cta-inner { flex-direction: column; text-align: center; } .cta-text p { margin: 0 auto; } }
 
   /* ── FOOTER ── */
   .site-footer { background: #000; color: #FFF; padding: 0 6vw; border-top: 1px solid rgba(255,255,255,0.1); }
@@ -233,8 +234,8 @@
     <!-- Inline CTA -->
     <div class="inline-cta">
       <div class="inline-cta-text">
-        <h3>Rank Higher, Write Faster</h3>
-        <p>AI articles that rank and read like a human wrote them.</p>
+        <h3>Scale Your Agency Without the Overhead</h3>
+        <p>Full-service digital production — design, development, SEO, and analytics — under your brand.</p>
       </div>
       <a href="#" class="inline-cta-btn" onclick="event.preventDefault(); window.openQuoteModal && window.openQuoteModal();">Get a Quote →</a>
     </div>
@@ -252,8 +253,8 @@
     <!-- Inline CTA -->
     <div class="inline-cta">
       <div class="inline-cta-text">
-        <h3>Generate Content That Passes Any Detector</h3>
-        <p>310+ quality checks boost burstiness and strip AI signature patterns on every run.</p>
+        <h3>Custom Web Design &amp; Development</h3>
+        <p>From WordPress to custom builds — fast, accessible, and production-ready websites.</p>
       </div>
       <a href="#" class="inline-cta-btn" onclick="event.preventDefault(); window.openQuoteModal && window.openQuoteModal();">Get a Quote →</a>
     </div>
@@ -271,8 +272,8 @@
     <!-- Inline CTA -->
     <div class="inline-cta">
       <div class="inline-cta-text">
-        <h3>Automate the Entire Workflow</h3>
-        <p>From keyword to published article — no manual passes required.</p>
+        <h3>Data-Driven SEO &amp; Analytics</h3>
+        <p>GA4, Tag Manager, and reporting that turns data into decisions for your clients.</p>
       </div>
       <a href="#" class="inline-cta-btn" onclick="event.preventDefault(); window.openQuoteModal && window.openQuoteModal();">Get a Quote →</a>
     </div>
@@ -331,28 +332,25 @@
     <a href="blog-post.html" class="rel-card">
       <img class="rel-card-img" src="https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=600&h=400&fit=crop&q=80" alt="" />
       <div class="rel-card-body">
-        <span class="rel-card-tag">Strategy</span>
-        <h3 class="rel-card-title">How Blog Posts Improve Search Engine Rankings</h3>
         <div class="rel-card-date">May 15, 2026</div>
-        <span class="rel-card-link">Read →</span>
+        <h3 class="rel-card-title">How Blog Posts Improve Search Engine Rankings</h3>
+        <span class="rel-card-link">Read &raquo;</span>
       </div>
     </a>
     <a href="blog-post.html" class="rel-card">
       <img class="rel-card-img" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop&q=80" alt="" />
       <div class="rel-card-body">
-        <span class="rel-card-tag">Growth</span>
-        <h3 class="rel-card-title">Building Topical Authority Fast with Content Clusters</h3>
         <div class="rel-card-date">Apr 22, 2026</div>
-        <span class="rel-card-link">Read →</span>
+        <h3 class="rel-card-title">Building Topical Authority Fast with Content Clusters</h3>
+        <span class="rel-card-link">Read &raquo;</span>
       </div>
     </a>
     <a href="blog-post.html" class="rel-card">
       <img class="rel-card-img" src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&h=400&fit=crop&q=80" alt="" />
       <div class="rel-card-body">
-        <span class="rel-card-tag">SEO</span>
-        <h3 class="rel-card-title">The Death of Keyword Stuffing in 2026</h3>
         <div class="rel-card-date">Mar 30, 2026</div>
-        <span class="rel-card-link">Read →</span>
+        <h3 class="rel-card-title">The Death of Keyword Stuffing in 2026</h3>
+        <span class="rel-card-link">Read &raquo;</span>
       </div>
     </a>
   </div>
@@ -360,16 +358,12 @@
 
 <!-- CTA -->
 <section class="cta-section">
-  <div class="cta-inner" style="max-width:1200px;margin:0 auto;">
-    <div class="cta-text">
-      <h2>Ready to scale<br/>without the overhead?</h2>
-      <p>Talk to us about building your production bench. No hiring, no headaches — just consistent, high-quality output under your brand.</p>
-    </div>
-    <a href="#" class="btn-cta" onclick="event.preventDefault(); window.openQuoteModal && window.openQuoteModal();">
-      <span class="three-bar" style="height: 13px; color: #000;"><span style="width:3px;height:100%;"></span><span style="width:3px;height:70%;"></span><span style="width:3px;height:45%;"></span></span>
-      Get a Quote →
-    </a>
-  </div>
+  <h2>Ready to scale<br/><i>without the overhead?</i></h2>
+  <p>Talk to us about building your production bench. No hiring, no headaches — just consistent, high-quality output under your brand.</p>
+  <a href="#" class="btn-cta" onclick="event.preventDefault(); window.openQuoteModal && window.openQuoteModal();">
+    <span class="three-bar" style="height: 13px; color: #000;"><span style="width:3px;height:100%;"></span><span style="width:3px;height:70%;"></span><span style="width:3px;height:45%;"></span></span>
+    Get a Quote →
+  </a>
 </section>
 
 <!-- FOOTER -->
