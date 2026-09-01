@@ -27,54 +27,47 @@
   .nav-links a { opacity: 0.6; transition: opacity 0.2s; padding-bottom: 2px; border-bottom: 1px solid transparent; }
   .nav-links a:hover { opacity: 1; }
   .nav-links a.active { opacity: 1; border-bottom-color: #FFF; }
-  @media (max-width: 768px) { .nav-links { display: none; } }
-
-  /* ── THREE BAR LOGO ── */
   .three-bar { display: flex; gap: 3px; align-items: flex-end; }
   .three-bar span { display: block; background: currentColor; border-radius: 1px; }
+  @media (max-width: 768px) { .nav-links { display: none; } }
 
-  /* ── HERO ── */
-  .blog-hero { background: #000; padding: 140px 6vw 80px; min-height: 50vh; }
-  .blog-hero h1 { font-size: clamp(48px, 7vw, 96px); font-weight: 600; letter-spacing: -0.04em; line-height: 1.04; margin-bottom: 20px; }
-  .blog-hero p { font-size: 18px; opacity: 0.6; max-width: 480px; line-height: 1.6; }
+  /* ── HERO (black bg, centered text + featured card) ── */
+  .blog-hero { background: #000; padding: 140px 6vw 80px; text-align: center; }
+  .blog-hero h1 { font-size: clamp(48px, 7vw, 96px); font-weight: 600; letter-spacing: -0.04em; line-height: 1.04; }
 
-  /* ── FEATURED POST ── */
-  .featured-section { background: #FFF; color: #000; padding: 80px 6vw; }
-  .featured-card { display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: center; background: #F5F5F5; border-radius: 20px; overflow: hidden; }
+  /* ── FEATURED POST (white card, inside hero) ── */
+  .featured-wrap { margin-top: 64px; }
+  .featured-card { display: grid; grid-template-columns: 1.1fr 1fr; gap: 0; align-items: stretch; background: #FFF; color: #000; border-radius: 20px; overflow: hidden; }
   .featured-img { width: 100%; height: 100%; min-height: 420px; object-fit: cover; display: block; }
-  .featured-body { padding: 48px 48px 48px 0; }
-  .featured-tag { display: inline-block; font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; background: #000; color: #FFF; padding: 6px 14px; border-radius: 999px; margin-bottom: 20px; }
-  .featured-body h2 { font-size: clamp(28px, 3vw, 40px); font-weight: 600; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 16px; }
-  .featured-body p { font-size: 16px; line-height: 1.65; opacity: 0.65; margin-bottom: 28px; max-width: 420px; }
-  .featured-meta { font-size: 13px; opacity: 0.45; margin-bottom: 28px; }
-  .btn-read { display: inline-flex; align-items: center; gap: 10px; padding: 16px 28px; background: #000; color: #FFF; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 600; text-decoration: none; transition: opacity 0.2s; }
-  .btn-read:hover { opacity: 0.85; }
-  @media (max-width: 900px) { .featured-card { grid-template-columns: 1fr; } .featured-body { padding: 32px; } .featured-img { min-height: 280px; } }
+  .featured-body { padding: 48px; display: flex; flex-direction: column; justify-content: center; }
+  .featured-tag { display: inline-block; width: fit-content; font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; background: #000; color: #FFF; padding: 6px 14px; border-radius: 999px; margin-bottom: 20px; }
+  .featured-body h2 { font-size: clamp(24px, 2.5vw, 36px); font-weight: 600; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 16px; }
+  .featured-body p { font-size: 15px; line-height: 1.65; opacity: 0.6; margin-bottom: 24px; max-width: 400px; }
+  .featured-meta { font-size: 13px; opacity: 0.4; margin-bottom: 28px; }
+  .btn-read { display: inline-flex; align-items: center; gap: 10px; padding: 14px 24px; border: 1px solid #000; color: #000; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 600; text-decoration: none; transition: background 0.2s, color 0.2s; width: fit-content; }
+  .btn-read:hover { background: #000; color: #FFF; }
+  @media (max-width: 900px) { .featured-card { grid-template-columns: 1fr; } .featured-img { min-height: 280px; } }
 
-  /* ── RECENT POSTS ── */
-  .recent-section { background: #FFF; color: #000; padding: 0 6vw 100px; }
+  /* ── RECENT POSTS (white bg) ── */
+  .recent-section { background: #FFF; color: #000; padding: 80px 6vw 100px; }
   .recent-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 48px; gap: 24px; flex-wrap: wrap; }
   .recent-header h2 { font-size: clamp(28px, 3vw, 40px); font-weight: 600; letter-spacing: -0.03em; }
-  .search-box { display: flex; align-items: center; gap: 10px; padding: 12px 20px; border: 1px solid rgba(0,0,0,0.15); border-radius: 12px; background: #F8F8F8; min-width: 260px; }
+  .search-box { display: flex; align-items: center; gap: 10px; padding: 12px 20px; border: 1px solid rgba(0,0,0,0.15); border-radius: 12px; background: transparent; min-width: 260px; }
   .search-box input { border: none; outline: none; background: transparent; font-family: 'Geist', sans-serif; font-size: 14px; color: #000; flex: 1; min-width: 0; }
   .search-box input::placeholder { color: rgba(0,0,0,0.35); }
   .search-box svg { flex-shrink: 0; opacity: 0.4; }
 
-  /* ── BLOG GRID ── */
-  .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
-  .blog-card { background: #F8F8F8; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s ease, box-shadow 0.3s ease; }
-  .blog-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
-  .blog-card-img { width: 100%; height: 220px; object-fit: cover; display: block; }
+  /* ── BLOG GRID (white cards, black border, max 360px) ── */
+  .blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 360px)); gap: 24px; justify-content: center; }
+  .blog-card { background: #FFF; border: 1px solid rgba(0,0,0,0.12); border-radius: 0; overflow: hidden; display: flex; flex-direction: column; transition: border-color 0.2s; text-decoration: none; color: #000; }
+  .blog-card:hover { border-color: rgba(0,0,0,0.4); }
+  .blog-card-img { width: 100%; aspect-ratio: 16/10; object-fit: cover; display: block; }
   .blog-card-body { padding: 24px; display: flex; flex-direction: column; flex: 1; }
-  .blog-card-tag { font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.45; margin-bottom: 10px; }
-  .blog-card-title { font-size: 18px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.35; margin-bottom: 12px; }
-  .blog-card-excerpt { font-size: 14px; line-height: 1.6; opacity: 0.55; margin-bottom: 20px; flex: 1; }
-  .blog-card-footer { display: flex; justify-content: space-between; align-items: center; }
-  .blog-card-date { font-size: 12px; opacity: 0.4; }
-  .blog-card-link { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 600; opacity: 0.7; transition: opacity 0.2s; }
-  .blog-card-link:hover { opacity: 1; }
-  @media (max-width: 900px) { .blog-grid { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 600px) { .blog-grid { grid-template-columns: 1fr; } }
+  .blog-card-date { font-size: 13px; color: rgba(0,0,0,0.4); margin-bottom: 10px; }
+  .blog-card-title { font-size: 18px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.35; margin-bottom: 10px; }
+  .blog-card-excerpt { font-size: 14px; line-height: 1.6; color: rgba(0,0,0,0.5); margin-bottom: 24px; flex: 1; }
+  .blog-card-link { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; border: 1px solid rgba(0,0,0,0.2); font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.1em; font-weight: 500; color: #000; text-decoration: none; transition: background 0.2s, color 0.2s; width: fit-content; }
+  .blog-card-link:hover { background: #000; color: #FFF; border-color: #000; }
 
   /* ── CTA ── */
   .cta-section { background: #000; padding: 100px 6vw; }
@@ -125,27 +118,25 @@
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- HERO (black bg, centered title + featured card inside) -->
 <section class="blog-hero">
-  <h1>Insights &amp;<br/>Perspectives</h1>
-  <p>Thoughts on digital growth, production systems, and the work behind scaling agencies silently.</p>
-</section>
+  <h1>Blogs</h1>
 
-<!-- FEATURED POST -->
-<section class="featured-section">
-  <div class="featured-card">
-    <img class="featured-img" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop&q=80" alt="Featured post" />
-    <div class="featured-body">
-      <span class="featured-tag">Featured</span>
-      <h2>The Silent Engine: How White Label Teams Scale Without the Headcount</h2>
-      <p>Most agencies hit a wall — more clients means more overhead. But there's a model that lets you grow revenue while keeping your team lean. Here's how it works.</p>
-      <div class="featured-meta">Jun 12, 2026 · 8 min read</div>
-      <a href="blog-post.html" class="btn-read">Read Article <span>→</span></a>
-    </div>
+  <div class="featured-wrap">
+    <a href="blog-post.html" class="featured-card">
+      <img class="featured-img" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop&q=80" alt="Featured post" />
+      <div class="featured-body">
+        <span class="featured-tag">Featured</span>
+        <h2>The Silent Engine: How White Label Teams Scale Without the Headcount</h2>
+        <p>Most agencies hit a wall — more clients means more overhead. But there's a model that lets you grow revenue while keeping your team lean. Here's how it works.</p>
+        <div class="featured-meta">Jun 12, 2026 · 8 min read</div>
+        <span class="btn-read">Read Article →</span>
+      </div>
+    </a>
   </div>
 </section>
 
-<!-- RECENT POSTS -->
+<!-- RECENT POSTS (white bg) -->
 <section class="recent-section">
   <div class="recent-header">
     <h2>Recent Blogs</h2>
@@ -159,78 +150,60 @@
     <a href="blog-post.html" class="blog-card">
       <img class="blog-card-img" src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&h=400&fit=crop&q=80" alt="" />
       <div class="blog-card-body">
-        <span class="blog-card-tag">Strategy</span>
+        <div class="blog-card-date">May 28, 2026</div>
         <h3 class="blog-card-title">Why Agencies Are Moving to White Label Production in 2026</h3>
         <p class="blog-card-excerpt">The shift is quiet but accelerating. More agencies are choosing to scale through white label partnerships rather than hiring in-house.</p>
-        <div class="blog-card-footer">
-          <span class="blog-card-date">May 28, 2026</span>
-          <span class="blog-card-link">Read →</span>
-        </div>
+        <span class="blog-card-link">Read &raquo;</span>
       </div>
     </a>
 
     <a href="blog-post.html" class="blog-card">
       <img class="blog-card-img" src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&h=400&fit=crop&q=80" alt="" />
       <div class="blog-card-body">
-        <span class="blog-card-tag">Operations</span>
+        <div class="blog-card-date">May 14, 2026</div>
         <h3 class="blog-card-title">Building a Production Bench: The Framework Behind Consistent Delivery</h3>
         <p class="blog-card-excerpt">Consistency isn't about working harder. It's about building systems that deliver the same quality, every time, regardless of who's on the team.</p>
-        <div class="blog-card-footer">
-          <span class="blog-card-date">May 14, 2026</span>
-          <span class="blog-card-link">Read →</span>
-        </div>
+        <span class="blog-card-link">Read &raquo;</span>
       </div>
     </a>
 
     <a href="blog-post.html" class="blog-card">
       <img class="blog-card-img" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop&q=80" alt="" />
       <div class="blog-card-body">
-        <span class="blog-card-tag">Growth</span>
+        <div class="blog-card-date">Apr 30, 2026</div>
         <h3 class="blog-card-title">Client Results vs. Client Claims: Why Measured Outcomes Win</h3>
         <p class="blog-card-excerpt">Numbers without context are just noise. Here's how to build a results framework that actually proves ROI to your clients.</p>
-        <div class="blog-card-footer">
-          <span class="blog-card-date">Apr 30, 2026</span>
-          <span class="blog-card-link">Read →</span>
-        </div>
+        <span class="blog-card-link">Read &raquo;</span>
       </div>
     </a>
 
     <a href="blog-post.html" class="blog-card">
       <img class="blog-card-img" src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&h=400&fit=crop&q=80" alt="" />
       <div class="blog-card-body">
-        <span class="blog-card-tag">SEO</span>
+        <div class="blog-card-date">Apr 16, 2026</div>
         <h3 class="blog-card-title">The End of Keyword Stuffing: What Actually Drives Rankings Now</h3>
         <p class="blog-card-excerpt">Google's systems have evolved. The old tricks don't work. Here's what the top-performing sites are doing differently in 2026.</p>
-        <div class="blog-card-footer">
-          <span class="blog-card-date">Apr 16, 2026</span>
-          <span class="blog-card-link">Read →</span>
-        </div>
+        <span class="blog-card-link">Read &raquo;</span>
       </div>
     </a>
 
     <a href="blog-post.html" class="blog-card">
       <img class="blog-card-img" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&q=80" alt="" />
       <div class="blog-card-body">
-        <span class="blog-card-tag">Analytics</span>
+        <div class="blog-card-date">Apr 2, 2026</div>
         <h3 class="blog-card-title">Data-Rich Interfaces: Turning Complex Analytics Into Clear Decisions</h3>
         <p class="blog-card-excerpt">Dashboards shouldn't confuse your clients. Here's how to design analytics interfaces that drive action, not just display data.</p>
-        <div class="blog-card-footer">
-          <span class="blog-card-date">Apr 2, 2026</span>
-          <span class="blog-card-link">Read →</span>
-        </div>
+        <span class="blog-card-link">Read &raquo;</span>
       </div>
     </a>
 
     <a href="blog-post.html" class="blog-card">
       <img class="blog-card-img" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=400&fit=crop&q=80" alt="" />
       <div class="blog-card-body">
-        <span class="blog-card-tag">Team</span>
+        <div class="blog-card-date">Mar 19, 2026</div>
         <h3 class="blog-card-title">Working Behind the Brand: The Art of Invisible Partnership</h3>
         <p class="blog-card-excerpt">The best white label relationships are invisible. Your clients never know there's a team behind the work — and that's exactly the point.</p>
-        <div class="blog-card-footer">
-          <span class="blog-card-date">Mar 19, 2026</span>
-          <span class="blog-card-link">Read →</span>
-        </div>
+        <span class="blog-card-link">Read &raquo;</span>
       </div>
     </a>
   </div>
@@ -291,15 +264,13 @@
 </footer>
 
 <script>
-  // Blog search filter
   const searchInput = document.getElementById('blogSearch');
   const blogGrid = document.getElementById('blogGrid');
   if (searchInput && blogGrid) {
     searchInput.addEventListener('input', function() {
       const q = this.value.toLowerCase();
       blogGrid.querySelectorAll('.blog-card').forEach(card => {
-        const text = card.textContent.toLowerCase();
-        card.style.display = text.includes(q) ? '' : 'none';
+        card.style.display = card.textContent.toLowerCase().includes(q) ? '' : 'none';
       });
     });
   }
