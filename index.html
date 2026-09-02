@@ -23,6 +23,14 @@
   @keyframes marqueeFwd { from { transform: translateX(0); } to { transform: translateX(-33.333%); } }
   @keyframes marqueeRev { from { transform: translateX(-33.333%); } to { transform: translateX(0); } }
   /* Reduced-motion override removed — animations play on all devices */
+
+  /* ── BLOG-STYLE CTA ── */
+  .blog-cta-section { background: #000; padding: 100px 6vw; text-align: center; }
+  .blog-cta-section h2 { font-size: clamp(40px, 5vw, 72px); font-weight: 600; letter-spacing: -0.04em; line-height: 1.1; margin-bottom: 20px; color: #FFF; }
+  .blog-cta-section h2 i { font-weight: 300; background: #FFF; color: #000; padding: 4px 16px; font-style: italic; display: inline; }
+  .blog-cta-section p { font-size: 17px; color: rgba(255,255,255,0.5); max-width: 480px; margin: 0 auto 36px; line-height: 1.65; }
+  .blog-cta-btn { display: inline-flex; align-items: center; gap: 14px; padding: 20px 28px; background: #FFF; color: #000; font-family: 'Geist Mono', monospace; font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 600; text-decoration: none; transition: opacity 0.2s; cursor: pointer; border: none; }
+  .blog-cta-btn:hover { opacity: 0.85; }
 </style>
 </head>
 <body>
@@ -1113,6 +1121,17 @@ const Close = () => {
   );
 };
 
+/* ═══ 10B · BLOG-STYLE CTA ═══ */
+const BlogCTA = () => (
+  <section className="blog-cta-section">
+    <h2>Ready to scale<br/><i>without the overhead?</i></h2>
+    <p>Talk to us about building your production bench. No hiring, no headaches — just consistent, high-quality output under your brand.</p>
+    <a href="#" className="blog-cta-btn" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }}>
+      <ThreeBar size={13} color="#000" />Get a Quote →
+    </a>
+  </section>
+);
+
 const Footer = () => {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
@@ -1645,6 +1664,7 @@ const App = () => (
     <Marquee />
     <BigNumber />
     <Close />
+    <BlogCTA />
     <Footer />
   </React.Fragment>
 );
