@@ -216,7 +216,8 @@ const Hero = ({ kick, heading, sub }) => {
   }, []);
   const bg = inv ? '#000' : '#FFF';
   const fg = inv ? '#FFF' : '#000';
-  return h('section', { ref, style: { minHeight: '800px', background: bg, color: fg, transition: 'background .6s cubic-bezier(.2,.8,.2,1), color .6s', padding: '100px 6vw 60px', display: 'grid', gridTemplateColumns: '1fr 1fr', alignItems: 'center', gap: '4vw' } },
+  return h('section', { ref, style: { minHeight: '800px', background: bg, color: fg, transition: 'background .6s cubic-bezier(.2,.8,.2,1), color .6s', padding: '100px 6vw 60px' } },
+    h('div', { className: 'section-inner', style: { display: 'grid', gridTemplateColumns: '1fr 1fr', alignItems: 'center', gap: '4vw' } },
     h('div', { style: { opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(24px)', transition: 'all .8s cubic-bezier(.2,.8,.2,1)' } },
       h(Kick, { style: { opacity: 0.6 } }, kick),
       h('h1', { style: { margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(48px, 6.6vw, 112px)', fontWeight: 500, letterSpacing: '-0.04em', lineHeight: 1.04 } }, heading),
@@ -359,6 +360,7 @@ const Cards = () => {
   const productsRows = makeRows(productsMembers);
 
   return h('section', { className: 'cardsec', ref: secRef, style: { position: 'relative', overflow: 'hidden', background: '#FFF', color: '#000', padding: 'clamp(70px, 8vw, 110px) 6vw', borderTop: '1px solid #000' } },
+    h('div', { className: 'section-inner' },
     h('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 48 } },
       h(Kick, { style: { opacity: 0.5, marginBottom: 0 } }, 'The team')
     ),
@@ -401,6 +403,7 @@ const Cards = () => {
         )
       )
     ),
+    ),
     h(Gate)
   );
 };
@@ -427,6 +430,7 @@ const Wireframe = () =>
 const CTA = () => {
   const [ref, seen] = useReveal(0.15);
   return h('section', { ref, style: { background: '#000', color: '#FFF', padding: 'clamp(80px, 9vw, 130px) 6vw', borderTop: '1px solid #FFF' } },
+    h('div', { className: 'section-inner' },
     h('div', { className: 'cta2', style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5vw', alignItems: 'center' } },
       h('div', { style: { opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(20px)', transition: 'all .8s cubic-bezier(.2,.8,.2,1)' } },
         h(Kick, { style: { opacity: 0.5 } }, 'Work with the bench'),
@@ -439,6 +443,7 @@ const CTA = () => {
       h('div', { style: { opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(24px)', transition: 'all .8s cubic-bezier(.2,.8,.2,1) .15s' } },
         h(Wireframe)
       )
+    )
     )
   );
 };

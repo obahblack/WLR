@@ -226,6 +226,9 @@ a:focus-visible, button:focus-visible { outline: 2px solid currentColor; outline
 .jb-card .jb-art { align-items: flex-end; }
 
 /* Reduced-motion override removed — animations play on all devices */
+
+/* ── SECTION INNER (max-width: 1800px) ── */
+.section-inner { max-width: 1800px; margin: 0 auto; width: 100%; }
 </style>
 </head>
 <body>
@@ -429,7 +432,7 @@ const Footer = () => {
   };
   return (
     <footer style={{ background: '#000', color: '#FFF', padding: '0 6vw' }}>
-      <div style={{
+      <div className="section-inner" style={{
         display: 'grid',
         gridTemplateColumns: '1.4fr 1fr 1fr 1.6fr',
         gap: 'clamp(32px, 4vw, 64px)',
@@ -638,6 +641,7 @@ const VideoSection = () => {
   const V = A.video;
   return (
     <section style={{ background: '#000', color: '#FFF', padding: '100px 6vw 80px' }}>
+      <div className="section-inner">
       <div style={{
         display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12, marginBottom: 28,
         fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase',
@@ -700,6 +704,7 @@ const VideoSection = () => {
           </div>
         )}
       </div>
+      </div>
     </section>
   );
 };
@@ -737,7 +742,7 @@ const Faq = () => {
   const [ref, seen] = useReveal(0.2);
   return (
     <section ref={ref} style={{ background: '#FFF', color: '#000', padding: 'clamp(80px, 9vw, 120px) 6vw', borderTop: '1px solid #000' }}>
-      <div className="faq-grid">
+      <div className="section-inner faq-grid">
         <div style={{ opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(18px)', transition: 'opacity .8s ease, transform .8s cubic-bezier(.2,.8,.2,1)' }}>
           <Kick style={{ opacity: .55 }}>Questions</Kick>
           <h2 style={{ margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(36px,4.5vw,64px)', fontWeight: 500, letterSpacing: '-.03em', lineHeight: .98 }}>
@@ -768,6 +773,7 @@ const Cta = () => {
   const c = A.cta;
   return (
     <section ref={ref} style={{ background: '#000', color: '#FFF', borderTop: '1px solid #FFF', padding: 'clamp(80px,10vw,140px) 6vw', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div className="section-inner">
       <ThreeBar size={28} color="#FFF" gap={4} />
       <h2 style={{
         margin: '30px 0 0', maxWidth: 980, fontFamily: 'Geist, sans-serif',
@@ -778,6 +784,7 @@ const Cta = () => {
       <p style={{ margin: '22px auto 0', maxWidth: 560, fontSize: 16, lineHeight: 1.6, opacity: .72, fontWeight: 300 }}>{c.support}</p>
       <div style={{ marginTop: 36 }}>
         <Btn href={c.link} light>Get a quote</Btn>
+      </div>
       </div>
     </section>
   );
@@ -1055,6 +1062,7 @@ const Quad = ({ markRef }) => {
   ];
   return (
     <section ref={ref} style={{ background: '#FFF', color: '#000', padding: '120px 6vw', borderTop: '1px solid #000' }}>
+      <div className="section-inner">
       <div style={{ marginBottom: 64 }}>
         <Kick style={{ opacity: .6 }}>What we do</Kick>
         <h2 style={{ margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(38px,5vw,80px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1.02 }}>
@@ -1071,6 +1079,7 @@ const Quad = ({ markRef }) => {
           <QuadBlock i={2} seen={seen} title={blocks[2].t} desc={blocks[2].d} fill={blocks[2].fill} delay={160} />
           <QuadBlock i={3} seen={seen} title={blocks[3].t} desc={blocks[3].d} fill={blocks[3].fill} delay={260} />
         </div>
+      </div>
       </div>
     </section>
   );
@@ -1094,6 +1103,7 @@ const Journey = ({ cardRef, cardBg, cardColor, cardBorder, cardDark }) => {
   const j = A.journey;
   return (
     <section ref={ref} style={{ background: '#FFF', color: '#000', padding: '120px 6vw', borderTop: '1px solid #000' }}>
+      <div className="section-inner">
       <div style={{ textAlign: 'center', maxWidth: 720, margin: '0 auto 56px' }}>
         <Kick style={{ opacity: .55 }}>Our journey</Kick>
         <h2 style={{ margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(38px,5.2vw,74px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1.04 }}>
@@ -1126,6 +1136,7 @@ const Journey = ({ cardRef, cardBg, cardColor, cardBorder, cardDark }) => {
           </div>
         </div>
       </div>
+      </div>
     </section>
   );
 };
@@ -1135,6 +1146,7 @@ const Team = () => {
   const [hover, setHover] = useState(-1);
   return (
     <section id="team" ref={ref} className={`team-reveal${seen ? ' revealed' : ''}`} style={{ background: '#000', color: '#FFF', padding: '120px 6vw 0', borderTop: '1px solid #FFF' }}>
+      <div className="section-inner">
       <div style={{ marginBottom: 48 }}>
         <Kick>The people</Kick>
         <h2 style={{ margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(40px,5.4vw,84px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1.02 }}>
@@ -1157,6 +1169,7 @@ const Team = () => {
       </div>
       <div style={{ marginTop: 48, textAlign: 'center' }}>
         <Btn href={A.teamHref} light outline>Meet the full team</Btn>
+      </div>
       </div>
     </section>
   );
@@ -1187,6 +1200,7 @@ const Departments = () => {
   }, []);
   return (
     <section ref={sectionRef} style={{ position: 'relative', background: '#FFF', color: '#000', padding: '120px 6vw', borderTop: '1px solid #000', overflow: 'hidden' }}>
+      <div className="section-inner">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 24, marginBottom: 48 }}>
         <div>
           <Kick style={{ opacity: .55 }}>The disciplines</Kick>
@@ -1204,6 +1218,7 @@ const Departments = () => {
           const tileProgress = Math.max(0, Math.min(1, (progress - stagger) / 0.5));
           return <DeptCard key={d.name} d={d} i={i} progress={tileProgress} wide={i === 0 || i === 7} light />;
         })}
+      </div>
       </div>
     </section>
   );

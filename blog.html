@@ -31,6 +31,8 @@
   .three-bar span { display: block; background: currentColor; border-radius: 1px; }
   @media (max-width: 768px) { .nav-links { display: none; } }
 
+  .section-inner { max-width: 1800px; margin: 0 auto; width: 100%; }
+
   /* ── HERO (black bg, centered text + featured card) ── */
   .blog-hero { background: #000; padding: 140px 6vw 120px; text-align: center; }
   .blog-hero h1 { font-size: clamp(48px, 7vw, 96px); font-weight: 600; letter-spacing: -0.04em; line-height: 1.04; margin-bottom: 16px; }
@@ -139,6 +141,7 @@
 
 <!-- HERO (black bg, left-aligned title + featured card inside) -->
 <section class="blog-hero">
+  <div class="section-inner">
   <h1>Blogs</h1>
   <p class="hero-sub">Thoughts on digital growth, production systems, and the work behind scaling agencies silently.</p>
 
@@ -154,10 +157,12 @@
       </div>
     </a>
   </div>
+  </div>
 </section>
 
 <!-- RECENT POSTS (white bg) -->
 <section class="recent-section">
+  <div class="section-inner">
   <div class="recent-header anim">
     <h2>Recent Blogs</h2>
     <div class="search-box">
@@ -346,20 +351,24 @@
     <a href="#" class="page-btn">3</a>
     <a href="#" class="page-btn">Next &raquo;</a>
   </div>
+  </div>
 </section>
 
 <!-- CTA -->
 <section class="cta-section anim">
+  <div class="section-inner">
   <h2>Ready to scale<br/><i>without the overhead?</i></h2>
   <p>Talk to us about building your production bench. No hiring, no headaches — just consistent, high-quality output under your brand.</p>
   <a href="#" class="btn-cta" onclick="event.preventDefault(); window.openQuoteModal && window.openQuoteModal();">
     <span class="three-bar" style="height: 13px; color: #000;"><span style="width:3px;height:100%;"></span><span style="width:3px;height:70%;"></span><span style="width:3px;height:45%;"></span></span>
     Get a Quote →
   </a>
+  </div>
 </section>
 
 <!-- FOOTER -->
 <footer class="site-footer">
+  <div class="section-inner">
   <div class="footer-grid">
     <div>
       <div style="display:flex;align-items:center;gap:12px;">
@@ -395,6 +404,7 @@
   <div class="footer-bottom">
     <span>&copy; 2026 White Label Resell. All rights reserved.</span>
     <span><a href="#">Privacy Policy</a> · <a href="#">Terms of Service</a></span>
+  </div>
   </div>
 </footer>
 
