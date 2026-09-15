@@ -36,7 +36,7 @@ const HUD = ({ active = '' }) => {
       pointerEvents: 'none',
       padding: '20px 32px',
       display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-      color: '#FFF',
+      color: '#FFF', maxWidth: 1880, margin: '0 auto',
       fontFamily: 'Geist Mono', fontSize: 11,
       letterSpacing: '0.22em', textTransform: 'uppercase',
     }}>

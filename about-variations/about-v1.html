@@ -28,7 +28,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid currentColor; outline
 
 .kick { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: .22em; text-transform: uppercase; opacity: .6; margin-bottom: 16px; }
 
-.team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px 12px; }
 @media (max-width: 1000px) { .team-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 520px)  { .team-grid { grid-template-columns: 1fr; } }
 
@@ -66,7 +66,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid currentColor; outline
 @media (max-width: 560px)  { .value-grid { grid-template-columns: 1fr; } }
 
 .dept-grid { display: flex; flex-direction: column; }
-.dept-grid > div { border-bottom: 1px solid rgba(0,0,0,.12); padding: 24px 0; display: grid; grid-template-columns: 60px 1fr 1fr; gap: 32px; align-items: baseline; }
+.dept-grid > div { border-bottom: 1px solid rgba(255,255,255,.22); padding: 24px 0; display: grid; grid-template-columns: 60px 1fr 1fr; gap: 32px; align-items: baseline; }
 .dept-grid > div:last-child { border-bottom: none; }
 @media (max-width: 700px) { .dept-grid > div { grid-template-columns: 44px 1fr; gap: 12px; } .dept-grid > div > div:last-child { grid-column: 1 / -1; } }
 
@@ -168,8 +168,8 @@ a:focus-visible, button:focus-visible { outline: 2px solid currentColor; outline
 
 /* ── dept tile hover inversion ────────────────────── */
 .dept-tile { transition: background .4s ease, color .4s ease, border-color .4s ease; }
-.dept-tile:hover { background: #000 !important; color: #FFF !important; border-color: #000 !important; }
-.dept-tile:hover .dept-num { color: rgba(255,255,255,.4) !important; }
+.dept-tile:hover { background: #FFF !important; color: #000 !important; border-color: #FFF !important; }
+.dept-tile:hover .dept-num { color: rgba(0,0,0,.4) !important; }
 
 /* ── video curtain reveal ──────────────────────────── */
 .vid-curtain { position: absolute; inset: 0; z-index: 2; display: flex; pointer-events: none; }
@@ -227,8 +227,8 @@ a:focus-visible, button:focus-visible { outline: 2px solid currentColor; outline
 
 /* Reduced-motion override removed — animations play on all devices */
 
-/* ── SECTION INNER (max-width: 1800px) ── */
-.section-inner { max-width: 1800px; margin: 0 auto; width: 100%; }
+/* ── SECTION INNER (max-width: 1880px) ── */
+.section-inner { max-width: 1880px; margin: 0 auto; width: 100%; }
 </style>
 </head>
 <body>
@@ -301,11 +301,11 @@ window.ABOUT = {
     label: '2 Minutes Watch',
   },
   cta: {
-    headline: 'Bring the right people.',
-    support: 'Tell us what you are building, improving or growing, and we\u2019ll connect the right specialists around it.',
+    headline: 'We grow what you built.',
+    support: 'We run your marketing — design, SEO, paid media and analytics — so you can focus on growth.',
     link: '../contact.html',
   },
-  teamHref: '../team.html',
+  teamHref: '../team-v2.html',
 };
 </script>
 <script type="text/babel">
@@ -356,7 +356,7 @@ const HUD = ({ active = '' }) => {
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
       mixBlendMode: 'difference', pointerEvents: 'none',
       padding: '20px 32px', display: 'flex', justifyContent: 'space-between',
-      alignItems: 'center', color: '#FFF',
+      alignItems: 'center', color: '#FFF', maxWidth: 1880, margin: '0 auto',
       fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '.22em',
       textTransform: 'uppercase',
     }}>
@@ -516,13 +516,11 @@ const TeamPhoto = ({ m, i, light = false, hover = false }) => (
 
 /* variation 1 — alternating black/white profile cards, checkerboard */
 const CheckerTeamCard = ({ m, i, seen, hover, onEnter, onLeave }) => {
-  const row = Math.floor(i / 4);
-  const baseInv = (i + row) % 2 === 0;
-  const inv = hover ? !baseInv : baseInv;
+  const inv = hover;
   return (
     <div onMouseEnter={onEnter} onMouseLeave={onLeave}
          style={{
-           border: '1px solid #FFF', background: inv ? '#FFF' : '#000',
+           border: '1px solid #000', background: inv ? '#FFF' : '#000',
            color: inv ? '#000' : '#FFF', display: 'flex', flexDirection: 'column', overflow: 'hidden',
            transition: 'background .3s ease, color .3s ease, border-color .3s ease',
          }}>
@@ -536,11 +534,15 @@ const CheckerTeamCard = ({ m, i, seen, hover, onEnter, onLeave }) => {
           <div style={{ fontFamily: 'Geist, sans-serif', fontSize: 'clamp(16px,1.3vw,20px)', fontWeight: 500, letterSpacing: '-.015em', lineHeight: 1.15 }}>{m.name}</div>
            <div style={{ marginTop: 6, fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .65 }}>{m.role}</div>
         </div>
-        {m.li && (
+        {m.li ? (
           <a href={m.li} target="_blank" rel="noopener noreferrer" aria-label={`${m.name} on LinkedIn`}
-             style={{ color: 'inherit', opacity: .55, display: 'inline-flex', transition: 'opacity .2s ease, transform .2s ease', transform: hover ? 'translateY(-2px)' : 'none' }}>
+             style={{ color: 'inherit', display: 'inline-flex', transition: 'transform .2s ease', transform: hover ? 'translateY(-2px)' : 'none' }}>
             <LinkedIn />
           </a>
+        ) : (
+          <span aria-label={`${m.name} on LinkedIn`} style={{ color: 'inherit', display: 'inline-flex', transition: 'transform .2s ease', transform: hover ? 'translateY(-2px)' : 'none' }}>
+            <LinkedIn />
+          </span>
         )}
       </div>
     </div>
@@ -767,24 +769,49 @@ const Faq = () => {
   );
 };
 
-/* ── final CTA (home.html button system) ──────────── */
+/* ── final CTA (team-page left/right system) ──────── */
+const CtaWireframe = () => (
+  <div style={{ border: '2px solid #000', background: '#FFF', boxShadow: '0 24px 60px rgba(0,0,0,.08)' }}>
+    <div style={{ borderBottom: '1px solid rgba(0,0,0,.15)', padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
+      {[0, 1, 2].map((d) => <span key={d} style={{ width: 10, height: 10, borderRadius: '50%', background: '#000' }} />)}
+      <span style={{ flex: 1, height: 6, background: 'rgba(0,0,0,.12)', marginLeft: 8 }} />
+    </div>
+    <div style={{ padding: 18 }}>
+      <div style={{ display: 'flex', gap: 12 }}>
+        <div style={{ flex: 1, height: 44, background: 'rgba(0,0,0,.12)' }} />
+        <div style={{ width: '28%', height: 44, background: 'rgba(0,0,0,.08)' }} />
+      </div>
+      {[0, 1, 2, 3].map((i) => <div key={i} style={{ marginTop: 10, height: 8, background: 'rgba(0,0,0,.12)' }} />)}
+      <div style={{ display: 'flex', alignItems: 'flex-end', gap: 10, height: 64, marginTop: 18 }}>
+        {[0.6, 1, 0.8].map((hh, i) => <div key={i} style={{ width: 22, height: hh * 64, background: '#000' }} />)}
+      </div>
+    </div>
+  </div>
+);
+
 const Cta = () => {
-  const [ref, seen] = useReveal(0.25);
+  const [ref, seen] = useReveal(0.15);
   const c = A.cta;
   return (
-    <section ref={ref} style={{ background: '#000', color: '#FFF', borderTop: '1px solid #FFF', padding: 'clamp(80px,10vw,140px) 6vw', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <section ref={ref} style={{ background: '#FFF', color: '#000', borderTop: '1px solid #000', padding: 'clamp(80px,9vw,130px) 6vw' }}>
       <div className="section-inner">
-      <ThreeBar size={28} color="#FFF" gap={4} />
-      <h2 style={{
-        margin: '30px 0 0', maxWidth: 980, fontFamily: 'Geist, sans-serif',
-        fontSize: 'clamp(44px,6vw,92px)', fontWeight: 500, letterSpacing: '-.04em', lineHeight: 1.02,
-        opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(20px)',
-        transition: 'opacity .8s ease, transform .8s cubic-bezier(.2,.8,.2,1)',
-      }}>{c.headline}</h2>
-      <p style={{ margin: '22px auto 0', maxWidth: 560, fontSize: 16, lineHeight: 1.6, opacity: .72, fontWeight: 300 }}>{c.support}</p>
-      <div style={{ marginTop: 36 }}>
-        <Btn href={c.link} light>Get a quote</Btn>
-      </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5vw', alignItems: 'center' }}>
+          <div style={{ opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(20px)', transition: 'all .8s cubic-bezier(.2,.8,.2,1)' }}>
+            <Kick style={{ opacity: 0.5 }}>Work with us</Kick>
+            <h2 style={{ margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(38px,5vw,76px)', fontWeight: 500, letterSpacing: '-.04em', lineHeight: 1.05 }}>
+              {c.headline}
+            </h2>
+            <p style={{ margin: '20px 0 0', maxWidth: 460, fontSize: 16, lineHeight: 1.6, opacity: 0.7 }}>{c.support}</p>
+            <div style={{ marginTop: 36 }}>
+              <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{ display: 'inline-flex', alignItems: 'center', gap: 14, padding: '20px 28px', background: '#000', color: '#FFF', textDecoration: 'none', fontFamily: 'Geist Mono, monospace', fontSize: 13, letterSpacing: '0.22em', textTransform: 'uppercase', fontWeight: 600, cursor: 'pointer' }}>
+                <ThreeBar size={13} color="#FFF" />Get a quote →
+              </a>
+            </div>
+          </div>
+          <div style={{ opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(24px)', transition: 'all .8s cubic-bezier(.2,.8,.2,1) .15s' }}>
+            <CtaWireframe />
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -793,37 +820,34 @@ const Cta = () => {
 /* ── quad icons (bold stroke, linear) ─────────────── */
 const QuadIcon = ({ i, size = 36, color = '#FFF' }) => {
   const S = color;
+  const sw = { stroke: S, strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' };
   const svgProps = { viewBox: '0 0 24 24', width: size, height: size, fill: 'none', 'aria-hidden': true };
-  if (i === 0) return ( /* Design & Development — pen tool + code */
+  if (i === 0) return ( /* Design & Development — pen tool */
     <svg {...svgProps}>
-      <path d="M4 20 L4 16 L14 6 L18 10 L18 14 L8 24 Z" stroke={S} strokeWidth="2.2" strokeLinejoin="round" strokeLinecap="round" />
-      <path d="M12 8 L16 12" stroke={S} strokeWidth="2.2" strokeLinecap="round" />
-      <path d="M5 19 L7 17" stroke={S} strokeWidth="2.2" strokeLinecap="round" />
-      <path d="M20 4 L18 2 L22 2 L20 6 Z" stroke={S} strokeWidth="2.2" strokeLinejoin="round" strokeLinecap="round" fill={S} />
+      <path {...sw} d="m12 19 7-7 3 3-7 7-3-3z" />
+      <path {...sw} d="m18 13-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
+      <path {...sw} d="m2 2 7.586 7.586" />
+      <circle cx="11" cy="11" r="2" {...sw} />
     </svg>
   );
-  if (i === 1) return ( /* SEO — magnifying glass with cursor */
+  if (i === 1) return ( /* SEO — search */
     <svg {...svgProps}>
-      <circle cx="11" cy="11" r="7" stroke={S} strokeWidth="2.2" />
-      <line x1="16" y1="16" x2="21" y2="21" stroke={S} strokeWidth="2.5" strokeLinecap="round" />
-      <path d="M8 11 L11 11 L11 8" stroke={S} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M14 11 L11 11" stroke={S} strokeWidth="2.2" strokeLinecap="round" />
+      <circle cx="11" cy="11" r="8" {...sw} />
+      <path {...sw} d="m21 21-4.35-4.35" />
     </svg>
   );
   if (i === 2) return ( /* Marketing — megaphone */
     <svg {...svgProps}>
-      <path d="M3 10 L3 14 L7 14 L15 19 L15 5 L7 10 Z" stroke={S} strokeWidth="2.2" strokeLinejoin="round" strokeLinecap="round" />
-      <path d="M18 8 Q20 12 18 16" stroke={S} strokeWidth="2.2" strokeLinecap="round" fill="none" />
-      <path d="M20 6 Q23 12 20 18" stroke={S} strokeWidth="2.2" strokeLinecap="round" fill="none" />
+      <path {...sw} d="m3 11 18-5v12L3 14v-3z" />
+      <path {...sw} d="M11.6 16.8a3 3 0 1 1-5.8-1.6" />
     </svg>
   );
-  /* Content Strategy & Analytics — rising bar chart */
+  /* Content Strategy & Analytics — ascending bars */
   return (
     <svg {...svgProps}>
-      <line x1="3" y1="21" x2="21" y2="21" stroke={S} strokeWidth="2.2" strokeLinecap="round" />
-      <rect x="5" y="13" width="4" height="8" stroke={S} strokeWidth="2.2" strokeLinejoin="round" />
-      <rect x="11" y="8" width="4" height="13" stroke={S} strokeWidth="2.2" strokeLinejoin="round" />
-      <rect x="17" y="4" width="4" height="17" stroke={S} strokeWidth="2.2" strokeLinejoin="round" />
+      <path {...sw} d="M6 20v-5" />
+      <path {...sw} d="M12 20v-9" />
+      <path {...sw} d="M18 20v-13" />
     </svg>
   );
 };
@@ -869,14 +893,14 @@ const QuadBlock = ({ i, seen, title, desc, delay, fill = '#000' }) => {
   return (
     <div style={{
       border: white ? '1px solid #000' : '1px solid #FFF',
-      background: fill, color: fg, padding: '20px 22px',
+      background: fill, color: fg, padding: '44px',
       display: 'flex', flexDirection: 'column', minHeight: 172,
       opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(18px)',
       transition: `opacity .6s ease ${seen ? delay : 0}ms, transform .6s cubic-bezier(.2,.8,.2,1) ${seen ? delay : 0}ms`,
     }}>
       <QuadIcon i={i} size={36} color={fg} />
       <div style={{ marginTop: 14, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(17px,1.4vw,21px)', fontWeight: 500, letterSpacing: '-.02em', lineHeight: 1.15 }}>{title}</div>
-      <p style={{ marginTop: 8, fontSize: 13.5, lineHeight: 1.55, opacity: .7, fontWeight: 300 }}>{desc}</p>
+      <p style={{ marginTop: 8, fontSize: 16, lineHeight: 1.55, opacity: .7, fontWeight: 300 }}>{desc}</p>
     </div>
   );
 };
@@ -933,8 +957,7 @@ const ValueCard = ({ v, i, seen, light = false }) => {
 
 /* ── departments ──────────────────────────────────── */
 const DeptCard = ({ d, i, progress, wide = false, light = false }) => {
-  const odd = i % 2 === 1;
-  const fg = light ? '#000' : (odd ? '#000' : '#FFF');
+  const fg = light ? '#000' : '#FFF';
   const numColor = light ? 'rgba(0,0,0,.35)' : 'rgba(255,255,255,.4)';
   const x = (1 - progress) * 100;
   const y = (1 - progress) * 20;
@@ -942,15 +965,15 @@ const DeptCard = ({ d, i, progress, wide = false, light = false }) => {
     <div className="dept-tile"
          style={{
            color: fg, background: light ? '#FFF' : 'transparent',
-           border: '1px solid transparent', padding: '24px 0',
+           padding: '24px 0',
            opacity: progress, transform: `translateX(${x}%) translateY(${y}px)`,
            transition: 'background .4s ease, color .4s ease',
          }}>
       <div className="dept-num" style={{ fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '.18em', color: numColor, transition: 'color .4s ease' }}>
-        /0{i + 1}
+        {d.year}
       </div>
       <div style={{ fontFamily: 'Geist, sans-serif', fontSize: 'clamp(17px,1.4vw,21px)', fontWeight: 500, letterSpacing: '-.015em' }}>
-        {d.name}
+        {d.title}
       </div>
       <div style={{ fontSize: 16, lineHeight: 1.55, opacity: .65, fontWeight: 300 }}>
         {d.desc}
@@ -1003,9 +1026,9 @@ const Hero = () => {
   const numRefs = useRef([]);
   const animated = useRef(false);
   const stats = [
-    { value: 25, suffix: '+', label: 'Projects completed' },
-    { value: 175, prefix: '$', suffix: 'K', label: 'Revenue generated' },
-    { value: 100, suffix: 'M', label: 'Words generated' },
+    { value: 2018, label: 'Year founded' },
+    { value: 5, suffix: '+', label: 'Countries' },
+    { value: 25, suffix: '+', label: 'Team members' },
   ];
 
   useEffect(() => {
@@ -1014,12 +1037,12 @@ const Hero = () => {
   }, [seen]);
   return (
     <section ref={ref} style={{
-      minHeight: '86vh', background: '#000', color: '#FFF', padding: '150px 6vw 70px',
+      minHeight: '86vh', background: '#FFF', color: '#000', padding: '150px 6vw 70px',
       display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center',
     }}>
       <h1 style={{
         margin: '0 auto', maxWidth: 1060, fontFamily: 'Geist, sans-serif',
-        fontSize: 'clamp(46px,7vw,120px)', fontWeight: 500, letterSpacing: '-.045em', lineHeight: 1.0,
+        fontSize: 'clamp(48px, 7.36vw, 116px)', fontWeight: 500, letterSpacing: '-.045em', lineHeight: 1.0,
         perspective: '600px',
       }}>
         <span style={{ display: 'block' }}>
@@ -1033,9 +1056,9 @@ const Hero = () => {
         White Label Resell is a multidisciplinary team designing, building and growing better digital
         businesses — shipped under our partners&rsquo; brands, never in front of their clients.
       </p>
-      <div style={{ marginTop: 48, marginLeft: '-6vw', marginRight: '-6vw', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', background: '#FFF', color: '#000', borderTop: '1px solid #000', borderBottom: '1px solid #000', opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(24px)', transition: 'opacity .8s ease .4s, transform .8s cubic-bezier(.2,.8,.2,1) .4s' }}>
+      <div style={{ marginTop: 48, marginLeft: '-6vw', marginRight: '-6vw', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', background: '#000', color: '#FFF', borderTop: '1px solid #FFF', borderBottom: '1px solid #FFF', opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(24px)', transition: 'opacity .8s ease .4s, transform .8s cubic-bezier(.2,.8,.2,1) .4s' }}>
         {stats.map((s, i) => (
-          <div key={i} style={{ padding: 'clamp(24px,3.5vw,48px) 6vw', borderRight: i < 2 ? '1px solid #000' : 'none', textAlign: 'left' }}>
+          <div key={i} style={{ padding: 'clamp(24px,3.5vw,48px) 6vw', borderRight: i < 2 ? '1px solid #FFF' : 'none', textAlign: 'center' }}>
             <div ref={el => numRefs.current[i] = el} style={{ fontFamily: 'Geist, sans-serif', fontSize: 'clamp(48px,7vw,112px)', fontWeight: 500, letterSpacing: '-.045em', lineHeight: .9, opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(20px)', transition: `opacity .7s ease ${.5 + i * .15}s, transform .7s cubic-bezier(.2,.8,.2,1) ${.5 + i * .15}s` }}>{s.prefix || ''}{s.value}{s.suffix}</div>
             <div style={{ marginTop: 12, fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase', opacity: .65 }}>{s.label}</div>
           </div>
@@ -1044,7 +1067,7 @@ const Hero = () => {
       <div style={{ marginTop: 56, display: 'flex', gap: 30, flexWrap: 'wrap', justifyContent: 'center', fontFamily: 'Geist Mono, monospace', fontSize: 10, letterSpacing: '.22em', textTransform: 'uppercase', opacity: .55 }}>
         {['Strategy', 'Design', 'Engineering', 'Marketing', 'Analytics'].map(x => (
           <span key={x} style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
-            <ThreeBar size={10} color="#FFF" />{x}
+            <ThreeBar size={10} color="#000" />{x}
           </span>
         ))}
       </div>
@@ -1061,20 +1084,25 @@ const Quad = ({ markRef }) => {
     { t: 'Content Strategy and Analytics Tracking', d: 'Content built to convert, with GA4 and reporting that turns data into decisions.', fill: '#FFF' },
   ];
   return (
-    <section ref={ref} style={{ background: '#FFF', color: '#000', padding: '120px 6vw', borderTop: '1px solid #000' }}>
+    <section ref={ref} style={{ background: '#000', color: '#FFF', padding: '120px 6vw', borderTop: '1px solid #FFF' }}>
       <div className="section-inner">
-      <div style={{ marginBottom: 64 }}>
-        <Kick style={{ opacity: .6 }}>What we do</Kick>
-        <h2 style={{ margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(38px,5vw,80px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1.02 }}>
-          One team. <span style={{ background: '#000', color: '#FFF', padding: '0 16px', display: 'inline-block', fontStyle: 'italic', fontWeight: 300 }}>Four commitments.</span>
-        </h2>
+      <div style={{ marginBottom: 64, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 24 }}>
+        <div>
+          <Kick style={{ opacity: .6 }}>We Build. You Grow.</Kick>
+          <h2 style={{ margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(38px,5vw,100px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1.02 }}>
+            What we do
+          </h2>
+        </div>
+        <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{ display: 'inline-flex', alignItems: 'center', gap: 14, padding: '20px 28px', background: '#FFF', color: '#000', textDecoration: 'none', fontFamily: 'Geist Mono, monospace', fontSize: 13, letterSpacing: '0.22em', textTransform: 'uppercase', fontWeight: 600, cursor: 'pointer' }}>
+          <ThreeBar size={13} color="#000" />Get a quote →
+        </a>
       </div>
       <div className="quad">
         <div className="quad-l">
           <QuadBlock i={0} seen={seen} title={blocks[0].t} desc={blocks[0].d} fill={blocks[0].fill} delay={120} />
           <QuadBlock i={1} seen={seen} title={blocks[1].t} desc={blocks[1].d} fill={blocks[1].fill} delay={220} />
         </div>
-        <div className="quad-c"><BrandLockup seen={seen} color="#000" markRef={markRef} /></div>
+        <div className="quad-c"><BrandLockup seen={seen} color="#FFF" markRef={markRef} /></div>
         <div className="quad-r">
           <QuadBlock i={2} seen={seen} title={blocks[2].t} desc={blocks[2].d} fill={blocks[2].fill} delay={160} />
           <QuadBlock i={3} seen={seen} title={blocks[3].t} desc={blocks[3].d} fill={blocks[3].fill} delay={260} />
@@ -1106,7 +1134,7 @@ const Journey = ({ cardRef, cardBg, cardColor, cardBorder, cardDark }) => {
       <div className="section-inner">
       <div style={{ textAlign: 'center', maxWidth: 720, margin: '0 auto 56px' }}>
         <Kick style={{ opacity: .55 }}>Our journey</Kick>
-        <h2 style={{ margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(38px,5.2vw,74px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1.04 }}>
+        <h2 style={{ margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(38px,5.2vw,100px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1.04 }}>
           One team,<br /><i style={{ fontWeight: 300 }}>year by year.</i>
         </h2>
       </div>
@@ -1145,11 +1173,11 @@ const Team = () => {
   const [ref, seen] = useReveal(0.05);
   const [hover, setHover] = useState(-1);
   return (
-    <section id="team" ref={ref} className={`team-reveal${seen ? ' revealed' : ''}`} style={{ background: '#000', color: '#FFF', padding: '120px 6vw 0', borderTop: '1px solid #FFF' }}>
+    <section id="team" ref={ref} className={`team-reveal${seen ? ' revealed' : ''}`} style={{ background: '#FFF', color: '#000', padding: '120px 6vw 120px', borderTop: '1px solid #000' }}>
       <div className="section-inner">
-      <div style={{ marginBottom: 48 }}>
+      <div style={{ marginBottom: 64, textAlign: 'center' }}>
         <Kick>The people</Kick>
-        <h2 style={{ margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(40px,5.4vw,84px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1.02 }}>
+        <h2 style={{ margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(40px,5.4vw,100px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1.02 }}>
           The people behind<br /><i style={{ fontWeight: 300 }}>the work.</i>
         </h2>
       </div>
@@ -1168,7 +1196,7 @@ const Team = () => {
         })}
       </div>
       <div style={{ marginTop: 48, textAlign: 'center' }}>
-        <Btn href={A.teamHref} light outline>Meet the full team</Btn>
+        <Btn href={A.teamHref} outline>Meet the full team</Btn>
       </div>
       </div>
     </section>
@@ -1198,25 +1226,36 @@ const Departments = () => {
     onScroll();
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+  const journey = [
+    { year: '2018', title: 'The founding', desc: 'White Label Resell opens its doors as a small, focused marketing team.' },
+    { year: '2019', title: 'First wins', desc: 'Early agencies begin shipping SEO and content quietly through us.' },
+    { year: '2020', title: 'The team scales', desc: 'A wave of designers and developers joins the growing team.' },
+    { year: '2021', title: 'Talent joins', desc: 'Paid media, analytics and cloud specialists come aboard the expanding team.' },
+    { year: '2022', title: 'Multi-partner onboarding', desc: 'We refine the system to onboard several agency partners at once.' },
+    { year: '2023', title: 'More scaling', desc: 'Yet another wave of specialists joins, deepening every discipline further.' },
+    { year: '2024', title: 'Global reach', desc: 'Partners across five countries now run their work through us.' },
+    { year: '2025', title: 'One connected team', desc: 'All disciplines now move together as one single, connected unit.' },
+    { year: '2026', title: 'Still growing', desc: 'A full marketing team, running quietly behind your brand today.' },
+  ];
   return (
-    <section ref={sectionRef} style={{ position: 'relative', background: '#FFF', color: '#000', padding: '120px 6vw', borderTop: '1px solid #000', overflow: 'hidden' }}>
+    <section ref={sectionRef} style={{ position: 'relative', background: '#000', color: '#FFF', padding: '120px 6vw', borderTop: '1px solid #FFF', overflow: 'hidden' }}>
       <div className="section-inner">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 24, marginBottom: 48 }}>
         <div>
-          <Kick style={{ opacity: .55 }}>The disciplines</Kick>
-          <h2 style={{ margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(40px,5.4vw,84px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1.02 }}>
-            Eight disciplines,<br /><i style={{ fontWeight: 300 }}>one standard.</i>
+          <Kick style={{ opacity: .55 }}>The story so far</Kick>
+          <h2 style={{ margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(40px,5.4vw,100px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1.02 }}>
+            Our journey.
           </h2>
         </div>
         <p style={{ margin: 0, maxWidth: 400, fontSize: 15, lineHeight: 1.6, opacity: .7, fontWeight: 300 }}>
-          Each area is led by a specialist who works with the rest of the bench on every client — not in isolation.
+          From a two-person team to a full marketing team.
         </p>
       </div>
       <div className="dept-grid">
-        {A.departments.map((d, i) => {
+        {journey.map((d, i) => {
           const stagger = i * 0.06;
           const tileProgress = Math.max(0, Math.min(1, (progress - stagger) / 0.5));
-          return <DeptCard key={d.name} d={d} i={i} progress={tileProgress} wide={i === 0 || i === 7} light />;
+          return <DeptCard key={d.year} d={d} i={i} progress={tileProgress} />;
         })}
       </div>
       </div>
@@ -1300,7 +1339,6 @@ const QuadJourney = () => {
         background: '#000', borderRadius: 0, pointerEvents: 'none', zIndex: 1,
       }} />
       <Quad markRef={markRef} />
-      <Journey cardRef={cardRef} cardBg={cardBg} cardColor={cardColor} cardBorder={cardBorder} cardDark={cardDark} />
     </div>
   );
 };
@@ -1312,8 +1350,10 @@ const QuoteModal = () => {
     window.openQuoteModal = () => setOpen(true);
     window.closeQuoteModal = () => setOpen(false);
     const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+    const onMsg = (e) => { if (e.data === 'close-quote-modal') setOpen(false); };
     window.addEventListener('keydown', onKey);
-    return () => { delete window.openQuoteModal; delete window.closeQuoteModal; window.removeEventListener('keydown', onKey); };
+    window.addEventListener('message', onMsg);
+    return () => { delete window.openQuoteModal; delete window.closeQuoteModal; window.removeEventListener('keydown', onKey); window.removeEventListener('message', onMsg); };
   }, []);
 
   if (!open) return null;
@@ -1329,11 +1369,6 @@ const QuoteModal = () => {
         position: 'relative', width: '90vw', maxWidth: 640, maxHeight: '90vh',
         overflow: 'auto',
       }}>
-        <button onClick={() => setOpen(false)} style={{
-          position: 'fixed', top: 20, right: 24, zIndex: 2,
-          background: 'none', border: '1px solid #000', color: '#000', cursor: 'pointer',
-          fontFamily: 'Geist Mono', fontSize: 16, lineHeight: 1, padding: '6px 10px',
-        }}>&#x2715;</button>
         <iframe src="../quote-v1.html" title="Get a Quote" style={{
           width: '100%', height: '85vh', border: 'none',
         }} />
@@ -1349,7 +1384,6 @@ const App = () => (
     <Hero />
     <QuadJourney />
     <Team />
-    <VideoSection />
     <Departments />
     <Cta />
     <Footer />

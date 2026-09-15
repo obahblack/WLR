@@ -16,8 +16,8 @@
 
     body {
       font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #000;
-      color: #FFF;
+      background: transparent;
+      color: #000;
       min-height: 100vh;
       overflow: hidden;
     }
@@ -25,7 +25,7 @@
     /* Overlay */
     .overlay {
       position: fixed; inset: 0;
-      background: rgba(0,0,0,.82);
+      background: transparent;
       display: flex; align-items: center; justify-content: center;
       padding: 24px;
       z-index: 9999;
@@ -358,11 +358,19 @@
     });
 
     closeBtn.addEventListener('click', function() {
+      try {
+        window.parent.postMessage('close-quote-modal', '*');
+        if (typeof window.parent.closeQuoteModal === 'function') window.parent.closeQuoteModal();
+      } catch(e) {}
       document.getElementById('overlay').style.display = 'none';
     });
 
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') {
+        try {
+          window.parent.postMessage('close-quote-modal', '*');
+          if (typeof window.parent.closeQuoteModal === 'function') window.parent.closeQuoteModal();
+        } catch(e) {}
         document.getElementById('overlay').style.display = 'none';
       }
     });

@@ -20,7 +20,7 @@
   a { text-decoration: none; color: inherit; }
 
   /* ── NAV ── */
-  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; mix-blend-mode: difference; pointer-events: none; padding: 20px 32px; display: flex; justify-content: space-between; align-items: center; color: #FFF; font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; }
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; mix-blend-mode: difference; pointer-events: none; padding: 20px 32px; max-width: 1880px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; color: #FFF; font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; }
   .nav a { pointer-events: auto; color: #FFF; text-decoration: none; }
   .nav-logo { display: inline-flex; align-items: center; gap: 12px; }
   .nav-links { pointer-events: auto; display: flex; gap: 24px; }
@@ -31,11 +31,11 @@
   .three-bar span { display: block; background: currentColor; border-radius: 1px; }
   @media (max-width: 768px) { .nav-links { display: none; } }
 
-  .section-inner { max-width: 1800px; margin: 0 auto; width: 100%; }
+  .section-inner { max-width: 1880px; margin: 0 auto; width: 100%; }
 
   /* ── HERO (black bg, centered text + featured card) ── */
   .blog-hero { background: #000; padding: 140px 6vw 120px; text-align: center; }
-  .blog-hero h1 { font-size: clamp(48px, 7vw, 96px); font-weight: 600; letter-spacing: -0.04em; line-height: 1.04; margin-bottom: 16px; }
+  .blog-hero h1 { font-size: clamp(48px, 7vw, 116px); font-weight: 600; letter-spacing: -0.04em; line-height: 1.04; margin-bottom: 16px; }
   .blog-hero .hero-sub { font-size: 18px; opacity: 0.5; max-width: 480px; line-height: 1.6; margin: 0 auto; }
 
   /* ── FEATURED POST (white card, inside hero) ── */
@@ -358,7 +358,7 @@
 <section class="cta-section anim">
   <div class="section-inner">
   <h2>Ready to scale<br/><i>without the overhead?</i></h2>
-  <p>Talk to us about building your production bench. No hiring, no headaches — just consistent, high-quality output under your brand.</p>
+  <p>Talk to us about growing your traffic, rankings and revenue — all under your brand.</p>
   <a href="#" class="btn-cta" onclick="event.preventDefault(); window.openQuoteModal && window.openQuoteModal();">
     <span class="three-bar" style="height: 13px; color: #000;"><span style="width:3px;height:100%;"></span><span style="width:3px;height:70%;"></span><span style="width:3px;height:45%;"></span></span>
     Get a Quote →

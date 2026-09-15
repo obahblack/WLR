@@ -1074,8 +1074,10 @@ const QuoteModal = () => {
     window.openQuoteModal = () => setOpen(true);
     window.closeQuoteModal = () => setOpen(false);
     const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+    const onMsg = (e) => { if (e.data === 'close-quote-modal') setOpen(false); };
     window.addEventListener('keydown', onKey);
-    return () => { delete window.openQuoteModal; delete window.closeQuoteModal; window.removeEventListener('keydown', onKey); };
+    window.addEventListener('message', onMsg);
+    return () => { delete window.openQuoteModal; delete window.closeQuoteModal; window.removeEventListener('keydown', onKey); window.removeEventListener('message', onMsg); };
   }, []);
 
   if (!open) return null;
@@ -1090,13 +1092,8 @@ const QuoteModal = () => {
       }} />
       <div style={{
         position: 'relative', width: '90vw', maxWidth: 640, maxHeight: '90vh',
-        background: '#000', border: '1px solid #FFF', overflow: 'hidden',
+        overflow: 'auto',
       }}>
-        <button onClick={() => setOpen(false)} style={{
-          position: 'absolute', top: 16, right: 16, zIndex: 2,
-          background: 'none', border: 'none', color: '#FFF', cursor: 'pointer',
-          fontFamily: 'Geist Mono', fontSize: 20, lineHeight: 1, padding: 4,
-        }}>✕</button>
         <iframe src="quote-v1.html" title="Get a Quote" style={{
           width: '100%', height: '80vh', border: 'none',
         }} />

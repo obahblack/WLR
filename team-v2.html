@@ -17,15 +17,10 @@
   a { color: inherit; }
   a:hover { opacity: .7; }
   body::-webkit-scrollbar { width: 0; }
+  .section-inner { max-width: 1880px; margin: 0 auto; width: 100%; }
   .cardgrid { display: flex; flex-direction: column; gap: 48px; }
   .team-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-  .row-rule { height: 1px; background: #000; margin-top: 32px; transform-origin: left center; }
-  /* gate: black cover over the team section with the white mark; halves sit
-     open by default (off-section) and GSAP closes + scrubbed-opens them. */
-  .gate { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
-  .gate-half { position: absolute; top: 0; bottom: 0; width: 50%; background: #000; overflow: hidden; will-change: transform; }
-  .gate-half.left { left: -50%; }
-  .gate-half.right { right: -50%; }
+  .row-rule { height: 1px; background: #FFF; margin-top: 32px; transform-origin: left center; }
   @media (max-width: 1024px) { .team-row { grid-template-columns: repeat(2, 1fr) !important; } .cta2 { grid-template-columns: 1fr !important; } }
   @media (max-width: 640px) { .team-row { grid-template-columns: 1fr !important; } }
   /* Reduced-motion override removed — animations play on all devices */
@@ -95,7 +90,7 @@ const QuoteButton = ({ dark = false, label = 'Get a quote', style = {} }) =>
 
 const HUD = ({ active = '' }) => {
   const links = [['Work','work-variations/work-v6.html','work'],['About','about-variations/about-v1.html','about'],['Team','team-v2.html','team']];
-  return h('div', { style: { position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, mixBlendMode: 'difference', pointerEvents: 'none', padding: '20px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#FFF', fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase' } },
+  return h('div', { style: { position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, mixBlendMode: 'difference', pointerEvents: 'none', padding: '20px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#FFF', maxWidth: 1880, margin: '0 auto', fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase' } },
     h('a', { href: 'index.html', style: { pointerEvents: 'auto', display: 'inline-flex', alignItems: 'center', gap: 12, color: '#FFF', textDecoration: 'none' } },
       h(ThreeBar, { size: 14, color: '#FFF', gap: 3 }),
       'White Label Resell'
@@ -203,28 +198,15 @@ const BigMark = ({ color = '#FFF' }) => {
 
 const Hero = ({ kick, heading, sub }) => {
   const [ref, seen] = useReveal(0.2);
-  const [inv, setInv] = useState(false);
-  useEffect(() => {
-    const sec = ref.current;
-    if (!sec || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-    gsap.registerPlugin(ScrollTrigger);
-    const target = document.querySelector('.cardsec');
-    if (!target) return;
-    const apply = (self) => setInv(self.progress > 0.75);
-    const st = ScrollTrigger.create({ trigger: target, start: 'top 60%', end: 'top 45%', onUpdate: apply, onRefresh: apply });
-    return () => st.kill();
-  }, []);
-  const bg = inv ? '#000' : '#FFF';
-  const fg = inv ? '#FFF' : '#000';
-  return h('section', { ref, style: { minHeight: '800px', background: bg, color: fg, transition: 'background .6s cubic-bezier(.2,.8,.2,1), color .6s', padding: '100px 6vw 60px' } },
-    h('div', { className: 'section-inner', style: { display: 'grid', gridTemplateColumns: '1fr 1fr', alignItems: 'center', gap: '4vw' } },
-    h('div', { style: { opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(24px)', transition: 'all .8s cubic-bezier(.2,.8,.2,1)' } },
+  return h('section', { ref, style: { minHeight: '800px', background: '#FFF', color: '#000', padding: '100px 6vw 60px', display: 'flex', alignItems: 'center', justifyContent: 'center' } },
+    h('div', { className: 'section-inner', style: { textAlign: 'center' } },
+    h('div', { style: { opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(24px)', transition: 'all .8s cubic-bezier(.2,.8,.2,1)', display: 'inline-block', textAlign: 'center' } },
       h(Kick, { style: { opacity: 0.6 } }, kick),
-      h('h1', { style: { margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(48px, 6.6vw, 112px)', fontWeight: 500, letterSpacing: '-0.04em', lineHeight: 1.04 } }, heading),
-      h('p', { style: { margin: '32px 0 0', maxWidth: 480, fontSize: 'clamp(16px, 1.25vw, 19px)', lineHeight: 1.6, opacity: 0.8 } }, sub),
-      h('div', { style: { marginTop: 40 } }, h(QuoteButton, { dark: !inv }))
-    ),
-    h(BigMark, { color: fg })
+      h('h1', { style: { margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(48px, 7.36vw, 116px)', fontWeight: 500, letterSpacing: '-0.04em', lineHeight: 1.04 } }, heading),
+      h('p', { style: { margin: '32px auto 0', maxWidth: '620px', fontSize: 'clamp(16px, 1.25vw, 19px)', lineHeight: 1.6, opacity: 0.8 } }, sub),
+      h('div', { style: { marginTop: 40, display: 'flex', justifyContent: 'center' } }, h(QuoteButton, { dark: true }))
+    )
+    )
   );
 };
 
@@ -240,56 +222,45 @@ const Card = ({ member }) => {
   const [hovered, setHovered] = useState(false);
   return h('div', {
     className: 'team-card',
-    style: { background: '#000', color: '#FFF', display: 'flex', flexDirection: 'column', cursor: 'default' },
+    style: {
+      border: '1px solid #FFF',
+      background: hovered ? '#000' : '#FFF',
+      color: hovered ? '#FFF' : '#000',
+      display: 'flex',
+      flexDirection: 'column',
+      overflow: 'hidden',
+      cursor: 'default',
+      transition: 'background .3s ease, color .3s ease',
+    },
     onMouseEnter: () => setHovered(true),
     onMouseLeave: () => setHovered(false),
   },
-    h('div', { style: { overflow: 'hidden', aspectRatio: '1 / 1', background: '#111', position: 'relative' } },
-      h('img', {
-        src: member.image, alt: member.alt, loading: 'lazy',
-        style: {
-          width: '100%', height: '100%', objectFit: 'cover', display: 'block',
-          filter: 'grayscale(100%)',
-          transition: 'transform 0.6s cubic-bezier(.2,.8,.2,1)',
-          transform: hovered ? 'scale(1.04)' : 'scale(1)',
-        }
-      }),
-      /* Gradient overlay at bottom */
-      h('div', {
-        style: {
-          position: 'absolute', inset: 0,
-          background: 'linear-gradient(to top, rgba(0,0,0,0.25) 0%, transparent 40%)',
-          opacity: 0.6,
-          pointerEvents: 'none',
-        }
-      }),
-      /* Color reveal — curtain slides up on hover */
-      h('img', {
-        src: member.image, alt: '', loading: 'lazy',
-        'aria-hidden': 'true',
-        style: {
-          position: 'absolute', inset: 0,
-          width: '100%', height: '100%', objectFit: 'cover', display: 'block',
-          pointerEvents: 'none',
-          clipPath: hovered ? 'inset(0 0 0 0)' : 'inset(100% 0 0 0)',
-          transition: 'clip-path 0.7s cubic-bezier(.4,0,.2,1)',
-        }
-      })
+    h('div', { style: { aspectRatio: '4 / 5', overflow: 'hidden', background: '#111', position: 'relative' } },
+      h('div', { style: { width: '100%', height: '100%', transition: 'transform .5s cubic-bezier(.2,.8,.2,1)', transform: hovered ? 'scale(1.06)' : 'scale(1)' } },
+        h('img', {
+          src: member.image, alt: member.alt, loading: 'lazy',
+          style: {
+            width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%', display: 'block',
+            filter: hovered ? 'grayscale(0) contrast(1.05)' : 'grayscale(1) contrast(1.05)',
+            transition: 'filter 0.6s cubic-bezier(.2,.8,.2,1)',
+          }
+        })
+      )
     ),
-    h('div', { style: { padding: 18 } },
-      h('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12 } },
-        h('div', { style: { fontFamily: 'Geist, sans-serif', fontSize: 'clamp(17px, 1.4vw, 22px)', fontWeight: 500, letterSpacing: '-0.015em', lineHeight: 1.15, color: '#FFF' } }, member.name),
-        h(LinkedInIconBtn, { linkedin: member.linkedin, size: 22 })
+    h('div', { style: { padding: '18px 20px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 12 } },
+      h('div', null,
+        h('div', { style: { fontFamily: 'Geist, sans-serif', fontSize: 'clamp(16px,1.3vw,20px)', fontWeight: 500, letterSpacing: '-.015em', lineHeight: 1.15 } }, member.name),
+        h('div', { style: { marginTop: 6, fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .65 } }, member.role)
       ),
-      h('div', { style: { marginTop: 6, fontFamily: 'Geist Mono, monospace', fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase', opacity: 0.7 } }, member.role)
+      h(LinkedInIconBtn, { linkedin: member.linkedin, size: 22 })
     )
   );
 };
 
 const SectionHeading = ({ children }) =>
   h('div', { style: { marginBottom: 32 } },
-    h('h2', { style: { margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(28px, 3vw, 44px)', fontWeight: 600, letterSpacing: '-0.03em', lineHeight: 1.1 } }, children),
-    h('div', { style: { marginTop: 12, height: 2, width: 48, background: '#000' } })
+    h('h2', { style: { margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(28px, 3vw, 44px)', fontWeight: 600, letterSpacing: '-0.03em', lineHeight: 1.1, color: '#FFF' } }, children),
+    h('div', { style: { marginTop: 12, height: 2, width: 48, background: '#FFF' } })
   );
 
 const makeRows = (arr) => {
@@ -297,25 +268,6 @@ const makeRows = (arr) => {
   for (let i = 0; i < arr.length; i += 4) rows.push(arr.slice(i, i + 4));
   return rows;
 };
-
-/* Gate: two black halves that seal the section, each carrying its own copy of
-   the centered brand mark so the logo splits cleanly down the middle when the
-   halves part. Default CSS leaves the gate open (halves translated off) so the
-   section stays visible without JS / with reduced motion; GSAP closes it. */
-const GateHalf = ({ align, logoOffset }) =>
-  h('div', { className: 'gate-half ' + align, 'aria-hidden': 'true' },
-    h('div', { style: { position: 'absolute', top: '50%', left: logoOffset, width: '200%', height: '55%', transform: 'translateY(-50%)', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1.2vw' } },
-      [0.7, 1, 0.85].map((hh, i) =>
-        h('div', { key: i, style: { width: 'clamp(64px, 9vw, 170px)', height: (hh * 100) + '%', background: '#FFF' } })
-      )
-    )
-  );
-
-const Gate = () =>
-  h('div', { className: 'gate', 'aria-hidden': 'true' },
-    h(GateHalf, { align: 'left', logoOffset: 0 }),
-    h(GateHalf, { align: 'right', logoOffset: '-100%' })
-  );
 
 const Cards = () => {
   const secRef = useRef(null);
@@ -325,8 +277,6 @@ const Cards = () => {
     if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
     gsap.registerPlugin(ScrollTrigger);
 
-    const left = sec.querySelector('.gate-half.left');
-    const right = sec.querySelector('.gate-half.right');
     const rows = sec.querySelectorAll('.team-row');
 
     const tl = gsap.timeline({
@@ -339,9 +289,6 @@ const Cards = () => {
         invalidateOnRefresh: true,
       },
     });
-
-    tl.fromTo(left, { left: 0, xPercent: 0, scale: 1, transformOrigin: 'right center' }, { xPercent: -100, scale: 1.16, ease: 'power3.inOut', duration: 22 }, 0)
-      .fromTo(right, { right: 0, xPercent: 0, scale: 1, transformOrigin: 'left center' }, { xPercent: 100, scale: 1.16, ease: 'power3.inOut', duration: 22 }, 0);
 
     rows.forEach((row, ri) => {
       const cards = row.querySelectorAll('.team-card');
@@ -359,7 +306,7 @@ const Cards = () => {
   const relationsRows = makeRows(relationsMembers);
   const productsRows = makeRows(productsMembers);
 
-  return h('section', { className: 'cardsec', ref: secRef, style: { position: 'relative', overflow: 'hidden', background: '#FFF', color: '#000', padding: 'clamp(70px, 8vw, 110px) 6vw', borderTop: '1px solid #000' } },
+  return h('section', { className: 'cardsec', ref: secRef, style: { position: 'relative', overflow: 'hidden', background: '#000', color: '#FFF', padding: 'clamp(70px, 8vw, 110px) 6vw', borderTop: '1px solid #000' } },
     h('div', { className: 'section-inner' },
     h('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 48 } },
       h(Kick, { style: { opacity: 0.5, marginBottom: 0 } }, 'The team')
@@ -404,41 +351,40 @@ const Cards = () => {
       )
     ),
     ),
-    h(Gate)
   );
 };
 
 /* CTA — wireframe monitor mockup beside heading + button, black section */
 const Wireframe = () =>
-  h('div', { style: { border: '2px solid #FFF', background: '#000', boxShadow: '0 24px 60px rgba(255,255,255,.08)' } },
-    h('div', { style: { borderBottom: '1px solid rgba(255,255,255,.3)', padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 8 } },
-      [0, 1, 2].map((d) => h('span', { key: d, style: { width: 10, height: 10, borderRadius: '50%', background: '#FFF' } })),
-      h('span', { style: { flex: 1, height: 6, background: 'rgba(255,255,255,.15)', marginLeft: 8 } })
+  h('div', { style: { border: '2px solid #000', background: '#FFF', boxShadow: '0 24px 60px rgba(0,0,0,.08)' } },
+    h('div', { style: { borderBottom: '1px solid rgba(0,0,0,.15)', padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 8 } },
+      [0, 1, 2].map((d) => h('span', { key: d, style: { width: 10, height: 10, borderRadius: '50%', background: '#000' } })),
+      h('span', { style: { flex: 1, height: 6, background: 'rgba(0,0,0,.12)', marginLeft: 8 } })
     ),
     h('div', { style: { padding: 18 } },
       h('div', { style: { display: 'flex', gap: 12 } },
-        h('div', { style: { flex: 1, height: 44, background: 'rgba(255,255,255,.18)' } }),
-        h('div', { style: { width: '28%', height: 44, background: 'rgba(255,255,255,.12)' } })
+        h('div', { style: { flex: 1, height: 44, background: 'rgba(0,0,0,.12)' } }),
+        h('div', { style: { width: '28%', height: 44, background: 'rgba(0,0,0,.08)' } })
       ),
-      [0, 1, 2, 3].map((i) => h('div', { key: i, style: { marginTop: 10, height: 8, background: 'rgba(255,255,255,.16)' } })),
+      [0, 1, 2, 3].map((i) => h('div', { key: i, style: { marginTop: 10, height: 8, background: 'rgba(0,0,0,.12)' } })),
       h('div', { style: { display: 'flex', alignItems: 'flex-end', gap: 10, height: 64, marginTop: 18 } },
-        [0.6, 1, 0.8].map((hh, i) => h('div', { key: i, style: { width: 22, height: hh * 64, background: '#FFF' } }))
+        [0.6, 1, 0.8].map((hh, i) => h('div', { key: i, style: { width: 22, height: hh * 64, background: '#000' } }))
       )
     )
   );
 
 const CTA = () => {
   const [ref, seen] = useReveal(0.15);
-  return h('section', { ref, style: { background: '#000', color: '#FFF', padding: 'clamp(80px, 9vw, 130px) 6vw', borderTop: '1px solid #FFF' } },
+  return h('section', { ref, style: { background: '#FFF', color: '#000', padding: 'clamp(80px, 9vw, 130px) 6vw', borderTop: '1px solid #000' } },
     h('div', { className: 'section-inner' },
     h('div', { className: 'cta2', style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5vw', alignItems: 'center' } },
       h('div', { style: { opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(20px)', transition: 'all .8s cubic-bezier(.2,.8,.2,1)' } },
-        h(Kick, { style: { opacity: 0.5 } }, 'Work with the bench'),
-        h('h2', { style: { margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(38px, 5vw, 76px)', fontWeight: 500, letterSpacing: '-0.04em', lineHeight: 1.05 } },
+        h(Kick, { style: { opacity: 0.5 } }, 'Work with us'),
+        h('h2', { style: { margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(38px, 5vw, 76px)', fontWeight: 500, letterSpacing: '-0.04em', lineHeight: 1.05, color: '#000' } },
           'Tell us about your ', h('i', { style: { fontWeight: 300 } }, 'next project.')
         ),
-        h('p', { style: { margin: '20px 0 0', maxWidth: 460, fontSize: 16, lineHeight: 1.6, opacity: 0.7 } }, 'We reply to every enquiry within one business day.'),
-        h('div', { style: { marginTop: 36 } }, h(QuoteButton, { dark: false }))
+        h('p', { style: { margin: '20px 0 0', maxWidth: 460, fontSize: 16, lineHeight: 1.6, opacity: 0.7, color: '#000' } }, 'We reply to every enquiry within one business day.'),
+        h('div', { style: { marginTop: 36 } }, h(QuoteButton, { dark: true }))
       ),
       h('div', { style: { opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(24px)', transition: 'all .8s cubic-bezier(.2,.8,.2,1) .15s' } },
         h(Wireframe)
@@ -455,15 +401,16 @@ const QuoteModal = () => {
     window.openQuoteModal = () => setOpen(true);
     window.closeQuoteModal = () => setOpen(false);
     const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+    const onMsg = (e) => { if (e.data === 'close-quote-modal') setOpen(false); };
     window.addEventListener('keydown', onKey);
-    return () => { delete window.openQuoteModal; delete window.closeQuoteModal; window.removeEventListener('keydown', onKey); };
+    window.addEventListener('message', onMsg);
+    return () => { delete window.openQuoteModal; delete window.closeQuoteModal; window.removeEventListener('keydown', onKey); window.removeEventListener('message', onMsg); };
   }, []);
 
   if (!open) return null;
   return h('div', { style: { position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center' } },
     h('div', { onClick: () => setOpen(false), style: { position: 'absolute', inset: 0, background: 'rgba(0,0,0,.5)' } }),
     h('div', { style: { position: 'relative', width: '90vw', maxWidth: 640, maxHeight: '90vh', overflow: 'auto' } },
-      h('button', { onClick: () => setOpen(false), style: { position: 'fixed', top: 20, right: 24, zIndex: 2, background: 'none', border: '1px solid #000', color: '#000', cursor: 'pointer', fontFamily: 'Geist Mono', fontSize: 16, lineHeight: 1, padding: '6px 10px' } }, '\u2715'),
       h('iframe', { src: 'quote-v1.html', title: 'Get a Quote', style: { width: '100%', height: '85vh', border: 'none' } })
     )
   );
@@ -473,7 +420,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   h(React.Fragment, null,
     h(QuoteModal),
     h(HUD, { active: 'team' }),
-    h(Hero, { kick: 'the team behind white label resell', heading: h('span', null, 'Meet the ', h('i', { style: { fontWeight: 300 } }, 'Team.')), sub: 'A senior bench of strategists, designers, engineers and analysts working quietly behind your brand — planning, building and shipping the work that wins.' }),
+    h(Hero, { kick: 'the team behind white label resell', heading: h('span', null, 'Meet the ', h('i', { style: { fontWeight: 300 } }, 'Team.')), sub: 'A senior team of strategists, designers, engineers and analysts working quietly behind your brand — planning, building and shipping the work that wins.' }),
     h(Cards),
     h(CTA),
     h(Footer)

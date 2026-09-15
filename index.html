@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>White Label Resell — White-label SEO, content, web &amp; analytics for agencies</title>
-<meta name="description" content="White Label Resell is the production bench behind agencies. SEO, content, web development, paid media and analytics delivered under your brand." />
+<meta name="description" content="White Label Resell is the digital marketing team behind agencies. SEO, content, web development, paid media and analytics delivered under your brand." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -24,15 +24,15 @@
   @keyframes marqueeRev { from { transform: translateX(-33.333%); } to { transform: translateX(0); } }
   /* Reduced-motion override removed — animations play on all devices */
 
-  /* ── SECTION INNER (max-width: 1800px) ── */
-  .section-inner { max-width: 1800px; margin: 0 auto; width: 100%; }
+  /* ── SECTION INNER (max-width: 1880px) ── */
+  .section-inner { max-width: 1880px; margin: 0 auto; width: 100%; }
 
   /* ── BLOG-STYLE CTA ── */
-  .blog-cta-section { background: #000; padding: 100px 6vw; text-align: center; }
-  .blog-cta-section h2 { font-size: clamp(40px, 5vw, 72px); font-weight: 600; letter-spacing: -0.04em; line-height: 1.1; margin-bottom: 20px; color: #FFF; }
-  .blog-cta-section h2 i { font-weight: 300; background: #FFF; color: #000; padding: 4px 16px; font-style: italic; display: inline; }
-  .blog-cta-section p { font-size: 17px; color: rgba(255,255,255,0.5); max-width: 480px; margin: 0 auto 36px; line-height: 1.65; }
-  .blog-cta-btn { display: inline-flex; align-items: center; gap: 14px; padding: 20px 28px; background: #FFF; color: #000; font-family: 'Geist Mono', monospace; font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 600; text-decoration: none; transition: opacity 0.2s; cursor: pointer; border: none; }
+  .blog-cta-section { background: #FFF; padding: 100px 6vw; text-align: center; border-top: 1px solid #000; }
+  .blog-cta-section h2 { font-size: clamp(40px, 5vw, 72px); font-weight: 600; letter-spacing: -0.04em; line-height: 1.1; margin-bottom: 20px; color: #000; }
+  .blog-cta-section h2 i { font-weight: 300; background: #000; color: #FFF; padding: 4px 16px; font-style: italic; display: inline; }
+  .blog-cta-section p { font-size: 17px; color: rgba(0,0,0,0.5); max-width: 480px; margin: 0 auto 36px; line-height: 1.65; }
+  .blog-cta-btn { display: inline-flex; align-items: center; gap: 14px; padding: 20px 28px; background: #000; color: #FFF; font-family: 'Geist Mono', monospace; font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 600; text-decoration: none; transition: opacity 0.2s; cursor: pointer; border: none; }
   .blog-cta-btn:hover { opacity: 0.85; }
 </style>
 </head>
@@ -134,7 +134,7 @@ const HUD = () => (
     position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
     mixBlendMode: 'difference', pointerEvents: 'none',
     padding: '20px 32px', display: 'flex', justifyContent: 'space-between',
-    alignItems: 'center', color: '#FFF',
+    alignItems: 'center', color: '#FFF', maxWidth: 1880, margin: '0 auto',
     fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase',
   }}>
     <a href="index.html" style={{ pointerEvents: 'auto', display: 'inline-flex', alignItems: 'center', gap: 12, color: '#FFF', textDecoration: 'none' }}>
@@ -235,10 +235,10 @@ const Hero = () => {
       <div className="section-inner" style={{ display: 'flex', alignItems: 'flex-end', gap: '4vw', width: '100%' }}>
         {/* Text content — auto height, grows naturally */}
         <div ref={contentRef} style={{ flex: 1 }}>
-          <Kick style={{ opacity: .6 }}>White-label production · est. 2018</Kick>
+          <Kick style={{ opacity: .6 }}>White-label digital marketing · est. 2018</Kick>
           <h1 style={{
             margin: 0, fontFamily: 'Geist',
-            fontSize: '94px',
+            fontSize: 'clamp(48px, 7.36vw, 116px)',
             fontWeight: 500, letterSpacing: '-.04em', lineHeight: 1.04,
           }}>
             We Build What<br />
@@ -250,8 +250,8 @@ const Hero = () => {
             maxWidth: 'calc(94px * 7.2)',
             fontSize: 'clamp(16px, 1.25vw, 19px)', lineHeight: 1.6, opacity: .8,
           }}>
-            SEO, content, web development, paid media and analytics — built and shipped
-            under your agency&apos;s brand. You keep the client, the credit and the margin.
+            SEO, paid media, content, web and analytics — delivered under your brand,
+            measured by the growth it drives.
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 40 }}>
             <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{
@@ -342,7 +342,7 @@ const SellDeliver = () => {
           sdStageRef.current.style.color = flip ? '#000000' : '#FFFFFF';
         }
         if (sdHeadingRef.current) {
-          sdHeadingRef.current.textContent = flip ? 'We deliver.' : 'You sell.';
+          sdHeadingRef.current.textContent = flip ? 'We scale.' : 'You sell.';
         }
       }
       const pct = String(Math.round(sdP * 100)).padStart(3, '0') + '%';
@@ -379,7 +379,7 @@ const SellDeliver = () => {
 
       if (svcSubtextWrapRef.current) {
         svcSubtextWrapRef.current.style.maxHeight = revealP > 0 ? '200px' : '0';
-        svcSubtextWrapRef.current.style.opacity = String(revealP * 0.7);
+        svcSubtextWrapRef.current.style.opacity = String(revealP);
       }
       if (svcCardsWrapRef.current) {
         svcCardsWrapRef.current.style.maxHeight = revealP > 0 ? '2000px' : '0';
@@ -451,14 +451,6 @@ const SellDeliver = () => {
                 color: '#FFF', mixBlendMode: 'difference',
               }}>You sell.</h2>
             </div>
-            <p style={{
-              position: 'absolute', bottom: 90, left: 32, right: 32, margin: 0,
-              maxWidth: 620, fontSize: 'clamp(15px, 1.15vw, 18px)', lineHeight: 1.6, opacity: .75,
-            }}>
-              You own the relationship, the pitch and the invoice. We run production behind
-              the scenes — on your templates, in your voice, to your deadlines. Your clients
-              never learn our name, and that is the entire point.
-            </p>
           </div>
 
           {/* RIGHT: Services — all content in one container */}
@@ -495,7 +487,7 @@ const SellDeliver = () => {
                 mixBlendMode: 'difference', color: '#FFF',
                 willChange: 'transform',
               }}>
-                Your full<br /><i style={{ fontWeight: 300 }}>production bench.</i>
+                Your full<br /><i style={{ fontWeight: 300 }}>marketing bench.</i>
               </h2>
 
               {/* Subtext + Get a quote — collapsed during intro, expands after */}
@@ -506,7 +498,7 @@ const SellDeliver = () => {
               }}>
                 <p ref={svcSubtextRef} style={{
                   margin: '16px 0 0', maxWidth: 420, fontSize: 18, lineHeight: 1.6,
-                  mixBlendMode: 'difference', color: '#FFF',
+                  mixBlendMode: 'difference', color: '#FFF', opacity: '0.7',
                 }}>
                   Take the whole stack or the two pieces you are missing. Scope is set in a
                   simple statement of work, and work begins the day it is signed.
@@ -518,7 +510,7 @@ const SellDeliver = () => {
                   textTransform: 'uppercase', fontWeight: 600, cursor: 'pointer',
                   pointerEvents: 'auto',
                 }}>
-                  <ThreeBar size={12} color="#000" />Get a quote
+                  <ThreeBar size={12} color="#000" />Get a quote →
                 </a>
               </div>
 
@@ -546,7 +538,6 @@ const SellDeliver = () => {
                     }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
                       <span style={{ fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '.22em', opacity: .6 }}>/{String(i + 1).padStart(2, '0')}</span>
-                      <ThreeBar size={20} color={inverted ? '#FFF' : '#000'} />
                     </div>
                     <div style={{ marginTop: 16 }}>
                       <div style={{ fontFamily: 'Geist', fontSize: 'clamp(36px, 3.2vw, 44px)', fontWeight: 500, letterSpacing: '-.02em', lineHeight: 1.1, textTransform: 'uppercase' }}>{t}</div>
@@ -618,7 +609,7 @@ const Positioning = () => {
   }, []);
 
   const headingLine1 = 'Hiring a specialist for every discipline is';
-  const headingLine2 = 'Renting a full bench is';
+  const headingLine2 = 'Renting a full team is';
 
   return (
     <section ref={sectionRef} style={{ background: '#000', color: '#FFF', padding: '140px 6vw 120px', borderTop: '1px solid #FFF', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
@@ -655,7 +646,7 @@ const Positioning = () => {
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 40, marginTop: 80, maxWidth: 1200 }}>
         {[
-          ['Capacity without headcount', 'Add SEO, content, development or analytics to your offering this month — no recruiting, no salaries, no bench risk.'],
+          ['Growth without hiring', 'Add SEO, content, development or analytics to your offering this month — no recruiting, no salaries, no overhead.'],
           ['Delivered under your brand', 'Reports, decks, builds and dashboards ship in your identity. We sign mutual NDAs as standard.'],
           ['Built on results, not retainers', 'Every engagement is measured in leads, rankings and revenue your client can see.'],
         ].map(([t, b], i) => (
@@ -753,7 +744,7 @@ const CaseChart = () => {
       <div className="section-inner" style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: '5vw', alignItems: 'center', width: '100%' }}>
         <div ref={textRef}>
           <Kick>Client results · Guild Golf Carts</Kick>
-          <h2 style={{ margin: 0, fontFamily: 'Geist', fontSize: 'clamp(38px, 5vw, 76px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1.06 }}>
+          <h2 style={{ margin: 0, fontFamily: 'Geist', fontSize: 'clamp(38px, 5vw, 100px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1.06 }}>
             66 to 444 leads<br /><i style={{ fontWeight: 300 }}>a month.</i>
           </h2>
           <p style={{ margin: '28px 0 0', maxWidth: 400, fontSize: 16, lineHeight: 1.6, opacity: .75 }}>
@@ -923,7 +914,7 @@ const Marquee = () => {
         justifyContent: 'space-between', mixBlendMode: 'difference', color: '#FFF',
         fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase', opacity: .6,
       }}>
-        <span>The bench, always on</span><span>20 specialists · 4 time zones</span>
+        <span>The team, always on</span><span>20 specialists · 4 time zones</span>
       </div>
       {[0, 1, 2, 3].map(row => {
         const inv = row % 2 === 1;
@@ -1060,9 +1051,9 @@ const Close = () => {
 
   return (
     <section ref={containerRef} style={{
-      minHeight: '100vh', width: '100vw', background: '#FFF', color: '#000',
+      minHeight: '100vh', width: '100vw', background: '#000', color: '#FFF',
       position: 'relative', overflow: 'hidden', zIndex: 4,
-      borderTop: '1px solid rgba(0,0,0,0.2)',
+      borderTop: '1px solid rgba(255,255,255,0.2)',
       padding: 'clamp(40px, 8vh, 120px) 6vw',
       display: 'flex', flexDirection: 'column', justifyContent: 'center',
       gap: 'clamp(48px, 5vh, 72px)',
@@ -1073,28 +1064,28 @@ const Close = () => {
         <div>
           <Kick className="cta-elem">Working with us</Kick>
           <h2 className="cta-elem" style={{ margin: 0, fontFamily: 'Geist', fontSize: 'clamp(40px, 5vw, 100px)', fontWeight: 500, letterSpacing: '-.04em', lineHeight: 1 }}>
-            Four steps,<br/><i style={{ fontWeight: 300, color: '#555' }}>then it just runs.</i>
+            Four steps,<br/><i style={{ fontWeight: 300, color: '#999' }}>then it just runs.</i>
           </h2>
-          <p className="cta-elem" style={{ margin: '32px 0 0', maxWidth: 460, fontSize: 18, lineHeight: 1.6, opacity: .75 }}>
-            Most partners start with one project and one discipline. Within a quarter they
-            have moved their whole roster onto the bench.
+          <p className="cta-elem" style={{ margin: '32px 0 clamp(44px, 2.9vw, 64px)', maxWidth: 460, fontSize: 18, lineHeight: 1.6, opacity: .75 }}>
+            From your first project to full-scale growth, we take you through every step —
+            until it simply runs.
           </p>
         </div>
 
         <div className="cta-elem" style={{ position: 'relative', margin: '0' }}>
-          <div className="step-line" style={{ position: 'absolute', top: 32, left: 0, height: 1, background: 'rgba(0,0,0,0.2)', width: '100%', transformOrigin: 'left', transform: 'scaleX(0)' }} />
+          <div className="step-line" style={{ position: 'absolute', top: 32, left: 0, height: 1, background: 'rgba(255,255,255,0.2)', width: '100%', transformOrigin: 'left', transform: 'scaleX(0)' }} />
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '4vw' }}>
             {[
               ['01', 'Scope', 'We review your project, outline deliverables, and sign a flat-rate statement of work.'],
               ['02', 'Build', 'Production begins immediately in your brand voice, using your templates and tools.'],
               ['03', 'Review', 'You review the work, request any revisions, and approve it.'],
-              ['04', 'Scale', 'The process becomes invisible. You scale your agency without increasing headcount.'],
+              ['04', 'Scale', 'The process becomes invisible. You scale your agency without adding to your team.'],
             ].map(([num, title, desc]) => (
               <div key={num} className="step-col" style={{ display: 'flex', flexDirection: 'column', gap: 32, position: 'relative' }}>
                 <div style={{
-                  width: 64, height: 64, background: '#FFF', border: '1px solid #000',
+                  width: 64, height: 64, background: '#000', border: '1px solid #FFF',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontFamily: 'Geist Mono', fontSize: 18, color: '#000', zIndex: 2
+                  fontFamily: 'Geist Mono', fontSize: 18, color: '#FFF', zIndex: 2
                 }}>
                   {num}
                 </div>
@@ -1107,7 +1098,7 @@ const Close = () => {
           </div>
         </div>
 
-        <div className="cta-elem" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 32 }}>
+        <div className="cta-elem" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 32, marginTop: 'clamp(44px, 2.9vw, 64px)' }}>
           <div>
             <h3 style={{ margin: 0, fontFamily: 'Geist', fontSize: 'clamp(32px, 4vw, 60px)', fontWeight: 500, letterSpacing: '-.03em', lineHeight: 1.1 }}>
               Tell us about your next project.
@@ -1116,11 +1107,11 @@ const Close = () => {
           </div>
           <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{
             display: 'inline-flex', alignItems: 'center', gap: 16, padding: '24px 40px',
-            background: '#000', color: '#FFF', textDecoration: 'none', cursor: 'pointer',
+            background: '#FFF', color: '#000', textDecoration: 'none', cursor: 'pointer',
             fontFamily: 'Geist Mono', fontSize: 14, letterSpacing: '.22em', textTransform: 'uppercase', fontWeight: 600,
             transition: 'background 0.3s, color 0.3s'
-          }} onMouseEnter={e => { e.currentTarget.style.background = '#333'; e.currentTarget.style.color = '#FFF'; }} onMouseLeave={e => { e.currentTarget.style.background = '#000'; e.currentTarget.style.color = '#FFF'; }}>
-            <ThreeBar size={14} color="#FFF" />Get a quote →
+          }} onMouseEnter={e => { e.currentTarget.style.background = '#DDD'; e.currentTarget.style.color = '#000'; }} onMouseLeave={e => { e.currentTarget.style.background = '#FFF'; e.currentTarget.style.color = '#000'; }}>
+            <ThreeBar size={14} color="#000" />Get a quote →
           </a>
         </div>
       </div>
@@ -1128,18 +1119,52 @@ const Close = () => {
   );
 };
 
-/* ═══ 10B · BLOG-STYLE CTA ═══ */
-const BlogCTA = () => (
-  <section className="blog-cta-section">
-    <div className="section-inner">
-      <h2>Ready to scale<br/><i>without the overhead?</i></h2>
-      <p>Talk to us about building your production bench. No hiring, no headaches — just consistent, high-quality output under your brand.</p>
-      <a href="#" className="blog-cta-btn" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }}>
-        <ThreeBar size={13} color="#000" />Get a Quote →
-      </a>
+/* ═══ 10B · CTA (team-page left/right system) ═══ */
+const CtaWireframe = () => (
+  <div style={{ border: '2px solid #000', background: '#FFF', boxShadow: '0 24px 60px rgba(0,0,0,.08)' }}>
+    <div style={{ borderBottom: '1px solid rgba(0,0,0,.15)', padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
+      {[0, 1, 2].map((d) => <span key={d} style={{ width: 10, height: 10, borderRadius: '50%', background: '#000' }} />)}
+      <span style={{ flex: 1, height: 6, background: 'rgba(0,0,0,.12)', marginLeft: 8 }} />
     </div>
-  </section>
+    <div style={{ padding: 18 }}>
+      <div style={{ display: 'flex', gap: 12 }}>
+        <div style={{ flex: 1, height: 44, background: 'rgba(0,0,0,.12)' }} />
+        <div style={{ width: '28%', height: 44, background: 'rgba(0,0,0,.08)' }} />
+      </div>
+      {[0, 1, 2, 3].map((i) => <div key={i} style={{ marginTop: 10, height: 8, background: 'rgba(0,0,0,.12)' }} />)}
+      <div style={{ display: 'flex', alignItems: 'flex-end', gap: 10, height: 64, marginTop: 18 }}>
+        {[0.6, 1, 0.8].map((hh, i) => <div key={i} style={{ width: 22, height: hh * 64, background: '#000' }} />)}
+      </div>
+    </div>
+  </div>
 );
+
+const BlogCTA = () => {
+  const [ref, seen] = useReveal(0.15);
+  return (
+    <section ref={ref} style={{ background: '#FFF', color: '#000', borderTop: '1px solid #000', padding: 'clamp(80px,9vw,130px) 6vw' }}>
+      <div className="section-inner">
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5vw', alignItems: 'center' }}>
+          <div style={{ opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(20px)', transition: 'all .8s cubic-bezier(.2,.8,.2,1)' }}>
+            <Kick style={{ opacity: 0.5 }}>Work with us</Kick>
+            <h2 style={{ margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(38px,5vw,76px)', fontWeight: 500, letterSpacing: '-.04em', lineHeight: 1.05 }}>
+              Ready to grow<br /><i style={{ fontWeight: 300 }}>your business?</i>
+            </h2>
+            <p style={{ margin: '20px 0 0', maxWidth: 460, fontSize: 16, lineHeight: 1.6, opacity: 0.7 }}>More traffic, rankings and revenue — handled end to end under your brand.</p>
+            <div style={{ marginTop: 36 }}>
+              <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{ display: 'inline-flex', alignItems: 'center', gap: 14, padding: '20px 28px', background: '#000', color: '#FFF', textDecoration: 'none', fontFamily: 'Geist Mono', fontSize: 13, letterSpacing: '0.22em', textTransform: 'uppercase', fontWeight: 600, cursor: 'pointer' }}>
+                <ThreeBar size={13} color="#FFF" />Get a quote →
+              </a>
+            </div>
+          </div>
+          <div style={{ opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(24px)', transition: 'all .8s cubic-bezier(.2,.8,.2,1) .15s' }}>
+            <CtaWireframe />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
 
 const Footer = () => {
   const [email, setEmail] = useState('');
@@ -1222,8 +1247,10 @@ const QuoteModal = () => {
     window.openQuoteModal = () => setOpen(true);
     window.closeQuoteModal = () => setOpen(false);
     const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+    const onMsg = (e) => { if (e.data === 'close-quote-modal') setOpen(false); };
     window.addEventListener('keydown', onKey);
-    return () => { delete window.openQuoteModal; delete window.closeQuoteModal; window.removeEventListener('keydown', onKey); };
+    window.addEventListener('message', onMsg);
+    return () => { delete window.openQuoteModal; delete window.closeQuoteModal; window.removeEventListener('keydown', onKey); window.removeEventListener('message', onMsg); };
   }, []);
 
   if (!open) return null;
@@ -1239,11 +1266,6 @@ const QuoteModal = () => {
         position: 'relative', width: '90vw', maxWidth: 640, maxHeight: '90vh',
         overflow: 'auto',
       }}>
-        <button onClick={() => setOpen(false)} style={{
-          position: 'fixed', top: 20, right: 24, zIndex: 2,
-          background: 'none', border: '1px solid #000', color: '#000', cursor: 'pointer',
-          fontFamily: 'Geist Mono', fontSize: 16, lineHeight: 1, padding: '6px 10px',
-        }}>✕</button>
         <iframe src="quote-v1.html" title="Get a Quote" style={{
           width: '100%', height: '85vh', border: 'none',
         }} />
@@ -1671,7 +1693,6 @@ const App = () => (
     <SellDeliver />
     <CaseChart />
     <Marquee />
-    <BigNumber />
     <Close />
     <BlogCTA />
     <Footer />

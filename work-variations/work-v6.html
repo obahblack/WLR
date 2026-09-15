@@ -102,7 +102,7 @@ const HUD = () => (
     position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
     mixBlendMode: 'difference', pointerEvents: 'none',
     padding: '20px 32px', display: 'flex', justifyContent: 'space-between',
-    alignItems: 'center', color: '#FFF',
+    alignItems: 'center', color: '#FFF', maxWidth: 1880, margin: '0 auto',
     fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase',
   }}>
     <a href="../index.html" style={{ pointerEvents: 'auto', display: 'inline-flex', alignItems: 'center', gap: 12, color: '#FFF', textDecoration: 'none' }}>
@@ -134,14 +134,14 @@ const Hero = () => {
     <section ref={ref} style={{
       minHeight: '86vh', background: '#000', color: '#FFF',
       padding: '150px 6vw 80px',
-      display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
+display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center',
       opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(24px)',
       transition: 'opacity .9s ease, transform .9s cubic-bezier(.2,.8,.2,1)',
     }}>
       <Kick>Work &middot; selected projects</Kick>
       <h1 style={{
         margin: 0, fontFamily: 'Geist',
-        fontSize: 'clamp(52px, 8.5vw, 148px)',
+        fontSize: 'clamp(48px, 7.36vw, 116px)',
         fontWeight: 500, letterSpacing: '-0.045em', lineHeight: 0.9,
       }}>
         Shipped work,<br /><i style={{ fontWeight: 300 }}>under your brand.</i>
@@ -153,7 +153,7 @@ const Hero = () => {
         White-label production for agencies &mdash; documents and builds we've delivered
         under client and partner brands. No logos. No credit. Just results.
       </p>
-      <div style={{ marginTop: 40, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+      <div style={{ marginTop: 40, display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
         <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{
           display: 'inline-flex', alignItems: 'center', gap: 12, padding: '18px 26px',
           background: '#FFF', color: '#000', textDecoration: 'none', cursor: 'pointer',
@@ -291,7 +291,7 @@ const HorizontalProjects = () => {
               <Kick style={{ color: '#000' }}>Brands we work for</Kick>
               <h2 style={{
                 margin: 0, fontFamily: 'Geist',
-                fontSize: 'clamp(36px, 5vw, 72px)',
+                fontSize: 'clamp(36px, 5vw, 100px)',
                 fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1,
               }}>Our clients.</h2>
               <p style={{
@@ -687,7 +687,7 @@ const MPSCase = () => {
                 <span style={{ fontFamily: 'Geist', fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: 300, letterSpacing: '-.02em', opacity: .6 }}>days</span>
               </div>
               <h2 style={{ margin: 0, fontFamily: 'Geist', fontSize: 'clamp(26px, 3vw, 42px)', fontWeight: 500, letterSpacing: '-.03em', lineHeight: 1.1 }}>
-                Built a full waste management product from scratch.
+                development of Enterprise waste management App
               </h2>
               <p style={{ marginTop: 20, fontSize: 16, lineHeight: 1.65, opacity: .65, maxWidth: 440 }}>
                 MPS Group needed a real-time operations dashboard to manage fleet调度, scheduling, and reporting. We delivered a production-ready product in two weeks.
@@ -797,15 +797,18 @@ const FlatBidCase = () => {
             <p style={{ margin: '24px 0 0', fontSize: 15, lineHeight: 1.6, opacity: 0.75, maxWidth: 420 }}>
               Complete website redesign built around the customization story that separates Flat Bid from commodity movers — then a disciplined paid + organic system on top.
             </p>
+            <div style={{ display: 'flex', gap: 32, marginTop: 24 }}>
+              {[['1,000', 'seo articles'], ['60', 'day redesign']].map(([n, l]) => (
+                <div key={l}>
+                  <div style={{ fontFamily: 'Geist', fontSize: 'clamp(36px, 4vw, 60px)', fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 1 }}>{n}</div>
+                  <div style={{ marginTop: 8, fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', opacity: 0.6 }}>{l}</div>
+                </div>
+              ))}
+            </div>
           </div>
-          <div style={{ display: 'flex', gap: 32 }}>
-            {[['1,000', 'seo articles'], ['60', 'day redesign']].map(([n, l]) => (
-              <div key={l}>
-                <div style={{ fontFamily: 'Geist', fontSize: 'clamp(36px, 4vw, 60px)', fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 1 }}>{n}</div>
-                <div style={{ marginTop: 8, fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', opacity: 0.6 }}>{l}</div>
-              </div>
-            ))}
-          </div>
+          <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{ display: 'inline-flex', alignItems: 'center', gap: 14, alignSelf: 'flex-start', padding: '20px 28px', background: '#000', color: '#FFF', textDecoration: 'none', fontFamily: 'Geist Mono', fontSize: 13, letterSpacing: '0.22em', textTransform: 'uppercase', fontWeight: 600, cursor: 'pointer' }}>
+            <ThreeBar size={13} color="#FFF" />Get a quote →
+          </a>
         </div>
 
         {/* Right panel — black, starts at 25%, animates to 50% */}
@@ -888,7 +891,7 @@ const WorkPhilosophy = () => {
         transition: 'opacity .8s ease .25s, transform .8s cubic-bezier(.2,.8,.2,1) .25s',
       }}>
         {[
-          ['Capacity without headcount', 'Add SEO, content, development or analytics to your offering this month -- no recruiting, no salaries, no bench risk.'],
+          ['Growth without hiring', 'Add SEO, content, development or analytics to your offering this month -- no recruiting, no salaries, no overhead.'],
           ['Delivered under your brand', 'Reports, decks, builds and dashboards ship in your identity. We sign mutual NDAs as standard.'],
           ['Built on results, not retainers', 'Every engagement is measured in leads, rankings and revenue your client can see.'],
         ].map(([title, desc]) => (
@@ -1016,8 +1019,10 @@ const QuoteModal = () => {
     window.openQuoteModal = () => setOpen(true);
     window.closeQuoteModal = () => setOpen(false);
     const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+    const onMsg = (e) => { if (e.data === 'close-quote-modal') setOpen(false); };
     window.addEventListener('keydown', onKey);
-    return () => { delete window.openQuoteModal; delete window.closeQuoteModal; window.removeEventListener('keydown', onKey); };
+    window.addEventListener('message', onMsg);
+    return () => { delete window.openQuoteModal; delete window.closeQuoteModal; window.removeEventListener('keydown', onKey); window.removeEventListener('message', onMsg); };
   }, []);
 
   if (!open) return null;
@@ -1033,11 +1038,6 @@ const QuoteModal = () => {
         position: 'relative', width: '90vw', maxWidth: 640, maxHeight: '90vh',
         overflow: 'auto',
       }}>
-        <button onClick={() => setOpen(false)} style={{
-          position: 'fixed', top: 20, right: 24, zIndex: 2,
-          background: 'none', border: '1px solid #000', color: '#000', cursor: 'pointer',
-          fontFamily: 'Geist Mono', fontSize: 16, lineHeight: 1, padding: '6px 10px',
-        }}>&#x2715;</button>
         <iframe src="../quote-v1.html" title="Get a Quote" style={{
           width: '100%', height: '85vh', border: 'none',
         }} />
