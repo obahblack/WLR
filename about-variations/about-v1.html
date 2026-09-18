@@ -1086,12 +1086,15 @@ const Quad = ({ markRef }) => {
   return (
     <section ref={ref} style={{ background: '#000', color: '#FFF', padding: '120px 6vw', borderTop: '1px solid #FFF' }}>
       <div className="section-inner">
-      <div style={{ marginBottom: 64, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 24 }}>
-        <div>
+      <div style={{ marginBottom: 64, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 24 }}>
+        <div style={{ maxWidth: 640 }}>
           <Kick style={{ opacity: .6 }}>We Build. You Grow.</Kick>
           <h2 style={{ margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(38px,5vw,100px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1.02 }}>
             What we do
           </h2>
+          <p style={{ margin: '20px 0 0', fontSize: 16, lineHeight: 1.55, opacity: 0.7, maxWidth: 480 }}>
+            We partner with brands to design, develop, and grow their digital presence — delivering custom solutions that drive real results and long-term success.
+          </p>
         </div>
         <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{ display: 'inline-flex', alignItems: 'center', gap: 14, padding: '20px 28px', background: '#FFF', color: '#000', textDecoration: 'none', fontFamily: 'Geist Mono, monospace', fontSize: 13, letterSpacing: '0.22em', textTransform: 'uppercase', fontWeight: 600, cursor: 'pointer' }}>
           <ThreeBar size={13} color="#000" />Get a quote →
@@ -1137,6 +1140,9 @@ const Journey = ({ cardRef, cardBg, cardColor, cardBorder, cardDark }) => {
         <h2 style={{ margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(38px,5.2vw,100px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1.04 }}>
           One team,<br /><i style={{ fontWeight: 300 }}>year by year.</i>
         </h2>
+        <p style={{ margin: '20px auto 0', fontSize: 16, lineHeight: 1.55, opacity: 0.7, maxWidth: 460 }}>
+          Stayed focused on one goal since the start — helping our partners grow through craft and measurable results.
+        </p>
       </div>
       <div className="journey-bento" style={{ opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(20px)', transition: 'opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1)' }}>
         <div ref={cardRef} className="jb-top" style={{ background: cardBg, color: cardColor, borderColor: cardBorder }}>
@@ -1180,6 +1186,9 @@ const Team = () => {
         <h2 style={{ margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(40px,5.4vw,100px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1.02 }}>
           The people behind<br /><i style={{ fontWeight: 300 }}>the work.</i>
         </h2>
+        <p style={{ margin: '20px auto 0', fontSize: 16, lineHeight: 1.55, opacity: 0.7, maxWidth: 780 }}>
+          A handpicked collective of strategists, designers, and engineers who bring deep expertise and genuine passion to every project, working as an extension of your own team.
+        </p>
       </div>
       <div className="team-grid">
         {A.team.map((m, i) => {
@@ -1241,15 +1250,18 @@ const Departments = () => {
     <section ref={sectionRef} style={{ position: 'relative', background: '#000', color: '#FFF', padding: '120px 6vw', borderTop: '1px solid #FFF', overflow: 'hidden' }}>
       <div className="section-inner">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 24, marginBottom: 48 }}>
-        <div>
+        <div style={{ maxWidth: 640 }}>
           <Kick style={{ opacity: .55 }}>The story so far</Kick>
           <h2 style={{ margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(40px,5.4vw,100px)', fontWeight: 500, letterSpacing: '-.035em', lineHeight: 1.02 }}>
             Our journey.
           </h2>
+          <p style={{ margin: '20px 0 0', fontSize: 15, lineHeight: 1.6, opacity: .7, fontWeight: 300 }}>
+            From a two-person team to a full marketing team.
+          </p>
         </div>
-        <p style={{ margin: 0, maxWidth: 400, fontSize: 15, lineHeight: 1.6, opacity: .7, fontWeight: 300 }}>
-          From a two-person team to a full marketing team.
-        </p>
+        <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{ display: 'inline-flex', alignItems: 'center', gap: 14, padding: '20px 28px', background: '#FFF', color: '#000', textDecoration: 'none', fontFamily: 'Geist Mono, monospace', fontSize: 13, letterSpacing: '0.22em', textTransform: 'uppercase', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}>
+          <ThreeBar size={13} color="#000" />Get a quote →
+        </a>
       </div>
       <div className="dept-grid">
         {journey.map((d, i) => {
