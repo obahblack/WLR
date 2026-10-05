@@ -169,19 +169,33 @@ const teamMembers = [
   { name: "Brandon Carroll", role: "Acquisition Specialist", image: "Logos/Brandon.JPG", linkedin: null, alt: "Brandon Carroll — Acquisition Specialist", group: "relations" },
   { name: "Nathaniel Duku", role: "Client Success Manager", image: "https://i.ibb.co/tp708Qyc/Nath.png", linkedin: null, alt: "Nathaniel Duku — Client Success Manager", group: "relations" },
   { name: "Asad Ehsan", role: "Administrator", image: "https://i.ibb.co/BH1wJ0zS/Asad-new.png", linkedin: null, alt: "Asad Ehsan — Administrator", group: "relations" },
-  /* Products — Analytics */
+  { name: "Ziyad Khan", role: "Community Manager", image: "Logos/Ziyad.png", linkedin: null, alt: "Ziyad Khan — Community Manager", group: "relations" },
+  { name: "Annas Abdullah", role: "Community Manager", image: "Logos/Annas.png", linkedin: null, alt: "Annas Abdullah — Community Manager", group: "relations" },
+  /* Product and Engineering — Analytics */
   { name: "Anil Raikwar", role: "Analytics Engineer", image: "https://i.ibb.co/fVQNxcsM/Anil.png", linkedin: "https://www.linkedin.com/in/anil-raikwar/", alt: "Anil Raikwar — Analytics Engineer", group: "products" },
-  /* Products — SEO */
+  /* Product and Engineering — SEO */
   { name: "Haider Ali", role: "SEO Specialist", image: "https://i.ibb.co/mrwyT0Tr/Haider-new.png", linkedin: "https://www.linkedin.com/in/haider-naeem-888378249/", alt: "Haider Ali — SEO Specialist", group: "products" },
-  /* Products — Frontend */
-  { name: "Mcjethro Kalu", role: "Frontend Developer", image: "https://i.ibb.co/LzXjyzLS/Kalu.png", linkedin: "https://www.linkedin.com/in/mcjethro-kalu-96270a237/", alt: "Mcjethro Kalu — Frontend Developer", group: "products" },
-  /* Products — Cloud */
-  { name: "Toufeek Abdulrauf", role: "Cloud Engineer", image: "https://i.ibb.co/DH6K17mv/Tofe.png", linkedin: "https://www.linkedin.com/in/taofeek-abdulrauf-a95815226/", alt: "Toufeek Abdulrauf — Cloud Engineer", group: "products" },
-  /* Products — Web Dev */
-  { name: "Munir Nadayako", role: "Web Developer", image: "https://i.ibb.co/p6WfNz6v/Munir.png", linkedin: null, alt: "Munir Nadayako — Web Developer", group: "products" },
-  { name: "Sochima Chukwu", role: "Web Developer", image: "https://i.ibb.co/9H8ZL12z/Sochi.png", linkedin: null, alt: "Sochima Chukwu — Web Developer", group: "products" },
-  /* Products — Design */
-  { name: "Zubair Tayyib", role: "UI/UX Designer", image: "Logos/Zubairu 2.png", linkedin: null, alt: "Zubair Tayyib — UI/UX Designer", group: "products" },
+  /* Product and Engineering — Engineering team */
+  { name: "Mcjethro Kalu", role: "Frontend Engineer", image: "https://i.ibb.co/LzXjyzLS/Kalu.png", linkedin: "https://www.linkedin.com/in/mcjethro-kalu-96270a237/", alt: "Mcjethro Kalu — Frontend Engineer", group: "products" },
+  { name: "Toufeek Abdulrauf", role: "AI Engineer", image: "https://i.ibb.co/DH6K17mv/Tofe.png", linkedin: "https://www.linkedin.com/in/taofeek-abdulrauf-a95815226/", alt: "Toufeek Abdulrauf — AI Engineer", group: "products" },
+  { name: "Mustapha Muhsin", role: "AI Engineer", image: "Logos/Mustapha.png", linkedin: null, alt: "Mustapha Muhsin — AI Engineer", group: "products" },
+  /* Web Dev */
+  { name: "Munir Nadayako", role: "Web Developer", image: "https://i.ibb.co/p6WfNz6v/Munir.png", linkedin: null, alt: "Munir Nadayako — Web Developer", group: "webdev" },
+  { name: "Hemant Patil", role: "Web Developer", image: "Logos/Hemant.png", linkedin: null, alt: "Hemant Patil — Web Developer", group: "webdev" },
+  { name: "Sochima Chukwu", role: "Web Developer", image: "https://i.ibb.co/9H8ZL12z/Sochi.png", linkedin: null, alt: "Sochima Chukwu — Web Developer", group: "webdev" },
+  { name: "Adeel Tabassum", role: "Web Developer", image: "Logos/Adeel.png", linkedin: null, alt: "Adeel Tabassum — Web Developer", group: "webdev" },
+  /* Design */
+  { name: "Zubair Tayyib", role: "UI/UX Designer", image: "Logos/Zubairu 2.png", linkedin: null, alt: "Zubair Tayyib — UI/UX Designer", group: "design" },
+  { name: "Praise Obah", role: "UI/UX Designer", image: "Logos/Praise.png", linkedin: null, alt: "Praise Obah — UI/UX Designer", group: "design" },
+  { name: "Ankush Singh", role: "UI/UX Designer", image: "Logos/Ankush.png", linkedin: null, alt: "Ankush Singh — UI/UX Designer", group: "design" },
+  { name: "Abrar Ul Huq", role: "UI/UX Designer", image: "Logos/Abrar.png", linkedin: null, alt: "Abrar Ul Huq — UI/UX Designer", group: "design" },
+];
+
+const teamGroups = [
+  ['Relations', 'relations'],
+  ['Product and Engineering', 'products'],
+  ['Web Dev', 'webdev'],
+  ['Design', 'design'],
 ];
 
 /* HERO — text left, brand mark right, black with hover inversion */
@@ -220,6 +234,8 @@ const Hero = ({ kick, heading, sub }) => {
    white section, card sizes and page structure stay intact. */
 const Card = ({ member }) => {
   const [hovered, setHovered] = useState(false);
+  const [imgFailed, setImgFailed] = useState(false);
+  const initials = member.name.split(' ').map(w => w[0]).slice(0, 2).join('');
   return h('div', {
     className: 'team-card',
     style: {
@@ -236,16 +252,18 @@ const Card = ({ member }) => {
     onMouseLeave: () => setHovered(false),
   },
     h('div', { style: { aspectRatio: '4 / 5', overflow: 'hidden', background: '#111', position: 'relative' } },
-      h('div', { style: { width: '100%', height: '100%', transition: 'transform .5s cubic-bezier(.2,.8,.2,1)', transform: hovered ? 'scale(1.06)' : 'scale(1)' } },
-        h('img', {
-          src: member.image, alt: member.alt, loading: 'lazy',
-          style: {
-            width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%', display: 'block',
-            filter: hovered ? 'grayscale(0) contrast(1.05)' : 'grayscale(1) contrast(1.05)',
-            transition: 'filter 0.6s cubic-bezier(.2,.8,.2,1)',
-          }
-        })
-      )
+      (member.image && !imgFailed)
+        ? h('div', { style: { width: '100%', height: '100%', transition: 'transform .5s cubic-bezier(.2,.8,.2,1)', transform: hovered ? 'scale(1.06)' : 'scale(1)' } },
+            h('img', {
+              src: member.image, alt: member.alt, loading: 'lazy', onError: () => setImgFailed(true),
+              style: {
+                width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%', display: 'block',
+                filter: hovered ? 'grayscale(0) contrast(1.05)' : 'grayscale(1) contrast(1.05)',
+                transition: 'filter 0.6s cubic-bezier(.2,.8,.2,1)',
+              }
+            })
+          )
+        : h('div', { style: { width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Geist Mono, monospace', fontSize: 'clamp(28px, 3vw, 44px)', letterSpacing: '0.12em', color: '#FFF', opacity: 0.55 } }, initials)
     ),
     h('div', { style: { padding: '18px 20px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 12 } },
       h('div', null,
@@ -301,10 +319,6 @@ const Cards = () => {
   }, []);
 
   const leadershipRows = makeRows(teamLeadership);
-  const relationsMembers = teamMembers.filter(m => m.group === 'relations');
-  const productsMembers = teamMembers.filter(m => m.group === 'products');
-  const relationsRows = makeRows(relationsMembers);
-  const productsRows = makeRows(productsMembers);
 
   return h('section', { className: 'cardsec', ref: secRef, style: { position: 'relative', overflow: 'hidden', background: '#000', color: '#FFF', padding: 'clamp(70px, 8vw, 110px) 6vw', borderTop: '1px solid #000' } },
     h('div', { className: 'section-inner' },
@@ -324,30 +338,21 @@ const Cards = () => {
       /* Team Members */
       h('div', null,
         h(SectionHeading, null, 'Team Members'),
-        /* Relations */
-        h('div', { style: { marginBottom: 48 } },
-          h('div', { style: { marginBottom: 24 } },
-            h('div', { style: { fontFamily: 'Geist Mono, monospace', fontSize: 18, letterSpacing: '0.22em', textTransform: 'uppercase', opacity: 0.5 } }, 'Relations')
-          ),
-          relationsRows.map((row, ri) =>
-            h('div', { key: 'r-' + ri, className: 'team-row', style: { gap: 24 } },
-              row.map((member) => h(Card, { key: member.name, member })),
-              ri < relationsRows.length - 1 ? h('div', { className: 'row-rule' }) : null
+        /* Relations · Product and Engineering · Web Dev · Design */
+        teamGroups.map(([label, key], gi) => {
+          const rows = makeRows(teamMembers.filter(m => m.group === key));
+          return h('div', { key, style: { marginBottom: gi < teamGroups.length - 1 ? 48 : 0 } },
+            h('div', { style: { marginBottom: 24 } },
+              h('div', { style: { fontFamily: 'Geist Mono, monospace', fontSize: 18, letterSpacing: '0.22em', textTransform: 'uppercase', opacity: 0.5 } }, label)
+            ),
+            rows.map((row, ri) =>
+              h('div', { key: key + '-' + ri, className: 'team-row', style: { gap: 24 } },
+                row.map((member) => h(Card, { key: member.name, member })),
+                ri < rows.length - 1 ? h('div', { className: 'row-rule' }) : null
+              )
             )
-          )
-        ),
-        /* Products */
-        h('div', null,
-          h('div', { style: { marginBottom: 24 } },
-            h('div', { style: { fontFamily: 'Geist Mono, monospace', fontSize: 18, letterSpacing: '0.22em', textTransform: 'uppercase', opacity: 0.5 } }, 'Products')
-          ),
-          productsRows.map((row, ri) =>
-            h('div', { key: 'p-' + ri, className: 'team-row', style: { gap: 24 } },
-              row.map((member) => h(Card, { key: member.name, member })),
-              ri < productsRows.length - 1 ? h('div', { className: 'row-rule' }) : null
-            )
-          )
-        )
+          );
+        })
       )
     ),
     ),
