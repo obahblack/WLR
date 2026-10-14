@@ -230,6 +230,8 @@ a:focus-visible, button:focus-visible { outline: 2px solid currentColor; outline
 /* ── SECTION INNER (max-width: 1880px) ── */
 .section-inner { max-width: 1880px; margin: 0 auto; width: 100%; }
 </style>
+<link rel="stylesheet" href="../assets/responsive.css?v=20261014-wipe">
+<script src="../assets/responsive.js?v=20261014-wipe"></script>
 </head>
 <body>
 <div id="root"></div>
@@ -345,41 +347,10 @@ const ThreeBar = ({ size = 16, color = 'currentColor', gap = 2, animate = false 
 };
 
 /* ── chrome ───────────────────────────────────────── */
-const HUD = ({ active = '' }) => {
-  const links = [
-    ['Work', '../work-variations/work-v6.html', 'work'],
-    ['About', 'about-v1.html', 'about'],
-    ['Team', '../team-v2.html', 'team'],
-  ];
-  return (
-    <div style={{
-      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-      mixBlendMode: 'difference', pointerEvents: 'none',
-      padding: '20px 32px', display: 'flex', justifyContent: 'space-between',
-      alignItems: 'center', color: '#FFF', maxWidth: 1880, margin: '0 auto',
-      fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '.22em',
-      textTransform: 'uppercase',
-    }}>
-      <a href="../index.html" style={{ pointerEvents: 'auto', display: 'inline-flex', alignItems: 'center', gap: 12, color: '#FFF', textDecoration: 'none' }}>
-        <ThreeBar size={14} color="#FFF" gap={3} />White Label Resell
-      </a>
-      <span style={{ pointerEvents: 'auto', display: 'flex', gap: 24 }}>
-        {links.map(([label, href, key]) => (
-          <a key={key} href={href} style={{
-            color: '#FFF', textDecoration: 'none',
-            opacity: active === key ? 1 : .6,
-            borderBottom: active === key ? '1px solid #FFF' : '1px solid transparent',
-            paddingBottom: 2,
-          }}>{label}</a>
-        ))}
-        <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{ color: '#FFF', textDecoration: 'none', cursor: 'pointer' }}>Get a Quote</a>
-      </span>
-    </div>
-  );
-};
+const HUD = window.ResponsiveHUD;
 
 const Kick = ({ children, style = {} }) => (
-  <div style={{
+  <div className="eyebrow" style={{
     fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '.22em',
     textTransform: 'uppercase', opacity: .6, marginBottom: 16, ...style,
   }}>{children}</div>
@@ -394,7 +365,7 @@ const useReveal = (amount = 0.2) => {
     if (!el) return;
     const io = new IntersectionObserver(
       ([e]) => { if (e.isIntersecting) { setSeen(true); io.disconnect(); } },
-      { threshold: amount, rootMargin: '0px 0px -12% 0px' }
+      { threshold: Math.min(amount, (window.innerHeight * 0.4) / Math.max(1, el.offsetHeight)), rootMargin: '0px 0px -12% 0px' }
     );
     io.observe(el);
     return () => io.disconnect();
@@ -518,13 +489,13 @@ const TeamPhoto = ({ m, i, light = false, hover = false }) => (
 const CheckerTeamCard = ({ m, i, seen, hover, onEnter, onLeave }) => {
   const inv = hover;
   return (
-    <div onMouseEnter={onEnter} onMouseLeave={onLeave}
+    <div className="about-team-card" onMouseEnter={onEnter} onMouseLeave={onLeave}
          style={{
            border: '1px solid #000', background: inv ? '#FFF' : '#000',
            color: inv ? '#000' : '#FFF', display: 'flex', flexDirection: 'column', overflow: 'hidden',
            transition: 'background .3s ease, color .3s ease, border-color .3s ease',
          }}>
-      <div style={{ aspectRatio: '4 / 5', overflow: 'hidden', background: '#111' }}>
+      <div className="about-team-photo" style={{ aspectRatio: '4 / 5', overflow: 'hidden', background: '#111' }}>
         <div style={{ width: '100%', height: '100%', transition: 'transform .5s cubic-bezier(.2,.8,.2,1)', transform: hover ? 'scale(1.06)' : 'scale(1)' }}>
           <TeamPhoto m={m} i={i} hover={hover} />
         </div>
@@ -642,7 +613,7 @@ const VideoSection = () => {
   }, [playing]);
   const V = A.video;
   return (
-    <section style={{ background: '#000', color: '#FFF', padding: '100px 6vw 80px' }}>
+    <section className="responsive-VideoSection" style={{ background: '#000', color: '#FFF', padding: '100px 6vw 80px' }}>
       <div className="section-inner">
       <div style={{
         display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12, marginBottom: 28,
@@ -724,7 +695,7 @@ const PartnerMarquee = () => {
     </div>
   );
   return (
-    <section ref={ref} style={{ background: '#000', color: '#FFF', borderTop: '1px solid #FFF', padding: '90px 0 100px', overflow: 'hidden' }}>
+    <section className="responsive-PartnerMarquee" ref={ref} style={{ background: '#000', color: '#FFF', borderTop: '1px solid #FFF', padding: '90px 0 100px', overflow: 'hidden' }}>
       <div style={{ padding: '0 6vw', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12, marginBottom: 44, fontFamily: 'Geist Mono, monospace', fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase', opacity: .6 }}>
         <span>Brands we&rsquo;ve partnered with</span>
         <span>verified client marks · monochrome wordmarks</span>
@@ -743,7 +714,7 @@ const Faq = () => {
   const [open, setOpen] = useState(0);
   const [ref, seen] = useReveal(0.2);
   return (
-    <section ref={ref} style={{ background: '#FFF', color: '#000', padding: 'clamp(80px, 9vw, 120px) 6vw', borderTop: '1px solid #000' }}>
+    <section className="responsive-Faq" ref={ref} style={{ background: '#FFF', color: '#000', padding: 'clamp(80px, 9vw, 120px) 6vw', borderTop: '1px solid #000' }}>
       <div className="section-inner faq-grid">
         <div style={{ opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(18px)', transition: 'opacity .8s ease, transform .8s cubic-bezier(.2,.8,.2,1)' }}>
           <Kick style={{ opacity: .55 }}>Questions</Kick>
@@ -793,9 +764,9 @@ const Cta = () => {
   const [ref, seen] = useReveal(0.15);
   const c = A.cta;
   return (
-    <section ref={ref} style={{ background: '#FFF', color: '#000', borderTop: '1px solid #000', padding: 'clamp(80px,9vw,130px) 6vw' }}>
+    <section className="responsive-Cta" ref={ref} style={{ background: '#FFF', color: '#000', borderTop: '1px solid #000', padding: 'clamp(80px,9vw,130px) 6vw' }}>
       <div className="section-inner">
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5vw', alignItems: 'center' }}>
+        <div className="cta-layout" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5vw', alignItems: 'center' }}>
           <div style={{ opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(20px)', transition: 'all .8s cubic-bezier(.2,.8,.2,1)' }}>
             <Kick style={{ opacity: 0.5 }}>Work with us</Kick>
             <h2 style={{ margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(38px,5vw,76px)', fontWeight: 500, letterSpacing: '-.04em', lineHeight: 1.05 }}>
@@ -1036,7 +1007,7 @@ const Hero = () => {
     animated.current = true;
   }, [seen]);
   return (
-    <section ref={ref} style={{
+    <section className="responsive-Hero" ref={ref} style={{
       minHeight: '86vh', background: '#FFF', color: '#000', padding: '150px 6vw 70px',
       display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center',
     }}>
@@ -1056,7 +1027,7 @@ const Hero = () => {
         White Label Resell is a multidisciplinary team designing, building and growing better digital
         businesses — shipped under our partners&rsquo; brands, never in front of their clients.
       </p>
-      <div style={{ marginTop: 48, marginLeft: '-6vw', marginRight: '-6vw', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', background: '#000', color: '#FFF', borderTop: '1px solid #FFF', borderBottom: '1px solid #FFF', opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(24px)', transition: 'opacity .8s ease .4s, transform .8s cubic-bezier(.2,.8,.2,1) .4s' }}>
+      <div className="hero-stats" style={{ marginTop: 48, marginLeft: '-6vw', marginRight: '-6vw', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', background: '#000', color: '#FFF', borderTop: '1px solid #FFF', borderBottom: '1px solid #FFF', opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(24px)', transition: 'opacity .8s ease .4s, transform .8s cubic-bezier(.2,.8,.2,1) .4s' }}>
         {stats.map((s, i) => (
           <div key={i} style={{ padding: 'clamp(24px,3.5vw,48px) 6vw', borderRight: i < 2 ? '1px solid #FFF' : 'none', textAlign: 'center' }}>
             <div ref={el => numRefs.current[i] = el} style={{ fontFamily: 'Geist, sans-serif', fontSize: 'clamp(48px,7vw,112px)', fontWeight: 500, letterSpacing: '-.045em', lineHeight: .9, opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(20px)', transition: `opacity .7s ease ${.5 + i * .15}s, transform .7s cubic-bezier(.2,.8,.2,1) ${.5 + i * .15}s` }}>{s.prefix || ''}{s.value}{s.suffix}</div>
@@ -1064,7 +1035,7 @@ const Hero = () => {
           </div>
         ))}
       </div>
-      <div style={{ marginTop: 56, display: 'flex', gap: 30, flexWrap: 'wrap', justifyContent: 'center', fontFamily: 'Geist Mono, monospace', fontSize: 10, letterSpacing: '.22em', textTransform: 'uppercase', opacity: .55 }}>
+      <div className="hero-capabilities" style={{ marginTop: 56, display: 'flex', gap: 30, flexWrap: 'wrap', justifyContent: 'center', fontFamily: 'Geist Mono, monospace', fontSize: 10, letterSpacing: '.22em', textTransform: 'uppercase', opacity: .55 }}>
         {['Strategy', 'Design', 'Engineering', 'Marketing', 'Analytics'].map(x => (
           <span key={x} style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
             <ThreeBar size={10} color="#000" />{x}
@@ -1084,7 +1055,7 @@ const Quad = ({ markRef }) => {
     { t: 'Content Strategy and Analytics Tracking', d: 'Content built to convert, with GA4 and reporting that turns data into decisions.', fill: '#FFF' },
   ];
   return (
-    <section ref={ref} style={{ background: '#000', color: '#FFF', padding: '120px 6vw', borderTop: '1px solid #FFF' }}>
+    <section className="responsive-Quad" ref={ref} style={{ background: '#000', color: '#FFF', padding: '120px 6vw', borderTop: '1px solid #FFF' }}>
       <div className="section-inner">
       <div style={{ marginBottom: 64, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 24 }}>
         <div style={{ maxWidth: 640 }}>
@@ -1133,7 +1104,7 @@ const Journey = ({ cardRef, cardBg, cardColor, cardBorder, cardDark }) => {
   const [ref, seen] = useReveal(0.1);
   const j = A.journey;
   return (
-    <section ref={ref} style={{ background: '#FFF', color: '#000', padding: '120px 6vw', borderTop: '1px solid #000' }}>
+    <section className="responsive-Journey" ref={ref} style={{ background: '#FFF', color: '#000', padding: '120px 6vw', borderTop: '1px solid #000' }}>
       <div className="section-inner">
       <div style={{ textAlign: 'center', maxWidth: 720, margin: '0 auto 56px' }}>
         <Kick style={{ opacity: .55 }}>Our journey</Kick>
@@ -1247,7 +1218,7 @@ const Departments = () => {
     { year: '2026', title: 'Still growing', desc: 'A full marketing team, running quietly behind your brand today.' },
   ];
   return (
-    <section ref={sectionRef} style={{ position: 'relative', background: '#000', color: '#FFF', padding: '120px 6vw', borderTop: '1px solid #FFF', overflow: 'hidden' }}>
+    <section className="responsive-Departments" ref={sectionRef} style={{ position: 'relative', background: '#000', color: '#FFF', padding: '120px 6vw', borderTop: '1px solid #FFF', overflow: 'hidden' }}>
       <div className="section-inner">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 24, marginBottom: 48 }}>
         <div style={{ maxWidth: 640 }}>

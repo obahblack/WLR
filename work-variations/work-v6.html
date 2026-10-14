@@ -33,6 +33,8 @@
   }
   /* Reduced-motion override removed — animations play on all devices */
 </style>
+<link rel="stylesheet" href="../assets/responsive.css?v=20261014-wipe">
+<script src="../assets/responsive.js?v=20261014-wipe"></script>
 </head>
 <body>
 <div id="root"></div>
@@ -58,7 +60,7 @@ const useReveal = (amount = 0.2) => {
     if (!el) return;
     const io = new IntersectionObserver(
       ([e]) => { if (e.isIntersecting) { setSeen(true); io.disconnect(); } },
-      { threshold: amount, rootMargin: '0px 0px -12% 0px' }
+      { threshold: Math.min(amount, (window.innerHeight * 0.4) / Math.max(1, el.offsetHeight)), rootMargin: '0px 0px -12% 0px' }
     );
     io.observe(el);
     return () => io.disconnect();
@@ -97,28 +99,10 @@ const useProgress = () => {
   return [ref, p];
 };
 
-const HUD = () => (
-  <div style={{
-    position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-    mixBlendMode: 'difference', pointerEvents: 'none',
-    padding: '20px 32px', display: 'flex', justifyContent: 'space-between',
-    alignItems: 'center', color: '#FFF', maxWidth: 1880, margin: '0 auto',
-    fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase',
-  }}>
-    <a href="../index.html" style={{ pointerEvents: 'auto', display: 'inline-flex', alignItems: 'center', gap: 12, color: '#FFF', textDecoration: 'none' }}>
-      <ThreeBar size={14} color="#FFF" gap={3} />White Label Resell
-    </a>
-    <span style={{ pointerEvents: 'auto', display: 'flex', gap: 24 }}>
-      <a href="work-v6.html" style={{ color: '#FFF', textDecoration: 'none' }}>Work</a>
-      <a href="../about-variations/about-v1.html" style={{ color: '#FFF', textDecoration: 'none' }}>About</a>
-      <a href="../team-v2.html" style={{ color: '#FFF', textDecoration: 'none' }}>Team</a>
-      <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{ color: '#FFF', textDecoration: 'none', cursor: 'pointer' }}>Get a Quote</a>
-    </span>
-  </div>
-);
+const HUD = window.ResponsiveHUD;
 
 const Kick = ({ children, style = {} }) => (
-  <div style={{
+  <div className="eyebrow" style={{
     fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.22em',
     textTransform: 'uppercase', opacity: .6, marginBottom: 16, ...style,
   }}>{children}</div>
@@ -128,10 +112,14 @@ const Hero = () => {
   const [ref, seen] = useReveal(0.15);
   const scrollToCases = () => {
     const el = document.getElementById('case-studies');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    if (el) {
+      const sequence = el.closest('section');
+      const top = sequence.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: top + (sequence.offsetHeight - window.innerHeight) * 0.74, behavior: 'smooth' });
+    }
   };
   return (
-    <section ref={ref} style={{
+    <section className="responsive-Hero" ref={ref} style={{
       minHeight: '86vh', background: '#000', color: '#FFF',
       padding: '150px 6vw 80px',
 display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center',
@@ -190,7 +178,7 @@ const CARDS_PAD = 6;
 const ProjectCard = ({ project, index, seen }) => {
   const inv = index % 2 === 1;
   return (
-    <div style={{
+    <div className="project-card" style={{
       width: CARD_W, flexShrink: 0, aspectRatio: '3 / 4',
       background: inv ? '#FFF' : '#000', color: inv ? '#000' : '#FFF',
       border: '1px solid #000', padding: 26,
@@ -224,7 +212,7 @@ const HorizontalProjects = () => {
     const measure = () => {
       raf = 0;
       const r = section.getBoundingClientRect();
-      const vh = window.innerHeight;
+      const vh = section.firstElementChild.clientHeight;
       const span = r.height - vh;
       const p = span <= 0 ? 0 : Math.max(0, Math.min(1, -r.top / span));
 
@@ -234,7 +222,7 @@ const HorizontalProjects = () => {
       const cardsP = Math.max(0, Math.min(1, p / 0.45));
       const cardsEased = 1 - Math.pow(1 - cardsP, 3);
       const total = PROJECTS.length;
-      const cardsWidth = total * CARD_W + (total - 1) * CARD_GAP;
+      const cardsWidth = cardsTrackRef.current ? cardsTrackRef.current.scrollWidth - window.innerWidth * 0.06 : total * CARD_W + (total - 1) * CARD_GAP;
       const vw = window.innerWidth;
       const maxCardTx = Math.max(0, cardsWidth - (vw * 0.88));
       if (cardsTrackRef.current) {
@@ -267,12 +255,12 @@ const HorizontalProjects = () => {
   }, [seen]);
 
   return (
-    <section ref={sectionRef} style={{ height: '380vh', position: 'relative' }}>
+    <section className="responsive-HorizontalProjects" ref={sectionRef} style={{ height: '380vh', position: 'relative' }}>
       <div style={{
         position: 'sticky', top: 0, height: '100vh', overflow: 'hidden',
       }}>
         {/* ── Outer track: slides left to reveal case studies panel ── */}
-        <div ref={trackRef} style={{
+        <div className="projects-track" ref={trackRef} style={{
           display: 'flex', width: '200vw', height: '100vh',
           willChange: 'transform',
         }}>
@@ -283,7 +271,7 @@ const HorizontalProjects = () => {
             display: 'flex', flexDirection: 'column', justifyContent: 'center',
             flexShrink: 0, overflow: 'hidden',
           }}>
-            <div ref={cardsHeadingRef} style={{
+            <div className="clients-heading" ref={cardsHeadingRef} style={{
               padding: '0 6vw', marginBottom: 44,
               opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(32px)',
               transition: 'opacity .9s cubic-bezier(.2,.8,.2,1), transform .9s cubic-bezier(.2,.8,.2,1)',
@@ -299,7 +287,7 @@ const HorizontalProjects = () => {
                 lineHeight: 1.6, opacity: .5, maxWidth: 480,
               }}>Some of the current and past clients we have delivered product, website, SEO, and marketing projects for.</p>
             </div>
-            <div ref={cardsTrackRef} style={{
+            <div className="client-track" ref={cardsTrackRef} style={{
               display: 'flex', gap: CARD_GAP,
               paddingLeft: '6vw',
               alignItems: 'stretch',
@@ -312,7 +300,7 @@ const HorizontalProjects = () => {
           </div>
 
           {/* Panel 2: Case Studies — text always visible, slides in with panel */}
-          <div id="case-studies" style={{
+          <div className="case-cover" id="case-studies" style={{
             width: '100vw', height: '100vh',
             background: '#000', color: '#FFF',
             flexShrink: 0,
@@ -367,7 +355,7 @@ const GaltCase = () => {
   }, []);
 
   return (
-    <section ref={ref} style={{
+    <section className="responsive-GaltCase" ref={ref} style={{
       background: '#000', color: '#FFF',
       padding: '120px 6vw 100px',
       borderTop: '1px solid #FFF',
@@ -487,7 +475,7 @@ const MPSCase = () => {
         // Start page cycling after animation completes
         setTimeout(() => setAutoPlay(true), duration);
       }
-    }, { threshold: 0.95 });
+    }, { threshold: 0.1 });
     io.observe(el);
     return () => io.disconnect();
   }, []);
@@ -663,7 +651,7 @@ const MPSCase = () => {
   );
 
   return (
-    <section ref={pinRef} style={{ background: '#000', color: '#FFF', borderTop: '1px solid #FFF', minHeight: '100vh' }}>
+    <section className="responsive-MPSCase" ref={pinRef} style={{ background: '#000', color: '#FFF', borderTop: '1px solid #FFF', minHeight: '100vh' }}>
       <div style={{
         height: 'min(100dvh, 932px)',
         display: 'flex', flexDirection: 'column',
@@ -690,7 +678,7 @@ const MPSCase = () => {
                 development of Enterprise waste management App
               </h2>
               <p style={{ marginTop: 20, fontSize: 16, lineHeight: 1.65, opacity: .65, maxWidth: 440 }}>
-                MPS Group needed a real-time operations dashboard to manage fleet调度, scheduling, and reporting. We delivered a production-ready product in two weeks.
+                MPS Group needed a real-time operations dashboard to manage fleet operations, scheduling, and reporting. We delivered a production-ready product in two weeks.
               </p>
               <div style={{ marginTop: 32, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
                 {[
@@ -708,9 +696,9 @@ const MPSCase = () => {
             </div>
           </div>
           <div style={{
-            flex: animP > 0 ? '0 0 53%' : '1',
+            flex: animP > 0 ? '0 0 53%' : '1 0 0%',
             height: animP > 0 ? 'clamp(400px, 55vh, 520px)' : '75vh',
-            flexShrink: 0, overflow: 'hidden',
+            overflow: 'hidden',
             transition: 'flex .8s cubic-bezier(.2,.8,.2,1), height .8s cubic-bezier(.2,.8,.2,1)',
           }}>
             <Wireframe />
@@ -726,8 +714,8 @@ const MPSCase = () => {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', border: '1px solid #FFF' }}>
             {[
               ['Challenge', 'A waste management company running operations on spreadsheets and phone calls -- no centralised system, no real-time visibility.'],
-              ['Approach', 'Rapid prototyping sprints, stakeholder interviews every 48 hours, and a component-based architecture built for iteration.'],
-              ['Result', 'Production dashboard in 14 days. Fleet调度 efficiency up 40%. Three stakeholder views with real-time data.'],
+              ['Approach', 'Rapid prototyping, AI-assisted build workflows, and a component-based architecture shaped with stakeholder feedback.'],
+              ['Result', 'Production dashboard in 14 days. Fleet efficiency up 40%. Three stakeholder views with real-time data.'],
             ].map(([t, b], i) => (
               <div key={t} style={{
                 padding: 32, borderRight: i < 2 ? '1px solid #FFF' : 'none',
@@ -767,19 +755,19 @@ const FlatBidCase = () => {
         // Phase 3: bars trigger (500ms delay)
         setTimeout(() => setBarsSeen(true), 500);
       }
-    }, { threshold: 0.95 });
+    }, { threshold: 0.1 });
     io.observe(el);
     return () => io.disconnect();
   }, []);
 
   return (
-    <section ref={sectionRef} style={{ position: 'relative', minHeight: '100vh' }}>
-      <div style={{
+    <section className="responsive-FlatBidCase" ref={sectionRef} style={{ position: 'relative', minHeight: '100vh' }}>
+      <div className="flatbid-layout" style={{
         height: 'min(100dvh, 932px)',
         display: 'flex', borderTop: '1px solid #FFF', overflow: 'hidden',
       }}>
         {/* Left panel — white, starts at 75%, animates to 50% */}
-        <div style={{
+        <div className="flatbid-story" style={{
           flex: splitDone ? '0 0 50%' : '0 0 75%', background: '#FFF', color: '#000',
           transition: 'flex .8s cubic-bezier(.2,.8,.2,1)',
           padding: 'clamp(50px, 7vw, 100px)',
@@ -812,7 +800,7 @@ const FlatBidCase = () => {
         </div>
 
         {/* Right panel — black, starts at 25%, animates to 50% */}
-        <div style={{
+        <div className="flatbid-results" style={{
           flex: splitDone ? '0 0 50%' : '0 0 25%', background: '#000', color: '#FFF',
           padding: 'clamp(50px, 7vw, 100px)',
           display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 40,
@@ -844,7 +832,8 @@ const FlatBidCase = () => {
         </div>
 
         {/* Center icon — scales in */}
-        <div style={{
+        <div className="flatbid-logo" style={{
+          '--icon-scale': iconDone ? 1 : .6,
           position: 'absolute', left: '50%', top: '50%',
           transform: iconDone ? 'translate(-50%, -50%) scale(1)' : 'translate(-50%, -50%) scale(0.6)',
           width: 64, height: 64, background: '#FFF', border: '1px solid #000',
@@ -862,7 +851,7 @@ const FlatBidCase = () => {
 const WorkPhilosophy = () => {
   const [ref, seen] = useReveal(0.2);
   return (
-    <section ref={ref} style={{
+    <section className="responsive-WorkPhilosophy" ref={ref} style={{
       background: '#FFF', color: '#000',
       padding: '180px 6vw 180px',
       borderTop: '1px solid #000',
@@ -910,30 +899,48 @@ const WorkPhilosophy = () => {
   );
 };
 
+const CtaWireframe = () => (
+  <div style={{ border: '2px solid #000', background: '#FFF', boxShadow: '0 24px 60px rgba(0,0,0,.08)' }}>
+    <div style={{ borderBottom: '1px solid rgba(0,0,0,.15)', padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
+      {[0, 1, 2].map((d) => <span key={d} style={{ width: 10, height: 10, borderRadius: '50%', background: '#000' }} />)}
+      <span style={{ flex: 1, height: 6, background: 'rgba(0,0,0,.12)', marginLeft: 8 }} />
+    </div>
+    <div style={{ padding: 18 }}>
+      <div style={{ display: 'flex', gap: 12 }}>
+        <div style={{ flex: 1, height: 44, background: 'rgba(0,0,0,.12)' }} />
+        <div style={{ width: '28%', height: 44, background: 'rgba(0,0,0,.08)' }} />
+      </div>
+      {[0, 1, 2, 3].map((i) => <div key={i} style={{ marginTop: 10, height: 8, background: 'rgba(0,0,0,.12)' }} />)}
+      <div style={{ display: 'flex', alignItems: 'flex-end', gap: 10, height: 64, marginTop: 18 }}>
+        {[0.6, 1, 0.8].map((hh, i) => <div key={i} style={{ width: 22, height: hh * 64, background: '#000' }} />)}
+      </div>
+    </div>
+  </div>
+);
+
 const CTA = () => {
-  const [ref, seen] = useReveal(0.2);
+  const [ref, seen] = useReveal(0.15);
   return (
-    <section ref={ref} style={{
-      background: '#000', color: '#FFF',
-      borderTop: '1px solid #FFF',
-      padding: 'clamp(80px, 10vw, 140px) 6vw',
-      textAlign: 'center',
-      opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(24px)',
-      transition: 'opacity .9s ease, transform .9s cubic-bezier(.2,.8,.2,1)',
-    }}>
-      <ThreeBar size={28} color="#FFF" gap={4} />
-      <h2 style={{
-        margin: '32px 0 0', fontFamily: 'Geist',
-        fontSize: 'clamp(44px, 6.5vw, 100px)',
-        fontWeight: 500, letterSpacing: '-0.04em', lineHeight: 0.9,
-      }}>Ready to build<br />under your brand?</h2>
-      <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{
-        marginTop: 40, display: 'inline-flex', alignItems: 'center', gap: 14,
-        padding: '20px 28px', background: '#FFF', color: '#000', cursor: 'pointer',
-        fontFamily: 'Geist Mono', fontSize: 13,
-        letterSpacing: '0.22em', textTransform: 'uppercase',
-        fontWeight: 600, textDecoration: 'none',
-      }}>Get a quote</a>
+    <section className="responsive-CTA" ref={ref} style={{ background: '#FFF', color: '#000', borderTop: '1px solid #000', padding: 'clamp(80px,9vw,130px) 6vw' }}>
+      <div className="section-inner">
+        <div className="home-cta-layout cta-layout" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5vw', alignItems: 'center' }}>
+          <div style={{ opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(20px)', transition: 'all .8s cubic-bezier(.2,.8,.2,1)' }}>
+            <Kick style={{ opacity: 0.5 }}>Work with us</Kick>
+            <h2 style={{ margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(38px,5vw,76px)', fontWeight: 500, letterSpacing: '-.04em', lineHeight: 1.05 }}>
+              Ship your<br /><i style={{ fontWeight: 300 }}>next project.</i>
+            </h2>
+            <p style={{ margin: '20px 0 0', maxWidth: 460, fontSize: 16, lineHeight: 1.6, opacity: 0.7 }}>One team. Your brand. Ready to build.</p>
+            <div style={{ marginTop: 36 }}>
+              <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{ display: 'inline-flex', alignItems: 'center', gap: 14, padding: '20px 28px', background: '#000', color: '#FFF', textDecoration: 'none', fontFamily: 'Geist Mono', fontSize: 13, letterSpacing: '0.22em', textTransform: 'uppercase', fontWeight: 600, cursor: 'pointer' }}>
+                <ThreeBar size={13} color="#FFF" />Get a quote →
+              </a>
+            </div>
+          </div>
+          <div style={{ opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(24px)', transition: 'all .8s cubic-bezier(.2,.8,.2,1) .15s' }}>
+            <CtaWireframe />
+          </div>
+        </div>
+      </div>
     </section>
   );
 };

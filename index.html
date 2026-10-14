@@ -35,6 +35,8 @@
   .blog-cta-btn { display: inline-flex; align-items: center; gap: 14px; padding: 20px 28px; background: #000; color: #FFF; font-family: 'Geist Mono', monospace; font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 600; text-decoration: none; transition: opacity 0.2s; cursor: pointer; border: none; }
   .blog-cta-btn:hover { opacity: 0.85; }
 </style>
+<link rel="stylesheet" href="assets/responsive.css?v=20261014-wipe">
+<script src="assets/responsive.js?v=20261014-wipe"></script>
 </head>
 <body>
 <div id="root"></div>
@@ -84,7 +86,7 @@ const useReveal = (amount = 0.2) => {
     if (!el) return;
     const io = new IntersectionObserver(
       ([e]) => { if (e.isIntersecting) { setSeen(true); io.disconnect(); } },
-      { threshold: amount, rootMargin: '0px 0px -12% 0px' }
+      { threshold: Math.min(amount, (window.innerHeight * 0.4) / Math.max(1, el.offsetHeight)), rootMargin: '0px 0px -12% 0px' }
     );
     io.observe(el);
     return () => io.disconnect();
@@ -129,28 +131,10 @@ const useProgress = () => {
 };
 
 /* ── chrome ───────────────────────────────────────── */
-const HUD = () => (
-  <div style={{
-    position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-    mixBlendMode: 'difference', pointerEvents: 'none',
-    padding: '20px 32px', display: 'flex', justifyContent: 'space-between',
-    alignItems: 'center', color: '#FFF', maxWidth: 1880, margin: '0 auto',
-    fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase',
-  }}>
-    <a href="index.html" style={{ pointerEvents: 'auto', display: 'inline-flex', alignItems: 'center', gap: 12, color: '#FFF', textDecoration: 'none' }}>
-      <ThreeBar size={14} color="#FFF" gap={3} />White Label Resell
-    </a>
-    <span style={{ pointerEvents: 'auto', display: 'flex', gap: 24 }}>
-      <a href="work-variations/work-v6.html" style={{ color: '#FFF', textDecoration: 'none' }}>Work</a>
-      <a href="about-variations/about-v1.html" style={{ color: '#FFF', textDecoration: 'none' }}>About</a>
-      <a href="team-v2.html" style={{ color: '#FFF', textDecoration: 'none' }}>Team</a>
-      <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{ color: '#FFF', textDecoration: 'none', cursor: 'pointer' }}>Get a Quote</a>
-    </span>
-  </div>
-);
+const HUD = window.ResponsiveHUD;
 
 const Kick = ({ children, style = {} }) => (
-  <div style={{
+  <div className="eyebrow" style={{
     fontFamily: 'Geist Mono', fontSize: 11, letterSpacing: '.22em',
     textTransform: 'uppercase', opacity: .6, marginBottom: 16, ...style,
   }}>{children}</div>
@@ -225,7 +209,7 @@ const Hero = () => {
   }, [loaded, barsH]);
 
   return (
-    <section
+    <section className="responsive-Hero home-hero"
       ref={sectionRef}
       style={{
         minHeight: '100vh', background: '#FFF', color: '#000',
@@ -234,16 +218,15 @@ const Hero = () => {
       }}>
       <div className="section-inner" style={{ display: 'flex', alignItems: 'flex-end', gap: '4vw', width: '100%' }}>
         {/* Text content — auto height, grows naturally */}
-        <div ref={contentRef} style={{ flex: 1 }}>
+        <div className="home-hero-copy" ref={contentRef} style={{ flex: 1 }}>
           <Kick style={{ opacity: .6 }}>White-label digital marketing · est. 2018</Kick>
           <h1 style={{
             margin: 0, fontFamily: 'Geist',
             fontSize: 'clamp(48px, 7.36vw, 116px)',
             fontWeight: 500, letterSpacing: '-.04em', lineHeight: 1.04,
           }}>
-            We Build What<br />
-            Moves<br />
-            <i style={{ fontWeight: 300 }}>Business forward</i>
+            We Build What<br className="hero-desktop-break" />{' '}
+            <span className="hero-moves-business">Moves<br className="hero-desktop-break" />{' '}<i style={{ fontWeight: 300 }}>Business</i></span>{' '}<i style={{ fontWeight: 300 }}>forward</i>
           </h1>
           <p style={{
             margin: '32px 0 0',
@@ -253,7 +236,7 @@ const Hero = () => {
             SEO, paid media, content, web and analytics — delivered under your brand,
             measured by the growth it drives.
           </p>
-          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 40 }}>
+          <div className="home-hero-actions" style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 40 }}>
             <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{
               display: 'inline-flex', alignItems: 'center', gap: 12, padding: '18px 26px',
               background: 'currentColor', textDecoration: 'none',
@@ -272,7 +255,7 @@ const Hero = () => {
           </div>
         </div>
         {/* Bars — height matches text content, bottom-aligned */}
-        <div ref={barsWrapRef} style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', gap: 32, flexShrink: 0 }}>
+        <div className="home-hero-mark" ref={barsWrapRef} style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', gap: 32, flexShrink: 0 }}>
           {[0.7, 1, 0.85].map((h, i) => (
             <div key={i} ref={el => barsRef.current[i] = el} style={{
               width: 'clamp(70px, 9vw, 160px)',
@@ -293,12 +276,21 @@ const Hero = () => {
    wipe → heading shrink → cards. No vertical scroll until cards.          */
 const SellDeliver = () => {
   const sectionRef = useRef(null);
+  // Keep the full-screen horizontal sequence; let tall service content follow it.
+  const [flowServices, setFlowServices] = useState(() => window.matchMedia('(max-width: 1366px), (max-height: 949px)').matches);
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 1366px), (max-height: 949px)');
+    const update = () => setFlowServices(media.matches);
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+  }, []);
   const trackRef = useRef(null);
   const sdStageRef = useRef(null);
   const barRefs = [useRef(null), useRef(null), useRef(null)];
   const sdHeadingRef = useRef(null);
   const pctRef = useRef(null);
   const svcHeadingRef = useRef(null);
+  const svcContentRef = useRef(null);
   const svcSubtextRef = useRef(null);
   const svcCardsRef = useRef(null);
   const svcSubtextWrapRef = useRef(null);
@@ -322,8 +314,8 @@ const SellDeliver = () => {
     const measure = () => {
       raf = 0;
       const r = section.getBoundingClientRect();
-      const vh = window.innerHeight;
-      const span = r.height - vh;
+      const vh = section.firstElementChild.clientHeight;
+      const span = vh * 4;
       const p = span <= 0 ? 0 : Math.max(0, Math.min(1, -r.top / span));
 
       /* ─── Phase 1 (0→0.45): SellDeliver wipe bars + flip ─── */
@@ -361,55 +353,158 @@ const SellDeliver = () => {
       const shrinkP = Math.max(0, Math.min(1, (p - 0.72) / 0.12));
       if (svcHeadingRef.current) {
         if (shrinkP <= 0) {
-          svcHeadingRef.current.style.fontSize = 'clamp(52px, 8.5vw, 148px)';
+          svcHeadingRef.current.style.fontSize = flowServices ? 'clamp(58px, 14vw, 110px)' : 'clamp(52px, 8.5vw, 148px)';
           headingSnapped.current = false;
         } else if (shrinkP >= 1) {
-          svcHeadingRef.current.style.fontSize = '80px';
+          svcHeadingRef.current.style.fontSize = flowServices ? '50px' : '80px';
         } else {
           if (headingSnapped.current === false) {
             headingSnapped.current = parseFloat(getComputedStyle(svcHeadingRef.current).fontSize);
           }
           const orig = headingSnapped.current;
-          svcHeadingRef.current.style.fontSize = `${orig + (80 - orig) * shrinkP}px`;
+          svcHeadingRef.current.style.fontSize = `${orig + ((flowServices ? 50 : 80) - orig) * shrinkP}px`;
         }
       }
 
       /* ─── Phase 5 (0.82→0.94): subtext + cards expand and fade in ─── */
-      const revealP = Math.max(0, Math.min(1, (p - 0.82) / 0.12));
+      const revealP = Math.max(0, Math.min(1, (p - 0.78) / 0.16));
+
+      const liftProgress = Math.max(0, Math.min(1, (p - 0.72) / 0.22));
+      const contentTop = svcContentRef.current ? parseFloat(getComputedStyle(svcContentRef.current).paddingTop) : 96;
+      const headingOffset = svcHeadingRef.current ? Math.max(0, (vh - svcHeadingRef.current.offsetHeight) / 2 - contentTop) * (1 - liftProgress) : 0;
 
       if (svcSubtextWrapRef.current) {
-        svcSubtextWrapRef.current.style.maxHeight = revealP > 0 ? '200px' : '0';
+        svcSubtextWrapRef.current.style.transform = `translateY(${headingOffset + (1 - revealP) * 24}px)`;
         svcSubtextWrapRef.current.style.opacity = String(revealP);
       }
       if (svcCardsWrapRef.current) {
-        svcCardsWrapRef.current.style.maxHeight = revealP > 0 ? '2000px' : '0';
+        svcCardsWrapRef.current.style.transform = `translateY(${headingOffset + (1 - revealP) * 32}px)`;
         svcCardsWrapRef.current.style.opacity = String(revealP);
+      }
+
+      // Move the centered title up as its supporting content enters the same viewport.
+      const lift = Math.max(0, Math.min(1, (p - 0.72) / 0.22));
+      const heading = svcHeadingRef.current;
+      const content = svcContentRef.current;
+      if (heading && content) {
+        const paddingTop = parseFloat(getComputedStyle(content).paddingTop);
+        const centeredOffset = Math.max(0, (vh - heading.offsetHeight) / 2 - paddingTop);
+        heading.style.transform = `translateY(${centeredOffset * (1 - lift)}px)`;
+        // Reserve all rows, then let ordinary vertical scroll carry them through the pin.
+        const currentFont = heading.style.fontSize;
+        heading.style.fontSize = flowServices ? '50px' : '80px';
+        const finalHeight = content.offsetHeight;
+        heading.style.fontSize = currentFont;
+        const overflow = Math.max(0, finalHeight - vh);
+        section.style.height = `${vh * 5 + overflow}px`;
+        const vertical = Math.min(overflow, Math.max(0, -r.top - span));
+        content.style.transform = `translateY(${-vertical}px)`;
       }
 
     };
 
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(measure); };
     measure();
+    const contentObserver = new ResizeObserver(onScroll);
+    if (svcContentRef.current) contentObserver.observe(svcContentRef.current);
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', measure);
     return () => {
+      contentObserver.disconnect();
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', measure);
       if (raf) cancelAnimationFrame(raf);
     };
-  }, []);
+  }, [flowServices]);
+
+  const renderServices = () => (
+    <>
+              {/* Subtext + Get a quote — collapsed during intro, expands after */}
+              <div ref={svcSubtextWrapRef} style={{
+                maxHeight: 'none', overflow: 'visible', opacity: 0,
+                transition: 'opacity .15s linear',
+                display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 24,
+              }}>
+                <p ref={svcSubtextRef} style={{
+                  margin: '16px 0 0', maxWidth: 420, fontSize: 18, lineHeight: 1.6,
+                  mixBlendMode: 'difference', color: '#FFF', opacity: '0.7',
+                }}>
+                  Take the whole stack or the two pieces you are missing. Scope is set in a
+                  simple statement of work, and work begins the day it is signed.
+                </p>
+                <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 12, padding: '18px 26px',
+                  background: '#FFF', color: '#000', textDecoration: 'none', flexShrink: 0,
+                  fontFamily: 'Geist Mono', fontSize: 12, letterSpacing: '.22em',
+                  textTransform: 'uppercase', fontWeight: 600, cursor: 'pointer',
+                  pointerEvents: 'auto',
+                }}>
+                  <ThreeBar size={12} color="#000" />Get a quote →
+                </a>
+              </div>
+
+              {/* Cards — collapsed during intro, expands after */}
+              <div ref={svcCardsWrapRef} style={{
+                maxHeight: 'none', overflow: 'visible', opacity: 0,
+                transition: 'opacity .15s linear',
+              }}>
+                <div className="service-grid" ref={svcCardsRef} style={{
+                  marginTop: 44, display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 10,
+                  width: '100%',
+                }}>
+              {items.map((item, i) => {
+                const t = item.name;
+                const sub = item.desc;
+                const inverted = (i + Math.floor(i / 4)) % 2 === 0;
+                return (
+                  <div className="service-card" key={t}
+                    ref={el => cardsRef.current[i] = el}
+                    style={{
+                      background: inverted ? '#000' : '#FFF',
+                      color: inverted ? '#FFF' : '#000',
+                      border: `2px solid ${inverted ? '#FFF' : '#000'}`, padding: 28, minHeight: 'clamp(420px, 55vh, 720px)',
+                      display: 'flex', flexDirection: 'column',
+                    }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+                      <span style={{ fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '.22em', opacity: .6 }}>/{String(i + 1).padStart(2, '0')}</span>
+                    </div>
+                    <div style={{ marginTop: 16 }}>
+                      <div style={{ fontFamily: 'Geist', fontSize: 'clamp(36px, 3.2vw, 44px)', fontWeight: 500, letterSpacing: '-.02em', lineHeight: 1.1, textTransform: 'uppercase' }}>{t}</div>
+                      <div style={{ marginTop: 12, fontFamily: 'Inter', fontSize: 15, lineHeight: 1.6, opacity: .7 }}>{sub}</div>
+                    </div>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px 0' }}>
+                      <img
+                        src={`Logos/${item.name} service card.png`}
+                        alt={`${item.name} service card`}
+                        style={{
+                          width: '100%',
+                          maxWidth: 280,
+                          height: 'auto',
+                          objectFit: 'contain',
+                          filter: inverted ? 'brightness(1.1) contrast(1.1)' : 'none',
+                        }}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+              </div>
+            </div>
+    </>
+  );
 
   return (
-    <section ref={sectionRef} style={{ height: '500vh', position: 'relative' }}>
+    <>
+    <section className="responsive-SellDeliver" ref={sectionRef} style={{ height: '500vh', position: 'relative' }}>
       <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden' }}>
 
         {/* ── Horizontal track: SellDeliver | Services side by side ── */}
-        <div ref={trackRef} style={{
+        <div className="sell-track" ref={trackRef} style={{
           display: 'flex', width: '200vw', height: '100vh',
           willChange: 'transform',
         }}>
           {/* LEFT: SellDeliver */}
-          <div ref={sdStageRef} style={{
+          <div className="sell-stage" ref={sdStageRef} style={{
             width: '100vw', height: '100vh', position: 'relative',
             backgroundColor: '#000', color: '#FFF',
             transition: 'background-color .6s ease-in-out, color .6s ease-in-out',
@@ -439,12 +534,12 @@ const SellDeliver = () => {
               <span>The partnership, in two words</span>
               <span ref={pctRef}>000%</span>
             </div>
-            <div style={{
+            <div className="sell-heading-wrap" style={{
               position: 'absolute', inset: 0,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               pointerEvents: 'none',
             }}>
-              <h2 ref={sdHeadingRef} style={{
+              <h2 className="sell-display" ref={sdHeadingRef} style={{
                 margin: 0, textAlign: 'center', fontFamily: 'Geist',
                 fontSize: 'clamp(67px, 14.5vw, 215px)', fontWeight: 500,
                 letterSpacing: '-.045em', lineHeight: 1.08,
@@ -454,7 +549,7 @@ const SellDeliver = () => {
           </div>
 
           {/* RIGHT: Services — all content in one container */}
-          <div style={{
+          <div className="services-stage" style={{
             width: '100vw', height: '100vh', position: 'relative',
             flexShrink: 0,
           }}>
@@ -472,15 +567,15 @@ const SellDeliver = () => {
             }} />
 
             {/* Single content container: heading + subtext + cards */}
-            <div style={{
-              position: 'absolute', inset: 0,
-              padding: '0 6vw',
+            <div className="services-content" ref={svcContentRef} style={{
+              position: 'absolute', top: 0, left: 0, right: 0,
+              padding: '96px 6vw 64px',
               display: 'flex', flexDirection: 'column',
-              justifyContent: 'center',
+              justifyContent: 'flex-start',
               pointerEvents: 'none',
             }}>
               {/* Heading — big during intro, shrinks via animation */}
-              <h2 ref={svcHeadingRef} style={{
+              <h2 className="services-display" ref={svcHeadingRef} style={{
                 margin: 0, fontFamily: 'Geist',
                 fontSize: 'clamp(52px, 8.5vw, 148px)',
                 fontWeight: 600, letterSpacing: '-.045em', lineHeight: 0.92,
@@ -490,83 +585,14 @@ const SellDeliver = () => {
                 Your full<br /><i style={{ fontWeight: 300 }}>marketing bench.</i>
               </h2>
 
-              {/* Subtext + Get a quote — collapsed during intro, expands after */}
-              <div ref={svcSubtextWrapRef} style={{
-                maxHeight: 0, overflow: 'hidden', opacity: 0,
-                transition: 'max-height .5s ease, opacity .5s ease',
-                display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 24,
-              }}>
-                <p ref={svcSubtextRef} style={{
-                  margin: '16px 0 0', maxWidth: 420, fontSize: 18, lineHeight: 1.6,
-                  mixBlendMode: 'difference', color: '#FFF', opacity: '0.7',
-                }}>
-                  Take the whole stack or the two pieces you are missing. Scope is set in a
-                  simple statement of work, and work begins the day it is signed.
-                </p>
-                <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 12, padding: '18px 26px',
-                  background: '#FFF', color: '#000', textDecoration: 'none', flexShrink: 0,
-                  fontFamily: 'Geist Mono', fontSize: 12, letterSpacing: '.22em',
-                  textTransform: 'uppercase', fontWeight: 600, cursor: 'pointer',
-                  pointerEvents: 'auto',
-                }}>
-                  <ThreeBar size={12} color="#000" />Get a quote →
-                </a>
-              </div>
-
-              {/* Cards — collapsed during intro, expands after */}
-              <div ref={svcCardsWrapRef} style={{
-                maxHeight: 0, overflow: 'hidden', opacity: 0,
-                transition: 'max-height .6s ease, opacity .5s ease',
-              }}>
-                <div ref={svcCardsRef} style={{
-                  marginTop: 44, display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10,
-                  width: '100%',
-                }}>
-              {items.map((item, i) => {
-                const t = item.name;
-                const sub = item.desc;
-                const inverted = (i + Math.floor(i / 4)) % 2 === 0;
-                return (
-                  <div key={t}
-                    ref={el => cardsRef.current[i] = el}
-                    style={{
-                      background: inverted ? '#000' : '#FFF',
-                      color: inverted ? '#FFF' : '#000',
-                      border: `2px solid ${inverted ? '#FFF' : '#000'}`, padding: 28, minHeight: 'clamp(420px, 55vh, 720px)',
-                      display: 'flex', flexDirection: 'column',
-                    }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-                      <span style={{ fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: '.22em', opacity: .6 }}>/{String(i + 1).padStart(2, '0')}</span>
-                    </div>
-                    <div style={{ marginTop: 16 }}>
-                      <div style={{ fontFamily: 'Geist', fontSize: 'clamp(36px, 3.2vw, 44px)', fontWeight: 500, letterSpacing: '-.02em', lineHeight: 1.1, textTransform: 'uppercase' }}>{t}</div>
-                      <div style={{ marginTop: 12, fontFamily: 'Inter', fontSize: 15, lineHeight: 1.6, opacity: .7 }}>{sub}</div>
-                    </div>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px 0' }}>
-                      <img 
-                        src={`Logos/${item.name} service card.png`} 
-                        alt={`${item.name} service card`} 
-                        style={{ 
-                          width: '100%', 
-                          maxWidth: 280, 
-                          height: 'auto', 
-                          objectFit: 'contain', 
-                          filter: inverted ? 'brightness(1.1) contrast(1.1)' : 'none',
-                        }} 
-                      />
-                    </div>
-                  </div>
-                );
-              })}
-              </div>
-            </div>
+              {renderServices()}
           </div>
         </div>
 
       </div>
       </div>
     </section>
+    </>
   );
 };
 
@@ -612,7 +638,7 @@ const Positioning = () => {
   const headingLine2 = 'Renting a full team is';
 
   return (
-    <section ref={sectionRef} style={{ background: '#000', color: '#FFF', padding: '140px 6vw 120px', borderTop: '1px solid #FFF', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+    <section className="responsive-Positioning" ref={sectionRef} style={{ background: '#000', color: '#FFF', padding: '140px 6vw 120px', borderTop: '1px solid #FFF', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
       <div className="section-inner">
       <Kick>Why agencies partner with us</Kick>
       <div style={{
@@ -740,7 +766,7 @@ const CaseChart = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} style={{ background: '#FFF', color: '#000', padding: '180px 6vw', borderTop: '1px solid #000', minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
+    <section className="responsive-CaseChart" ref={sectionRef} style={{ background: '#FFF', color: '#000', padding: '180px 6vw', borderTop: '1px solid #000', minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
       <div className="section-inner" style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: '5vw', alignItems: 'center', width: '100%' }}>
         <div ref={textRef}>
           <Kick>Client results · Guild Golf Carts</Kick>
@@ -838,13 +864,16 @@ const Process = () => {
     const el = containerRef.current;
     if (!el) return;
 
+    const media = gsap.matchMedia();
+    media.add({ roomy: '(min-width: 1201px) and (min-height: 950px)', compact: '(max-width: 1200px), (max-height: 949px)' }, context => {
+    const roomy = context.conditions.roomy;
     let ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: el,
           start: 'top 90%',
-          end: '+=80%',
-          pin: true,
+          end: roomy ? '+=80%' : 'bottom 80%',
+          pin: roomy,
           scrub: 0.6,
         }
       });
@@ -857,10 +886,12 @@ const Process = () => {
       }, 0.05);
     }, el);
     return () => ctx.revert();
+    });
+    return () => media.revert();
   }, []);
 
   return (
-    <section ref={containerRef} style={{ height: '100vh', background: '#000', color: '#FFF', position: 'relative', overflow: 'hidden', borderTop: '1px solid #FFF' }}>
+    <section className="responsive-Process" ref={containerRef} style={{ height: '100vh', background: '#000', color: '#FFF', position: 'relative', overflow: 'hidden', borderTop: '1px solid #FFF' }}>
       <div ref={contentRef} style={{ position: 'absolute', inset: 0, padding: '120px 6vw', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <div ref={headerRef} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 24, marginBottom: 40 }}>
           <div>
@@ -904,7 +935,7 @@ const Marquee = () => {
   const items = ['Design', 'Development', 'SEO', 'Content', 'Web development', 'Paid search', 'Paid social', 'Email', 'Analytics', 'Hosting', 'Reporting'];
   const list = [...items, ...items, ...items];
   return (
-    <section ref={ref} style={{
+    <section className="responsive-Marquee" ref={ref} style={{
       background: '#000', color: '#FFF', borderTop: '1px solid #FFF',
       display: 'flex', flexDirection: 'column', justifyContent: 'center',
       position: 'relative', padding: '110px 0 90px', overflow: 'hidden',
@@ -967,7 +998,7 @@ const BigNumber = () => {
   }, []);
 
   return (
-    <section ref={ref} style={{
+    <section className="responsive-BigNumber" ref={ref} style={{
       minHeight: '92vh', background: '#000', color: '#FFF', padding: '130px 6vw',
       position: 'relative', display: 'grid', placeItems: 'center', borderTop: '1px solid #FFF',
       overflow: 'hidden',
@@ -1024,18 +1055,23 @@ const BigNumber = () => {
 /* ═══ 10 · CLOSE — CTA curtain ═══ */
 const Close = () => {
   const containerRef = useRef(null);
+  const connectorUpdateRef = useRef(null);
 
   useLayoutEffect(() => {
     const el = containerRef.current;
     if (!el) return;
 
+    const media = gsap.matchMedia();
+    media.add({ roomy: '(min-width: 1201px) and (min-height: 950px)', compact: '(max-width: 1200px), (max-height: 949px)' }, context => {
+    const roomy = context.conditions.roomy;
     let ctx = gsap.context(() => {
       const tl = gsap.timeline({
+        onUpdate: () => connectorUpdateRef.current && connectorUpdateRef.current(),
         scrollTrigger: {
           trigger: el,
-          start: 'top top',
-          end: '+=150%',
-          pin: true,
+          start: roomy ? 'top top' : 'top 85%',
+          end: roomy ? '+=150%' : 'bottom 80%',
+          pin: roomy,
           scrub: 1,
         }
       });
@@ -1046,11 +1082,65 @@ const Close = () => {
       tl.from('.step-col', { y: 30, opacity: 0, stagger: 0.2, duration: 0.8, ease: 'power3.out' }, 0.2);
 
     }, el);
-    return () => ctx.revert();
+
+
+  return () => ctx.revert();
+    });
+    return () => media.revert();
+  }, []);
+
+  useEffect(() => {
+    const section = containerRef.current;
+    const wrap = section.querySelector('.steps-wrap');
+    let raf = 0;
+    const measure = () => {
+      raf = 0;
+      const boxes = [...wrap.querySelectorAll('.step-number')];
+      const origin = wrap.getBoundingClientRect();
+      const mobile = window.innerWidth <= 600;
+      const tablet = window.innerWidth > 600 && window.innerWidth <= 900;
+      wrap.querySelectorAll('.step-connector').forEach((line, i) => {
+        const enabled = mobile || (tablet && i !== 1);
+        line.style.display = enabled ? 'block' : 'none';
+        if (!enabled) return;
+        const from = boxes[i].getBoundingClientRect();
+        const to = boxes[i + 1].getBoundingClientRect();
+        if (mobile) {
+          const length = Math.max(0, to.top - from.bottom);
+          line.style.left = `${from.left + from.width / 2 - origin.left}px`;
+          line.style.top = `${from.bottom - origin.top}px`;
+          line.style.width = '1px';
+          line.style.height = `${length}px`;
+          const progress = Math.max(0, Math.min(1, (window.innerHeight * .7 - from.bottom) / Math.max(1, length)));
+          line.style.transform = `scaleY(${progress})`;
+        } else {
+          line.style.left = `${from.right - origin.left}px`;
+          line.style.top = `${from.top + from.height / 2 - origin.top}px`;
+          line.style.width = `${Math.max(0, to.left - from.right)}px`;
+          line.style.height = '1px';
+          const progress = Math.max(0, Math.min(1, (window.innerHeight * .8 - from.top) / (window.innerHeight * .45)));
+          line.style.transform = `scaleX(${progress})`;
+        }
+      });
+    };
+    connectorUpdateRef.current = measure;
+    const update = () => { if (!raf) raf = requestAnimationFrame(measure); };
+    const observer = new ResizeObserver(update);
+    observer.observe(wrap);
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    measure();
+    return () => {
+      connectorUpdateRef.current = null;
+      observer.disconnect();
+      window.removeEventListener('scroll', update);
+      window.removeEventListener('resize', update);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, []);
 
   return (
-    <section ref={containerRef} style={{
+    <section className="responsive-Close" ref={containerRef} style={{
       minHeight: '100vh', width: '100vw', background: '#000', color: '#FFF',
       position: 'relative', overflow: 'hidden', zIndex: 4,
       borderTop: '1px solid rgba(255,255,255,0.2)',
@@ -1072,9 +1162,9 @@ const Close = () => {
           </p>
         </div>
 
-        <div className="cta-elem" style={{ position: 'relative', margin: '0' }}>
+        <div className="cta-elem steps-wrap" style={{ position: 'relative', margin: '0' }}>
           <div className="step-line" style={{ position: 'absolute', top: 32, left: 0, height: 1, background: 'rgba(255,255,255,0.2)', width: '100%', transformOrigin: 'left', transform: 'scaleX(0)' }} />
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '4vw' }}>
+          <div className="steps-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '4vw' }}>
             {[
               ['01', 'Scope', 'We review your project, outline deliverables, and sign a flat-rate statement of work.'],
               ['02', 'Build', 'Production begins immediately in your brand voice, using your templates and tools.'],
@@ -1082,7 +1172,7 @@ const Close = () => {
               ['04', 'Scale', 'The process becomes invisible. You scale your agency without adding to your team.'],
             ].map(([num, title, desc]) => (
               <div key={num} className="step-col" style={{ display: 'flex', flexDirection: 'column', gap: 32, position: 'relative' }}>
-                <div style={{
+                <div className="step-number" style={{
                   width: 64, height: 64, background: '#000', border: '1px solid #FFF',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontFamily: 'Geist Mono', fontSize: 18, color: '#FFF', zIndex: 2
@@ -1096,6 +1186,7 @@ const Close = () => {
               </div>
             ))}
           </div>
+          {[0, 1, 2].map(i => <span key={i} className="step-connector" aria-hidden="true" />)}
         </div>
 
         <div className="cta-elem" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 32, marginTop: '84px' }}>
@@ -1142,9 +1233,9 @@ const CtaWireframe = () => (
 const BlogCTA = () => {
   const [ref, seen] = useReveal(0.15);
   return (
-    <section ref={ref} style={{ background: '#FFF', color: '#000', borderTop: '1px solid #000', padding: 'clamp(80px,9vw,130px) 6vw' }}>
+    <section className="responsive-BlogCTA" ref={ref} style={{ background: '#FFF', color: '#000', borderTop: '1px solid #000', padding: 'clamp(80px,9vw,130px) 6vw' }}>
       <div className="section-inner">
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5vw', alignItems: 'center' }}>
+        <div className="home-cta-layout cta-layout" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5vw', alignItems: 'center' }}>
           <div style={{ opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(20px)', transition: 'all .8s cubic-bezier(.2,.8,.2,1)' }}>
             <Kick style={{ opacity: 0.5 }}>Work with us</Kick>
             <h2 style={{ margin: 0, fontFamily: 'Geist, sans-serif', fontSize: 'clamp(38px,5vw,76px)', fontWeight: 500, letterSpacing: '-.04em', lineHeight: 1.05 }}>
@@ -1320,13 +1411,16 @@ const ProductEngineering = () => {
     const el = containerRef.current;
     if (!el) return;
 
+    const media = gsap.matchMedia();
+    media.add({ roomy: '(min-width: 1201px) and (min-height: 950px)', compact: '(max-width: 1200px), (max-height: 949px)' }, context => {
+    const roomy = context.conditions.roomy;
     let ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: el,
-          start: 'top top',
-          end: '+=150%',
-          pin: true,
+          start: roomy ? 'top top' : 'top 85%',
+          end: roomy ? '+=150%' : 'bottom 80%',
+          pin: roomy,
           scrub: 1,
         }
       });
@@ -1337,10 +1431,12 @@ const ProductEngineering = () => {
       tl.from(rightRef.current, { x: 60, opacity: 0, duration: 1, ease: 'power3.out' }, 0.1);
     }, el);
     return () => ctx.revert();
+    });
+    return () => media.revert();
   }, []);
 
   return (
-    <section ref={containerRef} style={{ height: '100vh', position: 'relative', overflow: 'hidden', borderTop: '1px solid #FFF' }}>
+    <section className="responsive-ProductEngineering" ref={containerRef} style={{ height: '100vh', position: 'relative', overflow: 'hidden', borderTop: '1px solid #FFF' }}>
       <div style={{ display: 'flex', height: '100%', position: 'absolute', inset: 0 }}>
         {/* ── Left: White — content + accordion ── */}
         <div ref={leftRef} style={{
