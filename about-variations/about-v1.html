@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>About — White Label Resell</title>
-<meta name="description" content="White Label Resell is the people behind your digital work — a multidisciplinary team of named specialists designing, building and growing better digital businesses under your brand. est. 2018." />
+<title>About: White Label Resell</title>
+<meta name="description" content="White Label Resell is the people behind your digital work, a multidisciplinary team of named specialists designing, building and growing better digital businesses under your brand. est. 2018." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -257,13 +257,13 @@ window.ABOUT = {
     { name: 'UI/UX and Product Design',      desc: 'Interfaces, flows and brand systems that turn strategy into something people can use.' },
     { name: 'SEO and Content',               desc: 'Technical and on-page SEO, keyword strategy and content built to earn rankings.' },
     { name: 'Paid Acquisition',              desc: 'Search and social campaigns measured against pipeline, not vanity clicks.' },
-    { name: 'Development',               desc: 'WordPress, eCommerce and custom builds — fast, accessible and production-ready.' },
+    { name: 'Development',               desc: 'WordPress, eCommerce and custom builds that are fast, accessible and production-ready.' },
     { name: 'Analytics',                     desc: 'GA4, Tag Manager and Looker reporting that turns data into decisions.' },
     { name: 'Cloud and Infrastructure',      desc: 'Hosting, security and uptime that keep the work online around the clock.' },
     { name: 'Operations and Client Success', desc: 'The coordinators who keep projects moving and partners in the loop.' },
   ],
   values: [
-    { n: '01', name: 'Ownership',                          short: 'Every specialist runs their discipline like it is their own project — and answers for it.' },
+    { n: '01', name: 'Ownership',                          short: 'Every specialist runs their discipline like it is their own project and answers for it.' },
     { n: '02', name: 'Clear Communication',                short: 'Straight answers, honest timelines and no hiding behind process.' },
     { n: '03', name: 'Continuous Improvement',             short: 'We refine the systems, not just the deliverables, so every engagement beats the last.' },
     { n: '04', name: 'Quality Without Unnecessary Complexity', short: 'Work that is simple to maintain, easy to explain and built to last.' },
@@ -271,9 +271,9 @@ window.ABOUT = {
     { n: '06', name: 'Work That Creates Lasting Value',    short: 'We measure success in results our partners keep, not reports we hand over.' },
   ],
   journey: [
-    { tag: '2018–2019', title: 'Where it started.',  desc: 'White Label Resell is founded as a focused production team — SEO, content and web work shipped quietly under partner brands from day one.' },
-    { tag: '2020–2024', title: 'The bench grows.',    desc: 'Design, engineering, paid, analytics and cloud join one by one, each led by a named specialist, all working to a single standard.' },
-    { tag: '2025–2026', title: 'One connected team.', desc: 'Today the team runs complete digital growth programs end to end — a full in-house bench for each partner, always behind their brand.' },
+    { tag: '2018 to 2019', title: 'Where it started.',  desc: 'White Label Resell is founded as a focused production team delivering SEO, content and web work shipped quietly under partner brands from day one.' },
+    { tag: '2020 to 2024', title: 'The bench grows.',    desc: 'Design, engineering, paid, analytics and cloud join one by one, each led by a named specialist, all working to a single standard.' },
+    { tag: '2025 to 2026', title: 'One connected team.', desc: 'Today the team runs complete digital growth programs end to end, with a full in-house bench for each partner, always behind their brand.' },
   ],
   clients: [
     { name: 'Guild Golf Carts',   style: { letterSpacing: '.06em', fontWeight: 500 } },
@@ -287,7 +287,7 @@ window.ABOUT = {
     },
     {
       q: 'How does the team work across different disciplines?',
-      a: 'Every engagement is staffed by the specialist leads it needs — strategy, design, build, marketing, analytics — who work from one shared brief and one shared standard instead of passing work between silos.',
+      a: 'Every engagement brings together strategy, design, development, marketing and analytics specialists working from one shared brief and one shared standard.',
     },
     {
       q: 'Will clients ever work directly with the team?',
@@ -303,8 +303,8 @@ window.ABOUT = {
     label: '2 Minutes Watch',
   },
   cta: {
-    headline: 'We Scale what you built.',
-    support: 'We run your marketing — design, SEO, paid media and analytics — so you can focus on growth.',
+    headline: 'Ready to transform your brand?',
+    support: 'Bring your brand into focus with thoughtful design, a stronger website, and marketing that connects with the right people.',
     link: '../contact.html',
   },
   teamHref: '../team-v2.html',
@@ -476,7 +476,7 @@ const LinkedIn = ({ size = 18 }) => (
 );
 
 const TeamPhoto = ({ m, i, light = false, hover = false }) => (
-  <img src={m.img} alt={`${m.name} — ${m.role}`} width={m.w} height={m.h}
+  <img src={m.img} alt={`${m.name}, ${m.role}`} width={m.w} height={m.h}
        loading={i < 4 ? 'eager' : 'lazy'} decoding="async"
        style={{
          width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%', display: 'block',
@@ -647,7 +647,7 @@ const VideoSection = () => {
         </div>
         {playing && (
           <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#000', zIndex: 2 }}>
-            <iframe src={V.url} title="White Label Resell — team film"
+            <iframe src={V.url} title="White Label Resell, team film"
                     style={{ width: '100%', maxWidth: 1200, maxHeight: '100%', aspectRatio: '16 / 9', border: 'none' }}
                     allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowFullScreen />
           </div>
@@ -1025,7 +1025,7 @@ const Hero = () => {
       </h1>
       <p style={{ margin: '28px 0 0', maxWidth: 620, fontSize: 'clamp(15px,1.2vw,18px)', lineHeight: 1.65, opacity: .75, fontWeight: 300 }}>
         White Label Resell is a multidisciplinary team designing, building and growing better digital
-        businesses — shipped under our partners&rsquo; brands, never in front of their clients.
+        businesses, shipped under our partners&rsquo; brands, never in front of their clients.
       </p>
       <div className="hero-stats" style={{ marginTop: 48, marginLeft: '-6vw', marginRight: '-6vw', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', background: '#000', color: '#FFF', borderTop: '1px solid #FFF', borderBottom: '1px solid #FFF', opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(24px)', transition: 'opacity .8s ease .4s, transform .8s cubic-bezier(.2,.8,.2,1) .4s' }}>
         {stats.map((s, i) => (
@@ -1049,7 +1049,7 @@ const Hero = () => {
 const Quad = ({ markRef }) => {
   const [ref, seen] = useReveal(0.1);
   const blocks = [
-    { t: 'Design and Development', d: 'Interfaces, brand systems and production-ready builds — WordPress, eCommerce and custom.', fill: '#FFF' },
+    { t: 'Design and Development', d: 'Interfaces, brand systems and production-ready builds for WordPress, eCommerce and custom platforms.', fill: '#FFF' },
     { t: 'SEO', d: 'Technical and on-page SEO, keyword strategy and content engineered to earn rankings.', fill: '#000' },
     { t: 'Marketing', d: 'Search and social campaigns measured against pipeline, not vanity clicks.', fill: '#000' },
     { t: 'Content Strategy and Analytics Tracking', d: 'Content built to convert, with GA4 and reporting that turns data into decisions.', fill: '#FFF' },
@@ -1064,7 +1064,7 @@ const Quad = ({ markRef }) => {
             What we do
           </h2>
           <p style={{ margin: '20px 0 0', fontSize: 16, lineHeight: 1.55, opacity: 0.7, maxWidth: 480 }}>
-            We partner with brands to design, develop, and grow their digital presence — delivering custom solutions that drive real results and long-term success.
+            We partner with brands to design, develop, and grow their digital presence, delivering custom solutions that drive real results and long-term success.
           </p>
         </div>
         <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{ display: 'inline-flex', alignItems: 'center', gap: 14, padding: '20px 28px', background: '#FFF', color: '#000', textDecoration: 'none', fontFamily: 'Geist Mono, monospace', fontSize: 13, letterSpacing: '0.22em', textTransform: 'uppercase', fontWeight: 600, cursor: 'pointer' }}>
@@ -1112,7 +1112,7 @@ const Journey = ({ cardRef, cardBg, cardColor, cardBorder, cardDark }) => {
           One team,<br /><i style={{ fontWeight: 300 }}>year by year.</i>
         </h2>
         <p style={{ margin: '20px auto 0', fontSize: 16, lineHeight: 1.55, opacity: 0.7, maxWidth: 460 }}>
-          Stayed focused on one goal since the start — helping our partners grow through craft and measurable results.
+          Stayed focused on one goal since the start, helping our partners grow through craft and measurable results.
         </p>
       </div>
       <div className="journey-bento" style={{ opacity: seen ? 1 : 0, transform: seen ? 'none' : 'translateY(20px)', transition: 'opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1)' }}>
@@ -1158,7 +1158,7 @@ const Team = () => {
           The people behind<br /><i style={{ fontWeight: 300 }}>the work.</i>
         </h2>
         <p style={{ margin: '20px auto 0', fontSize: 16, lineHeight: 1.55, opacity: 0.7, maxWidth: 560 }}>
-          Strategists, designers, and engineers working as an extension of your team — deep expertise, genuine passion.
+          Strategists, designers, and engineers working as an extension of your team, deep expertise, genuine passion.
         </p>
       </div>
       <div className="team-grid">
