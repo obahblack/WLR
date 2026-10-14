@@ -252,3 +252,9 @@ div:has(> iframe[title="Get a Quote"]) {width:min(640px,calc(100vw - 24px))!impo
 .services-stage {isolation:isolate;}
 .services-content {mix-blend-mode:difference;}
 .services-content .services-display {mix-blend-mode:normal!important;}
+
+@media (max-width:900px) {
+ /* The section already supplies the page gutter at these widths. */
+ .responsive-MPSCase .mps-main,.responsive-MPSCase .mps-details {padding-left:0!important;padding-right:0!important;}
+ .responsive-MPSCase .mps-text-copy {padding-right:0!important;}
+}

@@ -33,7 +33,7 @@
   }
   /* Reduced-motion override removed — animations play on all devices */
 </style>
-<link rel="stylesheet" href="../assets/responsive.css?v=20261014-wipe">
+<link rel="stylesheet" href="../assets/responsive.css?v=20261014-mps-padding">
 <script src="../assets/responsive.js?v=20261014-wipe"></script>
 </head>
 <body>
@@ -658,7 +658,7 @@ const MPSCase = () => {
         overflow: 'hidden', paddingTop: 96,
       }}>
         {/* Text + Wireframe — top-aligned in remaining space */}
-        <div style={{
+        <div className="mps-main" style={{
           flex: 1, display: 'flex', alignItems: 'flex-start',
           padding: '0 6vw', gap: '5vw',
         }}>
@@ -668,7 +668,7 @@ const MPSCase = () => {
             overflow: 'hidden', minWidth: 0,
             transition: 'flex .8s cubic-bezier(.2,.8,.2,1), opacity .6s ease',
           }}>
-            <div style={{ paddingRight: 24 }}>
+            <div className="mps-text-copy" style={{ paddingRight: 24 }}>
               <Kick>Case study &middot; MPS Group &middot; 2025</Kick>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
                 <span style={{ fontFamily: 'Geist', fontSize: 'clamp(80px, 12vw, 180px)', fontWeight: 500, letterSpacing: '-.05em', lineHeight: .85 }}>14</span>
@@ -706,7 +706,7 @@ const MPSCase = () => {
         </div>
 
         {/* 3-column grid — 44px gap from content, 96px from bottom */}
-        <div style={{
+        <div className="mps-details" style={{
           padding: '44px 6vw 96px',
           opacity: animP > 0.8 ? 1 : 0, transform: animP > 0.8 ? 'none' : 'translateY(20px)',
           transition: 'opacity .8s ease, transform .8s cubic-bezier(.2,.8,.2,1)',
