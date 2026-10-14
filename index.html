@@ -35,7 +35,7 @@
   .blog-cta-btn { display: inline-flex; align-items: center; gap: 14px; padding: 20px 28px; background: #000; color: #FFF; font-family: 'Geist Mono', monospace; font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 600; text-decoration: none; transition: opacity 0.2s; cursor: pointer; border: none; }
   .blog-cta-btn:hover { opacity: 0.85; }
 </style>
-<link rel="stylesheet" href="assets/responsive.css?v=20261014-wipe">
+<link rel="stylesheet" href="assets/responsive.css?v=20261014-h1">
 <script src="assets/responsive.js?v=20261014-wipe"></script>
 </head>
 <body>
@@ -703,66 +703,60 @@ const CaseChart = () => {
 
   useLayoutEffect(() => {
     const el = sectionRef.current;
-    if (!el) return;
     const bars = barsRef.current.filter(Boolean);
-    if (!bars.length) return;
-
-    // Set initial hidden state
-    gsap.set(bars, { scaleY: 0 });
-    gsap.set(textRef.current, { y: 30, opacity: 0 });
-    if (peakRef.current) gsap.set(peakRef.current, { opacity: 0, y: 8 });
-
-    let ctx = gsap.context(() => {
-      /* In-view reveal — bars grow left→right, replays on enter */
-      const revealBars = () => {
-        gsap.to(bars, {
-          scaleY: 1, stagger: 0.03, duration: 0.9, ease: 'power3.out',
-        });
-        gsap.to(textRef.current, {
-          y: 0, opacity: 1, duration: 0.7, ease: 'power3.out', delay: 0.15,
-        });
-        if (peakRef.current) {
-          gsap.to(peakRef.current, {
-            opacity: 1, y: 0, duration: 0.45, ease: 'power2.out', delay: 0.6,
-          });
-        }
-      };
-      const hideBars = () => {
-        gsap.killTweensOf(bars);
-        gsap.to(bars, {
-          scaleY: 0, stagger: { each: 0.03, from: 'end' }, duration: 0.6, ease: 'power2.in',
-        });
-        gsap.to(textRef.current, { y: 30, opacity: 0, duration: 0.4, ease: 'power2.in' });
-        if (peakRef.current) gsap.to(peakRef.current, { opacity: 0, y: 8, duration: 0.3, ease: 'power2.in' });
-      };
-
-      /* Heartbeat starts after reveal, killed on hide */
-      const startHeartbeat = () => {
-        if (heartbeatRef.current) return;
-        heartbeatRef.current = gsap.to(bars, {
-          scaleY: (i) => 1 + Math.sin(i * 0.7) * 0.07,
-          duration: 1.4,
-          ease: 'sine.inOut',
-          yoyo: true,
-          repeat: -1,
-          overwrite: 'auto',
-        });
-      };
-      const killHeartbeat = () => {
-        if (heartbeatRef.current) { heartbeatRef.current.kill(); heartbeatRef.current = null; }
-        gsap.set(bars, { scaleY: 1 });
-      };
-
-      ScrollTrigger.create({
-        trigger: el,
-        start: 'top 80%',
-        onEnter: () => { revealBars(); setTimeout(startHeartbeat, 1400); },
-        onLeaveBack: () => { hideBars(); killHeartbeat(); },
-        onLeave: () => { hideBars(); killHeartbeat(); },
-        onEnterBack: () => { revealBars(); setTimeout(startHeartbeat, 1400); },
-      });
+    if (!el || !bars.length) return;
+    const targets = [...bars, textRef.current, peakRef.current].filter(Boolean);
+    let visible = false;
+    const ctx = gsap.context(() => {
+      gsap.set(bars, { scaleY: 0 });
+      gsap.set(textRef.current, { y: 30, opacity: 0 });
+      if (peakRef.current) gsap.set(peakRef.current, { opacity: 0, y: 8 });
     }, el);
-    return () => ctx.revert();
+    const stopHeartbeat = () => {
+      if (heartbeatRef.current) {
+        heartbeatRef.current.kill();
+        heartbeatRef.current = null;
+      }
+    };
+    const reveal = () => {
+      stopHeartbeat();
+      gsap.killTweensOf(targets);
+      gsap.to(bars, {
+        scaleY: 1, stagger: .03, duration: .9, ease: 'power3.out',
+        onComplete: () => {
+          if (!visible) return;
+          ctx.add(() => {
+            heartbeatRef.current = gsap.to(bars, {
+              scaleY: i => 1 + Math.sin(i * .7) * .07,
+              duration: 1.4, ease: 'sine.inOut', yoyo: true, repeat: -1,
+            });
+          });
+        },
+      });
+      gsap.to(textRef.current, { y: 0, opacity: 1, duration: .7, ease: 'power3.out', delay: .15 });
+      if (peakRef.current) gsap.to(peakRef.current, { opacity: 1, y: 0, duration: .45, delay: .6 });
+    };
+    const hide = () => {
+      stopHeartbeat();
+      gsap.killTweensOf(targets);
+      gsap.to(bars, { scaleY: 0, stagger: { each: .03, from: 'end' }, duration: .6, ease: 'power2.in' });
+      gsap.to(textRef.current, { y: 30, opacity: 0, duration: .4, ease: 'power2.in' });
+      if (peakRef.current) gsap.to(peakRef.current, { opacity: 0, y: 8, duration: .3 });
+    };
+    // Use the actual viewport intersection, including after upstream pinned sections resize.
+    // Keep every element visible until the entire results section leaves the screen.
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting === visible) return;
+      visible = entry.isIntersecting;
+      ctx.add(() => visible ? reveal() : hide());
+    }, { threshold: 0 });
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      visible = false;
+      stopHeartbeat();
+      ctx.revert();
+    };
   }, []);
 
   return (
@@ -1197,12 +1191,12 @@ const Close = () => {
             <p style={{ margin: '16px 0 0', fontSize: 16, opacity: .7 }}>We reply to every enquiry within one business day.</p>
           </div>
           <a href="#" onClick={(e) => { e.preventDefault(); window.openQuoteModal(); }} style={{
-            display: 'inline-flex', alignItems: 'center', gap: 16, padding: '24px 40px',
+            display: 'inline-flex', alignItems: 'center', gap: 14, padding: '20px 28px',
             background: '#FFF', color: '#000', textDecoration: 'none', cursor: 'pointer',
-            fontFamily: 'Geist Mono', fontSize: 14, letterSpacing: '.22em', textTransform: 'uppercase', fontWeight: 600,
+            fontFamily: 'Geist Mono', fontSize: 13, letterSpacing: '.22em', textTransform: 'uppercase', fontWeight: 600,
             transition: 'background 0.3s, color 0.3s'
           }} onMouseEnter={e => { e.currentTarget.style.background = '#DDD'; e.currentTarget.style.color = '#000'; }} onMouseLeave={e => { e.currentTarget.style.background = '#FFF'; e.currentTarget.style.color = '#000'; }}>
-            <ThreeBar size={14} color="#000" />Get a quote →
+            <ThreeBar size={13} color="#000" />Get a quote →
           </a>
         </div>
       </div>
